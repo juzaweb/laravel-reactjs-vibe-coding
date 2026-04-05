@@ -8,7 +8,7 @@
  * @link       https://cms.juzaweb.com
  */
 
-namespace Juzaweb\Modules\Core\Http\Resources;
+namespace Juzaweb\Modules\Api\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Juzaweb\Modules\Core\Permissions\Models\Role;

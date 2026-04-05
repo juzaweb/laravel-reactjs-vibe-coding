@@ -4,8 +4,8 @@ namespace Juzaweb\Modules\Api\Http\Controllers\API;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Juzaweb\Modules\Api\Http\Resources\NotificationResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
-use Juzaweb\Modules\Core\Http\Resources\NotificationResource;
 use OpenApi\Annotations as OA;
 
 class NotificationController extends APIController

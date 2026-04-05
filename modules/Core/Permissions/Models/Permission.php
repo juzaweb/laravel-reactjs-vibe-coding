@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Juzaweb\Modules\Core\Http\Resources\PermissionResource;
+use Juzaweb\Modules\Api\Http\Resources\PermissionResource;
 use Juzaweb\Modules\Core\Permissions\Contracts\Permission as PermissionContract;
 use Juzaweb\Modules\Core\Permissions\Exceptions\PermissionAlreadyExists;
 use Juzaweb\Modules\Core\Permissions\Exceptions\PermissionDoesNotExist;

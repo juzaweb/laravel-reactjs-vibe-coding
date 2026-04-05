@@ -4,7 +4,7 @@ namespace Juzaweb\Modules\Core\Permissions\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Juzaweb\Modules\Core\Http\Resources\RoleResource;
+use Juzaweb\Modules\Api\Http\Resources\RoleResource;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Permissions\Contracts\Role as RoleContract;
 use Juzaweb\Modules\Core\Permissions\Exceptions\GuardDoesNotMatch;

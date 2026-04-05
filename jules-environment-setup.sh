@@ -64,7 +64,6 @@ composer --version
 [[ "$INSTALL_NODE" = true ]] && npm -v
 
 
-
 echo "--- Installing Project Dependencies ---"
 [ ! -f .env ] && cp .env.example .env || true
 composer install --no-interaction --prefer-dist

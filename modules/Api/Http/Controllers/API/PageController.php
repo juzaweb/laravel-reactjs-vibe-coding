@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers\API\Pages;
+namespace Juzaweb\Modules\Api\Http\Controllers\API;
 
 use Illuminate\Http\JsonResponse;
-use Juzaweb\Modules\Api\Http\Resources\Pages\PageResource;
+use Juzaweb\Modules\Api\Http\Resources\PageResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use OpenApi\Annotations as OA;

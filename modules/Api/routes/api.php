@@ -1,7 +1,7 @@
 <?php
 
 use Juzaweb\Modules\Api\Http\Controllers\API\NotificationController;
-use Juzaweb\Modules\Api\Http\Controllers\API\Pages\PageController;
+use Juzaweb\Modules\Api\Http\Controllers\API\PageController;
 use Juzaweb\Modules\Api\Http\Controllers\API\ProfileController;
 use Juzaweb\Modules\Api\Http\Controllers\API\SettingController;
 use Juzaweb\Modules\Api\Http\Controllers\API\TranslationController;

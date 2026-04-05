@@ -78,7 +78,6 @@ class CoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->customServices();
-        $this->registerComponents();
 
         $this->app->bind(
             'datatables.html',
@@ -113,8 +112,6 @@ class CoreServiceProvider extends ServiceProvider
 
         $this->registerServices();
 
-        $this->registerConfigs();
-
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
 
         $this->registerTranslations();
@@ -125,52 +122,6 @@ class CoreServiceProvider extends ServiceProvider
             Locale::class,
             fn ($app) => new LocaleRepository($app)
         );
-    }
-
-    protected function registerConfigs(): void
-    {
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/core.php',
-            'core'
-        );
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/media.php',
-            'media'
-        );
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/modules.php',
-            'modules'
-        );
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/themes.php',
-            'themes'
-        );
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/translator.php',
-            'translator'
-        );
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/locales.php',
-            'locales'
-        );
-
-        $this->mergeConfigFrom(
-            __DIR__.'/../../config/countries.php',
-            'countries'
-        );
-
-        $this->publishes([
-            __DIR__.'/../../config/core.php' => config_path('core.php'),
-            __DIR__.'/../../config/media.php' => config_path('media.php'),
-            __DIR__.'/../../config/modules.php' => config_path('modules.php'),
-            __DIR__.'/../../config/themes.php' => config_path('themes.php'),
-            __DIR__.'/../../config/translator.php' => config_path('translator.php'),
-        ], 'core-config');
     }
 
     protected function registerProviders(): void
@@ -322,59 +273,6 @@ class CoreServiceProvider extends ServiceProvider
 
             $this->index(['created_by', 'created_type']);
         });
-    }
-
-    protected function registerComponents(): void
-    {
-        Blade::component(
-            'js-var',
-            JsVar::class
-        );
-
-        Blade::component(
-            'theme-js-var',
-            ThemeJsVar::class
-        );
-
-        Blade::component(
-            'seo-meta',
-            SeoMeta::class
-        );
-
-        Blade::component(
-            'card',
-            Card::class
-        );
-
-        Blade::component(
-            'repeater',
-            Repeater::class
-        );
-
-        Blade::component(
-            'form',
-            Form::class
-        );
-
-        Blade::component(
-            'language-card',
-            LanguageCard::class
-        );
-
-        Blade::component(
-            'theme-init',
-            ThemeInit::class
-        );
-
-        Blade::component(
-            'cookie-consent',
-            CookieConsent::class
-        );
-
-        Blade::component(
-            'img',
-            Img::class
-        );
     }
 
     protected function registerTranslations(): void

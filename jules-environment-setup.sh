@@ -76,7 +76,7 @@ sed -i "s|^DB_DATABASE=.*|DB_DATABASE=$(pwd)/storage/app/database.sqlite|" .env
 
 echo "--- Setup Completed! ---"
 
-php artisan juzaweb:install --name=Admin --email=admin@gmail.com --password=password
+php artisan migrate
 php artisan l5-swagger:generate
 
 cd themes/admin

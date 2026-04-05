@@ -10,13 +10,12 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Core\Http\Controllers\Frontend;
+namespace Juzaweb\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
 use Juzaweb\Modules\Core\Contracts\Sitemap as SitemapContract;
 use Juzaweb\Modules\Core\Contracts\Sitemapable;
-use Juzaweb\Modules\Core\Http\Controllers\Controller;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use Juzaweb\Modules\Core\Models\Pages\PageTranslation;
 use Juzaweb\Modules\Core\Translations\Models\Language;

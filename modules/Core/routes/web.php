@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Juzaweb\Modules\Core\Facades\Theme;
 use Juzaweb\Modules\Core\Http\Controllers\AddonController;
-use Juzaweb\Modules\Core\Http\Controllers\Frontend\SitemapController;
+use Juzaweb\Modules\Core\Http\Controllers\SitemapController;
 
 if (! Theme::current()) {
     Route::get('/', [AddonController::class, 'redirect']);

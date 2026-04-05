@@ -1,0 +1,279 @@
+<?php
+
+namespace Juzaweb\Modules\Core\Modules\Process;
+
+use Illuminate\Console\Command;
+use Illuminate\Support\Str;
+use Juzaweb\Modules\Core\Modules\Contracts\RepositoryInterface;
+use Symfony\Component\Process\Process;
+
+class Installer
+{
+    /**
+     * The module name.
+     */
+    protected string $name;
+
+    /**
+     * The version of module being installed.
+     */
+    protected ?string $version;
+
+    /**
+     * The module repository instance.
+     */
+    protected RepositoryInterface $repository;
+
+    /**
+     * The console command instance.
+     */
+    protected Command $console;
+
+    /**
+     * The destionation path.
+     */
+    protected string $path;
+
+    /**
+     * The process timeout.
+     */
+    protected int $timeout = 3360;
+
+    private ?string $type;
+
+    private bool $tree;
+
+    /**
+     * The constructor.
+     */
+    public function __construct(string $name, ?string $version = null, ?string $type = null, bool $tree = false)
+    {
+        $this->name = $name;
+        $this->version = $version;
+        $this->type = $type;
+        $this->tree = $tree;
+    }
+
+    /**
+     * Set destination path.
+     *
+     *
+     * @return $this
+     */
+    public function setPath(string $path)
+    {
+        $this->path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Set the module repository instance.
+     *
+     * @return $this
+     */
+    public function setRepository(RepositoryInterface $repository)
+    {
+        $this->repository = $repository;
+
+        return $this;
+    }
+
+    /**
+     * Set console command instance.
+     *
+     *
+     * @return $this
+     */
+    public function setConsole(Command $console)
+    {
+        $this->console = $console;
+
+        return $this;
+    }
+
+    /**
+     * Set process timeout.
+     *
+     *
+     * @return $this
+     */
+    public function setTimeout(int $timeout)
+    {
+        $this->timeout = $timeout;
+
+        return $this;
+    }
+
+    /**
+     * Run the installation process.
+     *
+     * @return Process
+     */
+    public function run()
+    {
+        $process = $this->getProcess();
+
+        $process->setTimeout($this->timeout);
+
+        $process->run(function ($type, $line) {
+            $this->console->line($line);
+        });
+
+        return $process;
+    }
+
+    /**
+     * Get process instance.
+     *
+     * @return Process
+     */
+    public function getProcess()
+    {
+        if ($this->type) {
+            if ($this->tree) {
+                return $this->installViaSubtree();
+            }
+
+            return $this->installViaGit();
+        }
+
+        return $this->installViaComposer();
+    }
+
+    /**
+     * Get destination path.
+     *
+     * @return string
+     */
+    public function getDestinationPath()
+    {
+        if ($this->path) {
+            return $this->path;
+        }
+
+        return $this->repository->getModulePath($this->getModuleName());
+    }
+
+    /**
+     * Get git repo url.
+     *
+     * @return string|null
+     */
+    public function getRepoUrl()
+    {
+        switch ($this->type) {
+            case 'github':
+                return "git@github.com:{$this->name}.git";
+
+            case 'github-https':
+                return "https://github.com/{$this->name}.git";
+
+            case 'gitlab':
+                return "git@gitlab.com:{$this->name}.git";
+
+            case 'bitbucket':
+                return "git@bitbucket.org:{$this->name}.git";
+
+            default:
+                // Check of type 'scheme://host/path'
+                if (filter_var($this->type, FILTER_VALIDATE_URL)) {
+                    return $this->type;
+                }
+
+                // Check of type 'user@host'
+                if (filter_var($this->type, FILTER_VALIDATE_EMAIL)) {
+                    return "{$this->type}:{$this->name}.git";
+                }
+
+                return null;
+        }
+    }
+
+    /**
+     * Get branch name.
+     *
+     * @return string
+     */
+    public function getBranch()
+    {
+        return is_null($this->version) ? 'master' : $this->version;
+    }
+
+    /**
+     * Get module name.
+     *
+     * @return string
+     */
+    public function getModuleName()
+    {
+        $parts = explode('/', $this->name);
+
+        return Str::studly(end($parts));
+    }
+
+    /**
+     * Get composer package name.
+     *
+     * @return string
+     */
+    public function getPackageName()
+    {
+        if (is_null($this->version)) {
+            return $this->name;
+        }
+
+        return $this->name.':'.$this->version;
+    }
+
+    /**
+     * Install the module via git.
+     *
+     * @return Process
+     */
+    public function installViaGit()
+    {
+        return Process::fromShellCommandline(sprintf(
+            'cd %s && git clone %s %s && cd %s && git checkout %s',
+            base_path(),
+            $this->getRepoUrl(),
+            $this->getDestinationPath(),
+            $this->getDestinationPath(),
+            $this->getBranch()
+        ));
+    }
+
+    /**
+     * Install the module via git subtree.
+     *
+     * @return Process
+     */
+    public function installViaSubtree()
+    {
+        return Process::fromShellCommandline(sprintf(
+            'cd %s && git remote add %s %s && git subtree add --prefix=%s --squash %s %s',
+            base_path(),
+            $this->getModuleName(),
+            $this->getRepoUrl(),
+            $this->getDestinationPath(),
+            $this->getModuleName(),
+            $this->getBranch()
+        ));
+    }
+
+    /**
+     * Install the module via composer.
+     *
+     * @return Process
+     */
+    public function installViaComposer()
+    {
+        $phpPath = get_php_binary_path();
+
+        return Process::fromShellCommandline(sprintf(
+            "cd %s && {$phpPath} composer.phar require %s",
+            base_path(),
+            $this->getPackageName()
+        ));
+    }
+}

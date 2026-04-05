@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ */
+
+namespace Juzaweb\Modules\Core\Traits;
+
+use Spatie\Activitylog\ActivityLogger;
+
+trait CausesActivity
+{
+    use \Spatie\Activitylog\Traits\CausesActivity;
+
+    /**
+     * Log an activity with an optional log name and mark the current user as the cause.
+     *
+     * @param  string|null  $logName  Optional name for the log.
+     * @return ActivityLogger The activity logger instance.
+     */
+    public function logActivity(?string $logName = null): ActivityLogger
+    {
+        return activity($logName)->causedBy($this);
+    }
+}

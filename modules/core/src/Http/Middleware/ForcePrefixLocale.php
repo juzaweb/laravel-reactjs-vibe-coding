@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ */
+
+namespace Juzaweb\Modules\Core\Http\Middleware;
+
+use Illuminate\Http\Request;
+
+class ForcePrefixLocale
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @return mixed
+     */
+    public function handle(Request $request, \Closure $next)
+    {
+        if ($locale = $this->getLocaleInPath($request)) {
+            app()->setLocale($locale);
+        }
+
+        return $next($request);
+    }
+
+    protected function getLocaleInPath(Request $request): ?string
+    {
+        $locale = explode('/', $request->path())[0];
+
+        if (in_array($locale, config('translatable.locales'))) {
+            return $locale;
+        }
+
+        return null;
+    }
+}

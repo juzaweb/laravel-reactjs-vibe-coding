@@ -1,0 +1,98 @@
+<?php
+
+namespace Juzaweb\Modules\Core\Traits;
+
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Validation\ValidationException;
+
+trait HasSessionResponses
+{
+    /**
+     * Handle response
+     *
+     * @param  bool  $success
+     */
+    protected function response(array|string $data, string $status = 'success'): JsonResponse|RedirectResponse
+    {
+        if (! is_array($data)) {
+            $data = ['message' => $data];
+        }
+
+        if (request()->has('redirect')) {
+            $data['redirect'] = request()->input('redirect');
+        }
+
+        if (request()->ajax() || request()->isJson()) {
+            // Return json response
+            return response()->json(
+                [
+                    'success' => $status === 'success',
+                    ...$data,
+                ],
+                $status === 'success' ? 200 : 422
+            );
+        }
+
+        $data['success'] = $status === 'success';
+        $data['status'] = $status;
+        // Return redirect response
+        if (! empty($data['redirect'])) {
+            return redirect()->to($data['redirect'])->withInput()->with($data);
+        }
+
+        // Return back with message
+        $back = back()->withInput()->with($data);
+
+        if ($status !== 'success') {
+            // Return back with errors
+            $back->withErrors([$data['message']]);
+        }
+
+        return $back;
+    }
+
+    /**
+     * Response success message
+     */
+    protected function success(string|array $message): JsonResponse|RedirectResponse
+    {
+        if (is_string($message)) {
+            $message = ['message' => $message];
+        }
+
+        return $this->response($message);
+    }
+
+    /**
+     * Response error message
+     */
+    protected function error(string|array $message): JsonResponse|RedirectResponse
+    {
+        if (is_string($message)) {
+            $message = ['message' => $message];
+        }
+
+        return $this->response($message, 'error');
+    }
+
+    protected function warning(string|array $message): JsonResponse|RedirectResponse
+    {
+        if (is_string($message)) {
+            $message = ['message' => $message];
+        }
+
+        return $this->response($message, 'warning');
+    }
+
+    protected function validateError(string|array $fields, ?string $message = null): void
+    {
+        if ($message) {
+            throw ValidationException::withMessages([
+                $fields => [$message],
+            ]);
+        }
+
+        throw ValidationException::withMessages($fields);
+    }
+}

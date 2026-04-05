@@ -1,0 +1,70 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+namespace Juzaweb\Modules\Core\Support\Dashboard;
+
+use Juzaweb\Modules\Core\Support\Charts\PieChart;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\Period;
+
+class UsersByCountryChart extends PieChart
+{
+    public string $id = 'users-by-country';
+
+    public function getTitle(): string
+    {
+        return __('core::translation.top_countries_by_users');
+    }
+
+    public function getIcon(): string
+    {
+        return 'users';
+    }
+
+    public function getData(): array
+    {
+        $response = Analytics::get(
+            period: new Period(now()->subDays(8), now()->subDay()),
+            metrics: ['activeUsers'],
+            dimensions: ['country'],
+        );
+
+        $total = collect($response)->sum('activeUsers');
+        $rows = collect($response)
+            ->map(fn ($row) => [
+                'country' => $row['country'],
+                'users' => (int) ($row['activeUsers'] * 100 / ($total > 0 ? $total : 1)),
+            ])
+            ->sortByDesc('users');
+
+        $top10 = $rows->take(9);
+
+        $othersTotal = $rows->skip(10)->sum('users');
+
+        if ($othersTotal > 0) {
+            $top10->push([
+                'country' => 'Other',
+                'users' => $othersTotal,
+            ]);
+        }
+
+        return [
+            'labels' => $top10->pluck('country')->values(),
+            'datasets' => [
+                [
+                    'label' => __('core::translation.users'),
+                    'data' => $top10->pluck('users')->values(),
+                ],
+            ],
+        ];
+    }
+}

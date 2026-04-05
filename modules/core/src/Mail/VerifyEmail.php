@@ -1,0 +1,17 @@
+<?php
+
+namespace Juzaweb\Modules\Core\Mail;
+
+use Illuminate\Auth\Notifications\VerifyEmail as BaseVerifyEmail;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class VerifyEmail extends BaseVerifyEmail implements ShouldQueue
+{
+    use Queueable;
+
+    public function toMail($notifiable)
+    {
+        return parent::toMail($notifiable);
+    }
+}

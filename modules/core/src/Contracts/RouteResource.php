@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ */
+
+namespace Juzaweb\Modules\Core\Contracts;
+
+use Juzaweb\Modules\Core\Support\Routes\Resources\AdminResource;
+use Juzaweb\Modules\Core\Support\Routes\Resources\APIResource;
+
+interface RouteResource
+{
+    public function api(string $name, string $controller): APIResource;
+
+    public function admin(string $name, string $controller): AdminResource;
+}

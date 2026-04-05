@@ -1,0 +1,50 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+namespace Juzaweb\Modules\Core\Traits;
+
+use Webwizo\Shortcodes\Facades\Shortcode;
+
+trait HasContent
+{
+    public function renderContent()
+    {
+        if ($this->content === null) {
+            return '';
+        }
+
+        $content = Shortcode::compile($this->content);
+        $html = str_get_html($content);
+
+        if ($html === false) {
+            return $content;
+        }
+
+        foreach ($html->find('img') as $item) {
+            if (empty($item->src) || str_starts_with($item->src, 'data:')) {
+                continue;
+            }
+
+            if (! str_starts_with($item->src, 'http')) {
+                $item->src = upload_url($item->src);
+            } else {
+                if (! str_starts_with($item->src, url('images/'))) {
+                    $item->src = proxy_image($item->src);
+                }
+            }
+        }
+
+        $content = apply_filters('render_content', $html->save(), $this);
+
+        return remove_zero_width_space_string($content);
+    }
+}

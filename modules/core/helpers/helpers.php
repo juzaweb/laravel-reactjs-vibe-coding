@@ -1,0 +1,1052 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Illuminate\Contracts\Filesystem\Filesystem;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Juzaweb\Modules\Admin\Models\Guest;
+use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Contracts\Setting;
+use Juzaweb\Modules\Core\Contracts\Theme as ThemeContract;
+use Juzaweb\Modules\Core\Facades\Theme;
+use Juzaweb\Modules\Core\Models\Authenticatable;
+use Juzaweb\Modules\Core\Translations\Contracts\CanBeTranslated;
+use Juzaweb\Modules\Core\Translations\Enums\TranslateHistoryStatus;
+use Juzaweb\Modules\Core\Translations\Jobs\ModelTranslateJob;
+use Juzaweb\Modules\Core\Translations\Models\Language;
+use Juzaweb\Modules\Core\Translations\Models\TranslateHistory;
+
+require __DIR__.'/media.php';
+require __DIR__.'/modules.php';
+require __DIR__.'/permission.php';
+require __DIR__.'/functions.php';
+require __DIR__.'/themes.php';
+
+if (! function_exists('client_ip')) {
+    /**
+     * Get client ip
+     *
+     * */
+    function client_ip(): ?string
+    {
+        // Check Cloudflare support
+        return $_SERVER['HTTP_CF_CONNECTING_IP'] ?? request()?->ip();
+    }
+}
+
+if (! function_exists('is_json')) {
+    /**
+     * Rerutn true if string is a json
+     *
+     * @param  string  $string
+     */
+    function is_json(mixed $string): bool
+    {
+        try {
+            json_decode($string);
+
+            return json_last_error() === JSON_ERROR_NONE;
+        } catch (Throwable $e) {
+            return false;
+        }
+    }
+}
+
+if (! function_exists('setting')) {
+    /**
+     * Get or set a setting value
+     *
+     * @param  string|null  $key  The setting key
+     * @param  string|array|null  $default  The default value if the setting doesn't exist
+     * @return string|array|null|Setting A setting value or the Setting instance if no key is provided
+     */
+    function setting(?string $key = null, string|array|null $default = null): null|string|array|Setting
+    {
+        if (func_num_args() > 0) {
+            // Get a setting value
+            return app(Setting::class)->get($key, $default);
+        }
+
+        // Return the Setting instance if no key is provided
+        return app(Setting::class);
+    }
+}
+
+if (! function_exists('cache_prefix')) {
+    function cache_prefix(string $key): string
+    {
+        return "juzaweb_{$key}";
+    }
+}
+
+if (! function_exists('title_from_key')) {
+    /**
+     * Generate a title from the given key.
+     *
+     * @param  string  $key  The key to generate a title from.
+     * @return string The generated title.
+     */
+    function title_from_key(string $key): string
+    {
+        // Split the key by '.' and only keep the key after the first dot if it exists
+        $keys = explode('.', $key);
+        if (count($keys) > 1) {
+            $key = $keys[1];
+        }
+
+        // Replace underscores, dashes, forward slashes, and backslashes with spaces
+        // and then convert the string to title case
+        return Str::title(Str::replace(['_', '-', '/', '\\'], ' ', $key));
+    }
+}
+
+if (! function_exists('key_from_string')) {
+    /**
+     * Convert a string into a key-friendly format by replacing slashes with spaces,
+     * and then converting it into a slug with underscores as separators.
+     *
+     * @param  string  $str  The input string to be converted.
+     * @return string The key-friendly formatted string.
+     */
+    function key_from_string(string $str): string
+    {
+        return Str::slug(Str::replace('/', ' ', $str), '_');
+    }
+}
+
+if (! function_exists('home_url')) {
+    /**
+     * Generate a home URL from the given URI.
+     *
+     * @param  string|null  $uri  The URI to generate a URL for.
+     * @return string The generated URL.
+     */
+    function home_url(?string $uri = null, ?string $locale = null): string
+    {
+        $locale = $locale ?? app()->getLocale();
+        $multipleLanguage = setting('multiple_language', 'none');
+        $language = setting('language', 'en');
+        $url = url('/');
+
+        if ($multipleLanguage === 'prefix') {
+            if ($language === $locale) {
+                return $url.($uri ? '/'.trim($uri, '/') : '');
+            }
+
+            return rtrim($url.'/'.$locale, '/').($uri ? '/'.trim($uri, '/') : '');
+        }
+
+        return $url.($uri ? '/'.trim($uri, '/') : '');
+    }
+}
+
+if (! function_exists('admin_url')) {
+    /**
+     * Generate an admin URL from the given URI.
+     *
+     * @param  string  $uri  the URI to generate a URL for
+     * @return string the generated URL
+     */
+    function admin_url(?string $uri = null): string
+    {
+        return url(rtrim(
+            '/'.config('core.admin_prefix')
+            .'/'.ltrim($uri, '/'),
+            '/'
+        ));
+    }
+}
+
+if (! function_exists('is_super_admin')) {
+    /**
+     * Check if user is super admin
+     */
+    function is_super_admin(?User $user = null): bool
+    {
+        if ($user === null) {
+            $user = auth()->user();
+        }
+
+        if ($user === null) {
+            return false;
+        }
+
+        return $user->isSuperAdmin();
+    }
+}
+
+if (! function_exists('languages')) {
+    /**
+     * Get all languages.
+     *
+     * @return Illuminate\Support\Collection
+     */
+    function languages(): Collection
+    {
+        return Language::languages();
+    }
+}
+
+if (! function_exists('used_recaptcha')) {
+    function used_recaptcha(): bool
+    {
+        return config('larabiz.recaptcha.secret') !== null;
+    }
+}
+
+if (! function_exists('date_range')) {
+    /**
+     * Returns an array of strings representing the dates in the given range.
+     */
+    function date_range(Carbon $from, Carbon $to, string $format = 'd/m/Y'): array
+    {
+        $result = [];
+        $dates = CarbonPeriod::create($from, $to);
+        foreach ($dates as $date) {
+            $result[] = $date->format($format);
+        }
+
+        return $result;
+    }
+}
+
+if (! function_exists('month_range')) {
+    /**
+     * Returns an array of strings representing the months in the given date range.
+     *
+     * @param  Carbon  $from  The start date of the range.
+     * @param  Carbon  $to  The end date of the range.
+     * @param  string  $format  The format for the month strings (default is d/m).
+     * @return array An array of strings in d/m format, representing each month in the range.
+     */
+    function month_range(Carbon $from, Carbon $to, string $format = 'm/Y'): array
+    {
+        $result = [];
+
+        // Normalize start and end to beginning of month
+        $from = $from->copy()->startOfMonth();
+        $to = $to->copy()->startOfMonth();
+
+        // Create monthly period
+        $period = CarbonPeriod::create($from, '1 month', $to);
+
+        foreach ($period as $date) {
+            $result[] = $date->format($format);
+        }
+
+        return $result;
+    }
+}
+
+if (! function_exists('array_to_array_string')) {
+    /**
+     * Converts an array to a string, similar to var_export.
+     * This method is useful for debugging and logging.
+     *
+     * @param  array  $array  The array to convert.
+     * @return string The string representation of the array.
+     *
+     * Example:
+     * array_to_array_string(['foo', 'bar', 3]) // returns "['foo', 'bar', 3]"
+     */
+    function array_to_array_string(array $array): string
+    {
+        $string = json_encode($array, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT);
+
+        return str_replace(['"', '{', '}', ': '], ["'", '[', ']', ' => '], $string);
+    }
+}
+
+if (! function_exists('default_language')) {
+    function default_language(): string
+    {
+        return config('app.locale');
+    }
+}
+
+if (! function_exists('is_url')) {
+    /**
+     * Return true if string is a url
+     */
+    function is_url(?string $url): bool
+    {
+        $path = parse_url($url, PHP_URL_PATH);
+        $encoded_path = array_map('urlencode', explode('/', $path));
+        $url = str_replace($path, implode('/', $encoded_path), $url);
+
+        return filter_var($url, FILTER_VALIDATE_URL) !== false;
+    }
+}
+
+if (! function_exists('is_admin_page')) {
+    /**
+     * Determine if the current page is an admin page.
+     */
+    function is_admin_page(): bool
+    {
+        // Check if the current page is an admin page by checking if the
+        // current URL matches the prefix defined in the config.
+        return request()->is(config('core.admin_prefix').'*');
+    }
+}
+
+if (! function_exists('get_error_by_exception')) {
+    /**
+     * Extracts error information from the given exception.
+     *
+     * @param  Throwable  $e  The exception to extract information from.
+     * @return array An associative array containing the error information.
+     *               The keys in the array are:
+     *               - message: The error message.
+     *               - line: The line number where the error occurred.
+     *               - file: The file path where the error occurred.
+     *               - code: The error code.
+     *               - exception: The class name of the exception.
+     */
+    function get_error_by_exception(Throwable $e): array
+    {
+        return [
+            'message' => $e->getMessage(),
+            'line' => $e->getLine(),
+            'file' => $e->getFile(),
+            'code' => $e->getCode(),
+            'exception' => get_class($e),
+        ];
+    }
+}
+
+if (! function_exists('get_domain_by_url')) {
+    /**
+     * Extracts the domain from a given URL.
+     *
+     * @param  string  $url  The URL to extract the domain from.
+     * @param  bool  $noneWWW  If true, remove 'www.' from the domain.
+     * @return string|bool The extracted domain or false if the URL is invalid.
+     */
+    function get_domain_by_url(string $url, bool $noneWWW = false): string|bool
+    {
+        // Check if the URL starts with a valid protocol or is protocol-relative
+        if (str_starts_with($url, 'https://') || str_starts_with($url, 'http://') || str_starts_with($url, '//')) {
+            // Extract the domain from the URL
+            $domain = explode('/', $url)[2];
+
+            // Remove 'www.' prefix if $noneWWW is true
+            if ($noneWWW && str_starts_with($domain, 'www.')) {
+                $domain = str_replace('www.', '', $domain);
+            }
+
+            // Return the domain without any query parameters
+            return explode('?', $domain)[0];
+        }
+
+        // Return false if the URL does not start with a valid protocol
+        return false;
+    }
+}
+
+if (! function_exists('number_human_format')) {
+    /**
+     * Formats a given number as a human-readable string.
+     *
+     * @param  int  $number  The number to format.
+     * @return string The formatted number as a string.
+     */
+    function number_human_format(int $number): string
+    {
+        // If the number is less than 100k, just use the standard number format
+        if ($number < 100000) {
+            return number_format($number);
+        }
+
+        // If the number is between 100k and 1M, use 'k' as the suffix
+        if ($number < 1000000) {
+            return number_format($number / 1000, 2).'K';
+        }
+
+        // If the number is between 1M and 1B, use 'M' as the suffix
+        if ($number < 1000000000) {
+            return number_format($number / 1000000, 2).'M';
+        }
+
+        // If the number is between 1B and 1T, use 'B' as the suffix
+        if ($number < 1000000000000) {
+            return number_format($number / 1000000000, 2).'B';
+        }
+
+        // If the number is greater than 1T, use 'T' as the suffix
+        return number_format($number / 1000000000000, 2).'T';
+    }
+}
+
+if (! function_exists('upload_url')) {
+    /**
+     * Get the URL of the uploaded file.
+     *
+     * @param  string  $path  The path to the uploaded file.
+     * @return string The URL of the uploaded file.
+     */
+    function upload_url(?string $path = null): ?string
+    {
+        if ($path === null) {
+            return $path;
+        }
+
+        if (is_url($path)) {
+            return $path;
+        }
+
+        $path = ltrim($path, '/');
+        // If it does not exist in storage, return cloud url
+        if (config('media.cloud_upload_enabled') && ! Storage::disk('public')->exists($path)) {
+            // if (in_array(
+            //     pathinfo($path, PATHINFO_EXTENSION),
+            //     config('media.extensions.image'))
+            // ) {
+            //     return proxy_image(Storage::disk('cloud')->url($path));
+            // }
+
+            return Storage::disk('cloud')->url($path);
+        }
+
+        return Storage::disk('public')->url($path);
+    }
+}
+
+function upload_path_format(?string $path): ?string
+{
+    if ($path === null) {
+        return null;
+    }
+
+    if (config('media.cloud_upload_enabled')) {
+        $cloudUrl = config('filesystems.disks.cloud.url') ?? config('filesystems.disks.cloud.endpoint');
+        $path = str_replace($cloudUrl, '', $path);
+    }
+
+    if ($proxyUrl = config('filesystems.disks.cloud.proxy_url')) {
+        $path = str_replace($proxyUrl, '', $path);
+    }
+
+    return ltrim(str_replace(upload_url('/'), '', $path), '/');
+}
+
+if (! function_exists('map_params')) {
+    /**
+     * Replace placeholders in a string with values from an associative array.
+     *
+     * This function searches for placeholders in the format {placeholder} within
+     * the provided text and replaces them with corresponding values from the
+     * provided associative array. If a placeholder does not exist in the array,
+     * it remains unchanged in the text.
+     *
+     * @param  string  $text  The text containing placeholders to replace.
+     * @param  array  $params  An associative array of placeholder names and their replacement values.
+     * @return string The text with placeholders replaced by values from the array.
+     */
+    function map_params(string $text, array $params): string
+    {
+        return preg_replace_callback(
+            '/\{(\w+)\}/',
+            function ($matches) use ($params) {
+                if (! isset($params[$matches[1]])) {
+                    throw new RuntimeException("Param {$matches[1]} not found");
+                }
+
+                // Return the replacement value if it exists
+                return $params[$matches[1]];
+            },
+            $text
+        );
+    }
+}
+
+if (! function_exists('theme_path')) {
+    /**
+     * Get the path to the theme directory.
+     *
+     * @return string The path to the theme directory.
+     */
+    function theme_path(?string $path = null): string
+    {
+        return config('themes.path').($path ? '/'.ltrim($path, '/') : '');
+    }
+}
+
+if (! function_exists('theme_asset')) {
+    /**
+     * Get the path to the theme directory.
+     *
+     * @return string The path to the theme directory.
+     */
+    function theme_asset(string $path, ?string $theme = null): string
+    {
+        $theme = $theme ?? Theme::current()->name();
+
+        return asset("themes/{$theme}/".($path ? ltrim($path, '/') : ''));
+    }
+}
+
+if (! function_exists('get_youtube_id')) {
+    /**
+     * Extracts the YouTube video ID from a given URL.
+     *
+     * This function uses a regular expression to match the YouTube video ID
+     * from various formats of YouTube URLs, including standard and shortened URLs.
+     *
+     * @param  string  $url  The YouTube URL from which to extract the video ID.
+     * @return string|null The extracted video ID, or null if no valid ID is found.
+     */
+    function get_youtube_id(string $url): ?string
+    {
+        preg_match(
+            '%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i',
+            $url,
+            $match
+        );
+
+        if (@$match[1]) {
+            return $match[1];
+        }
+
+        return null;
+    }
+}
+
+if (! function_exists('get_vimeo_id')) {
+    /**
+     * Extracts the Vimeo video ID from a given URL.
+     *
+     * This function uses a regular expression to match the Vimeo video ID
+     * from various formats of Vimeo URLs, including standard and player URLs.
+     *
+     * @param  string  $url  The Vimeo URL from which to extract the video ID.
+     * @return string|null The extracted video ID, or an empty string if no valid ID is found.
+     */
+    function get_vimeo_id(string $url): ?string
+    {
+        $regs = [];
+        $id = '';
+        if (preg_match(
+            '%^https?:\/\/(?:www\.|player\.)?vimeo.com\/'
+            .'(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|album\/(\d+)\/video\/|video\/|)'
+            .'(\d+)(?:$|\/|\?)(?:[?]?.*)$%im',
+            $url,
+            $regs
+        )) {
+            $id = $regs[3];
+        }
+
+        return $id;
+    }
+}
+
+if (! function_exists('get_google_drive_id')) {
+    /**
+     * Extracts the Google Drive file ID from a given URL.
+     *
+     * This function assumes that the Google Drive URL is in the format:
+     * https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+     * and extracts the FILE_ID part from it.
+     *
+     * @param  string  $url  The Google Drive URL from which to extract the file ID.
+     * @return string The extracted file ID.
+     */
+    function get_google_drive_id(string $url): string
+    {
+        return explode('/', $url)[5];
+    }
+}
+
+if (! function_exists('convert_linux_path')) {
+    /**
+     * Convert a Windows-style path to a Linux-style path.
+     *
+     * This function replaces backslashes with forward slashes in the given path.
+     *
+     * @param  string  $path  The Windows-style path to be converted.
+     * @return string The converted Linux-style path.
+     */
+    function convert_linux_path(string $path): string
+    {
+        return str_replace(
+            '\\',
+            '/',
+            $path
+        );
+    }
+}
+
+if (! function_exists('remove_zero_width_space_string')) {
+    /**
+     * Remove zero width space string
+     */
+    function remove_zero_width_space_string(string $string): string
+    {
+        $string = preg_replace('/[\x{200B}-\x{200D}\x{FEFF}]/u', '', $string);
+
+        return preg_replace('/\xc2\xa0/', '', $string);
+    }
+}
+
+if (! function_exists('seo_string')) {
+    /**
+     * Generate a SEO-friendly string from the given input.
+     *
+     * This function strips HTML tags, replaces newlines and tabs with spaces,
+     * decodes HTML entities, and truncates the string to a specified length
+     * without cutting off in the middle of a word.
+     *
+     * @param  string  $string  The input string to be processed.
+     * @param  int  $chars  The maximum length of the resulting string (default is 70).
+     * @return string The processed SEO-friendly string.
+     */
+    function seo_string(?string $string, int $chars = 70): string
+    {
+        if ($string === null) {
+            return '';
+        }
+
+        $string = strip_tags($string);
+        $string = str_replace(["\n", "\t"], ' ', $string);
+        $string = remove_zero_width_space_string(html_entity_decode($string, ENT_HTML5));
+
+        return sub_char($string, $chars);
+    }
+}
+
+if (! function_exists('sub_char')) {
+    /**
+     * Truncate a string to a specified length, ensuring it does not cut off in the middle of a word.
+     *
+     * @param  string  $str  The input string to be truncated.
+     * @param  int  $n  The maximum length of the truncated string.
+     * @param  string  $end  The string to append at the end if truncation occurs (default is '...').
+     * @return string The truncated string, or the original string if it is shorter than $n.
+     */
+    function sub_char(string $str, int $n, string $end = '...'): string
+    {
+        if (mb_strlen($str) <= $n) {
+            return $str;
+        }
+
+        $html = mb_substr($str, 0, $n);
+        $lastSpace = mb_strrpos($html, ' ');
+        if ($lastSpace !== false) {
+            $html = mb_substr($html, 0, $lastSpace);
+        }
+
+        return $html.$end;
+    }
+}
+
+if (! function_exists('str_slug')) {
+    /**
+     * Generate a URL-friendly slug from the given string.
+     *
+     * This function replaces spaces and special characters with hyphens,
+     * converts the string to lowercase, and removes any leading or trailing hyphens.
+     *
+     * @param  string  $string  The input string to be converted to a slug.
+     * @return string The generated slug.
+     */
+    function str_slug(string $string): string
+    {
+        return Str::slug($string);
+    }
+}
+
+if (! function_exists('back_form_url')) {
+    function back_form_url(): string
+    {
+        $path = request()->path();
+        $cleanUrl = preg_replace('/\/[a-z0-9-]+\/edit$/i', '', $path);
+        $cleanUrl = str_replace('/create', '', $cleanUrl);
+
+        return url($cleanUrl);
+    }
+}
+
+if (! function_exists('load_data_url')) {
+    function load_data_url(string $model, string $field = 'name', array $params = []): string
+    {
+        return route(
+            'admin.load-data',
+            [
+                'token' => encrypt([
+                    'model' => $model,
+                    'field' => $field,
+                ]),
+                ...$params,
+            ]
+        );
+    }
+}
+
+if (! function_exists('custom_var_export')) {
+    /**
+     * Custom implementation of var_export for better readability.
+     *
+     * This function formats the output of var_export to use square brackets
+     * for arrays and adds indentation for better readability.
+     *
+     * @param  mixed  $expression  The variable to be exported.
+     * @return string The formatted string representation of the variable.
+     */
+    function custom_var_export(mixed $expression): string
+    {
+        $export = var_export($expression, true);
+        $export = preg_replace('/^([ ]*)(.*)/m', '$1$1$2', $export);
+        $array = preg_split("/\r\n|\n|\r/", $export);
+        $array = preg_replace(
+            ["/\s*array\s\($/", "/\)(,)?$/", "/\s=>\s$/"],
+            [null, ']$1', ' => ['],
+            $array
+        );
+
+        return implode(PHP_EOL, array_filter(['['] + $array));
+    }
+}
+
+if (! function_exists('proxy_image')) {
+    function proxy_image(
+        ?string $url,
+        ?int $width = null,
+        ?int $height = null,
+        bool $crop = false,
+        bool $webp = true,
+        bool $rias = false
+    ): string {
+        if ($url === null) {
+            return '';
+        }
+
+        $hash = encrypt_deterministic($url, sha1(config('app.key')));
+        $baseUrl = url('/');
+        $filename = basename($url);
+
+        if ($webp) {
+            $filename = pathinfo($filename, PATHINFO_FILENAME).'.webp';
+        }
+
+        $method = $crop ? 'crop' : 'resize';
+
+        if ($rias) {
+            return "{$baseUrl}/images/{$method}:{width}xauto/{$hash}/{$filename}";
+        }
+
+        if ($width > 0 || $height > 0) {
+            $size = ($width ?? 'auto').'x'.($height ?? 'auto');
+
+            return "{$baseUrl}/images/{$method}:{$size}/{$hash}/{$filename}";
+        }
+
+        return "{$baseUrl}/images/original/{$hash}/{$filename}";
+    }
+}
+
+if (! function_exists('csp_script_nonce')) {
+    function csp_script_nonce(): ?string
+    {
+        return request()->attributes->get('cspNonce');
+    }
+}
+
+if (! function_exists('theme')) {
+    function theme(): ThemeContract
+    {
+        return app()->make(ThemeContract::class);
+    }
+}
+
+function is_bound(string $classOrAlias): bool
+{
+    return app()->bound($classOrAlias);
+}
+
+function base64url_encode(string $data): string
+{
+    return rtrim(strtr(base64_encode($data), '+/', '-_'), '=');
+}
+
+function base64url_decode(string $data): string
+{
+    $pad = 4 - (strlen($data) % 4);
+    if ($pad !== 4) {
+        $data .= str_repeat('=', $pad);
+    }
+
+    return base64_decode(strtr($data, '-_', '+/'));
+}
+
+function encrypt_deterministic(string $plaintext, string $key): string
+{
+    $method = 'aes-256-cbc';
+    $key = hash('sha256', $key, true);
+    $iv = substr(hash('sha256', $plaintext.$key, true), 0, 16);
+    $cipher = openssl_encrypt($plaintext, $method, $key, OPENSSL_RAW_DATA, $iv);
+
+    return base64url_encode($iv.$cipher);
+}
+
+function decrypt_deterministic(string $token, string $key): ?string
+{
+    $method = 'aes-256-cbc';
+    $key = hash('sha256', $key, true);
+    $data = base64url_decode($token);
+    if (strlen($data) < 16) {
+        return null;
+    }
+    $iv = substr($data, 0, 16);
+    $cipher = substr($data, 16);
+    $plain = openssl_decrypt($cipher, $method, $key, OPENSSL_RAW_DATA, $iv);
+
+    return $plain === false ? null : $plain;
+}
+
+function ip_in_range(string $ip, string $range): bool
+{
+    [$subnet, $bits] = explode('/', $range);
+    $ip = ip2long($ip);
+    $subnet = ip2long($subnet);
+    $mask = -1 << (32 - $bits);
+    $subnet &= $mask;  // subnet mask
+
+    return ($ip & $mask) === $subnet;
+}
+
+function generate_site_name_from_host(string $host): string
+{
+    // Remove common prefixes
+    $clean = preg_replace('/^(www\.)/i', '', $host);
+
+    // Remove TLD (.com, .net, .org, ...)
+    $parts = explode('.', $clean);
+    $base = $parts[0] ?? $clean;
+
+    // Convert to readable name
+    $name = str_replace(['-', '_'], ' ', $base);
+
+    // Capitalize each word
+    return ucwords($name);
+}
+
+function user(?string $guard = null): ?Authenticatable
+{
+    return auth()->guard($guard)->user();
+}
+
+function current_actor(?string $guard = null): Guest|Authenticatable
+{
+    if ($user = user($guard)) {
+        return $user;
+    }
+
+    return Guest::firstOrCreate(
+        [
+            'ipv4' => client_ip(),
+        ],
+        [
+            'user_agent' => request()->userAgent(),
+        ]
+    );
+}
+
+function model_translate(CanBeTranslated $model, string $sourceLocale, string $targetLocale, array $options = []): TranslateHistory
+{
+    if ($sourceLocale === $targetLocale) {
+        throw new InvalidArgumentException('Source locale and target locale must be different');
+    }
+
+    $history = $model->translateHistories()->updateOrCreate(
+        [
+            'locale' => $targetLocale,
+        ],
+        [
+            'status' => TranslateHistoryStatus::PENDING,
+            'error' => null,
+        ]
+    );
+
+    ModelTranslateJob::dispatch($model, $sourceLocale, $targetLocale, $options);
+
+    return $history;
+}
+
+function cloud(bool $write = false): Filesystem
+{
+    $disk = Storage::disk('cloud');
+    $config = config('filesystems.disks.cloud');
+
+    if ($write && $config) {
+        if (! empty($config['write_endpoint'])) {
+            $config['endpoint'] = $config['write_endpoint'];
+        }
+
+        $config['use_path_style_endpoint'] = true;
+        unset($config['bucket_endpoint']);
+        $disk = Storage::build($config);
+    }
+
+    return $disk;
+}
+
+function admin_message(string $message, string $status = 'error'): void
+{
+    session()->flash('message', $message);
+    session()->flash('status', $status);
+}
+
+function mime_type_from_extension(string $extension): string
+{
+    return match (strtolower($extension)) {
+        'jpg', 'jpeg' => 'image/jpeg',
+        'png' => 'image/png',
+        'gif' => 'image/gif',
+        'webp' => 'image/webp',
+        'svg' => 'image/svg+xml',
+        'mp4' => 'video/mp4',
+        'pdf' => 'application/pdf',
+        'css' => 'text/css',
+        'js' => 'application/javascript',
+        'woff' => 'font/woff',
+        'woff2' => 'font/woff2',
+        'ttf' => 'font/ttf',
+        'otf' => 'font/otf',
+        'eot' => 'application/vnd.ms-fontobject',
+        default => 'application/octet-stream',
+    };
+}
+
+/**
+ * Get the path to the PHP binary.
+ *
+ * @return string|false The path to the PHP binary or false if not found.
+ */
+function get_php_binary_path(): false|string
+{
+    // 1. Priority: Use the modern PHP_BINARY constant (Available since PHP 5.4)
+    if (defined('PHP_BINARY') && ! empty(PHP_BINARY)) {
+        $valid = true;
+        foreach (['fpm', 'cgi', 'apache'] as $needle) {
+            if (strpos(PHP_BINARY, $needle) !== false) {
+                $valid = false;
+                break;
+            }
+        }
+
+        if ($valid) {
+            return PHP_BINARY;
+        }
+    }
+
+    // 2. Fallback: Use PHP_BINDIR to construct the path
+    if (defined('PHP_BINDIR') && ! empty(PHP_BINDIR)) {
+        $suffix = (stripos(PHP_OS, 'WIN') === 0) ? '.exe' : '';
+        $path = PHP_BINDIR.DIRECTORY_SEPARATOR.'php'.$suffix;
+
+        if (is_executable($path)) {
+            return $path;
+        }
+    }
+
+    // 3. Fallback: Check environment variables (common in CLI)
+    if (isset($_SERVER['_'])) {
+        return $_SERVER['_'];
+    }
+
+    // 4. Ultimate Fallback: Try to find it via 'which' or 'where' command
+    $command = (stripos(PHP_OS, 'WIN') === 0) ? 'where php' : 'which php';
+    $path = shell_exec($command);
+
+    return $path ? trim($path) : false;
+}
+
+if (! function_exists('reformat_html')) {
+    function reformat_html(string $html): string
+    {
+        libxml_use_internal_errors(true);
+        $dom = new DOMDocument('1.0', 'UTF-8');
+        $html = mb_convert_encoding($html, 'HTML-ENTITIES', 'UTF-8');
+
+        $wrappedHtml = '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">'."<div id='wrapper-html-jw-wrapped'>{$html}</div>";
+
+        // Load and auto-fix HTML
+        $dom->loadHTML($wrappedHtml, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+        libxml_clear_errors();
+
+        /** @var DOMElement $body */
+        $body = $dom->getElementById('wrapper-html-jw-wrapped');
+        $output = '';
+        foreach ($body->childNodes as $child) {
+            $output .= $dom->saveHTML($child);
+        }
+
+        return $output;
+    }
+}
+
+if (! function_exists('fix_html')) {
+    function fix_html(string $html): string
+    {
+        $html = str_replace(['&nbsp;', '&nbsp'], ' ', $html);
+
+        $html = remove_zero_width_space_string($html);
+
+        $html = reformat_html($html);
+
+        return str_replace(['<body>', '</body>'], '', $html);
+    }
+}
+
+if (! function_exists('is_internal_url')) {
+    /**
+     * Check if the URL is internal (same domain)
+     */
+    function is_internal_url(string $url): bool
+    {
+        $appUrl = parse_url(url('/'));
+        $targetUrl = parse_url($url);
+
+        if ($targetUrl === false) {
+            return false;
+        }
+
+        // Check if URL has same host as app URL
+        if (isset($targetUrl['host'], $appUrl['host'])) {
+            return $targetUrl['host'] === $appUrl['host'];
+        }
+
+        // If no host, it's relative (internal), but reject invalid schemes (e.g. javascript:)
+        return ! isset($targetUrl['host']) &&
+            (! isset($targetUrl['scheme']) || in_array($targetUrl['scheme'], ['http', 'https']));
+    }
+}
+
+function is_home_page(): bool
+{
+    return request()->routeIs('home');
+}
+
+if (! function_exists('clean_html')) {
+    function clean_html(string $html): string
+    {
+        $purifierConfig = HTMLPurifier_Config::createDefault();
+        $purifierConfig->set('HTML.ForbiddenElements', 'script');
+        $purifierConfig->set('Cache.DefinitionImpl', null);
+        $purifier = new HTMLPurifier($purifierConfig);
+
+        return $purifier->purify($html);
+    }
+}

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+use Illuminate\Support\Facades\Redis;
+
+if (! function_exists('online_count')) {
+    function online_count(): int
+    {
+        $key = 'site:users_online';
+        $now = time();
+        $ttl = 300;
+
+        return Redis::zcount($key, $now - $ttl, $now);
+    }
+}

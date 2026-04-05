@@ -1,0 +1,55 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+namespace Juzaweb\Modules\Core\Support\Dashboard;
+
+use Juzaweb\Modules\Core\Support\Charts\PieChart;
+use Spatie\Analytics\Facades\Analytics;
+use Spatie\Analytics\Period;
+
+class TopPagesChart extends PieChart
+{
+    public string $id = 'top-pages';
+
+    public function getTitle(): string
+    {
+        return __('core::translation.top_10_pages_most_traffic');
+    }
+
+    public function getIcon(): string
+    {
+        return 'file';
+    }
+
+    public function getData(): array
+    {
+        $response = Analytics::get(
+            period: new Period(now()->subDays(8), now()->subDay()),
+            metrics: ['screenPageViews'],
+            dimensions: ['pagePath'],
+        );
+
+        $rows = collect($response)->sortByDesc('screenPageViews');
+
+        return [
+            'labels' => $rows->pluck('pagePath')->map(function ($path) {
+                return strlen($path) > 30 ? substr($path, 0, 30).'...' : $path;
+            })->values(),
+            'datasets' => [
+                [
+                    'label' => __('core::translation.page_views'),
+                    'data' => $rows->pluck('screenPageViews')->values(),
+                ],
+            ],
+        ];
+    }
+}

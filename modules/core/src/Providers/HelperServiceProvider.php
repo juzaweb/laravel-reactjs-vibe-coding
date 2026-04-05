@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+namespace Juzaweb\Modules\Core\Providers;
+
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
+class HelperServiceProvider extends ServiceProvider
+{
+    public function boot(): void
+    {
+        Carbon::macro(
+            'toUserTimezone',
+            function () {
+                $tz = auth()->user()?->timezone ?? config('app.timezone');
+
+                return $this->copy()->setTimezone($tz);
+            }
+        );
+
+        Request::macro(
+            'getFormLanguage',
+            function () {
+                return $this->get('locale', config('translatable.fallback_locale'));
+            }
+        );
+
+        Request::macro(
+            'currentActor',
+            function () {
+                return current_actor();
+            }
+        );
+    }
+}

@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * JUZAWEB CMS - Laravel CMS for Your Project
+ *
+ * @author     The Anh Dang
+ *
+ * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
+ */
+
+namespace Juzaweb\Modules\Core\Facades;
+
+use Illuminate\Support\Facades\Facade;
+use Juzaweb\Modules\Core\Support\PageTemplateRepository;
+
+/**
+ * @method static void make(string $key, callable $callback)
+ * @method static \Juzaweb\Modules\Core\Support\Entities\PageTemplate|null get(string $key)
+ * @method static \Illuminate\Support\Collection all()
+ *
+ * @see PageTemplateRepository
+ */
+class PageTemplate extends Facade
+{
+    protected static function getFacadeAccessor(): string
+    {
+        return \Juzaweb\Modules\Core\Contracts\PageTemplate::class;
+    }
+}

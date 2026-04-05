@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
-use Juzaweb\Modules\Admin\Models\Guest;
+use Juzaweb\Modules\Core\Models\Guest;
 use Juzaweb\Modules\Core\Enums\CommentStatus;
 use Juzaweb\Modules\Core\Models\Model;
 

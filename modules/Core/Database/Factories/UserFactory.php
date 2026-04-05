@@ -15,6 +15,11 @@ class UserFactory extends Factory
     protected $model = User::class;
 
     /**
+     * The current password being used by the factory.
+     */
+    protected static ?string $password;
+
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -25,9 +30,8 @@ class UserFactory extends Factory
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => Hash::make('password'),
+            'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
-            // Don't set status - let it use DB default to avoid enum issues in tests
         ];
     }
 

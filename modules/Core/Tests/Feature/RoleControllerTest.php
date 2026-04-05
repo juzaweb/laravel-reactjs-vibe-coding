@@ -3,7 +3,7 @@
 namespace Juzaweb\Modules\Core\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Permissions\Models\Role;
 use Juzaweb\Modules\Core\Tests\TestCase;
 

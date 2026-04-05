@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 
 class EnsureEmailIsVerified extends BaseEnsureEmailIsVerified
 {

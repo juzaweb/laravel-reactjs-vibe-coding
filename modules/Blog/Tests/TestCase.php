@@ -15,36 +15,27 @@ abstract class TestCase extends Orchestra
         $this->createMixManifest();
 
         // Create class aliases for backward compatibility
-        if (!class_exists('Juzaweb\Modules\Admin\Models\User')) {
+        if (!class_exists('Juzaweb\Modules\Core\Models\User')) {
             class_alias(
                 'Juzaweb\Modules\Core\Models\User',
-                'Juzaweb\Modules\Admin\Models\User'
+                'Juzaweb\Modules\Core\Models\User'
             );
         }
 
-        // Load and alias UserFactory
-        $factoryPath = __DIR__ . '/../database/factories/UserFactory.php';
-        if (file_exists($factoryPath)) {
-            require_once $factoryPath;
-        }
-
-        if (!class_exists('Juzaweb\\Modules\\Admin\\Database\\Factories\\UserFactory')) {
+        // Factory class is now in Core namespace - just create alias for backward compat
+        if (!class_exists('Juzaweb\Modules\Admin\Database\Factories\UserFactory')) {
             class_alias(
-                'Juzaweb\\Modules\\Core\\Database\\Factories\\UserFactory',
-                'Juzaweb\\Modules\\Admin\\Database\\Factories\\UserFactory'
+                'Juzaweb\Modules\Core\Database\Factories\UserFactory',
+                'Juzaweb\Modules\Admin\Database\Factories\UserFactory'
             );
         }
 
-        // Load and alias UserStatus enum
-        $enumPath = __DIR__ . '/Enums/UserStatus.php';
-        if (file_exists($enumPath)) {
-            require_once $enumPath;
-            if (!enum_exists('Juzaweb\\Modules\\Admin\\Enums\\UserStatus')) {
-                class_alias(
-                    'Juzaweb\\Modules\\Core\\Tests\\Enums\\UserStatus',
-                    'Juzaweb\\Modules\\Admin\\Enums\\UserStatus'
-                );
-            }
+        // UserStatus enum is now in Core namespace - create alias for backward compat
+        if (!enum_exists('Juzaweb\Modules\Core\Enums\UserStatus')) {
+            class_alias(
+                'Juzaweb\Modules\Core\Enums\UserStatus',
+                'Juzaweb\Modules\Core\Enums\UserStatus'
+            );
         }
 
         $this->app[\Juzaweb\Modules\Core\Contracts\ThemeSetting::class]->set('setup', 1);

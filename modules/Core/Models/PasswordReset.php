@@ -11,7 +11,7 @@
 namespace Juzaweb\Modules\Core\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 
 class PasswordReset extends Model
 {

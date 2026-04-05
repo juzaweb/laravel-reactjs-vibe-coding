@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Admin\Database\Factories;
+namespace Juzaweb\Modules\Core\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Juzaweb\Modules\Blog\Models\Category;

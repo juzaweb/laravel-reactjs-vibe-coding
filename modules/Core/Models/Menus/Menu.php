@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Juzaweb\Modules\Admin\Database\Factories\MenuFactory;
+use Juzaweb\Modules\Core\Database\Factories\MenuFactory;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Traits\HasAPI;
 use Juzaweb\Modules\Core\Traits\UsedInFrontend;

@@ -19,19 +19,31 @@ use Juzaweb\Modules\Core\Facades\MenuBox;
 use Juzaweb\Modules\Core\Facades\PageBlock;
 use Juzaweb\Modules\Core\Facades\Setting;
 use Juzaweb\Modules\Core\Facades\Widget;
+use Juzaweb\Modules\Core\Models\Client;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use Juzaweb\Modules\Core\Models\Pages\PageTranslation;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Support\Dashboard\SessionDurationChart;
 use Juzaweb\Modules\Core\Support\Dashboard\SessionsByDeviceChart;
 use Juzaweb\Modules\Core\Support\Dashboard\TopPagesChart;
 use Juzaweb\Modules\Core\Support\Dashboard\TrafficSourcesChart;
 use Juzaweb\Modules\Core\Support\Dashboard\UsersByCountryChart;
 use Juzaweb\Modules\Core\Support\Dashboard\UsersChart;
+use Illuminate\Support\Facades\Gate;
+use Laravel\Passport\Passport;
 
-abstract class AdminServiceProvider extends ServiceProvider
+class AdminServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        parent::boot();
+
+        Gate::define('viewLogViewer', function (?User $user) {
+            return $user && $user->isSuperAdmin();
+        });
+
+        Passport::useClientModel(Client::class);
+
         $this->registerSettings();
         $this->registerCharts();
         $this->registerGlobalPageBlocks();

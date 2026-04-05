@@ -5,8 +5,8 @@ namespace Juzaweb\Modules\Core\Tests\Feature;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Admin\Enums\UserStatus;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Enums\UserStatus;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Tests\TestCase;
 
 class UserControllerTest extends TestCase

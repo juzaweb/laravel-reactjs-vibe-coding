@@ -12,7 +12,7 @@ namespace Juzaweb\Modules\Core\Http\Resources;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Support\Resources\ModelCollectionResource;
 use OpenApi\Annotations as OA;
 

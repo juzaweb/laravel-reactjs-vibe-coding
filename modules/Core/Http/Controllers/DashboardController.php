@@ -8,13 +8,12 @@
  * @link       https://cms.juzaweb.com
  */
 
-namespace Juzaweb\Modules\Admin\Http\Controllers;
+namespace Juzaweb\Modules\Core\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
-use Juzaweb\Modules\Admin\Models\User;
-use Juzaweb\Modules\Core\Http\Controllers\AdminController;
 use Juzaweb\Modules\Core\Models\Media;
 use Juzaweb\Modules\Core\Models\Pages\Page;
+use Juzaweb\Modules\Core\Models\User;
 
 class DashboardController extends AdminController
 {
@@ -26,7 +25,7 @@ class DashboardController extends AdminController
         $storageFree = disk_free_space(storage_path());
 
         return view(
-            'admin::dashboard.index',
+            'core::dashboard.index',
             [
                 'title' => __('core::translation.dashboard'),
                 ...compact('totalUsers', 'storageFree', 'usedStorage', 'totalPages'),

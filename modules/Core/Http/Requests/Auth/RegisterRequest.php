@@ -6,7 +6,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 use OpenApi\Annotations as OA;
 
 /**

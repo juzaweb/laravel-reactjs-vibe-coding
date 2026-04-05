@@ -11,7 +11,7 @@
 namespace Juzaweb\Modules\Core\Http\Resources;
 
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Support\Resources\ModelResource;
 use OpenApi\Annotations as OA;
 

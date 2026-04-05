@@ -14,7 +14,7 @@ use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Storage;
-use Juzaweb\Modules\Admin\Database\Factories\MediaFactory;
+use Juzaweb\Modules\Core\Database\Factories\MediaFactory;
 use Juzaweb\Modules\Core\FileManager\Contracts\Media as MediaContract;
 use Juzaweb\Modules\Core\FileManager\Enums\MediaType;
 use Juzaweb\Modules\Core\Traits\HasAPI;

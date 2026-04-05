@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Facades\Auth;
-use Juzaweb\Modules\Admin\Models\Guest;
+use Juzaweb\Modules\Core\Models\Guest;
 
 /**
  * @mixin Model

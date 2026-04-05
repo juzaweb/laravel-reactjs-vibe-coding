@@ -8,7 +8,7 @@
  * @link       https://larabiz.com
  */
 
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 
 if (! function_exists('model_of_guard')) {
     function model_of_guard(string $guard): ?string

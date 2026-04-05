@@ -1,6 +1,6 @@
 <?php
 
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Models\UserSocialConnection;
 
 return [

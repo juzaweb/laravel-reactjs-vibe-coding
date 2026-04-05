@@ -6,9 +6,11 @@
  * @author     The Anh Dang
  *
  * @link       https://cms.juzaweb.com
+ *
+ * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Admin\Enums;
+namespace Juzaweb\Modules\Core\Enums;
 
 enum UserStatus: string
 {

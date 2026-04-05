@@ -1,17 +1,17 @@
 <?php
 
-namespace Juzaweb\Modules\Admin\Database\Factories;
+namespace Juzaweb\Modules\Core\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Juzaweb\Modules\Core\Enums\PageStatus;
-use Juzaweb\Modules\Core\Models\Pages\Page;
+use Juzaweb\Modules\Blog\Models\Post;
+use Juzaweb\Modules\Core\Enums\PostStatus;
 
 /**
- * @extends Factory<Page>
+ * @extends Factory<Post>
  */
-class PageFactory extends Factory
+class PostFactory extends Factory
 {
-    protected $model = Page::class;
+    protected $model = Post::class;
 
     /**
      * Define the model's default state.
@@ -21,8 +21,7 @@ class PageFactory extends Factory
     public function definition(): array
     {
         return [
-            'status' => PageStatus::PUBLISHED,
-            'template' => null,
+            'status' => PostStatus::PUBLISHED,
             'en' => [
                 'title' => $this->faker->sentence(),
                 'content' => $this->faker->paragraphs(3, true),
@@ -33,22 +32,22 @@ class PageFactory extends Factory
     }
 
     /**
-     * Indicate that the page is a draft.
+     * Indicate that the post is a draft.
      */
     public function draft(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => PageStatus::DRAFT,
+            'status' => PostStatus::DRAFT,
         ]);
     }
 
     /**
-     * Indicate that the page has a specific template.
+     * Indicate that the post is private.
      */
-    public function withTemplate(string $template): static
+    public function private(): static
     {
         return $this->state(fn (array $attributes) => [
-            'template' => $template,
+            'status' => PostStatus::PRIVATE,
         ]);
     }
 }

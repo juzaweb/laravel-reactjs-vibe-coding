@@ -10,7 +10,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Admin\Models;
+namespace Juzaweb\Modules\Core\Models;
 
 use Illuminate\Contracts\Auth\Authenticatable;
 use Laravel\Passport\Client as BaseClient;

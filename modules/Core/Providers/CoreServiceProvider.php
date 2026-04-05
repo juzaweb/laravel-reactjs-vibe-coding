@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Juzaweb\Hooks\Contracts\Hook;
-use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Contracts\Breadcrumb;
 use Juzaweb\Modules\Core\Contracts\Chart;
 use Juzaweb\Modules\Core\Contracts\Field;
@@ -237,11 +237,6 @@ class CoreServiceProvider extends ServiceProvider
         Validator::extend(
             'recaptcha',
             '\Juzaweb\Modules\Core\Rules\ReCaptchaValidator@validate'
-        );
-
-        Validator::extend(
-            'domain',
-            '\Juzaweb\Modules\Admin\Rules\DomainValidator@validate'
         );
 
         Rule::macro(

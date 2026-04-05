@@ -21,8 +21,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
-use Juzaweb\Modules\Admin\Database\Factories\UserFactory;
-use Juzaweb\Modules\Admin\Enums\UserStatus;
+use Juzaweb\Modules\Core\Database\Factories\UserFactory;
+use Juzaweb\Modules\Core\Enums\UserStatus;
+use Laravel\Passport\HasApiTokens;
 use Juzaweb\Modules\Core\FileManager\MediaUploader;
 use Juzaweb\Modules\Core\FileManager\Traits\HasMedia;
 use Juzaweb\Modules\Core\Permissions\Models\Role;
@@ -38,6 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use CausesActivity,
         HasAPI,
+        HasApiTokens,
         HasFactory,
         HasMedia,
         HasMeta,

@@ -1,0 +1,1069 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "L5 OpenApi",
+        "description": "Open Api",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/notifications": {
+            "get": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Get user notifications",
+                "description": "Returns the authenticated user's notifications.",
+                "operationId": "15d40196ce3acde83f56dba988286a98",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/NotificationResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/pages/{slug}": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Get page details by slug",
+                "operationId": "d5e8b95a779d32612a4a246843d76d99",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/profile": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Get user profile",
+                "description": "Returns the authenticated user's profile information.",
+                "operationId": "8d4c95ebc2db1d9bc105e30c8784d2be",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update user profile",
+                "description": "Updates the authenticated user's profile information.",
+                "operationId": "e4976d4ce14c072c685157d3286cb584",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "John Doe"
+                                    },
+                                    "birthday": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "1990-01-01"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/profile/password": {
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "summary": "Update user password",
+                "description": "Updates the authenticated user's password.",
+                "operationId": "f2308df4fbdaa4d27d7701e1d9049a0a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "current_password": {
+                                        "type": "string",
+                                        "example": "secret123"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "newsecret123"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "newsecret123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/settings": {
+            "get": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Get site settings",
+                "description": "Returns key-value pairs of public site settings such as title, logo, language, etc.",
+                "operationId": "2ccbcdfc0219bfbf9ca6a734cdc41c51",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "My Site"
+                                                },
+                                                "description": {
+                                                    "type": "string",
+                                                    "example": "Site description"
+                                                },
+                                                "sitename": {
+                                                    "type": "string",
+                                                    "example": "mysite"
+                                                },
+                                                "logo": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/logo.png"
+                                                },
+                                                "favicon": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/favicon.ico"
+                                                },
+                                                "banner": {
+                                                    "type": "string",
+                                                    "example": "https://example.com/banner.jpg"
+                                                },
+                                                "language": {
+                                                    "type": "string",
+                                                    "example": "en"
+                                                },
+                                                "captcha": {
+                                                    "type": "string",
+                                                    "example": "recaptcha"
+                                                },
+                                                "captcha_site_key": {
+                                                    "type": "string",
+                                                    "example": "site_key"
+                                                },
+                                                "languages": {
+                                                    "description": "Available languages with code as key and name as value",
+                                                    "type": "object",
+                                                    "example": {
+                                                        "en": "English",
+                                                        "vi": "Vietnamese",
+                                                        "ja": "Japanese"
+                                                    },
+                                                    "additionalProperties": {
+                                                        "description": "Language name, e.g. English, Vietnamese, Japanese",
+                                                        "type": "string"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                }
+            }
+        },
+        "/api/v1/translations/{locale}": {
+            "get": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get i18n translation strings",
+                "description": "Returns all translation key-value pairs for the given locale in i18n flat format (namespace::group.key => value).",
+                "operationId": "5fa56809dd66e0a4a559a46687788f24",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Locale code, e.g. en, vi, ja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "description": "Flat key-value pairs: namespace::group.key => translated string",
+                                            "type": "object",
+                                            "example": {
+                                                "core::app.save": "Save",
+                                                "core::app.cancel": "Cancel"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LanguageResource": {
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "default": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "NotificationResource": {
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "data": {
+                        "type": "object"
+                    },
+                    "read": {
+                        "type": "boolean"
+                    },
+                    "read_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "PermissionResource": {
+                "required": [
+                    "code",
+                    "name",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "code": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "TokenResource": {
+                "required": [
+                    "token_type",
+                    "expires_in",
+                    "expires_at",
+                    "access_token",
+                    "refresh_token"
+                ],
+                "properties": {
+                    "token_type": {
+                        "type": "string"
+                    },
+                    "expires_in": {
+                        "type": "integer"
+                    },
+                    "expires_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "access_token": {
+                        "type": "string"
+                    },
+                    "refresh_token": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "UserCollection": {
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "UserResource": {
+                "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "created_at",
+                    "updated_at"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "has_all_permissions": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "responses": {
+            "success_detail": {
+                "description": "Get Data Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "success_list": {
+                "description": "Get List Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "success_paging": {
+                "description": "Get Paging Success",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                },
+                                "links": {
+                                    "properties": {
+                                        "self": {
+                                            "type": "string"
+                                        },
+                                        "first": {
+                                            "type": "string"
+                                        },
+                                        "prev": {
+                                            "type": "string"
+                                        },
+                                        "next": {
+                                            "type": "string"
+                                        },
+                                        "last": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "meta": {
+                                    "properties": {
+                                        "totalPages": {
+                                            "type": "integer"
+                                        },
+                                        "limit": {
+                                            "type": "integer"
+                                        },
+                                        "total": {
+                                            "type": "integer"
+                                        },
+                                        "page": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "error_401": {
+                "description": "Token Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "error_403": {
+                "description": "Permission denied",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "error_404": {
+                "description": "Page not found",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "error_422": {
+                "description": "Validate Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "field": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "message": {
+                                                "type": "string",
+                                                "example": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "error_500": {
+                "description": "Server Error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "errors": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "code": {
+                                                "type": "string",
+                                                "example": ""
+                                            },
+                                            "title": {
+                                                "type": "string",
+                                                "example": ""
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": ""
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "id_in_path": {
+                "name": "id",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "slug_in_path": {
+                "name": "slug",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "path_code": {
+                "name": "code",
+                "in": "path",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            },
+            "query_limit": {
+                "name": "limit",
+                "in": "query",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "query_page": {
+                "name": "page",
+                "in": "query",
+                "schema": {
+                    "type": "integer"
+                }
+            },
+            "query_keyword": {
+                "name": "keyword",
+                "in": "query",
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "requestBodies": {
+            "ChangePasswordRequest": {
+                "description": "Forgot Password Request",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "current_password",
+                                "password",
+                                "password_confirmation"
+                            ],
+                            "properties": {
+                                "current_password": {
+                                    "description": "User current password",
+                                    "type": "string",
+                                    "format": "password"
+                                },
+                                "password": {
+                                    "description": "New password",
+                                    "type": "string",
+                                    "format": "password"
+                                },
+                                "password_confirmation": {
+                                    "description": "Confirm new password",
+                                    "type": "string",
+                                    "format": "password"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ForgotPasswordRequest": {
+                "description": "Forgot Password Request",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "email"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "description": "User email",
+                                    "type": "string",
+                                    "format": "email"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "LoginRequest": {
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "password"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "captcha": {
+                                    "description": "(Optional) ReCaptcha Token",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "RefreshTokenRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "refresh_token"
+                            ],
+                            "properties": {
+                                "refresh_token": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "RegisterRequest": {
+                "required": true,
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "required": [
+                                "email",
+                                "password",
+                                "name",
+                                "password_confirmation"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "password": {
+                                    "type": "string"
+                                },
+                                "password_confirmation": {
+                                    "type": "string"
+                                },
+                                "birthday": {
+                                    "type": "string",
+                                    "format": "date"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ResendVerificationEmailRequest": {
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "email"
+                            ],
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "ResetPasswordRequest": {
+                "description": "Forgot Password Request",
+                "required": true,
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "required": [
+                                "password",
+                                "password_confirmation"
+                            ],
+                            "properties": {
+                                "password": {
+                                    "type": "string"
+                                },
+                                "password_confirmation": {
+                                    "description": "Confirm password",
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "oauth2",
+                "description": "Laravel passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "authorizationCode": {
+                        "authorizationUrl": "http://localhost/oauth/authorize",
+                        "tokenUrl": "http://localhost/oauth/token",
+                        "refreshUrl": "http://localhost/oauth/token/refresh",
+                        "scopes": []
+                    }
+                }
+            },
+            "apiKey": {
+                "type": "apiKey",
+                "description": "A short description for security scheme",
+                "name": "x-api-key",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Notification",
+            "description": "Notification"
+        },
+        {
+            "name": "Pages",
+            "description": "Pages"
+        },
+        {
+            "name": "Profile",
+            "description": "Profile"
+        },
+        {
+            "name": "Settings",
+            "description": "Settings"
+        },
+        {
+            "name": "Translations",
+            "description": "Translations"
+        }
+    ]
+}

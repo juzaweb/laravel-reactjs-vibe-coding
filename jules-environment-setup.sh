@@ -63,14 +63,7 @@ php -v
 composer --version
 [[ "$INSTALL_NODE" = true ]] && npm -v
 
-cd frontend
-npm install
 
-cd ../buy-theme
-npm install
-
-cd ../backend
-# git clone https://github.com/juzaweb/api.git modules/api
 
 echo "--- Installing Project Dependencies ---"
 [ ! -f .env ] && cp .env.example .env || true
@@ -86,3 +79,6 @@ echo "--- Setup Completed! ---"
 
 php artisan juzaweb:install --name=Admin --email=admin@gmail.com --password=password
 php artisan l5-swagger:generate
+
+cd themes/admin
+npm install

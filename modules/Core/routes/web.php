@@ -31,13 +31,3 @@ Route::post('online/statuses', [AddonController::class, 'statuses'])
 
 Route::get('generator/thumbnail', [AddonController::class, 'thumbnail'])
     ->name('generate.thumbnail');
-
-Route::group([
-    'middleware' => [
-        'auth',
-        'verified',
-    ],
-], function () {
-    Route::post('temp/upload', [UploadController::class, 'uploadTemp'])
-        ->name('upload.temp');
-});

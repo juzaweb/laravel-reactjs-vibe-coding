@@ -69,7 +69,10 @@
             "App\\": "app/",
             "Juzaweb\\Modules\\": "modules/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "modules/Core/helpers/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -96,19 +99,7 @@
     },
     "extra": {
         "laravel": {
-            "dont-discover": [],
-            "aliases": {
-                "Field": "Juzaweb\\Modules\\Core\\Facades\\Field",
-                "Module": "Juzaweb\\Modules\\Core\\Facades\\Module",
-                "Theme": "Juzaweb\\Modules\\Core\\Facades\\Theme",
-                "Widget": "Juzaweb\\Modules\\Core\\Facades\\Widget",
-                "Sidebar": "Juzaweb\\Modules\\Core\\Facades\\Sidebar",
-                "PageTemplate": "Juzaweb\\Modules\\Core\\Facades\\PageTemplate",
-                "PageBlock": "Juzaweb\\Modules\\Core\\Facades\\PageBlock",
-                "Chart": "Juzaweb\\Modules\\Core\\Facades\\Chart",
-                "Breadcrumb": "Juzaweb\\Modules\\Core\\Facades\\Breadcrumb",
-                "Menu": "Juzaweb\\Modules\\Core\\Facades\\Menu"
-            }
+            "dont-discover": []
         }
     },
     "config": {

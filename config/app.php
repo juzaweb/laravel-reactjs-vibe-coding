@@ -196,7 +196,16 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge(
         [
-            //
+            'Field' => Juzaweb\Modules\Core\Facades\Field::class,
+            'Module' => Juzaweb\Modules\Core\Facades\Module::class,
+            'Theme' => Juzaweb\Modules\Core\Facades\Theme::class,
+            'Widget' => Juzaweb\Modules\Core\Facades\Widget::class,
+            'Sidebar' => Juzaweb\Modules\Core\Facades\Sidebar::class,
+            'PageTemplate' => Juzaweb\Modules\Core\Facades\PageTemplate::class,
+            'PageBlock' => Juzaweb\Modules\Core\Facades\PageBlock::class,
+            'Chart' => Juzaweb\Modules\Core\Facades\Chart::class,
+            'Breadcrumb' => Juzaweb\Modules\Core\Facades\Breadcrumb::class,
+            'Menu' => Juzaweb\Modules\Core\Facades\Menu::class,
         ]
     )->toArray(),
 

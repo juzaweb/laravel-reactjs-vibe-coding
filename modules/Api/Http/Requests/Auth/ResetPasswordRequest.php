@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Admin\Http\Requests\API\Auth;
+namespace Juzaweb\Modules\Api\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
 

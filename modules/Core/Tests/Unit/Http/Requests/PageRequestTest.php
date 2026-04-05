@@ -2,7 +2,7 @@
 
 namespace Juzaweb\Modules\Core\Tests\Unit\Http\Requests;
 
-use Juzaweb\Modules\Core\Http\Requests\PageRequest;
+use Juzaweb\Modules\Api\Http\Requests\PageRequest;
 use Orchestra\Testbench\TestCase;
 
 class PageRequestTest extends TestCase

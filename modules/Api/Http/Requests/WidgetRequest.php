@@ -10,17 +10,18 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Core\Http\Requests;
+namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProfileUpdateRequest extends FormRequest
+class WidgetRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:255'],
-            'password' => ['nullable', 'string', 'min:8', 'confirmed'],
+            'content' => 'array',
+            'content.*.key' => 'required|string|max:255',
+            'content.*.widget' => 'required|string|max:255',
         ];
     }
 }

@@ -5,13 +5,13 @@ namespace Juzaweb\Modules\Blog\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Modules\Api\Http\Requests\BulkActionsRequest;
+use Juzaweb\Modules\Api\Http\Requests\PostRequest;
 use Juzaweb\Modules\Blog\Http\DataTables\PostsDataTable;
 use Juzaweb\Modules\Blog\Models\Category;
 use Juzaweb\Modules\Blog\Models\Post;
 use Juzaweb\Modules\Core\Facades\Breadcrumb;
 use Juzaweb\Modules\Core\Http\Controllers\AdminController;
-use Juzaweb\Modules\Core\Http\Requests\BulkActionsRequest;
-use Juzaweb\Modules\Core\Http\Requests\PostRequest;
 
 class PostController extends AdminController
 {

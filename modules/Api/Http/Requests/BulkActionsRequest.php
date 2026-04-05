@@ -10,18 +10,18 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Core\Http\Requests;
+namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class WidgetRequest extends FormRequest
+class BulkActionsRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'content' => 'array',
-            'content.*.key' => 'required|string|max:255',
-            'content.*.widget' => 'required|string|max:255',
+            'action' => 'required|string',
+            'ids' => 'required|array',
+            'ids.*' => 'required',
         ];
     }
 }

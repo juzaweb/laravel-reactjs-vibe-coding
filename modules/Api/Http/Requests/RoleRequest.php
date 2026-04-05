@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Core\Http\Requests;
+namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

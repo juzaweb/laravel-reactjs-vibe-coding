@@ -10,7 +10,7 @@
  * @license    MIT
  */
 
-namespace Juzaweb\Modules\Core\Http\Requests\Media;
+namespace Juzaweb\Modules\Api\Http\Requests\Media;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;

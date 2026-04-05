@@ -4,11 +4,11 @@ namespace Juzaweb\Modules\Blog\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Modules\Api\Http\Requests\CategoryRequest;
 use Juzaweb\Modules\Blog\Http\DataTables\CategoriesDataTable;
 use Juzaweb\Modules\Blog\Models\Category;
 use Juzaweb\Modules\Core\Facades\Breadcrumb;
 use Juzaweb\Modules\Core\Http\Controllers\AdminController;
-use Juzaweb\Modules\Core\Http\Requests\CategoryRequest;
 
 class CategoryController extends AdminController
 {

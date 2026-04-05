@@ -6,22 +6,18 @@
  * @author     The Anh Dang
  *
  * @link       https://cms.juzaweb.com
- *
- * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Core\Http\Requests;
+namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BulkActionsRequest extends FormRequest
+class TestMailRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'action' => 'required|string',
-            'ids' => 'required|array',
-            'ids.*' => 'required',
+            'email' => ['required', 'email:rfc'],
         ];
     }
 }

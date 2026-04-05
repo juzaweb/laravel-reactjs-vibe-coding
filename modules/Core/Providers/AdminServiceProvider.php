@@ -12,6 +12,7 @@
 
 namespace Juzaweb\Modules\Core\Providers;
 
+use Illuminate\Support\Facades\Gate;
 use Juzaweb\Modules\Core\Contracts\Sitemap;
 use Juzaweb\Modules\Core\Facades\Chart;
 use Juzaweb\Modules\Core\Facades\Menu;
@@ -29,7 +30,6 @@ use Juzaweb\Modules\Core\Support\Dashboard\TopPagesChart;
 use Juzaweb\Modules\Core\Support\Dashboard\TrafficSourcesChart;
 use Juzaweb\Modules\Core\Support\Dashboard\UsersByCountryChart;
 use Juzaweb\Modules\Core\Support\Dashboard\UsersChart;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Passport\Passport;
 
 class AdminServiceProvider extends ServiceProvider

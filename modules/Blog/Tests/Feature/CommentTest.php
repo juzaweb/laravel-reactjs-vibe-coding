@@ -2,10 +2,10 @@
 
 namespace Juzaweb\Modules\Blog\Tests\Feature;
 
-use Juzaweb\Modules\Blog\Tests\TestCase;
-use Juzaweb\Modules\Core\Models\User;
-use Juzaweb\Modules\Core\Models\Comment;
 use Illuminate\Support\Facades\Hash;
+use Juzaweb\Modules\Blog\Tests\TestCase;
+use Juzaweb\Modules\Core\Models\Comment;
+use Juzaweb\Modules\Core\Models\User;
 
 class CommentTest extends TestCase
 {
@@ -16,7 +16,7 @@ class CommentTest extends TestCase
         parent::setUp();
 
         // Create admin user
-        $this->admin = new User();
+        $this->admin = new User;
         $this->admin->forceFill([
             'name' => 'Admin',
             'email' => 'admin@example.com',
@@ -38,7 +38,7 @@ class CommentTest extends TestCase
 
     public function test_regular_user_cannot_access_comments_index()
     {
-        $user = new User();
+        $user = new User;
         $user->forceFill([
             'name' => 'User',
             'email' => 'user@example.com',
@@ -105,7 +105,7 @@ class CommentTest extends TestCase
             'commentable_id' => 999,
             'commented_type' => User::class,
             'commented_id' => $this->admin->id,
-            'content' => 'Test Comment Content ' . uniqid(),
+            'content' => 'Test Comment Content '.uniqid(),
             'status' => 'approved',
         ]);
     }

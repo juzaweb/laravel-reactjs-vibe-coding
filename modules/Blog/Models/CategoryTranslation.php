@@ -13,7 +13,7 @@ use Juzaweb\Modules\Core\Traits\HasSlug;
 
 class CategoryTranslation extends Model implements Sitemapable
 {
-    use HasAPI, HasMedia, HasSeoMeta, HasSlug, HasSitemap;
+    use HasAPI, HasMedia, HasSeoMeta, HasSitemap, HasSlug;
 
     protected $table = 'post_category_translations';
 

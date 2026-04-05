@@ -12,11 +12,11 @@ namespace Juzaweb\Modules\Core\Http\DataTables;
 
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
-use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\DataTables\Action;
 use Juzaweb\Modules\Core\DataTables\BulkAction;
 use Juzaweb\Modules\Core\DataTables\Column;
 use Juzaweb\Modules\Core\DataTables\DataTable;
+use Juzaweb\Modules\Core\Models\User;
 
 class UsersDataTable extends DataTable
 {

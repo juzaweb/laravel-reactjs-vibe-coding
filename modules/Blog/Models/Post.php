@@ -25,17 +25,17 @@ use Juzaweb\Modules\Core\Translations\Contracts\Translatable as TranslatableCont
 class Post extends Model implements TranslatableContract
 {
     use HasAPI,
+        HasComments,
+        HasContent,
+        HasCreator,
         HasFactory,
+        HasFrontendUrl,
+        HasMedia,
+        HasTags,
+        HasThumbnail,
         HasUuids,
         Translatable,
-        HasTags,
-        HasComments,
-        HasThumbnail,
-        HasMedia,
-        UsedInFrontend,
-        HasFrontendUrl,
-        HasContent,
-        HasCreator;
+        UsedInFrontend;
 
     protected $table = 'posts';
 
@@ -77,7 +77,7 @@ class Post extends Model implements TranslatableContract
         return $builder
             ->withTranslation(null, null, $cache)
             ->with([
-                'media' => fn($q) => $q->when($cache, fn($q) => $q->cacheFor(3600))
+                'media' => fn ($q) => $q->when($cache, fn ($q) => $q->cacheFor(3600)),
             ])
             ->where('status', PostStatus::PUBLISHED);
     }
@@ -87,7 +87,7 @@ class Post extends Model implements TranslatableContract
         return $builder->orWhereHas(
             'translations',
             function (Builder $query) use ($keyword) {
-                $query->where('title', 'like', '%' . $keyword . '%');
+                $query->where('title', 'like', '%'.$keyword.'%');
             }
         );
     }
@@ -105,10 +105,6 @@ class Post extends Model implements TranslatableContract
     /**
      * When invalidating automatically on update, you can specify
      * which tags to invalidate.
-     *
-     * @param  string|null  $relation
-     * @param  Collection|null  $pivotedModels
-     * @return array
      */
     public function getCacheTagsToInvalidateOnUpdate(?string $relation = null, ?Collection $pivotedModels = null): array
     {
@@ -116,8 +112,8 @@ class Post extends Model implements TranslatableContract
 
         return [
             ...$this->getCacheBaseTags(),
-            $table . ':' . $this->id,
-            $table . ':' . $this->slug,
+            $table.':'.$this->id,
+            $table.':'.$this->slug,
         ];
     }
 

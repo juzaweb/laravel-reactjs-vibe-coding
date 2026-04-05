@@ -37,7 +37,7 @@ class CategoryController extends AdminController
         return view(
             'blog::category.form',
             [
-                'model' => new Category(),
+                'model' => new Category,
                 'action' => action([self::class, 'store']),
                 'parentCategories' => $parentCategories,
                 'locale' => $locale,
@@ -84,6 +84,7 @@ class CategoryController extends AdminController
             $model = new Category($data);
             $model->setDefaultLocale($locale);
             $model->save();
+
             return $model;
         });
 
@@ -110,7 +111,7 @@ class CategoryController extends AdminController
             unset($data['parent_id']);
         }
 
-        DB::transaction(fn() => $category->update($data));
+        DB::transaction(fn () => $category->update($data));
 
         return $this->success(
             [
@@ -144,7 +145,7 @@ class CategoryController extends AdminController
         $data = $request->validated();
         $locale = $this->getFormLanguage();
 
-        $category = DB::transaction(fn() => Category::create($data));
+        $category = DB::transaction(fn () => Category::create($data));
 
         return $this->success(
             [
@@ -164,10 +165,10 @@ class CategoryController extends AdminController
                 continue;
             }
 
-            $result[$category->id] = $prefix . ' ' . $category->name;
+            $result[$category->id] = $prefix.' '.$category->name;
 
             if ($category->children && $category->children->isNotEmpty()) {
-                $this->mapCategories($category->children, $result, $prefix . '--', $excludeId);
+                $this->mapCategories($category->children, $result, $prefix.'--', $excludeId);
             }
         }
     }

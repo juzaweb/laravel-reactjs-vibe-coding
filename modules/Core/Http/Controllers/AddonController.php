@@ -17,8 +17,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\ImageManager;
-use Juzaweb\Modules\Core\Models\Guest;
 use Juzaweb\Modules\Core\Contracts\Viewable;
+use Juzaweb\Modules\Core\Models\Guest;
 use Juzaweb\Modules\Core\Services\ImgProxyService;
 
 class AddonController extends Controller

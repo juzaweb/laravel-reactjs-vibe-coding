@@ -10,8 +10,6 @@ class RouteServiceProvider extends ServiceProvider
 {
     /**
      * Define the routes for the application.
-     *
-     * @return void
      */
     public function boot(): void
     {
@@ -24,11 +22,11 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware(['admin'])
                 ->prefix($adminPrefix)
-                ->group(__DIR__ . '/../routes/admin.php');
+                ->group(__DIR__.'/../routes/admin.php');
 
             Route::middleware(['theme'])
                 ->prefix(Locale::setLocale())
-                ->group(__DIR__ . '/../routes/web.php');
+                ->group(__DIR__.'/../routes/web.php');
         });
     }
 }

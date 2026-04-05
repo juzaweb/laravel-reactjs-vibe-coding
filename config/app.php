@@ -22,6 +22,16 @@ use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
+use Juzaweb\Modules\Core\Facades\Breadcrumb;
+use Juzaweb\Modules\Core\Facades\Chart;
+use Juzaweb\Modules\Core\Facades\Field;
+use Juzaweb\Modules\Core\Facades\Menu;
+use Juzaweb\Modules\Core\Facades\Module;
+use Juzaweb\Modules\Core\Facades\PageBlock;
+use Juzaweb\Modules\Core\Facades\PageTemplate;
+use Juzaweb\Modules\Core\Facades\Sidebar;
+use Juzaweb\Modules\Core\Facades\Theme;
+use Juzaweb\Modules\Core\Facades\Widget;
 use Spatie\TranslationLoader\TranslationServiceProvider;
 
 return [
@@ -196,16 +206,16 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge(
         [
-            'Field' => Juzaweb\Modules\Core\Facades\Field::class,
-            'Module' => Juzaweb\Modules\Core\Facades\Module::class,
-            'Theme' => Juzaweb\Modules\Core\Facades\Theme::class,
-            'Widget' => Juzaweb\Modules\Core\Facades\Widget::class,
-            'Sidebar' => Juzaweb\Modules\Core\Facades\Sidebar::class,
-            'PageTemplate' => Juzaweb\Modules\Core\Facades\PageTemplate::class,
-            'PageBlock' => Juzaweb\Modules\Core\Facades\PageBlock::class,
-            'Chart' => Juzaweb\Modules\Core\Facades\Chart::class,
-            'Breadcrumb' => Juzaweb\Modules\Core\Facades\Breadcrumb::class,
-            'Menu' => Juzaweb\Modules\Core\Facades\Menu::class,
+            'Field' => Field::class,
+            'Module' => Module::class,
+            'Theme' => Theme::class,
+            'Widget' => Widget::class,
+            'Sidebar' => Sidebar::class,
+            'PageTemplate' => PageTemplate::class,
+            'PageBlock' => PageBlock::class,
+            'Chart' => Chart::class,
+            'Breadcrumb' => Breadcrumb::class,
+            'Menu' => Menu::class,
         ]
     )->toArray(),
 

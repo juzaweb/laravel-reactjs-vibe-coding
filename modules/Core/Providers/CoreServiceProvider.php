@@ -11,12 +11,10 @@
 namespace Juzaweb\Modules\Core\Providers;
 
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Juzaweb\Hooks\Contracts\Hook;
-use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Contracts\Breadcrumb;
 use Juzaweb\Modules\Core\Contracts\Chart;
 use Juzaweb\Modules\Core\Contracts\Field;
@@ -38,6 +36,7 @@ use Juzaweb\Modules\Core\Contracts\Thumbnail;
 use Juzaweb\Modules\Core\Contracts\Widget;
 use Juzaweb\Modules\Core\DataTables\HtmlBuilder;
 use Juzaweb\Modules\Core\FileManager\Providers\FileManagerServiceProvider;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Modules\Providers\ModulesServiceProvider;
 use Juzaweb\Modules\Core\Permissions\PermissionServiceProvider;
 use Juzaweb\Modules\Core\Rules\ModelExists;
@@ -62,16 +61,6 @@ use Juzaweb\Modules\Core\Support\ThumbnailRepository;
 use Juzaweb\Modules\Core\Support\WidgetRepository;
 use Juzaweb\Modules\Core\Themes\Providers\ThemeServiceProvider;
 use Juzaweb\Modules\Core\Translations\TranslationsServiceProvider;
-use Juzaweb\Modules\Core\View\Components\Card;
-use Juzaweb\Modules\Core\View\Components\CookieConsent;
-use Juzaweb\Modules\Core\View\Components\Form;
-use Juzaweb\Modules\Core\View\Components\Img;
-use Juzaweb\Modules\Core\View\Components\JsVar;
-use Juzaweb\Modules\Core\View\Components\LanguageCard;
-use Juzaweb\Modules\Core\View\Components\Repeater;
-use Juzaweb\Modules\Core\View\Components\SeoMeta;
-use Juzaweb\Modules\Core\View\Components\ThemeInit;
-use Juzaweb\Modules\Core\View\Components\ThemeJsVar;
 
 class CoreServiceProvider extends ServiceProvider
 {

@@ -16,7 +16,7 @@ use Juzaweb\Modules\Core\Traits\HasSlug;
 
 class PostTranslation extends Model implements Sitemapable
 {
-    use HasAPI, HasDescription, HasSeoMeta, HasSlug, HasSitemap;
+    use HasAPI, HasDescription, HasSeoMeta, HasSitemap, HasSlug;
 
     protected $table = 'post_translations';
 

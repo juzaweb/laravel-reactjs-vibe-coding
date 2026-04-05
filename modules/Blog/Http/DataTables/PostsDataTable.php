@@ -1,9 +1,10 @@
 <?php
+
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
- * @package    juzaweb/cms
  * @author     The Anh Dang
+ *
  * @link       https://cms.juzaweb.com
  */
 
@@ -80,18 +81,20 @@ class PostsDataTable extends DataTable
         $builder->editColumn('thumbnail', function (Post $post) {
             $thumbnail = $post->thumbnail;
             if ($thumbnail && filter_var($thumbnail, FILTER_VALIDATE_URL)) {
-                return '<img src="' . e($thumbnail) . '" alt="thumbnail" style="max-width: 80px; max-height: 60px; object-fit: cover;">';
+                return '<img src="'.e($thumbnail).'" alt="thumbnail" style="max-width: 80px; max-height: 60px; object-fit: cover;">';
             }
+
             return '<span class="text-muted">-</span>';
         });
 
         $builder->editColumn('status', function (Post $post) {
             $statusLabels = [
-                'draft' => '<span class="badge badge-secondary">' . __('blog::translation.draft') . '</span>',
-                'published' => '<span class="badge badge-success">' . __('blog::translation.published') . '</span>',
-                'private' => '<span class="badge badge-warning">' . __('blog::translation.private') . '</span>',
+                'draft' => '<span class="badge badge-secondary">'.__('blog::translation.draft').'</span>',
+                'published' => '<span class="badge badge-success">'.__('blog::translation.published').'</span>',
+                'private' => '<span class="badge badge-warning">'.__('blog::translation.private').'</span>',
             ];
-            return $statusLabels[$post->status->value] ?? '<span class="badge badge-secondary">' . e($post->status->value) . '</span>';
+
+            return $statusLabels[$post->status->value] ?? '<span class="badge badge-secondary">'.e($post->status->value).'</span>';
         });
 
         return $builder;

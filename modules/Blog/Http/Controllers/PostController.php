@@ -42,7 +42,7 @@ class PostController extends AdminController
         return view(
             'blog::post.form',
             [
-                'model' => new Post(),
+                'model' => new Post,
                 'action' => action([self::class, 'store']),
                 'locale' => $locale,
                 'categories' => $categories,
@@ -147,6 +147,7 @@ class PostController extends AdminController
                     ->get()
                     ->each
                     ->delete();
+
                 return $this->success(__('blog::translation.deleted_successfully'));
             default:
                 return $this->error(__('blog::translation.invalid_action'));

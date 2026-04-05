@@ -19,12 +19,12 @@ class Category extends Model implements TranslatableContract
 {
     use HasAPI,
         HasFactory,
+        HasMedia,
+        HasThumbnail,
         HasUuids,
         MenuBoxable,
         Translatable,
-        UsedInFrontend,
-        HasMedia,
-        HasThumbnail;
+        UsedInFrontend;
 
     protected $table = 'post_categories';
 

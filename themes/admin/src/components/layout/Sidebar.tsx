@@ -2,15 +2,17 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
 import { FiHome, FiUsers, FiSettings, FiBarChart2 } from 'react-icons/fi';
+import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
+  const { t } = useTranslation();
 
   const navItems = [
-    { name: 'Dashboard', path: '/', icon: FiHome },
-    { name: 'Analytics', path: '/analytics', icon: FiBarChart2 },
-    { name: 'Users', path: '/users', icon: FiUsers },
-    { name: 'Settings', path: '/settings', icon: FiSettings },
+    { name: t('dashboard'), path: '/', icon: FiHome },
+    { name: t('analytics'), path: '/analytics', icon: FiBarChart2 },
+    { name: t('users'), path: '/users', icon: FiUsers },
+    { name: t('settings'), path: '/settings', icon: FiSettings },
   ];
 
   return (

@@ -53,7 +53,6 @@ class ApiServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerTranslations();
-        $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         $this->app->register(RouteServiceProvider::class);
@@ -71,14 +70,6 @@ class ApiServiceProvider extends ServiceProvider
                 ];
             });
         }
-    }
-
-    protected function registerConfig(): void
-    {
-        $this->publishes([
-            __DIR__.'/../../config/jw-api.php' => config_path('jw-api.php'),
-        ], 'api-config');
-        $this->mergeConfigFrom(__DIR__.'/../../config/jw-api.php', 'jw-api');
     }
 
     protected function registerTranslations(): void

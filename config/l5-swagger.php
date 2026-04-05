@@ -47,11 +47,7 @@ return [
                  * Absolute paths to directory containing the swagger annotations are stored.
                  */
                 'annotations' => [
-                    base_path('vendor/juzaweb/core/src'),
-                    base_path('vendor/juzaweb/api/src'),
-                    base_path('vendor/juzaweb/contact/src'),
-                    base_path('modules/admin/src'),
-                    base_path('modules/image-proxy/src'),
+                    base_path('modules'),
                 ],
             ],
         ],
@@ -266,7 +262,7 @@ return [
          * Set this to `true` in development mode so that docs would be regenerated on each request
          * Set this to `false` to disable swagger generation on production
          */
-        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', false),
+        'generate_always' => env('L5_SWAGGER_GENERATE_ALWAYS', env('APP_DEBUG', false)),
 
         /*
          * Set this to `true` to generate a copy of documentation in yaml format

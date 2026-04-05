@@ -36,8 +36,6 @@ class AdminServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        parent::boot();
-
         Gate::define('viewLogViewer', function (?User $user) {
             return $user && $user->isSuperAdmin();
         });

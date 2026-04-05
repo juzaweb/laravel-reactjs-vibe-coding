@@ -38,7 +38,6 @@ description: Core rules required for the project (always on)
 ### Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
 ### Models using the `Translatable` trait must have a corresponding `ModelTranslation` class.
 ### Use `scopeWhereFrontend` for theme and api queries. Use trait `Juzaweb\Modules\Admin\Traits\UsedInFrontend` to model if not exists.
-### The home page is always `index.blade.php` in the active theme folder.
 ### SERVICE PATTERN (BUSINESS LOGIC LAYER)
 - **Inheritance:** All new Service classes MUST extend `Juzaweb\Modules\Core\Services\BaseService`.
 - **Database Safety:** Use `$this->transaction(fn() => ...)` for operations involving multiple database changes. This leverages Laravel's native `DB::transaction()` for safety and nesting support.

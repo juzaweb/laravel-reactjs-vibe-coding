@@ -1,10 +1,11 @@
 import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
-function App() {
+function Home() {
   const [count, setCount] = useState(0)
 
   return (
@@ -16,7 +17,7 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get started</h1>
+          <h1>Get started with Admin Theme</h1>
           <p>
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
@@ -27,6 +28,9 @@ function App() {
         >
           Count is {count}
         </button>
+        <div className="mt-4">
+          <Link to="/about" className="text-blue-500 hover:underline">Go to About Page</Link>
+        </div>
       </section>
 
       <div className="ticks"></div>
@@ -115,6 +119,27 @@ function App() {
       <div className="ticks"></div>
       <section id="spacer"></section>
     </>
+  )
+}
+
+function About() {
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold mb-4">About Admin Theme</h1>
+      <p>This is a sample about page.</p>
+      <Link to="/" className="text-blue-500 hover:underline mt-4 inline-block">Back to Home</Link>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

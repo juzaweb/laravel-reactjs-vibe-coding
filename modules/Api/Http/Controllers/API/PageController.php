@@ -23,7 +23,7 @@ class PageController extends APIController
      *          @OA\Schema(type="string")
      *      ),
      *
-     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/PageResource")),
      *      @OA\Response(response=404, description="Page not found")
      * )
      */

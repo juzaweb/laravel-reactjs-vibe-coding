@@ -10,6 +10,7 @@ use Juzaweb\Modules\Api\Http\Controllers\API\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\API\UserController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\AuthController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\SocialLoginController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('settings', [SettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
@@ -20,7 +21,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('profile/password', [ProfileController::class, 'updatePassword']);
 
     Route::get('notifications', [NotificationController::class, 'index']);
-    Route::apiResource('pages', PageController::class);
+    Route::api('pages', PageController::class);
     Route::apiResource('roles', RoleController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('media', MediaController::class);

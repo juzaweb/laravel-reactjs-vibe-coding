@@ -22,9 +22,9 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('notifications', [NotificationController::class, 'index']);
     Route::api('pages', PageController::class);
-    Route::apiResource('roles', RoleController::class);
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('media', MediaController::class);
+    Route::api('roles', RoleController::class);
+    Route::api('users', UserController::class);
+    Route::api('media', MediaController::class);
 });
 
 Route::group(['prefix' => 'auth/user'], function () {

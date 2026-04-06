@@ -35,6 +35,7 @@ return new class extends Migration
                 $table->boolean('in_cloud')->default(false)
                     ->comment('Indicates if the media file is stored in cloud storage');
                 $table->datetimes();
+                $table->softDeletes();
 
                 $table->foreign('parent_id')
                     ->on('media')

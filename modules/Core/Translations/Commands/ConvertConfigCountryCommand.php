@@ -23,7 +23,7 @@ class ConvertConfigCountryCommand extends Command
     public function handle()
     {
         // Source https://www.ip2location.com/free/country-information
-        $csv = fopen(__DIR__.'/../../database/csv/IP2LOCATION-COUNTRY-INFORMATION.CSV', 'rb');
+        $csv = fopen(__DIR__ . '/../Database/csv/IP2LOCATION-COUNTRY-INFORMATION.CSV', 'rb');
         $config = [];
         $header = fgetcsv($csv);
         while (($row = fgetcsv($csv)) !== false) {
@@ -39,8 +39,8 @@ class ConvertConfigCountryCommand extends Command
         fclose($csv);
 
         file_put_contents(
-            __DIR__.'/../config/countries.php',
-            '<?php'.PHP_EOL.PHP_EOL.'return '.custom_var_export($config).';'.PHP_EOL
+            __DIR__ . '/../config/countries.php',
+            '<?php' . PHP_EOL . PHP_EOL . 'return ' . custom_var_export($config) . ';' . PHP_EOL
         );
     }
 }

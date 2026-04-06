@@ -4,6 +4,7 @@ use Juzaweb\Modules\Api\Http\Controllers\API\MediaController;
 use Juzaweb\Modules\Api\Http\Controllers\API\NotificationController;
 use Juzaweb\Modules\Api\Http\Controllers\API\PageController;
 use Juzaweb\Modules\Api\Http\Controllers\API\ProfileController;
+use Juzaweb\Modules\Api\Http\Controllers\API\RoleController;
 use Juzaweb\Modules\Api\Http\Controllers\API\SettingController;
 use Juzaweb\Modules\Api\Http\Controllers\API\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\API\UserController;
@@ -20,6 +21,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('notifications', [NotificationController::class, 'index']);
     Route::apiResource('pages', PageController::class);
+    Route::apiResource('roles', RoleController::class);
     Route::apiResource('users', UserController::class);
     Route::apiResource('media', MediaController::class);
 });

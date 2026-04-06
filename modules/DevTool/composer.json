@@ -1,0 +1,38 @@
+{
+    "name": "juzaweb/dev-tool",
+    "homepage": "https://juzaweb.com",
+    "description": "Develop Tool for Juzaweb CMS",
+    "license": "GPL-2.0",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Juzaweb\\DevTool\\Providers\\DevToolServiceProvider"
+            ]
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Juzaweb\\DevTool\\": "src/"
+        },
+        "files": [
+            "helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Juzaweb\\DevTool\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "laravel/framework": "^11.34",
+        "laravel/pint": "^1.13",
+        "orchestra/testbench": "^9.0",
+        "phpunit/phpunit": "^11.0",
+        "mockery/mockery": "^1.6",
+        "juzaweb/core": "dev-master"
+    }
+}

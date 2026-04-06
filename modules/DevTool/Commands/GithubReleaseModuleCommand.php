@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
@@ -8,7 +9,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\DevTool\Commands;
+namespace Juzaweb\Modules\DevTool\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
@@ -49,7 +50,7 @@ class GithubReleaseModuleCommand extends Command
         }
 
         $body = collect(explode("\n", $body))
-            ->filter(fn ($item) => !empty($item) && !str_contains($item, ':construction:'))
+            ->filter(fn($item) => !empty($item) && !str_contains($item, ':construction:'))
             ->implode("\n");
 
         $newTag = $this->getReleaseVersion($lastTag);
@@ -88,7 +89,7 @@ class GithubReleaseModuleCommand extends Command
             )
             ->throw();
 
-        $this->info('Released url: '. $release->json()['html_url']);
+        $this->info('Released url: ' . $release->json()['html_url']);
     }
 
     protected function getLastTag(string $path): string
@@ -130,7 +131,7 @@ class GithubReleaseModuleCommand extends Command
             ++$split[count($split) - 1];
             $newTag = implode('.', $split);
         } else {
-            $newTag = $lastTag.'.1';
+            $newTag = $lastTag . '.1';
         }
 
         return get_version_by_tag($newTag);

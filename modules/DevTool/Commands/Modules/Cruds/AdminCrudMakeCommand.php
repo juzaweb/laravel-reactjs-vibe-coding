@@ -1,11 +1,11 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules\Cruds;
+namespace Juzaweb\Modules\DevTool\Commands\Modules\Cruds;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Juzaweb\DevTool\Generators\FileGenerator;
+use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Juzaweb\Modules\Core\Modules\Module;
@@ -98,7 +98,7 @@ class AdminCrudMakeCommand extends Command
 
         $controllerPath = GenerateConfigReader::read('controller');
 
-        $path .= $controllerPath->getPath().'/'.$this->getControllerName().'.php';
+        $path .= $controllerPath->getPath() . '/' . $this->getControllerName() . '.php';
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
@@ -111,11 +111,10 @@ class AdminCrudMakeCommand extends Command
         ]))->render();
 
         try {
-            $this->components->task("Generating file {$path}",function () use ($path, $contents) {
+            $this->components->task("Generating file {$path}", function () use ($path, $contents) {
                 $overwriteFile = $this->hasOption('force') ? $this->option('force') : false;
                 (new FileGenerator($path, $contents))->withFileOverwrite($overwriteFile)->generate();
             });
-
         } catch (FileAlreadyExistException $e) {
             $this->components->error("File: {$path} already exists.");
 
@@ -151,7 +150,7 @@ class AdminCrudMakeCommand extends Command
 
         $lowerSingularTitle = Str::slug(Str::singular($this->getTitle()));
 
-        $path .= $viewPath->getPath()."/{$lowerSingularTitle}/index.blade.php";
+        $path .= $viewPath->getPath() . "/{$lowerSingularTitle}/index.blade.php";
 
         if (!File::isDirectory($dir = dirname($path))) {
             File::makeDirectory($dir, 0777, true);
@@ -164,17 +163,16 @@ class AdminCrudMakeCommand extends Command
         ]))->render();
 
         try {
-            $this->components->task("Generating file {$path}",function () use ($path, $contents) {
+            $this->components->task("Generating file {$path}", function () use ($path, $contents) {
                 $overwriteFile = $this->hasOption('force') ? $this->option('force') : false;
                 (new FileGenerator($path, $contents))->withFileOverwrite($overwriteFile)->generate();
             });
-
         } catch (FileAlreadyExistException $e) {
             $this->components->error("File: {$path} already exists.");
         }
 
         $path = $this->getModulePath();
-        $path .= $viewPath->getPath()."/{$lowerSingularTitle}/form.blade.php";
+        $path .= $viewPath->getPath() . "/{$lowerSingularTitle}/form.blade.php";
 
         $model = app($this->getModelClass($module));
         $contents = (new Stub('cruds/admin/resources/views/form.stub', [
@@ -183,11 +181,10 @@ class AdminCrudMakeCommand extends Command
         ]))->render();
 
         try {
-            $this->components->task("Generating file {$path}",function () use ($path, $contents) {
+            $this->components->task("Generating file {$path}", function () use ($path, $contents) {
                 $overwriteFile = $this->hasOption('force') ? $this->option('force') : false;
                 (new FileGenerator($path, $contents))->withFileOverwrite($overwriteFile)->generate();
             });
-
         } catch (FileAlreadyExistException $e) {
             $this->components->error("File: {$path} already exists.");
         }
@@ -235,16 +232,16 @@ class AdminCrudMakeCommand extends Command
             $label = title_from_key($item);
 
             if ($item === 'active') {
-                $fields[] = "{{ Field::checkbox(__('". $label ."'), '{$item}', ['value' => \$model->{$item}]) }}";
+                $fields[] = "{{ Field::checkbox(__('" . $label . "'), '{$item}', ['value' => \$model->{$item}]) }}";
                 continue;
             }
 
             if ($item === 'status') {
-                $fields[] = "{{ Field::select(__('". $label ."'), '{$item}')->dropDownList([]) }}";
+                $fields[] = "{{ Field::select(__('" . $label . "'), '{$item}')->dropDownList([]) }}";
                 continue;
             }
 
-            $fields[] = "{{ Field::text(__('". $label ."'), '{$item}', ['value' => \$model->{$item}]) }}";
+            $fields[] = "{{ Field::text(__('" . $label . "'), '{$item}', ['value' => \$model->{$item}]) }}";
         }
 
         return $fields;

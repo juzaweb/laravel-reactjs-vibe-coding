@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules\Databases;
+namespace Juzaweb\Modules\DevTool\Commands\Modules\Databases;
 
 use Illuminate\Support\Str;
-use Juzaweb\DevTool\Commands\Modules\GeneratorCommand;
+use Juzaweb\Modules\DevTool\Commands\Modules\GeneratorCommand;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
 use Juzaweb\Modules\Core\Modules\Traits\CanClearModulesCache;

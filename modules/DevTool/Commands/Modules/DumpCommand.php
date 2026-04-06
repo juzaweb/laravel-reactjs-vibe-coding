@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Console\Command;
 use Juzaweb\Modules\Core\Modules\Module;
@@ -30,7 +30,7 @@ class DumpCommand extends Command
     {
         $this->components->info('Generating optimized autoload modules.');
 
-        if ($name = $this->argument('module') ) {
+        if ($name = $this->argument('module')) {
             $this->dump($name);
 
             return 0;
@@ -69,7 +69,6 @@ class DumpCommand extends Command
 
             passthru('composer dump -o -n -q');
         });
-
     }
 
     /**

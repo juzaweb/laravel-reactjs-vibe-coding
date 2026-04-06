@@ -1,8 +1,8 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class UnUseCommandTest extends TestCase
 {

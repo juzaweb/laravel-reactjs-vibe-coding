@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Support\Str;
 use Juzaweb\Modules\Core\Models\Model;
@@ -96,7 +96,7 @@ class ResourceMakeCommand extends GeneratorCommand
 
     protected function getFields(): string
     {
-        return "[\n\t\t\t\t\t".implode(",\n\t\t\t\t\t", $this->fields)."\n\t\t\t\t]";
+        return "[\n\t\t\t\t\t" . implode(",\n\t\t\t\t\t", $this->fields) . "\n\t\t\t\t]";
     }
 
     /**
@@ -124,7 +124,7 @@ class ResourceMakeCommand extends GeneratorCommand
 
         $resourcePath = GenerateConfigReader::read('resource');
 
-        return $path.$resourcePath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $resourcePath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     /**

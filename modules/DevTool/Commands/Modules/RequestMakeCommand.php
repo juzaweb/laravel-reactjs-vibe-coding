@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
@@ -99,7 +99,7 @@ class RequestMakeCommand extends GeneratorCommand
 
     protected function getRules(): string
     {
-        return "[\n\t\t\t".implode(",\n\t\t\t", $this->rules)."\n\t\t]";
+        return "[\n\t\t\t" . implode(",\n\t\t\t", $this->rules) . "\n\t\t]";
     }
 
     /**
@@ -111,7 +111,7 @@ class RequestMakeCommand extends GeneratorCommand
 
         $requestPath = GenerateConfigReader::read('request');
 
-        return $path.$requestPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $requestPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     protected function getStubName(): string

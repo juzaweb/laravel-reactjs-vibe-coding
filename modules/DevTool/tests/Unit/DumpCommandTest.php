@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
-use Juzaweb\DevTool\Commands\Modules\DumpCommand;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Commands\Modules\DumpCommand;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 use Mockery;
 
 class DumpCommandTest extends TestCase

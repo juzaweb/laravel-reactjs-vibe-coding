@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules\Databases;
+namespace Juzaweb\Modules\DevTool\Commands\Modules\Databases;
 
 use ErrorException;
 use Illuminate\Console\Command;

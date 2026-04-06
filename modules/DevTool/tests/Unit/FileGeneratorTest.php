@@ -1,10 +1,10 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Filesystem\Filesystem;
-use Juzaweb\DevTool\Generators\FileGenerator;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Generators\FileGenerator;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Mockery;
 

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LARABIZ CMS - Full SPA Laravel CMS
  *
@@ -7,7 +8,7 @@
  * @link       https://larabiz.com
  */
 
-namespace Juzaweb\DevTool\Commands\Modules\Cruds;
+namespace Juzaweb\Modules\DevTool\Commands\Modules\Cruds;
 
 use Illuminate\Console\Command;
 use Juzaweb\Modules\Core\Modules\Traits\UseFromModel;

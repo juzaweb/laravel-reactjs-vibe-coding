@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Support\Str;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
@@ -61,7 +61,7 @@ class ModelMakeCommand extends GeneratorCommand
         $string = '';
         foreach ($pieces as $i => $piece) {
             if ($i + 1 < count($pieces)) {
-                $string .= strtolower($piece).'_';
+                $string .= strtolower($piece) . '_';
             } else {
                 $string .= Str::plural(strtolower($piece));
             }
@@ -105,7 +105,7 @@ class ModelMakeCommand extends GeneratorCommand
     private function handleOptionalMigrationOption()
     {
         if ($this->option('migration') === true) {
-            $migrationName = 'create_'.$this->createMigrationName().'_table';
+            $migrationName = 'create_' . $this->createMigrationName() . '_table';
             $this->call('module:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
     }
@@ -188,7 +188,7 @@ class ModelMakeCommand extends GeneratorCommand
 
         $modelPath = GenerateConfigReader::read('model');
 
-        return $path.$modelPath->getPath().'/'.$this->getModelName().'.php';
+        return $path . $modelPath->getPath() . '/' . $this->getModelName() . '.php';
     }
 
     /**
@@ -224,7 +224,9 @@ class ModelMakeCommand extends GeneratorCommand
     {
         $module = $this->laravel['modules'];
 
-        return config('dev-tool.modules.paths.generator.model.namespace') ?: config('dev-tool.modules.paths.generator.model.path',
-            'Entities');
+        return config('dev-tool.modules.paths.generator.model.namespace') ?: config(
+            'dev-tool.modules.paths.generator.model.path',
+            'Entities'
+        );
     }
 }

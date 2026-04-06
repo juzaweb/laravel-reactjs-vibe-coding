@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Str;
@@ -52,7 +52,7 @@ class ComponentViewMakeCommand extends GeneratorCommand
      */
     protected function getTemplateContents()
     {
-        return (new Stub('/component-view.stub', ['QUOTE'=> Inspiring::quote()]))->render();
+        return (new Stub('/component-view.stub', ['QUOTE' => Inspiring::quote()]))->render();
     }
 
     /**

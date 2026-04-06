@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LARABIZ CMS - Full SPA Laravel CMS
  *
@@ -7,11 +8,11 @@
  * @link       https://larabiz.com
  */
 
-namespace Juzaweb\DevTool\Commands\Modules\Cruds;
+namespace Juzaweb\Modules\DevTool\Commands\Modules\Cruds;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Juzaweb\DevTool\Generators\FileGenerator;
+use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Juzaweb\Modules\Core\Modules\Contracts\RepositoryInterface;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Juzaweb\Modules\Core\Modules\Module;
@@ -82,7 +83,7 @@ class APICrudMakeCommand extends Command
 
         $controllerPath = GenerateConfigReader::read('controller');
 
-        $path .= $controllerPath->getPath().'/APIs/'.$this->getControllerName().'.php';
+        $path .= $controllerPath->getPath() . '/APIs/' . $this->getControllerName() . '.php';
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
@@ -119,11 +120,10 @@ class APICrudMakeCommand extends Command
         ]))->render();
 
         try {
-            $this->components->task("Generating file {$path}",function () use ($path, $contents) {
+            $this->components->task("Generating file {$path}", function () use ($path, $contents) {
                 $overwriteFile = $this->hasOption('force') ? $this->option('force') : false;
                 (new FileGenerator($path, $contents))->withFileOverwrite($overwriteFile)->generate();
             });
-
         } catch (FileAlreadyExistException $e) {
             $this->components->error("File: {$path} already exists.");
 

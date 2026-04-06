@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Console\Command;
-use Juzaweb\DevTool\Generators\FileGenerator;
+use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Juzaweb\Modules\Core\Modules\Module;
 
@@ -52,7 +52,7 @@ abstract class GeneratorCommand extends Command
         $contents = $this->getTemplateContents();
 
         try {
-            $this->components->task("Generating file {$path}",function () use ($path,$contents) {
+            $this->components->task("Generating file {$path}", function () use ($path, $contents) {
                 $overwriteFile = $this->hasOption('force') ? $this->option('force') : false;
                 (new FileGenerator($path, $contents))->withFileOverwrite($overwriteFile)->generate();
             });
@@ -60,7 +60,6 @@ abstract class GeneratorCommand extends Command
             if (method_exists($this, 'postGenerate')) {
                 $this->postGenerate();
             }
-
         } catch (FileAlreadyExistException $e) {
             $this->components->error("File : {$path} already exists.");
 

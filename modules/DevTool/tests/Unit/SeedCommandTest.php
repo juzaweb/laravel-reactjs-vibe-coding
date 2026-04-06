@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class SeedCommandTest extends TestCase
 {
@@ -59,6 +59,6 @@ class SeedCommandTest extends TestCase
         // Since we don't have seeders, it should do nothing and return 0.
 
         $this->artisan('module:seed', ['module' => 'Blog'])
-             ->assertExitCode(0);
+            ->assertExitCode(0);
     }
 }

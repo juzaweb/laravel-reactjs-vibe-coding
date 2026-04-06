@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class MigrateStatusCommandTest extends TestCase
 {
@@ -52,6 +52,6 @@ class MigrateStatusCommandTest extends TestCase
         // migrate:status might fail if table not found, but default is creating migrations table.
         // It outputs a table.
         $this->artisan('module:migrate-status', ['module' => 'Blog'])
-             ->assertExitCode(0);
+            ->assertExitCode(0);
     }
 }

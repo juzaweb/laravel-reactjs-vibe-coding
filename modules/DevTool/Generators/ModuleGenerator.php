@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Generators;
+namespace Juzaweb\Modules\DevTool\Generators;
 
 use Illuminate\Config\Repository as Config;
 use Illuminate\Console\Command as Console;

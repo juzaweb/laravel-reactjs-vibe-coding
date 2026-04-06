@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Support\Str;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
@@ -49,7 +49,7 @@ class ComponentClassMakeCommand extends GeneratorCommand
      */
     protected function writeComponentViewTemplate()
     {
-        $this->call('module:make-component-view', ['name' => $this->argument('name') , 'module' => $this->argument('module')]);
+        $this->call('module:make-component-view', ['name' => $this->argument('name'), 'module' => $this->argument('module')]);
     }
 
     public function getDefaultNamespace(): string

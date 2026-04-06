@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Themes;
+namespace Juzaweb\Modules\DevTool\Commands\Themes;
 
 use File;
 use Illuminate\Console\Command;

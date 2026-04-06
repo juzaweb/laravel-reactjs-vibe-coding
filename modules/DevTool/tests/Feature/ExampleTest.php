@@ -1,8 +1,8 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Feature;
+namespace Juzaweb\Modules\DevTool\Tests\Feature;
 
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class ExampleTest extends TestCase
 {

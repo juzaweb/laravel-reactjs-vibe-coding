@@ -1,11 +1,11 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
-use Juzaweb\DevTool\Commands\GithubReleaseModuleCommand;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Commands\GithubReleaseModuleCommand;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 use Mockery;
 
 class GithubReleaseModuleCommandTest extends TestCase
@@ -126,9 +126,9 @@ class GithubReleaseModuleCommandTest extends TestCase
 
         Http::assertSent(function ($request) {
             return $request->url() == 'https://api.github.com/repos/fake/repo/releases' &&
-                   $request['tag_name'] == '1.0.1' &&
-                   $request['body'] == "* Feature 1\n* Feature 2" &&
-                   $request->header('Authorization')[0] == 'Bearer fake-token';
+                $request['tag_name'] == '1.0.1' &&
+                $request['body'] == "* Feature 1\n* Feature 2" &&
+                $request->header('Authorization')[0] == 'Bearer fake-token';
         });
     }
 
@@ -184,9 +184,9 @@ class GithubReleaseModuleCommandTest extends TestCase
 
         Http::assertSent(function ($request) {
             return $request->url() == 'https://api.github.com/repos/fake/repo/releases' &&
-                   $request['tag_name'] == '1.0.1' &&
-                   $request['body'] == "* Fix bug 1" &&
-                   $request->header('Authorization')[0] == 'Bearer fake-token';
+                $request['tag_name'] == '1.0.1' &&
+                $request['body'] == "* Fix bug 1" &&
+                $request->header('Authorization')[0] == 'Bearer fake-token';
         });
     }
 }

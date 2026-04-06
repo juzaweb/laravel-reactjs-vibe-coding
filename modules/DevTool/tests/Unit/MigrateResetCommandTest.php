@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class MigrateResetCommandTest extends TestCase
 {
@@ -50,6 +50,6 @@ class MigrateResetCommandTest extends TestCase
     public function test_it_migrates_reset_module()
     {
         $this->artisan('module:migrate-reset', ['module' => 'Blog'])
-             ->assertExitCode(0);
+            ->assertExitCode(0);
     }
 }

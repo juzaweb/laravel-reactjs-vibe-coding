@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
@@ -8,7 +9,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\DevTool\Commands\Themes;
+namespace Juzaweb\Modules\DevTool\Commands\Themes;
 
 use Illuminate\Console\Command;
 use Juzaweb\Modules\Core\Facades\Theme;

@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
 use Juzaweb\Modules\Core\Facades\Theme;
 
@@ -73,7 +73,7 @@ class ThemeMakeCommandsTest extends TestCase
 
     public function test_it_fails_create_template_home()
     {
-         $this->artisan('theme:make-template', [
+        $this->artisan('theme:make-template', [
             'name' => 'home',
             'theme' => 'test-theme',
         ])->assertExitCode(1);

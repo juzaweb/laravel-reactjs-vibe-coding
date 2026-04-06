@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Support\Str;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;

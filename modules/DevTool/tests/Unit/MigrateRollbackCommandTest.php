@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class MigrateRollbackCommandTest extends TestCase
 {
@@ -75,9 +75,9 @@ PHP;
 
         // Run migrate first
         $this->artisan('module:migrate', ['module' => 'Blog'])
-             ->assertExitCode(0);
+            ->assertExitCode(0);
 
         $this->artisan('module:migrate-rollback', ['module' => 'Blog'])
-             ->assertExitCode(0);
+            ->assertExitCode(0);
     }
 }

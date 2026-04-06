@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4d5094f368d6f66842011df16e37d774",
+    "content-hash": "7e00d39bdfd0b2dccb50880ac698caf5",
     "packages": [
         {
             "name": "astrotomic/laravel-translatable",
@@ -10492,60 +10492,6 @@
             "time": "2025-04-30T06:54:44+00:00"
         },
         {
-            "name": "juzaweb/dev-tool",
-            "version": "2.0.5",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/juzaweb/dev-tool.git",
-                "reference": "b7e94f354139615182dbe350928a27085509a43c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/juzaweb/dev-tool/zipball/b7e94f354139615182dbe350928a27085509a43c",
-                "reference": "b7e94f354139615182dbe350928a27085509a43c",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "juzaweb/core": "dev-master",
-                "laravel/framework": "^11.34",
-                "laravel/pint": "^1.13",
-                "mockery/mockery": "^1.6",
-                "orchestra/testbench": "^9.0",
-                "phpunit/phpunit": "^11.0",
-                "roave/security-advisories": "dev-latest"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Juzaweb\\DevTool\\Providers\\DevToolServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "files": [
-                    "helpers.php"
-                ],
-                "psr-4": {
-                    "Juzaweb\\DevTool\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0"
-            ],
-            "description": "Develop Tool for Juzaweb CMS",
-            "homepage": "https://juzaweb.com",
-            "support": {
-                "issues": "https://github.com/juzaweb/dev-tool/issues",
-                "source": "https://github.com/juzaweb/dev-tool/tree/2.0.5"
-            },
-            "time": "2026-03-19T04:18:52+00:00"
-        },
-        {
             "name": "laravel/pail",
             "version": "v1.2.6",
             "source": {
@@ -13095,5 +13041,5 @@
         "ext-zip": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

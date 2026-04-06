@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands;
+namespace Juzaweb\Modules\DevTool\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Database\Console\ShowModelCommand;
 
@@ -68,5 +68,4 @@ class ModelShowCommand extends ShowModelCommand
 
         return str_replace(['/', '.php'], ['\\', ''], $modelPath[0]);
     }
-
 }

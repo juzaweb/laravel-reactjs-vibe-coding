@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Support\Str;
 use Juzaweb\Modules\Core\Modules\Module;
@@ -39,8 +39,10 @@ class ProviderMakeCommand extends GeneratorCommand
     {
         $module = $this->laravel['modules'];
 
-        return config('dev-tool.modules.paths.generator.provider.namespace') ?: config('dev-tool.modules.paths.generator.provider.path',
-            'Providers');
+        return config('dev-tool.modules.paths.generator.provider.namespace') ?: config(
+            'dev-tool.modules.paths.generator.provider.path',
+            'Providers'
+        );
     }
 
     /**
@@ -78,7 +80,7 @@ class ProviderMakeCommand extends GeneratorCommand
         /** @var Module $module */
         $module = $this->laravel['modules']->findOrFail($this->getModuleName());
 
-        return (new Stub('/'.$stub.'.stub', [
+        return (new Stub('/' . $stub . '.stub', [
             'NAMESPACE' => $this->getClassNamespace($module),
             'CLASS' => $this->getClass(),
             'LOWER_NAME' => $module->getLowerName(),
@@ -104,7 +106,7 @@ class ProviderMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('provider');
 
-        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
     }
 
     /**

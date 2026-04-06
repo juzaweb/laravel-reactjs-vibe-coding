@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Generators;
+namespace Juzaweb\Modules\DevTool\Generators;
 
 use Illuminate\Filesystem\Filesystem;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;

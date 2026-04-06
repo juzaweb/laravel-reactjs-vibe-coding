@@ -9,7 +9,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\DevTool\Commands\Themes;
+namespace Juzaweb\Modules\DevTool\Commands\Themes;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;

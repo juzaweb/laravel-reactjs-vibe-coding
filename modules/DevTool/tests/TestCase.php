@@ -1,8 +1,8 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests;
+namespace Juzaweb\Modules\DevTool\Tests;
 
-use Juzaweb\DevTool\Providers\DevToolServiceProvider;
+use Juzaweb\Modules\DevTool\Providers\DevToolServiceProvider;
 use Juzaweb\Modules\Core\Providers\CoreServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 

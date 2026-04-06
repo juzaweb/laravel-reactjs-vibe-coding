@@ -1,8 +1,8 @@
 <?php
 
-namespace Juzaweb\DevTool\Providers;
+namespace Juzaweb\Modules\DevTool\Providers;
 
-use Juzaweb\DevTool\Commands\GithubReleaseModuleCommand;
+use Juzaweb\Modules\DevTool\Commands\GithubReleaseModuleCommand;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
 
 class DevToolServiceProvider extends ServiceProvider

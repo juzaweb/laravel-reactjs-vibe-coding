@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Console\Command;
-use Juzaweb\DevTool\Generators\ModuleGenerator;
+use Juzaweb\Modules\DevTool\Generators\ModuleGenerator;
 use Juzaweb\Modules\Core\Modules\Contracts\ActivatorInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -77,10 +77,10 @@ class ModuleMakeCommand extends Command
     }
 
     /**
-    * Get module type .
-    *
-    * @return string
-    */
+     * Get module type .
+     *
+     * @return string
+     */
     private function getModuleType()
     {
         $isPlain = $this->option('plain');

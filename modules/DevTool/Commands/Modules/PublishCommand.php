@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Console\Command;
 use Juzaweb\Modules\Core\Modules\Module;
@@ -69,7 +69,7 @@ class PublishCommand extends Command
             ->setConsole($this)
             ->publish();
 
-        $this->components->task($module->getStudlyName(), fn()=>true);
+        $this->components->task($module->getStudlyName(), fn() => true);
     }
 
     /**

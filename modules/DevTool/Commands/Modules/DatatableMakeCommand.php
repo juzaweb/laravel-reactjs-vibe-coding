@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules;
+namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Str;
@@ -140,12 +140,12 @@ class DatatableMakeCommand extends GeneratorCommand
 
     protected function getBulkActions(): string
     {
-        return "[\n\t\t\t".implode(",\n\t\t\t", $this->actions)."\n\t\t]";
+        return "[\n\t\t\t" . implode(",\n\t\t\t", $this->actions) . "\n\t\t]";
     }
 
     protected function getColumns(): string
     {
-        return "[\n\t\t\t".implode(",\n\t\t\t", $this->columns)."\n\t\t]";
+        return "[\n\t\t\t" . implode(",\n\t\t\t", $this->columns) . "\n\t\t]";
     }
 
     protected function getUrlPrefix(): string

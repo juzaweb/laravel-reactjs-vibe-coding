@@ -1,13 +1,13 @@
 <?php
 
-namespace Juzaweb\DevTool\Tests\Unit;
+namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use Illuminate\Support\Facades\File;
-use Juzaweb\DevTool\Tests\TestCase;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 use Juzaweb\Modules\Core\Facades\Theme;
 
 class DownloadStyleCommandTest extends TestCase
@@ -49,7 +49,7 @@ class DownloadStyleCommandTest extends TestCase
         $handlerStack = HandlerStack::create($mock);
         $client = new Client(['handler' => $handlerStack]);
 
-        $command = $this->getMockBuilder(\Juzaweb\DevTool\Commands\Themes\DownloadStyleCommand::class)
+        $command = $this->getMockBuilder(\Juzaweb\Modules\DevTool\Commands\Themes\DownloadStyleCommand::class)
             ->setConstructorArgs([$client])
             ->onlyMethods(['ask'])
             ->getMock();

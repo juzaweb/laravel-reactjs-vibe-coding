@@ -1,4 +1,5 @@
 <?php
+
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
@@ -8,7 +9,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\DevTool\Commands\Themes;
+namespace Juzaweb\Modules\DevTool\Commands\Themes;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -82,7 +83,6 @@ abstract class DownloadCommand extends Command
                 File::delete($path);
                 throw new \RuntimeException("Downloaded file is empty: {$url}");
             }
-
         } catch (RequestException $e) {
             if (File::exists($path)) {
                 File::delete($path);

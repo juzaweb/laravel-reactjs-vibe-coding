@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\DevTool\Commands\Modules\Databases;
+namespace Juzaweb\Modules\DevTool\Commands\Modules\Databases;
 
 use Illuminate\Console\Command;
 use Juzaweb\Modules\Core\Modules\Traits\ModuleCommandTrait;

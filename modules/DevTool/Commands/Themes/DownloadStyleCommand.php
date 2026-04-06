@@ -8,7 +8,7 @@
  * @link       https://cms.juzaweb.com
  */
 
-namespace Juzaweb\DevTool\Commands\Themes;
+namespace Juzaweb\Modules\DevTool\Commands\Themes;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

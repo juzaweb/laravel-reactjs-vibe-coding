@@ -1,7 +1,5 @@
 <?php
 
-namespace Juzaweb\DevTool\Generators;
+namespace Juzaweb\Modules\DevTool\Generators;
 
-abstract class Generator
-{
-}
+abstract class Generator {}

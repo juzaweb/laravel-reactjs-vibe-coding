@@ -134,7 +134,13 @@
                     "422": {
                         "description": "Validation Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             }
         },
         "/api/v1/pages/{id}": {
@@ -177,7 +183,13 @@
                     "404": {
                         "description": "Page not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             },
             "put": {
                 "tags": [
@@ -227,7 +239,13 @@
                     "422": {
                         "description": "Validation Error"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             },
             "delete": {
                 "tags": [
@@ -265,7 +283,13 @@
                     "404": {
                         "description": "Page not found"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             }
         },
         "/api/v1/profile": {
@@ -558,7 +582,7 @@
                 }
             }
         },
-        "/api/auth/user/login": {
+        "/api/v1/auth/user/login": {
             "post": {
                 "tags": [
                     "Auth"
@@ -616,7 +640,7 @@
                 }
             }
         },
-        "/api/auth/user/refresh-token": {
+        "/api/v1/auth/user/refresh-token": {
             "post": {
                 "tags": [
                     "Auth"
@@ -666,7 +690,7 @@
                 }
             }
         },
-        "/api/auth/user/register": {
+        "/api/v1/auth/user/register": {
             "post": {
                 "tags": [
                     "Auth"
@@ -720,7 +744,7 @@
                 }
             }
         },
-        "/api/auth/user/resend-verification-email": {
+        "/api/v1/auth/user/resend-verification-email": {
             "post": {
                 "tags": [
                     "Auth"
@@ -766,7 +790,7 @@
                 }
             }
         },
-        "/api/auth/user/email/verify/{id}/{hash}": {
+        "/api/v1/auth/user/email/verify/{id}/{hash}": {
             "post": {
                 "tags": [
                     "Auth"
@@ -797,7 +821,7 @@
                 }
             }
         },
-        "/api/auth/user/forgot-password": {
+        "/api/v1/auth/user/forgot-password": {
             "post": {
                 "tags": [
                     "Auth"
@@ -843,7 +867,7 @@
                 }
             }
         },
-        "/api/auth/user/reset-password/{token}": {
+        "/api/v1/auth/user/reset-password/{token}": {
             "post": {
                 "tags": [
                     "Auth"
@@ -906,7 +930,7 @@
                 }
             }
         },
-        "/api/auth/user/logout": {
+        "/api/v1/auth/user/logout": {
             "post": {
                 "tags": [
                     "Auth"
@@ -942,7 +966,7 @@
                 ]
             }
         },
-        "/api/auth/user/social/{driver}/redirect": {
+        "//api/v1/auth/user/social/{driver}/redirect": {
             "post": {
                 "tags": [
                     "Auth"
@@ -991,7 +1015,7 @@
                 }
             }
         },
-        "/api/auth/user/social/{driver}/callback": {
+        "//api/v1/auth/user/social/{driver}/callback": {
             "post": {
                 "tags": [
                     "Auth"

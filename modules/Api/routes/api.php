@@ -19,7 +19,6 @@ use Juzaweb\Modules\Api\Http\Controllers\API\TranslationController;
 
 Route::get('settings', [SettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
-Route::get('pages/{slug}', [PageController::class, 'show']);
 
 Route::middleware('auth:api')->group(function () {
     Route::get('profile', [ProfileController::class, 'show']);
@@ -27,4 +26,5 @@ Route::middleware('auth:api')->group(function () {
     Route::put('profile/password', [ProfileController::class, 'updatePassword']);
 
     Route::get('notifications', [NotificationController::class, 'index']);
+    Route::apiResource('pages', PageController::class);
 });

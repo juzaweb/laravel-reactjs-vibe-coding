@@ -557,21 +557,12 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "data": {
-                                            "description": "Flat key-value pairs: namespace::group.key => translated string",
-                                            "type": "object",
-                                            "example": {
-                                                "core::app.save": "Save",
-                                                "core::app.cancel": "Cancel"
-                                            }
-                                        }
-                                    },
+                                    "description": "Flat key-value pairs: namespace::group.key => translated string",
                                     "type": "object"
+                                },
+                                "example": {
+                                    "core::app.save": "Save",
+                                    "core::app.cancel": "Cancel"
                                 }
                             }
                         }

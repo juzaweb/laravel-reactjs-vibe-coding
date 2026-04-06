@@ -37,14 +37,8 @@ class TranslationController extends APIController
      *
      *          @OA\JsonContent(
      *              type="object",
-     *
-     *              @OA\Property(property="success", type="boolean", example=true),
-     *              @OA\Property(
-     *                  property="data",
-     *                  type="object",
-     *                  description="Flat key-value pairs: namespace::group.key => translated string",
-     *                  example={"core::app.save": "Save", "core::app.cancel": "Cancel"}
-     *              )
+     *              description="Flat key-value pairs: namespace::group.key => translated string",
+     *              example={"core::app.save": "Save", "core::app.cancel": "Cancel"}
      *          )
      *      ),
      *
@@ -55,7 +49,7 @@ class TranslationController extends APIController
     {
         $items = $this->buildTranslationCollection($locale);
 
-        return $this->restSuccess($this->formatAsI18n($items, $locale));
+        return response()->json($this->formatAsI18n($items, $locale));
     }
 
     private function buildTranslationCollection(string $locale): Collection

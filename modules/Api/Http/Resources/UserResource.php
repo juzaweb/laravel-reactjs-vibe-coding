@@ -38,7 +38,14 @@ class UserResource extends ModelResource
 {
     public function toArray(Request $request): array
     {
-        $data = parent::toArray($request);
+        $data = [
+            'id' => $this->resource->id,
+            'name' => $this->resource->name,
+            'email' => $this->resource->email,
+            'birthday' => $this->resource->birthday,
+            'created_at' => $this->resource->created_at,
+            'updated_at' => $this->resource->updated_at,
+        ];
 
         if (! $request->user()?->tokenCan('user.email')) {
             unset($data['email']);

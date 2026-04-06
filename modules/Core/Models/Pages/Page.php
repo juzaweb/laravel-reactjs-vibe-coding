@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Juzaweb\Modules\Api\Http\Resources\PageResource;
 use Juzaweb\Modules\Core\Database\Factories\PageFactory;
 use Juzaweb\Modules\Core\Enums\PageStatus;
 use Juzaweb\Modules\Core\FileManager\Traits\HasMedia;
@@ -64,6 +65,11 @@ class Page extends Model implements TranslatableContract
         }
 
         return null;
+    }
+
+    public static function getResource(): string
+    {
+        return PageResource::class;
     }
 
     public function blocks(): HasMany

@@ -3,7 +3,6 @@
 namespace Juzaweb\Modules\Api\Http\Controllers\API;
 
 use Illuminate\Http\JsonResponse;
-use Juzaweb\Modules\Api\Http\Resources\PageResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use OpenApi\Annotations as OA;
@@ -32,8 +31,6 @@ class PageController extends APIController
     {
         $page = Page::whereTranslation('slug', $slug)->firstOrFail();
 
-        return $this->restSuccess(
-            (new PageResource($page))->resolve()
-        );
+        return $this->restSuccess($page);
     }
 }

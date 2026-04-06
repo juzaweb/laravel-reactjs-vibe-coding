@@ -23,10 +23,6 @@ use Juzaweb\QueryCache\QueryCacheServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Pion\Laravel\ChunkUpload\Providers\ChunkUploadServiceProvider;
 use Spatie\Activitylog\ActivitylogServiceProvider;
-use Yajra\DataTables\ButtonsServiceProvider;
-use Yajra\DataTables\DataTablesServiceProvider;
-use Yajra\DataTables\Facades\DataTables;
-use Yajra\DataTables\HtmlServiceProvider;
 
 abstract class TestCase extends Orchestra
 {

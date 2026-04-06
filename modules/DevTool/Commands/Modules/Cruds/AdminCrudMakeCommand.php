@@ -5,13 +5,13 @@ namespace Juzaweb\Modules\DevTool\Commands\Modules\Cruds;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
-use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Juzaweb\Modules\Core\Modules\Module;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
 use Juzaweb\Modules\Core\Modules\Traits\UseFromModel;
+use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -53,9 +53,9 @@ class AdminCrudMakeCommand extends Command
 
         $module = \Juzaweb\Modules\Core\Facades\Module::findOrFail($this->getModuleName());
         $routePath = GenerateConfigReader::read('routes');
-        $adminRouteFile = $this->getModulePath() . $routePath->getPath() . '/admin.php';
+        $adminRouteFile = $this->getModulePath().$routePath->getPath().'/admin.php';
         $controllerClass = $this->getClassNamespace($module, 'Http\\Controllers\\')
-            . "\\" . $this->getControllerNameWithoutNamespace();
+            .'\\'.$this->getControllerNameWithoutNamespace();
 
         $content = file_get_contents($adminRouteFile);
 
@@ -68,12 +68,12 @@ class AdminCrudMakeCommand extends Command
             $content = substr_replace($content, "\nuse {$controllerClass};", $pos, 0);
         } else {
             // Nếu không có use nào, thêm ở đầu file
-            $content = "use {$controllerClass};\n\n" . $content;
+            $content = "use {$controllerClass};\n\n".$content;
         }
 
         // Thêm Route::admin(...) xuống cuối file
-        $routeLine = "\nRoute::admin('{$this->getUrlPrefix()}', " . $this->getControllerNameWithoutNamespace() . "::class);\n";
-        $content = rtrim($content) . $routeLine;
+        $routeLine = "\nRoute::admin('{$this->getUrlPrefix()}', ".$this->getControllerNameWithoutNamespace()."::class);\n";
+        $content = rtrim($content).$routeLine;
 
         file_put_contents($adminRouteFile, $content);
 
@@ -98,9 +98,9 @@ class AdminCrudMakeCommand extends Command
 
         $controllerPath = GenerateConfigReader::read('controller');
 
-        $path .= $controllerPath->getPath() . '/' . $this->getControllerName() . '.php';
+        $path .= $controllerPath->getPath().'/'.$this->getControllerName().'.php';
 
-        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
+        if (! $this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
 
@@ -150,9 +150,9 @@ class AdminCrudMakeCommand extends Command
 
         $lowerSingularTitle = Str::slug(Str::singular($this->getTitle()));
 
-        $path .= $viewPath->getPath() . "/{$lowerSingularTitle}/index.blade.php";
+        $path .= $viewPath->getPath()."/{$lowerSingularTitle}/index.blade.php";
 
-        if (!File::isDirectory($dir = dirname($path))) {
+        if (! File::isDirectory($dir = dirname($path))) {
             File::makeDirectory($dir, 0777, true);
         }
 
@@ -172,7 +172,7 @@ class AdminCrudMakeCommand extends Command
         }
 
         $path = $this->getModulePath();
-        $path .= $viewPath->getPath() . "/{$lowerSingularTitle}/form.blade.php";
+        $path .= $viewPath->getPath()."/{$lowerSingularTitle}/form.blade.php";
 
         $model = app($this->getModelClass($module));
         $contents = (new Stub('cruds/admin/resources/views/form.stub', [
@@ -232,16 +232,18 @@ class AdminCrudMakeCommand extends Command
             $label = title_from_key($item);
 
             if ($item === 'active') {
-                $fields[] = "{{ Field::checkbox(__('" . $label . "'), '{$item}', ['value' => \$model->{$item}]) }}";
+                $fields[] = "{{ Field::checkbox(__('".$label."'), '{$item}', ['value' => \$model->{$item}]) }}";
+
                 continue;
             }
 
             if ($item === 'status') {
-                $fields[] = "{{ Field::select(__('" . $label . "'), '{$item}')->dropDownList([]) }}";
+                $fields[] = "{{ Field::select(__('".$label."'), '{$item}')->dropDownList([]) }}";
+
                 continue;
             }
 
-            $fields[] = "{{ Field::text(__('" . $label . "'), '{$item}', ['value' => \$model->{$item}]) }}";
+            $fields[] = "{{ Field::text(__('".$label."'), '{$item}', ['value' => \$model->{$item}]) }}";
         }
 
         return $fields;
@@ -259,7 +261,7 @@ class AdminCrudMakeCommand extends Command
 
     protected function getDatatableNamespace(Module $module): string
     {
-        return $this->getClassNamespace($module, 'Http\\DataTables', Str::plural($this->getModelName()) . "DataTable");
+        return $this->getClassNamespace($module, 'Http\\DataTables', Str::plural($this->getModelName()).'DataTable');
     }
 
     protected function getFormNamespace(Module $module): string
@@ -267,9 +269,6 @@ class AdminCrudMakeCommand extends Command
         return $this->getClassNamespace($module, 'Http\\Forms', "{$this->getModelName()}Form");
     }
 
-    /**
-     * @return string
-     */
     protected function getControllerNameWithoutNamespace(): string
     {
         return class_basename($this->getControllerName());
@@ -303,8 +302,6 @@ class AdminCrudMakeCommand extends Command
 
     /**
      * Get class name.
-     *
-     * @return string
      */
     protected function getClass(): string
     {
@@ -318,8 +315,6 @@ class AdminCrudMakeCommand extends Command
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
     protected function getArguments(): array
     {

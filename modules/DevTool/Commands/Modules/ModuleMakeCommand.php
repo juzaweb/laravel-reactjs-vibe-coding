@@ -3,8 +3,8 @@
 namespace Juzaweb\Modules\DevTool\Commands\Modules;
 
 use Illuminate\Console\Command;
-use Juzaweb\Modules\DevTool\Generators\ModuleGenerator;
 use Juzaweb\Modules\Core\Modules\Contracts\ActivatorInterface;
+use Juzaweb\Modules\DevTool\Generators\ModuleGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -42,7 +42,7 @@ class ModuleMakeCommand extends Command
                 ->setComponent($this->components)
                 ->setForce($this->option('force'))
                 ->setType($this->getModuleType())
-                ->setActive(!$this->option('disabled'))
+                ->setActive(! $this->option('disabled'))
                 ->generate();
 
             if ($code === E_ERROR) {

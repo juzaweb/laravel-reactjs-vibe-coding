@@ -3,9 +3,10 @@
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
- * @package    juzaweb/cms
  * @author     The Anh Dang
+ *
  * @link       https://cms.juzaweb.com
+ *
  * @license    GNU V2
  */
 
@@ -14,7 +15,6 @@ namespace Juzaweb\Modules\DevTool\Commands\Themes;
 use Illuminate\Console\Command;
 use Juzaweb\Modules\Core\Facades\Theme;
 use Symfony\Component\Console\Input\InputArgument;
-use function Juzaweb\Modules\Admin\Themes\Commands\set_website;
 
 class ThemeSeedCommand extends Command
 {
@@ -25,15 +25,17 @@ class ThemeSeedCommand extends Command
     public function handle(): int
     {
         $theme = Theme::find($this->argument('theme'));
-        if (!$theme) {
+        if (! $theme) {
             $this->error('Theme not found.');
+
             return Command::FAILURE;
         }
 
         $seederClass = "Juzaweb\\Themes\\{$theme->studlyName()}\\Database\\Seeders\\DatabaseSeeder";
 
-        if (!class_exists($seederClass)) {
+        if (! class_exists($seederClass)) {
             $this->error("Seeder not found for theme: {$theme->studlyName()}");
+
             return Command::FAILURE;
         }
 

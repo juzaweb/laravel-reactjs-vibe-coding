@@ -3,12 +3,12 @@
 namespace Juzaweb\Modules\DevTool\Commands\Modules\Databases;
 
 use Illuminate\Support\Str;
-use Juzaweb\Modules\DevTool\Commands\Modules\GeneratorCommand;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
 use Juzaweb\Modules\Core\Modules\Support\Migrations\NameParser;
 use Juzaweb\Modules\Core\Modules\Support\Migrations\SchemaParser;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
 use Juzaweb\Modules\Core\Modules\Traits\ModuleCommandTrait;
+use Juzaweb\Modules\DevTool\Commands\Modules\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -67,9 +67,9 @@ class MigrationMakeCommand extends GeneratorCommand
     }
 
     /**
-     * @throws \InvalidArgumentException
-     *
      * @return mixed
+     *
+     * @throws \InvalidArgumentException
      */
     protected function getTemplateContents()
     {
@@ -117,7 +117,7 @@ class MigrationMakeCommand extends GeneratorCommand
 
         $generatorPath = GenerateConfigReader::read('migration');
 
-        return $path . $generatorPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**
@@ -125,7 +125,7 @@ class MigrationMakeCommand extends GeneratorCommand
      */
     private function getFileName()
     {
-        return date('Y_m_d_His_') . $this->getSchemaName();
+        return date('Y_m_d_His_').$this->getSchemaName();
     }
 
     /**

@@ -38,8 +38,6 @@ use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasPassportPasswordGrant;
-
     use CausesActivity,
         HasAPI,
         HasApiTokens,
@@ -52,6 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
         HasUuids,
         Notifiable,
         QueryCacheable;
+    use HasPassportPasswordGrant;
 
     protected $table = 'users';
 

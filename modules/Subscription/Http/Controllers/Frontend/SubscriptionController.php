@@ -46,7 +46,7 @@ class SubscriptionController extends APIController
 
         try {
             $payment = DB::transaction(
-                fn() => Subscription::create($user, $billable, $module, $plan, $method, $request->all())
+                fn () => Subscription::create($user, $billable, $module, $plan, $method, $request->all())
             );
         } catch (SubscriptionException $e) {
             return $this->error(['message' => $e->getMessage()]);

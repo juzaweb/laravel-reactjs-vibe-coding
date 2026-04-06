@@ -1,0 +1,11 @@
+{
+    "name": "Subscription",
+    "alias": "subscription",
+    "description": "Subscription Payment for Juzaweb CMS",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Juzaweb\\Modules\\Subscription\\Providers\\SubscriptionServiceProvider"
+    ],
+    "files": []
+}

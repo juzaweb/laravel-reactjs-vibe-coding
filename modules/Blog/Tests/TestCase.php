@@ -57,7 +57,6 @@ abstract class TestCase extends Orchestra
     protected function getPackageAliases($app): array
     {
         return [
-            'Field' => Field::class,
             'Module' => Module::class,
             'Theme' => Theme::class,
             'Widget' => Widget::class,
@@ -65,7 +64,6 @@ abstract class TestCase extends Orchestra
             'PageTemplate' => PageTemplate::class,
             'PageBlock' => PageBlock::class,
             'Chart' => Chart::class,
-            'DataTables' => DataTables::class,
         ];
     }
 

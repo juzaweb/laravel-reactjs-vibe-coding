@@ -1,0 +1,12 @@
+{
+    "name": "Payment",
+    "alias": "payment",
+    "title": "Payment",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Juzaweb\\Modules\\Payment\\Providers\\PaymentServiceProvider"
+    ],
+    "files": []
+}

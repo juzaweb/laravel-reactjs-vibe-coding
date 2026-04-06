@@ -9,11 +9,11 @@ export const Sidebar: React.FC = () => {
   const { t } = useTranslation();
 
   const navItems = [
-    { name: t('dashboard'), path: '/', icon: FiHome },
-    { name: 'Media', path: '/media', icon: FiImage },
-    { name: t('analytics'), path: '/analytics', icon: FiBarChart2 },
-    { name: t('users'), path: '/users', icon: FiUsers },
-    { name: t('settings'), path: '/settings', icon: FiSettings },
+    { name: t('dashboard'), path: '/admin', icon: FiHome },
+    { name: 'Media', path: '/admin/media', icon: FiImage },
+    { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2 },
+    { name: t('users'), path: '/admin/users', icon: FiUsers },
+    { name: t('settings'), path: '/admin/settings', icon: FiSettings },
   ];
 
   return (

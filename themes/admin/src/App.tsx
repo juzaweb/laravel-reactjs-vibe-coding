@@ -4,6 +4,7 @@ import { useAppSelector } from './store/hooks'
 import { AdminLayout } from './components/layout/AdminLayout'
 import { AuthLayout } from './components/layout/AuthLayout'
 import { Dashboard } from './pages/Dashboard'
+import { MediaLibrary } from './pages/media/MediaLibrary'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -35,6 +36,7 @@ function App() {
 
         {/* Protected Routes (Admin) */}
         <Route path="/" element={<AdminLayout><Dashboard /></AdminLayout>} />
+        <Route path="/media" element={<AdminLayout><MediaLibrary /></AdminLayout>} />
 
         {/* Fallback for other routes */}
         <Route path="*" element={<AdminLayout><div className="p-8 text-center text-[var(--text-muted)]">Page not found or under construction.</div></AdminLayout>} />

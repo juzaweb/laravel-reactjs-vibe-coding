@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @OA\Schema(
  *     schema="PageResource",
+ *
  *     @OA\Property(property="id", type="string"),
  *     @OA\Property(property="title", type="string", example="About Us"),
  *     @OA\Property(property="slug", type="string", example="about-us"),

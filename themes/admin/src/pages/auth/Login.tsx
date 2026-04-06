@@ -3,21 +3,36 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import { useAppDispatch } from '../../store/hooks';
+import { loginUser } from '../../store/authSlice';
 
 export const Login: React.FC = () => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    // Simulate login
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    navigate('/');
+    try {
+      await dispatch(loginUser(data)).unwrap();
+      navigate('/');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setError('root', {
+        type: 'manual',
+        message: err?.message || err || 'Failed to login. Please try again.'
+      });
+    }
   };
 
   return (
     <div>
       <h2 className="text-2xl font-semibold text-[var(--text-main)] mb-6 text-center">Sign In</h2>
+
+      {errors.root && (
+        <div className="mb-4 p-3 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded border border-red-200 dark:border-red-800 text-sm">
+          {errors.root.message as string}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input

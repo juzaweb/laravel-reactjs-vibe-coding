@@ -85,7 +85,7 @@ axiosClient.interceptors.response.use(
 
       try {
         const baseURL = import.meta.env.VITE_API_BASE_URL || '/api';
-        const { data } = await axios.post(`${baseURL}/auth/refresh`, {}, {
+        const { data } = await axios.post(`${baseURL}/v1/auth/user/refresh-token`, {}, {
           withCredentials: true, // often needed for sending httpOnly refresh cookies
         });
 

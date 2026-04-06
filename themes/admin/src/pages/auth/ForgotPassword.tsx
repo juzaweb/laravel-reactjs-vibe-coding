@@ -3,16 +3,23 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import { useAppDispatch } from '../../store/hooks';
+import { forgotPassword } from '../../store/authSlice';
 
 export const ForgotPassword: React.FC = () => {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
   const [isSent, setIsSent] = useState(false);
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    // Simulate API request
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSent(true);
+    try {
+      await dispatch(forgotPassword(data)).unwrap();
+      setIsSent(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const errorMessage = err?.message || err || 'Failed to send reset link.';
+      setError('root', { type: 'manual', message: errorMessage });
+    }
   };
 
   if (isSent) {
@@ -37,6 +44,12 @@ export const ForgotPassword: React.FC = () => {
       <p className="text-[var(--text-muted)] text-sm mb-6 text-center">
         Enter your email address and we'll send you a link to reset your password.
       </p>
+
+      {errors.root && (
+        <div className="mb-4 p-3 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded border border-red-200 dark:border-red-800 text-sm">
+          {errors.root.message as string}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input

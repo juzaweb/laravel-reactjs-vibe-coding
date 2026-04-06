@@ -20,10 +20,13 @@ return new class extends Migration
             $table->string('locale', 10)->index();
             $table->string('status', 10)->index()->default('pending');
             $table->json('error')->nullable();
+            $table->string('new_model_id', 50)->nullable();
+            $table->string('new_model_type')->nullable();
             $table->datetimes();
 
             $table->unique(['translateable_type', 'translateable_id', 'locale'], 'translate_histories_locale_unique');
             $table->index(['translateable_type', 'translateable_id']);
+            $table->index(['new_model_type', 'new_model_id']);
         });
     }
 

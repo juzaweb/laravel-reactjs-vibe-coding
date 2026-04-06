@@ -101,7 +101,7 @@ class CoreServiceProvider extends ServiceProvider
 
         $this->registerServices();
 
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
 
         $this->registerTranslations();
         $this->registerViews();

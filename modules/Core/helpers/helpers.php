@@ -1045,8 +1045,6 @@ if (! function_exists('clean_html')) {
         $purifierConfig = HTMLPurifier_Config::createDefault();
         $purifierConfig->set('HTML.ForbiddenElements', 'script');
         $purifierConfig->set('Cache.DefinitionImpl', null);
-        $purifier = new HTMLPurifier($purifierConfig);
-
-        return $purifier->purify($html);
+        return (new HTMLPurifier($purifierConfig))->purify($html);
     }
 }

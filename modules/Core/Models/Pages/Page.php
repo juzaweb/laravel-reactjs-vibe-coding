@@ -48,7 +48,7 @@ class Page extends Model implements TranslatableContract
         'locale',
     ];
 
-    protected $translatedAttributeFormats = [
+    protected array $translatedAttributeFormats = [
         'content' => 'html',
     ];
 

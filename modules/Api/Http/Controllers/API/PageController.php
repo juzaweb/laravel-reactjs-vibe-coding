@@ -6,9 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Api\Http\Requests\PageRequest;
-use Juzaweb\Modules\Api\Http\Resources\PageResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
-use Juzaweb\Modules\Core\Enums\PageStatus;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use OpenApi\Annotations as OA;
 
@@ -19,9 +17,11 @@ class PageController extends APIController
      *      path="/api/v1/pages",
      *      tags={"Pages"},
      *      summary="Get list of pages",
+     *
      *      @OA\Parameter(ref="#/components/parameters/query_limit"),
      *      @OA\Parameter(ref="#/components/parameters/query_page"),
      *      @OA\Parameter(ref="#/components/parameters/query_keyword"),
+     *
      *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/success_paging")),
      * )
      */
@@ -29,27 +29,36 @@ class PageController extends APIController
     {
         $limit = $this->getLimitRequest();
         $keyword = $request->input('keyword');
+        $locale = $request->input('locale');
 
-        $query = Page::query()->withTranslation();
+        $query = Page::query()->withTranslation($locale);
 
         if ($keyword) {
-            $query->additionSearch($keyword);
+            $query->search($keyword);
         }
 
         $pages = $query->paginate($limit);
 
-        return $this->restSuccess(PageResource::collection($pages));
+        return $this->restSuccess($pages);
     }
+
     /**
      * @OA\Post(
      *      path="/api/v1/pages",
      *      tags={"Pages"},
      *      summary="Create a new page",
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
-     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))
+     *      ),
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
@@ -66,7 +75,7 @@ class PageController extends APIController
             return $page;
         });
 
-        return $this->restSuccess(new PageResource($page));
+        return $this->restSuccess($page);
     }
 
     /**
@@ -91,7 +100,7 @@ class PageController extends APIController
     {
         $page = Page::findOrFail($id);
 
-        return $this->restSuccess(new PageResource($page));
+        return $this->restSuccess($page);
     }
 
     /**
@@ -99,16 +108,21 @@ class PageController extends APIController
      *      path="/api/v1/pages/{id}",
      *      tags={"Pages"},
      *      summary="Update an existing page",
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))),
      *      @OA\Response(response=404, description="Page not found"),
      *      @OA\Response(response=422, description="Validation Error")
@@ -122,10 +136,11 @@ class PageController extends APIController
 
         $page = DB::transaction(function () use ($page, $request) {
             $page->update($request->validated());
+
             return $page;
         });
 
-        return $this->restSuccess(new PageResource($page));
+        return $this->restSuccess($page);
     }
 
     /**
@@ -133,12 +148,15 @@ class PageController extends APIController
      *      path="/api/v1/pages/{id}",
      *      tags={"Pages"},
      *      summary="Delete a page",
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/success_detail")),
      *      @OA\Response(response=404, description="Page not found")
      * )

@@ -26,7 +26,9 @@ class PageController extends APIController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PageResource")),
      *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
      *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
@@ -68,8 +70,10 @@ class PageController extends APIController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))
      *      ),
+     *
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
@@ -80,7 +84,7 @@ class PageController extends APIController
                 $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
                 $data = $request->validated();
 
-                $page = new Page();
+                $page = new Page;
                 $page->setDefaultLocale($locale);
                 $page->fill($data);
                 $page->save();
@@ -110,11 +114,14 @@ class PageController extends APIController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="data", ref="#/components/schemas/PageResource"),
      *              @OA\Property(property="success", type="boolean", example=true)
      *          )
      *      ),
+     *
      *      @OA\Response(response=404, description="Page not found")
      * )
      */
@@ -150,8 +157,10 @@ class PageController extends APIController
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
+     *
      *           @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))
      *       ),
+     *
      *      @OA\Response(response=404, description="Page not found"),
      *      @OA\Response(response=422, description="Validation Error")
      * )
@@ -191,11 +200,14 @@ class PageController extends APIController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Deleted successfully"),
      *
      *          )
      *      ),
+     *
      *      @OA\Response(response=404, description="Page not found")
      * )
      */

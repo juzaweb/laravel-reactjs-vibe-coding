@@ -232,6 +232,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="PaginationMeta",
  *     type="object",
+ *
  *     @OA\Property(property="total_pages", type="integer"),
  *     @OA\Property(property="limit", type="integer"),
  *     @OA\Property(property="total", type="integer"),
@@ -241,6 +242,7 @@ use OpenApi\Annotations as OA;
  * @OA\Schema(
  *     schema="PaginationLinks",
  *     type="object",
+ *
  *     @OA\Property(property="self", type="string"),
  *     @OA\Property(property="first", type="string"),
  *     @OA\Property(property="prev", type="string"),

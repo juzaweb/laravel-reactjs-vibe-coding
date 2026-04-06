@@ -7,6 +7,7 @@ use Juzaweb\Modules\Core\Application;
 use Juzaweb\Modules\Core\Http\Middleware\Authenticate;
 use Juzaweb\Modules\Core\Http\Middleware\Captcha;
 use Juzaweb\Modules\Core\Http\Middleware\EnsureEmailIsVerified;
+use Juzaweb\Modules\Core\Http\Middleware\ForceJsonResponse;
 use Juzaweb\Modules\Core\Http\Middleware\ForceSchemeUrl;
 use Juzaweb\Modules\Core\Http\Middleware\ValidateSignature;
 use Laravel\Passport\Http\Middleware\CheckTokenForAnyScope;
@@ -17,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
             $middleware->redirectGuestsTo(
                 fn (Request $request) => route('login', ['redirect' => $request->fullUrl()])
             );
+
+            $middleware->appendToGroup('api', ForceJsonResponse::class);
 
             $middleware->alias([
                 'auth' => Authenticate::class,

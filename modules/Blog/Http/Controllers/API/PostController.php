@@ -1,12 +1,12 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers\API;
+namespace Juzaweb\Modules\Blog\Http\Controllers\API;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Modules\Api\Http\Requests\PostRequest;
-use Juzaweb\Modules\Api\Http\Resources\PostResource;
+use Juzaweb\Modules\Blog\Http\Requests\PostRequest;
+use Juzaweb\Modules\Blog\Http\Resources\PostResource;
 use Juzaweb\Modules\Blog\Models\Post;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use OpenApi\Annotations as OA;
@@ -41,8 +41,9 @@ class PostController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
+        $locale = $request->input('locale');
 
-        $query = Post::query();
+        $query = Post::query()->withTranslation($locale);
 
         $query->api($request->all());
 
@@ -78,8 +79,11 @@ class PostController extends APIController
     {
         $post = DB::transaction(
             function () use ($request) {
+                $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
                 $data = $request->validated();
+
                 $post = new Post;
+                $post->setDefaultLocale($locale);
                 $post->fill($data);
                 $post->save();
 
@@ -121,7 +125,8 @@ class PostController extends APIController
      */
     public function show(Request $request, string $id): JsonResponse
     {
-        $post = Post::findOrFail($id);
+        $locale = $request->input('locale');
+        $post = Post::withTranslation($locale)->findOrFail($id);
 
         return $this->restSuccess(new PostResource($post));
     }
@@ -161,6 +166,8 @@ class PostController extends APIController
     public function update(PostRequest $request, string $id): JsonResponse
     {
         $post = Post::findOrFail($id);
+        $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
+        $post->setDefaultLocale($locale);
 
         $post = DB::transaction(
             function () use ($post, $request) {

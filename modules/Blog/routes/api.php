@@ -10,3 +10,9 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+use Juzaweb\Modules\Blog\Http\Controllers\API\PostController;
+
+Route::middleware('auth:api')->group(function () {
+    Route::apiResource('posts', PostController::class);
+});

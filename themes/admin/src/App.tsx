@@ -33,6 +33,7 @@ function App() {
         <Route path="/forgot-password" element={<AuthLayout><ForgotPassword /></AuthLayout>} />
         <Route path="/reset-password" element={<AuthLayout><ResetPassword /></AuthLayout>} />
         <Route path="/verify-email" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
+        <Route path="/verify-email/:id/:hash" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
 
         {/* Protected Routes (Admin) */}
         <Route path="/" element={<AdminLayout><Dashboard /></AdminLayout>} />

@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async (credentials: Record<string, any>, { rejectWithValue }) => {
     try {
-      const response = await axiosClient.post('/auth/login', credentials);
+      const response = await axiosClient.post('/v1/auth/user/login', credentials);
       return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

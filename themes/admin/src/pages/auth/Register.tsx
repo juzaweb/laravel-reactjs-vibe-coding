@@ -3,23 +3,34 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import axiosClient from '../../utils/axiosClient';
 
 export const Register: React.FC = () => {
-  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm();
+  const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
 
   const password = watch('password');
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    // Simulate registration
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    navigate('/login');
+    try {
+      await axiosClient.post('/v1/auth/user/register', data);
+      navigate('/login');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || 'Registration failed.';
+      setError('root', { type: 'manual', message: errorMessage });
+    }
   };
 
   return (
     <div>
       <h2 className="text-2xl font-semibold text-[var(--text-main)] mb-6 text-center">Create an Account</h2>
+
+      {errors.root && (
+        <div className="mb-4 p-3 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded border border-red-200 dark:border-red-800 text-sm">
+          {errors.root.message as string}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <Input

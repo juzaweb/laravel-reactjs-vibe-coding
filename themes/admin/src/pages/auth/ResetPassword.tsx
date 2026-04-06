@@ -3,13 +3,14 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
+import axiosClient from '../../utils/axiosClient';
 
 export const ResetPassword: React.FC = () => {
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const email = searchParams.get('email');
 
-  const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm({
     defaultValues: {
       email: email || '',
       token: token || '',
@@ -22,10 +23,15 @@ export const ResetPassword: React.FC = () => {
   const password = watch('password');
 
   const onSubmit = async (data: Record<string, unknown>) => {
-    // Simulate reset request
-    console.log(data);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    navigate('/login?reset=success');
+    try {
+      const resetToken = data.token || token;
+      await axiosClient.post(`/v1/auth/user/reset-password/${resetToken}`, data);
+      navigate('/login?reset=success');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.message || err.message || 'Failed to reset password.';
+      setError('root', { type: 'manual', message: errorMessage });
+    }
   };
 
   return (
@@ -34,6 +40,12 @@ export const ResetPassword: React.FC = () => {
       <p className="text-[var(--text-muted)] text-sm mb-6 text-center">
         Please enter your new password below.
       </p>
+
+      {errors.root && (
+        <div className="mb-4 p-3 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded border border-red-200 dark:border-red-800 text-sm">
+          {errors.root.message as string}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Hidden fields for token and email if we wanted them submitted with the form */}

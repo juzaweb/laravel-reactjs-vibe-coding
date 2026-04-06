@@ -1,34 +1,59 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
+import { Input } from '../../components/ui/Input';
 import { FiCheckCircle, FiXCircle, FiLoader } from 'react-icons/fi';
+import axiosClient from '../../utils/axiosClient';
 
 export const VerifyEmail: React.FC = () => {
-  const [searchParams] = useSearchParams();
-  const token = searchParams.get('token');
+  const { id, hash } = useParams<{ id: string, hash: string }>();
 
-  const [status, setStatus] = useState<'loading' | 'success' | 'error'>(!token ? 'loading' : 'loading');
+  const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'idle'>(!id || !hash ? 'idle' : 'loading');
+  const [resendEmail, setResendEmail] = useState('');
+  const [isResending, setIsResending] = useState(false);
+  const [resendSuccess, setResendSuccess] = useState(false);
+  const [resendError, setResendError] = useState('');
 
   useEffect(() => {
-    if (!token) {
+    if (!id || !hash) {
+      setStatus('idle');
       return;
     }
 
     const verify = async () => {
       try {
-        // Simulate API verification
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        // Randomly succeed or fail for demo purposes if token exists
-        setStatus(token === 'invalid' ? 'error' : 'success');
+        await axiosClient.post(`/v1/auth/user/email/verify/${id}/${hash}`);
+        setStatus('success');
       } catch {
         setStatus('error');
       }
     };
 
     verify();
-  }, [token]);
+  }, [id, hash]);
 
-  if (!token) {
+  const handleResend = async () => {
+    if (!resendEmail) {
+      setResendError('Please enter your email address.');
+      return;
+    }
+
+    setIsResending(true);
+    setResendError('');
+    setResendSuccess(false);
+
+    try {
+      await axiosClient.post('/v1/auth/user/resend-verification-email', { email: resendEmail });
+      setResendSuccess(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      setResendError(err.response?.data?.message || err.message || 'Failed to resend verification email.');
+    } finally {
+      setIsResending(false);
+    }
+  };
+
+  if (status === 'idle') {
     return (
       <div className="text-center">
         <div className="mb-4 flex justify-center">
@@ -42,10 +67,41 @@ export const VerifyEmail: React.FC = () => {
         <p className="text-[var(--text-muted)] mb-6">
           We've sent an email to your address with a link to verify your account. Please check your inbox.
         </p>
-        <div className="space-y-3">
-          <Button variant="outline" className="w-full">
-            Resend verification email
+
+        <div className="space-y-4">
+          <p className="text-sm font-medium text-left text-[var(--text-main)]">Didn't receive the email? Resend it below.</p>
+
+          {resendSuccess && (
+            <div className="p-3 bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded border border-green-200 dark:border-green-800 text-sm text-left">
+              Verification link sent!
+            </div>
+          )}
+
+          {resendError && (
+            <div className="p-3 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded border border-red-200 dark:border-red-800 text-sm text-left">
+              {resendError}
+            </div>
+          )}
+
+          <div className="text-left">
+            <Input
+              type="email"
+              placeholder="Enter your email"
+              value={resendEmail}
+              onChange={(e) => setResendEmail(e.target.value)}
+              disabled={isResending}
+            />
+          </div>
+
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={handleResend}
+            disabled={isResending}
+          >
+            {isResending ? 'Sending...' : 'Resend verification email'}
           </Button>
+
           <div className="text-sm mt-4">
             <Link to="/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
               Back to login
@@ -86,9 +142,11 @@ export const VerifyEmail: React.FC = () => {
           <p className="text-[var(--text-muted)] mb-6">
             The verification link is invalid or has expired. Please request a new verification email.
           </p>
-          <Button variant="primary" className="w-full mb-3">
-            Resend Verification Link
-          </Button>
+          <Link to="/verify-email" className="w-full mb-3">
+            <Button variant="primary" className="w-full">
+              Go to Resend Verification
+            </Button>
+          </Link>
           <Link to="/login" className="font-medium text-sm text-[var(--text-muted)] hover:text-[var(--text-main)]">
             Back to login
           </Link>

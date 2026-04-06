@@ -4,6 +4,8 @@ namespace Juzaweb\Modules\Core\Tests;
 
 use Illuminate\Foundation\Application;
 use Juzaweb\Hooks\HooksServiceProvider;
+use Juzaweb\Modules\Api\Providers\ApiServiceProvider;
+use Juzaweb\Modules\Api\Providers\RouteServiceProvider;
 use Juzaweb\Modules\Core\Contracts\ThemeSetting;
 use Juzaweb\Modules\Core\Facades\Chart;
 use Juzaweb\Modules\Core\Facades\Field;
@@ -17,6 +19,7 @@ use Juzaweb\Modules\Core\Facades\Widget;
 use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Permissions\PermissionServiceProvider;
 use Juzaweb\Modules\Core\Providers\CoreServiceProvider;
+use Juzaweb\Modules\Core\Themes\Activators\SettingActivator;
 use Juzaweb\Modules\Core\Translations\TranslationsServiceProvider;
 use Juzaweb\QueryCache\QueryCacheServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -108,6 +111,8 @@ abstract class TestCase extends Orchestra
             ChunkUploadServiceProvider::class,
             DataTablesServiceProvider::class,
             HtmlServiceProvider::class,
+            ApiServiceProvider::class,
+            RouteServiceProvider::class,
         ];
     }
 
@@ -140,6 +145,9 @@ abstract class TestCase extends Orchestra
     protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('themes.path', __DIR__.'/themes');
+
+        $app['config']->set('themes.activator', 'setting');
+        $app['config']->set('themes.activators.setting.class', SettingActivator::class);
 
         // Use MySQL if DB_CONNECTION is set (e.g., in CI), otherwise use SQLite
         $connection = env('DB_CONNECTION', 'sqlite');

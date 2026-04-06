@@ -6,7 +6,6 @@ use Illuminate\Foundation\Application;
 use Juzaweb\Hooks\HooksServiceProvider;
 use Juzaweb\Modules\Blog\Providers\BlogServiceProvider;
 use Juzaweb\Modules\Core\Facades\Chart;
-use Juzaweb\Modules\Core\Facades\Field;
 use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\PageBlock;
 use Juzaweb\Modules\Core\Facades\PageTemplate;
@@ -20,7 +19,6 @@ use Juzaweb\QueryCache\QueryCacheServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Pion\Laravel\ChunkUpload\Providers\ChunkUploadServiceProvider;
 use Spatie\Activitylog\ActivitylogServiceProvider;
-use Yajra\DataTables\Facades\DataTables;
 
 abstract class TestCase extends Orchestra
 {

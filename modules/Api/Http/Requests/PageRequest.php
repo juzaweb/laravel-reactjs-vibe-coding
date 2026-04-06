@@ -17,7 +17,23 @@ use Illuminate\Validation\Rule;
 use Juzaweb\Modules\Core\Enums\PageStatus;
 use Juzaweb\Modules\Core\Facades\PageTemplate;
 use Juzaweb\Modules\Core\Translations\Models\Language;
+use OpenApi\Annotations as OA;
 
+
+/**
+ * @OA\Schema(
+ *      schema="PageRequest",
+ *      type="object",
+ *      required={"title", "locale", "status"},
+ *      @OA\Property(property="locale", type="string", example="en"),
+ *      @OA\Property(property="status", type="string", example="published"),
+ *      @OA\Property(property="title", type="string", example="Page Title"),
+ *      @OA\Property(property="slug", type="string", example="page-slug"),
+ *      @OA\Property(property="content", type="string", example="Page content"),
+ *      @OA\Property(property="template", type="string", example="default"),
+ *      @OA\Property(property="thumbnail", type="string", example="")
+ * )
+ */
 class PageRequest extends FormRequest
 {
     protected function prepareForValidation(): void

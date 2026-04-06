@@ -3,19 +3,21 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
-import axiosClient from '../../utils/axiosClient';
+import { useAppDispatch } from '../../store/hooks';
+import { forgotPassword } from '../../store/authSlice';
 
 export const ForgotPassword: React.FC = () => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
   const [isSent, setIsSent] = useState(false);
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (data: Record<string, unknown>) => {
     try {
-      await axiosClient.post('/v1/auth/user/forgot-password', data);
+      await dispatch(forgotPassword(data)).unwrap();
       setIsSent(true);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to send reset link.';
+      const errorMessage = err?.message || err || 'Failed to send reset link.';
       setError('root', { type: 'manual', message: errorMessage });
     }
   };

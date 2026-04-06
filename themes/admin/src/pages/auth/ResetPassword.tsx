@@ -3,7 +3,8 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
-import axiosClient from '../../utils/axiosClient';
+import { useAppDispatch } from '../../store/hooks';
+import { resetPassword } from '../../store/authSlice';
 
 export const ResetPassword: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -19,17 +20,18 @@ export const ResetPassword: React.FC = () => {
     }
   });
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const password = watch('password');
 
   const onSubmit = async (data: Record<string, unknown>) => {
     try {
       const resetToken = data.token || token;
-      await axiosClient.post(`/v1/auth/user/reset-password/${resetToken}`, data);
+      await dispatch(resetPassword({ ...data, token: resetToken })).unwrap();
       navigate('/login?reset=success');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Failed to reset password.';
+      const errorMessage = err?.message || err || 'Failed to reset password.';
       setError('root', { type: 'manual', message: errorMessage });
     }
   };

@@ -3,16 +3,18 @@ import { Link, useParams } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { FiCheckCircle, FiXCircle, FiLoader } from 'react-icons/fi';
-import axiosClient from '../../utils/axiosClient';
+import { useAppDispatch } from '../../store/hooks';
+import { verifyEmail, resendVerificationEmail } from '../../store/authSlice';
 
 export const VerifyEmail: React.FC = () => {
   const { id, hash } = useParams<{ id: string, hash: string }>();
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'idle'>(!id || !hash ? 'idle' : 'loading');
-  const [resendEmail, setResendEmail] = useState('');
+  const [resendEmailState, setResendEmailState] = useState('');
   const [isResending, setIsResending] = useState(false);
   const [resendSuccess, setResendSuccess] = useState(false);
-  const [resendError, setResendError] = useState('');
+  const [resendErrorState, setResendErrorState] = useState('');
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!id || !hash) {
@@ -22,7 +24,7 @@ export const VerifyEmail: React.FC = () => {
 
     const verify = async () => {
       try {
-        await axiosClient.post(`/v1/auth/user/email/verify/${id}/${hash}`);
+        await dispatch(verifyEmail({ id, hash })).unwrap();
         setStatus('success');
       } catch {
         setStatus('error');
@@ -30,24 +32,24 @@ export const VerifyEmail: React.FC = () => {
     };
 
     verify();
-  }, [id, hash]);
+  }, [id, hash, dispatch]);
 
   const handleResend = async () => {
-    if (!resendEmail) {
-      setResendError('Please enter your email address.');
+    if (!resendEmailState) {
+      setResendErrorState('Please enter your email address.');
       return;
     }
 
     setIsResending(true);
-    setResendError('');
+    setResendErrorState('');
     setResendSuccess(false);
 
     try {
-      await axiosClient.post('/v1/auth/user/resend-verification-email', { email: resendEmail });
+      await dispatch(resendVerificationEmail({ email: resendEmailState })).unwrap();
       setResendSuccess(true);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      setResendError(err.response?.data?.message || err.message || 'Failed to resend verification email.');
+      setResendErrorState(err?.message || err || 'Failed to resend verification email.');
     } finally {
       setIsResending(false);
     }
@@ -77,9 +79,9 @@ export const VerifyEmail: React.FC = () => {
             </div>
           )}
 
-          {resendError && (
+          {resendErrorState && (
             <div className="p-3 bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400 rounded border border-red-200 dark:border-red-800 text-sm text-left">
-              {resendError}
+              {resendErrorState}
             </div>
           )}
 
@@ -87,8 +89,8 @@ export const VerifyEmail: React.FC = () => {
             <Input
               type="email"
               placeholder="Enter your email"
-              value={resendEmail}
-              onChange={(e) => setResendEmail(e.target.value)}
+              value={resendEmailState}
+              onChange={(e) => setResendEmailState(e.target.value)}
               disabled={isResending}
             />
           </div>

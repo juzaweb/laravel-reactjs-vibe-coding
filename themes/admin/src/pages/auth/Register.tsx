@@ -3,21 +3,23 @@ import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
-import axiosClient from '../../utils/axiosClient';
+import { useAppDispatch } from '../../store/hooks';
+import { registerUser } from '../../store/authSlice';
 
 export const Register: React.FC = () => {
   const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const password = watch('password');
 
   const onSubmit = async (data: Record<string, unknown>) => {
     try {
-      await axiosClient.post('/v1/auth/user/register', data);
+      await dispatch(registerUser(data)).unwrap();
       navigate('/login');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      const errorMessage = err.response?.data?.message || err.message || 'Registration failed.';
+      const errorMessage = err?.message || err || 'Registration failed.';
       setError('root', { type: 'manual', message: errorMessage });
     }
   };

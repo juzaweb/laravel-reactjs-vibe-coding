@@ -51,6 +51,91 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const registerUser = createAsyncThunk(
+  'auth/registerUser',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (data: Record<string, any>, { rejectWithValue }) => {
+    try {
+      const response = await axiosClient.post('/v1/auth/user/register', data);
+      return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const forgotPassword = createAsyncThunk(
+  'auth/forgotPassword',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (data: Record<string, any>, { rejectWithValue }) => {
+    try {
+      const response = await axiosClient.post('/v1/auth/user/forgot-password', data);
+      return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (data: Record<string, any>, { rejectWithValue }) => {
+    try {
+      const response = await axiosClient.post(`/v1/auth/user/reset-password/${data.token}`, data);
+      return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const verifyEmail = createAsyncThunk(
+  'auth/verifyEmail',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (data: Record<string, any>, { rejectWithValue }) => {
+    try {
+      const response = await axiosClient.post(`/v1/auth/user/email/verify/${data.id}/${data.hash}`);
+      return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const resendVerificationEmail = createAsyncThunk(
+  'auth/resendVerificationEmail',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (data: Record<string, any>, { rejectWithValue }) => {
+    try {
+      const response = await axiosClient.post('/v1/auth/user/resend-verification-email', data);
+      return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Slice
 const authSlice = createSlice({
   name: 'auth',

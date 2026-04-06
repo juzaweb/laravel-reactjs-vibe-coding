@@ -49,7 +49,7 @@ class PageController extends APIController
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
-     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/PageResource")),
+     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))),
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
@@ -71,25 +71,25 @@ class PageController extends APIController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/pages/{slug}",
+     *      path="/api/v1/pages/{id}",
      *      tags={"Pages"},
-     *      summary="Get page details by slug",
+     *      summary="Get page details by id",
      *
      *      @OA\Parameter(
-     *          name="slug",
+     *          name="id",
      *          in="path",
      *          required=true,
      *
      *          @OA\Schema(type="string")
      *      ),
      *
-     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/PageResource")),
+     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))),
      *      @OA\Response(response=404, description="Page not found")
      * )
      */
-    public function show(string $slug): JsonResponse
+    public function show(string $id): JsonResponse
     {
-        $page = Page::whereTranslation('slug', $slug)->firstOrFail();
+        $page = Page::findOrFail($id);
 
         return $this->restSuccess(new PageResource($page));
     }
@@ -109,7 +109,7 @@ class PageController extends APIController
      *          required=true,
      *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
-     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/PageResource")),
+     *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))),
      *      @OA\Response(response=404, description="Page not found"),
      *      @OA\Response(response=422, description="Validation Error")
      * )

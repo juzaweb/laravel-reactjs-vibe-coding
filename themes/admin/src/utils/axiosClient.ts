@@ -89,7 +89,12 @@ axiosClient.interceptors.response.use(
           withCredentials: true, // often needed for sending httpOnly refresh cookies
         });
 
-        const newAccessToken = data.accessToken || data.access_token || data.token;
+        const newAccessToken =
+          data.data?.token?.access_token ||
+          data.data?.token?.token ||
+          data.accessToken ||
+          data.access_token ||
+          data.token;
 
         if (store && newAccessToken) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,7 +103,7 @@ axiosClient.interceptors.response.use(
             type: 'auth/setCredentials',
             payload: {
               accessToken: newAccessToken,
-              user: state.auth?.user || data.user || null,
+              user: state.auth?.user || data.data?.user || data.user || null,
             }
           });
         }

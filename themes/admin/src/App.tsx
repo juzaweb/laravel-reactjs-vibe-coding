@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAppSelector } from './store/hooks'
 import { AdminLayout } from './components/layout/AdminLayout'
 import { AuthLayout } from './components/layout/AuthLayout'
@@ -10,6 +10,7 @@ import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
 import { ResetPassword } from './pages/auth/ResetPassword'
 import { VerifyEmail } from './pages/auth/VerifyEmail'
+import { ProtectedRoute } from './components/layout/ProtectedRoute'
 
 function App() {
   const { theme } = useAppSelector((state) => state.ui)
@@ -36,11 +37,14 @@ function App() {
         <Route path="/verify-email/:id/:hash" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
 
         {/* Protected Routes (Admin) */}
-        <Route path="/" element={<AdminLayout><Dashboard /></AdminLayout>} />
-        <Route path="/media" element={<AdminLayout><MediaLibrary /></AdminLayout>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />
+        <Route path="/admin/media" element={<ProtectedRoute><AdminLayout><MediaLibrary /></AdminLayout></ProtectedRoute>} />
+
+        {/* Root Redirect */}
+        <Route path="/" element={<Navigate to="/admin" replace />} />
 
         {/* Fallback for other routes */}
-        <Route path="*" element={<AdminLayout><div className="p-8 text-center text-[var(--text-muted)]">Page not found or under construction.</div></AdminLayout>} />
+        <Route path="*" element={<ProtectedRoute><AdminLayout><div className="p-8 text-center text-[var(--text-muted)]">Page not found or under construction.</div></AdminLayout></ProtectedRoute>} />
       </Routes>
     </BrowserRouter>
   )

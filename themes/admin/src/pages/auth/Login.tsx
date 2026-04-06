@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { useAppDispatch } from '../../store/hooks';
@@ -9,12 +9,16 @@ import { loginUser } from '../../store/authSlice';
 export const Login: React.FC = () => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useAppDispatch();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const from = (location.state as any)?.from?.pathname || '/admin';
 
   const onSubmit = async (data: Record<string, unknown>) => {
     try {
       await dispatch(loginUser(data)).unwrap();
-      navigate('/');
+      navigate(from, { replace: true });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError('root', {

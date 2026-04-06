@@ -40,14 +40,9 @@ class PageController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
-        $keyword = $request->input('keyword');
         $locale = $request->input('locale');
 
-        $query = Page::query()->withTranslation($locale);
-
-        if ($keyword) {
-            $query->search($keyword);
-        }
+        $query = Page::query()->withTranslation($locale)->api($request->all());
 
         $pages = $query->paginate($limit);
 

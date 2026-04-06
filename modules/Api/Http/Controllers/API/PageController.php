@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Api\Http\Requests\PageRequest;
 use Juzaweb\Modules\Api\Http\Resources\PageResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
+use Juzaweb\Modules\Core\Enums\PageStatus;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use OpenApi\Annotations as OA;
 
@@ -46,16 +47,7 @@ class PageController extends APIController
      *      summary="Create a new page",
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(
-     *              required={"title", "locale", "status"},
-     *              @OA\Property(property="locale", type="string", example="en"),
-     *              @OA\Property(property="status", type="string", example="published"),
-     *              @OA\Property(property="title", type="string", example="New Page"),
-     *              @OA\Property(property="slug", type="string", example="new-page"),
-     *              @OA\Property(property="content", type="string", example="Page content"),
-     *              @OA\Property(property="template", type="string", example="default"),
-     *              @OA\Property(property="thumbnail", type="string", example="")
-     *          )
+     *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
      *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/PageResource")),
      *      @OA\Response(response=422, description="Validation Error")
@@ -115,16 +107,7 @@ class PageController extends APIController
      *      ),
      *      @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(
-     *              required={"title", "locale", "status"},
-     *              @OA\Property(property="locale", type="string", example="en"),
-     *              @OA\Property(property="status", type="string", example="published"),
-     *              @OA\Property(property="title", type="string", example="Updated Page"),
-     *              @OA\Property(property="slug", type="string", example="updated-page"),
-     *              @OA\Property(property="content", type="string", example="Updated content"),
-     *              @OA\Property(property="template", type="string", example="default"),
-     *              @OA\Property(property="thumbnail", type="string", example="")
-     *          )
+     *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
      *      @OA\Response(response=200, description="Successful operation", @OA\JsonContent(ref="#/components/schemas/PageResource")),
      *      @OA\Response(response=404, description="Page not found"),

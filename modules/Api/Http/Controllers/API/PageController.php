@@ -73,16 +73,19 @@ class PageController extends APIController
      */
     public function store(PageRequest $request): JsonResponse
     {
-        $page = DB::transaction(function () use ($request) {
-            $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
-            $data = $request->validated();
+        $page = DB::transaction(
+            function () use ($request) {
+                $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
+                $data = $request->validated();
 
-            $page = new Page($data);
-            $page->setDefaultLocale($locale);
-            $page->save();
+                $page = new Page();
+                $page->setDefaultLocale($locale);
+                $page->fill($data);
+                $page->save();
 
-            return $page;
-        });
+                return $page;
+            }
+        );
 
         return $this->restSuccess($page);
     }
@@ -112,9 +115,10 @@ class PageController extends APIController
      *      @OA\Response(response=404, description="Page not found")
      * )
      */
-    public function show(string $id): JsonResponse
+    public function show(Request $request, string $id): JsonResponse
     {
-        $page = Page::findOrFail($id);
+        $locale = $request->input('locale');
+        $page = Page::withTranslation($locale)->findOrFail($id);
 
         return $this->restSuccess($page);
     }
@@ -154,11 +158,13 @@ class PageController extends APIController
         $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
         $page->setDefaultLocale($locale);
 
-        $page = DB::transaction(function () use ($page, $request) {
-            $page->update($request->validated());
+        $page = DB::transaction(
+            function () use ($page, $request) {
+                $page->update($request->validated());
 
-            return $page;
-        });
+                return $page;
+            }
+        );
 
         return $this->restSuccess($page);
     }

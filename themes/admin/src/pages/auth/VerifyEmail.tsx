@@ -105,7 +105,7 @@ export const VerifyEmail: React.FC = () => {
           </Button>
 
           <div className="text-sm mt-4">
-            <Link to="/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
+            <Link to="/auth/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
               Back to login
             </Link>
           </div>
@@ -131,7 +131,7 @@ export const VerifyEmail: React.FC = () => {
           <p className="text-[var(--text-muted)] mb-6">
             Your email address has been successfully verified. You can now access all features.
           </p>
-          <Link to="/login" className="w-full">
+          <Link to="/auth/login" className="w-full">
             <Button className="w-full">Continue to Login</Button>
           </Link>
         </div>
@@ -144,12 +144,12 @@ export const VerifyEmail: React.FC = () => {
           <p className="text-[var(--text-muted)] mb-6">
             The verification link is invalid or has expired. Please request a new verification email.
           </p>
-          <Link to="/verify-email" className="w-full mb-3">
+          <Link to="/auth/verify-email" className="w-full mb-3">
             <Button variant="primary" className="w-full">
               Go to Resend Verification
             </Button>
           </Link>
-          <Link to="/login" className="font-medium text-sm text-[var(--text-muted)] hover:text-[var(--text-main)]">
+          <Link to="/auth/login" className="font-medium text-sm text-[var(--text-muted)] hover:text-[var(--text-main)]">
             Back to login
           </Link>
         </div>

@@ -29,12 +29,12 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Auth Routes */}
-        <Route path="/login" element={<AuthLayout><Login /></AuthLayout>} />
-        <Route path="/register" element={<AuthLayout><Register /></AuthLayout>} />
-        <Route path="/forgot-password" element={<AuthLayout><ForgotPassword /></AuthLayout>} />
-        <Route path="/reset-password" element={<AuthLayout><ResetPassword /></AuthLayout>} />
-        <Route path="/verify-email" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
-        <Route path="/verify-email/:id/:hash" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
+        <Route path="/auth/login" element={<AuthLayout><Login /></AuthLayout>} />
+        <Route path="/auth/register" element={<AuthLayout><Register /></AuthLayout>} />
+        <Route path="/auth/forgot-password" element={<AuthLayout><ForgotPassword /></AuthLayout>} />
+        <Route path="/auth/reset-password" element={<AuthLayout><ResetPassword /></AuthLayout>} />
+        <Route path="/auth/verify-email" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
+        <Route path="/auth/verify-email/:id/:hash" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
 
         {/* Protected Routes (Admin) */}
         <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />

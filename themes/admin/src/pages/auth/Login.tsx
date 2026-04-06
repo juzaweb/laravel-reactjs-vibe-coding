@@ -56,7 +56,7 @@ export const Login: React.FC = () => {
             error={errors.password?.message as string}
           />
           <div className="flex justify-end mt-1">
-            <Link to="/forgot-password" className="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+            <Link to="/auth/forgot-password" className="text-sm text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
               Forgot password?
             </Link>
           </div>
@@ -85,7 +85,7 @@ export const Login: React.FC = () => {
 
       <div className="mt-6 text-center text-sm text-[var(--text-muted)]">
         Don't have an account?{' '}
-        <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+        <Link to="/auth/register" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
           Create one
         </Link>
       </div>

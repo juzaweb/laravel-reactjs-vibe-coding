@@ -120,7 +120,7 @@ axiosClient.interceptors.response.use(
         }
 
         // Force redirect to login screen
-        window.location.href = '/login';
+        window.location.href = '/auth/login';
 
         return Promise.reject(err);
       }

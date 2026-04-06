@@ -29,7 +29,7 @@ export const ForgotPassword: React.FC = () => {
         <p className="text-[var(--text-muted)] mb-6">
           We have sent a password reset link to your email address.
         </p>
-        <Link to="/login">
+        <Link to="/auth/login">
           <Button variant="outline" className="w-full">
             Back to login
           </Button>
@@ -76,7 +76,7 @@ export const ForgotPassword: React.FC = () => {
       </form>
 
       <div className="mt-6 text-center text-sm">
-        <Link to="/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
+        <Link to="/auth/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
           &larr; Back to login
         </Link>
       </div>

@@ -15,7 +15,8 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
   onToggleSelect,
   onItemClick,
 }) => {
-  const getIconForType = (type: string) => {
+  const getIconForType = (type: string, is_directory: boolean) => {
+    if (is_directory) return <FiFileText className="w-12 h-12 text-[var(--text-muted)]" />;
     switch (type) {
       case 'video': return <FiVideo className="w-12 h-12 text-[var(--text-muted)]" />;
       case 'document': return <FiFileText className="w-12 h-12 text-[var(--text-muted)]" />;
@@ -36,7 +37,8 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
       {items.map((item) => {
-        const isSelected = selectedIds.has(item.id);
+        const isSelected = selectedIds.has(item.id.toString());
+        const thumbnailUrl = item.is_image ? item.url : null;
 
         return (
           <div
@@ -49,7 +51,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
             onClick={(e) => {
               // If holding shift or cmd/ctrl, toggle selection
               if (e.shiftKey || e.metaKey || e.ctrlKey) {
-                onToggleSelect(item.id, true);
+                onToggleSelect(item.id.toString(), true);
               } else {
                 onItemClick(item);
               }
@@ -62,7 +64,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
               }`}
               onClick={(e) => {
                 e.stopPropagation();
-                onToggleSelect(item.id, true);
+                onToggleSelect(item.id.toString(), true);
               }}
             >
               {isSelected && <FiCheck className="text-blue-500 w-4 h-4" />}
@@ -70,15 +72,15 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
 
             {/* Thumbnail */}
             <div className="w-full h-full flex items-center justify-center bg-gray-100 dark:bg-slate-800">
-              {item.type === 'image' && item.thumbnailUrl ? (
+              {thumbnailUrl ? (
                 <img
-                  src={item.thumbnailUrl}
+                  src={thumbnailUrl}
                   alt={item.name}
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />
               ) : (
-                getIconForType(item.type)
+                getIconForType(item.type, item.is_directory)
               )}
             </div>
 

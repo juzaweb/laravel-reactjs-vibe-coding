@@ -36,7 +36,7 @@ export const MediaSidebar: React.FC<MediaSidebarProps> = ({ item, onClose, onDel
 
         {/* Preview */}
         <div className="bg-gray-100 dark:bg-slate-800 rounded-lg overflow-hidden flex items-center justify-center min-h-[160px] border border-[var(--border-color)]">
-          {item.type === 'image' && item.url !== '#' ? (
+          {item.is_image && item.url ? (
             <img src={item.url} alt={item.name} className="max-w-full max-h-[200px] object-contain" />
           ) : (
             <div className="text-[var(--text-muted)] p-8 text-center">
@@ -54,17 +54,17 @@ export const MediaSidebar: React.FC<MediaSidebarProps> = ({ item, onClose, onDel
 
           <div>
             <span className="block text-[var(--text-muted)] text-xs uppercase tracking-wider mb-1">File type</span>
-            <span className="text-[var(--text-main)]">{item.mimeType}</span>
+            <span className="text-[var(--text-main)]">{item.mime_type || item.type}</span>
           </div>
 
           <div>
             <span className="block text-[var(--text-muted)] text-xs uppercase tracking-wider mb-1">Uploaded on</span>
-            <span className="text-[var(--text-main)]">{formatDate(item.createdAt)}</span>
+            <span className="text-[var(--text-main)]">{item.created_at ? formatDate(item.created_at) : 'N/A'}</span>
           </div>
 
           <div>
             <span className="block text-[var(--text-muted)] text-xs uppercase tracking-wider mb-1">File size</span>
-            <span className="text-[var(--text-main)]">{formatBytes(item.size)}</span>
+            <span className="text-[var(--text-main)]">{item.readable_size || formatBytes(item.size)}</span>
           </div>
 
           {item.dimensions && (
@@ -93,7 +93,7 @@ export const MediaSidebar: React.FC<MediaSidebarProps> = ({ item, onClose, onDel
               <FiCopy size={14} />
             </button>
           </div>
-          {item.url !== '#' && (
+          {item.url && item.url !== '#' && (
              <a
               href={item.url}
               target="_blank"
@@ -110,7 +110,7 @@ export const MediaSidebar: React.FC<MediaSidebarProps> = ({ item, onClose, onDel
       {/* Footer Actions */}
       <div className="p-4 border-t border-[var(--border-color)] bg-[var(--bg-main)]">
         <button
-          onClick={() => onDelete(item.id)}
+          onClick={() => onDelete(item.id.toString())}
           className="w-full flex items-center justify-center gap-2 text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 py-2 rounded-md transition-colors font-medium text-sm"
         >
           <FiTrash2 size={16} />

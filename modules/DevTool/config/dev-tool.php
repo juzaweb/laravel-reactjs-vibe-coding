@@ -7,7 +7,7 @@ return [
 
     'themes' => [
         'stubs' => [
-            'path' => base_path('vendor/juzaweb/dev-tool/stubs/themes/'),
+            'path' => base_path('modules/DevTool/stubs/themes/'),
 
             'files' => [
                 'index' => 'src/resources/views/index.blade.php',
@@ -61,7 +61,7 @@ return [
         */
         'stubs' => [
             'enabled' => true,
-            'path' => base_path('vendor/juzaweb/dev-tool/stubs/modules/'),
+            'path' => base_path('modules/DevTool/stubs/modules/'),
             'files' => [
                 'routes/admin' => 'src/routes/admin.php',
                 'routes/web' => 'src/routes/web.php',

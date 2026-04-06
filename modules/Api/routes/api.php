@@ -27,7 +27,7 @@ Route::middleware('auth:api')->group(function () {
 });
 
 Route::group(['prefix' => 'auth/user'], function () {
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', [AuthController::class, 'login'])->middleware('captcha');
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('resend-verification-email', [AuthController::class, 'resendVerificationEmail']);

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginUser } from '../../store/authSlice';
+import { fetchSettings } from '../../store/settingSlice';
 
 export const Login: React.FC = () => {
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
@@ -12,11 +14,30 @@ export const Login: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
 
+  const { data: settings, status: settingsStatus } = useAppSelector((state) => state.settings);
+  const captchaType = settings?.captcha;
+  const captchaSiteKey = settings?.captcha_site_key;
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  useEffect(() => {
+    if (settingsStatus === 'idle') {
+      dispatch(fetchSettings());
+    }
+  }, [settingsStatus, dispatch]);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const from = (location.state as any)?.from?.pathname || '/admin';
 
-  const onSubmit = async (data: Record<string, unknown>) => {
+  const handleFormSubmit = async (data: Record<string, unknown>) => {
     try {
+      let token: string | null = null;
+      if (captchaType === 'recaptcha-v2-invisible' && captchaSiteKey && recaptchaRef.current) {
+        token = await recaptchaRef.current.executeAsync();
+        if (token) {
+          data['g-recaptcha-response'] = token;
+        }
+      }
+
       await dispatch(loginUser(data)).unwrap();
       navigate(from, { replace: true });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,7 +46,15 @@ export const Login: React.FC = () => {
         type: 'manual',
         message: err?.message || err || 'Failed to login. Please try again.'
       });
+      if (captchaType === 'recaptcha-v2-invisible' && recaptchaRef.current) {
+        recaptchaRef.current.reset();
+      }
     }
+  };
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    void handleSubmit(handleFormSubmit)(e);
   };
 
   return (
@@ -38,7 +67,7 @@ export const Login: React.FC = () => {
         </div>
       )}
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={onSubmit} className="space-y-4">
         <Input
           label="Email Address"
           type="email"
@@ -73,6 +102,14 @@ export const Login: React.FC = () => {
             Remember me
           </label>
         </div>
+
+        {captchaType === 'recaptcha-v2-invisible' && captchaSiteKey && (
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={captchaSiteKey}
+            size="invisible"
+          />
+        )}
 
         <Button
           type="submit"

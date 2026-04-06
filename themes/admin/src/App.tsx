@@ -5,6 +5,8 @@ import { AdminLayout } from './components/layout/AdminLayout'
 import { AuthLayout } from './components/layout/AuthLayout'
 import { Dashboard } from './pages/Dashboard'
 import { MediaLibrary } from './pages/media/MediaLibrary'
+import { PagesList } from './pages/pages/PagesList'
+import { PageForm } from './pages/pages/PageForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -45,6 +47,11 @@ function App() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="media" element={<MediaLibrary />} />
+            <Route path="pages">
+              <Route index element={<PagesList />} />
+              <Route path="create" element={<PageForm />} />
+              <Route path=":id/edit" element={<PageForm />} />
+            </Route>
           </Route>
         </Route>
 

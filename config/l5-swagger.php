@@ -220,18 +220,10 @@ return [
                 */
 
                 'bearerAuth' => [ // Unique name of security
-                    'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
-                    'description' => 'Laravel passport oauth2 security.',
+                    'type' => 'apiKey', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
+                    'description' => 'Enter token in format (Bearer <token>)',
                     'in' => 'header',
-                    'scheme' => 'https',
-                    'flows' => [
-                        'authorizationCode' => [
-                            'authorizationUrl' => config('app.url').'/oauth/authorize',
-                            'tokenUrl' => config('app.url').'/oauth/token',
-                            'refreshUrl' => config('app.url').'/oauth/token/refresh',
-                            'scopes' => [],
-                        ],
-                    ],
+                    'name' => 'Authorization', // The name of the header or query parameter to be used.
                 ],
 
                 'apiKey' => [ // Unique name of security

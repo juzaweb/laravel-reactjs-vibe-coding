@@ -3441,18 +3441,10 @@
         },
         "securitySchemes": {
             "bearerAuth": {
-                "type": "oauth2",
-                "description": "Laravel passport oauth2 security.",
+                "type": "apiKey",
+                "description": "Enter token in format (Bearer <token>)",
                 "in": "header",
-                "scheme": "https",
-                "flows": {
-                    "authorizationCode": {
-                        "authorizationUrl": "http://localhost/oauth/authorize",
-                        "tokenUrl": "http://localhost/oauth/token",
-                        "refreshUrl": "http://localhost/oauth/token/refresh",
-                        "scopes": []
-                    }
-                }
+                "name": "Authorization"
             },
             "apiKey": {
                 "type": "apiKey",

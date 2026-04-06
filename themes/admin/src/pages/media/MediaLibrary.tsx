@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import { MOCK_MEDIA } from './types';
+import React, { useState, useEffect } from 'react';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { MediaType, MediaItem } from './types';
+import { fetchMedia, uploadMedia, deleteMedia } from '../../services/api/media';
 import { MediaToolbar } from './MediaToolbar';
 import { MediaGrid } from './MediaGrid';
 import { MediaList } from './MediaList';
@@ -8,33 +9,92 @@ import { MediaSidebar } from './MediaSidebar';
 import { MediaUploadDropzone } from './MediaUploadDropzone';
 
 export const MediaLibrary: React.FC = () => {
-  const [items, setItems] = useState<MediaItem[]>(MOCK_MEDIA);
+  const queryClient = useQueryClient();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
   const [filterType, setFilterType] = useState<MediaType>('all');
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showUpload, setShowUpload] = useState(false);
+  const [page, setPage] = useState(1);
+
+  // Debounce search query to avoid spamming API on every keystroke
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearchQuery((prev) => {
+          if (prev !== searchQuery) {
+              setPage(1); // Reset page safely when debounced search actually changes
+              return searchQuery;
+          }
+          return prev;
+      });
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   // Track the item currently being viewed in the sidebar
   const [activeItem, setActiveItem] = useState<MediaItem | null>(null);
 
-  // Filter and search logic
-  const filteredItems = useMemo(() => {
-    return items.filter((item) => {
-      const matchesSearch = item.name.toLowerCase().includes(searchQuery.toLowerCase());
-      const matchesType = filterType === 'all' || item.type === filterType;
-      return matchesSearch && matchesType;
-    });
-  }, [items, searchQuery, filterType]);
+  // Custom setter for filterType to reset page
+  const handleSetFilterType = (type: MediaType) => {
+    setFilterType(type);
+    setPage(1);
+  };
+
+  // Fetch Media
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['media', { page, keyword: debouncedSearchQuery, type: filterType === 'all' ? undefined : filterType }],
+    queryFn: () => fetchMedia({
+      page,
+      keyword: debouncedSearchQuery || undefined,
+      type: filterType === 'all' ? undefined : filterType,
+    }),
+  });
+
+  const items = data?.data || [];
+
+  // Upload Mutation
+  const uploadMutation = useMutation({
+    mutationFn: (files: FileList) => uploadMedia(files),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['media'] });
+      setShowUpload(false);
+    },
+    onError: (error) => {
+      console.error('Upload failed:', error);
+      alert('Upload failed. Please try again.');
+    }
+  });
+
+  // Delete Mutation
+  const deleteMutation = useMutation({
+    mutationFn: (id: string | number) => deleteMedia(id),
+    onSuccess: (_, deletedId) => {
+      queryClient.invalidateQueries({ queryKey: ['media'] });
+      setSelectedIds((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(deletedId.toString());
+        return newSet;
+      });
+      if (activeItem?.id.toString() === deletedId.toString()) {
+        setActiveItem(null);
+      }
+    },
+    onError: (error) => {
+      console.error('Delete failed:', error);
+      alert('Delete failed. Please try again.');
+    }
+  });
 
   // Selection handlers
   const handleToggleSelect = (id: string, multi: boolean = false) => {
     setSelectedIds((prev) => {
       const newSet = new Set(multi ? prev : []);
-      if (newSet.has(id)) {
-        newSet.delete(id);
+      const strId = id.toString();
+      if (newSet.has(strId)) {
+        newSet.delete(strId);
       } else {
-        newSet.add(id);
+        newSet.add(strId);
       }
       return newSet;
     });
@@ -42,7 +102,7 @@ export const MediaLibrary: React.FC = () => {
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedIds(new Set(filteredItems.map(item => item.id)));
+      setSelectedIds(new Set(items.map(item => item.id.toString())));
     } else {
       setSelectedIds(new Set());
     }
@@ -52,58 +112,38 @@ export const MediaLibrary: React.FC = () => {
     setSelectedIds(new Set());
   };
 
-  // Item click handler (opens sidebar if not selecting multiple)
   const handleItemClick = (item: MediaItem) => {
     setActiveItem(item);
-    // If we click an item without multi-select keys, we might want to clear selection
-    // and just select this one, or just open the sidebar. Let's just open the sidebar for now.
-    // If it's the only one selected, maybe we keep it selected.
   };
 
-  // Delete handler
   const handleDelete = (id: string) => {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
-      setItems((prev) => prev.filter(item => item.id !== id));
-      setSelectedIds((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(id);
-        return newSet;
-      });
-      if (activeItem?.id === id) {
-        setActiveItem(null);
-      }
+      deleteMutation.mutate(id);
     }
   };
 
   const handleBulkDelete = () => {
     if (window.confirm(`Are you sure you want to permanently delete ${selectedIds.size} items?`)) {
-      setItems((prev) => prev.filter(item => !selectedIds.has(item.id)));
-      if (activeItem && selectedIds.has(activeItem.id)) {
-         setActiveItem(null);
-      }
-      setSelectedIds(new Set());
+      // In a real app, you might want a bulk delete endpoint. Here we'll delete one by one or Promise.all
+      // Assuming a simple iteration for now since the backend might not have bulk delete
+      const idsArray = Array.from(selectedIds);
+      Promise.all(idsArray.map(id => deleteMedia(id)))
+        .then(() => {
+          queryClient.invalidateQueries({ queryKey: ['media'] });
+          if (activeItem && selectedIds.has(activeItem.id.toString())) {
+             setActiveItem(null);
+          }
+          setSelectedIds(new Set());
+        })
+        .catch(err => {
+          console.error("Bulk delete error", err);
+          alert("Error deleting some items.");
+        });
     }
   };
 
-  // Upload handler (mock)
   const handleUpload = (files: FileList) => {
-    // Mock uploading: just add them to the list locally
-    const newItems: MediaItem[] = Array.from(files).map((file, index) => ({
-      id: `new-${Date.now()}-${index}`,
-      name: file.name,
-      type: file.type.startsWith('image/') ? 'image'
-          : file.type.startsWith('video/') ? 'video'
-          : file.type.startsWith('audio/') ? 'audio'
-          : 'document',
-      url: URL.createObjectURL(file), // Generate local URL for preview
-      thumbnailUrl: file.type.startsWith('image/') ? URL.createObjectURL(file) : '',
-      size: file.size,
-      createdAt: new Date().toISOString(),
-      mimeType: file.type || 'application/octet-stream',
-    }));
-
-    setItems((prev) => [...newItems, ...prev]);
-    setShowUpload(false);
+    uploadMutation.mutate(files);
   };
 
   return (
@@ -118,7 +158,7 @@ export const MediaLibrary: React.FC = () => {
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         filterType={filterType}
-        setFilterType={setFilterType}
+        setFilterType={handleSetFilterType}
         onAddNew={() => setShowUpload(!showUpload)}
         selectedCount={selectedIds.size}
         onBulkDelete={handleBulkDelete}
@@ -137,21 +177,48 @@ export const MediaLibrary: React.FC = () => {
 
         {/* Media Container */}
         <div className={`flex-1 overflow-y-auto pr-2 custom-scrollbar transition-all duration-300 ${activeItem ? 'md:pr-4' : ''}`}>
-          {viewMode === 'grid' ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center h-full">
+               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+            </div>
+          ) : isError ? (
+            <div className="text-red-500 flex justify-center py-10">Error loading media.</div>
+          ) : viewMode === 'grid' ? (
             <MediaGrid
-              items={filteredItems}
+              items={items}
               selectedIds={selectedIds}
               onToggleSelect={handleToggleSelect}
               onItemClick={handleItemClick}
             />
           ) : (
             <MediaList
-              items={filteredItems}
+              items={items}
               selectedIds={selectedIds}
               onToggleSelect={handleToggleSelect}
               onItemClick={handleItemClick}
               onSelectAll={handleSelectAll}
             />
+          )}
+
+          {/* Pagination Controls - Simple implementation */}
+          {data?.meta && data.meta.last_page > 1 && (
+             <div className="flex justify-center mt-6 gap-2">
+                <button
+                  disabled={page === 1}
+                  onClick={() => setPage(p => Math.max(1, p - 1))}
+                  className="px-3 py-1 bg-white border border-gray-300 rounded text-sm disabled:opacity-50"
+                >
+                  Previous
+                </button>
+                <span className="px-3 py-1 text-sm">Page {page} of {data.meta.last_page}</span>
+                <button
+                  disabled={page === data.meta.last_page}
+                  onClick={() => setPage(p => Math.min(data.meta.last_page, p + 1))}
+                  className="px-3 py-1 bg-white border border-gray-300 rounded text-sm disabled:opacity-50"
+                >
+                  Next
+                </button>
+             </div>
           )}
         </div>
 

@@ -18,7 +18,8 @@ export const MediaList: React.FC<MediaListProps> = ({
   onItemClick,
   onSelectAll,
 }) => {
-  const getIconForType = (type: string) => {
+  const getIconForType = (type: string, is_directory: boolean) => {
+    if (is_directory) return <FiFileText className="w-6 h-6 text-[var(--text-muted)]" />;
     switch (type) {
       case 'video': return <FiVideo className="w-6 h-6 text-[var(--text-muted)]" />;
       case 'document': return <FiFileText className="w-6 h-6 text-[var(--text-muted)]" />;
@@ -72,7 +73,8 @@ export const MediaList: React.FC<MediaListProps> = ({
           </thead>
           <tbody className="divide-y divide-[var(--border-color)]">
             {items.map((item) => {
-              const isSelected = selectedIds.has(item.id);
+              const isSelected = selectedIds.has(item.id.toString());
+              const thumbnailUrl = item.is_image ? item.url : null;
 
               return (
                 <tr
@@ -82,7 +84,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                   }`}
                   onClick={(e) => {
                      if (e.shiftKey || e.metaKey || e.ctrlKey) {
-                        onToggleSelect(item.id, true);
+                        onToggleSelect(item.id.toString(), true);
                       } else {
                         onItemClick(item);
                       }
@@ -93,16 +95,16 @@ export const MediaList: React.FC<MediaListProps> = ({
                       type="checkbox"
                       className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                       checked={isSelected}
-                      onChange={() => onToggleSelect(item.id, true)}
+                      onChange={() => onToggleSelect(item.id.toString(), true)}
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-gray-100 dark:bg-slate-700 rounded overflow-hidden mr-3">
-                        {item.type === 'image' && item.thumbnailUrl ? (
-                          <img src={item.thumbnailUrl} alt="" className="h-full w-full object-cover" />
+                        {thumbnailUrl ? (
+                          <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" />
                         ) : (
-                          getIconForType(item.type)
+                          getIconForType(item.type, item.is_directory)
                         )}
                       </div>
                       <div className="ml-2">
@@ -114,14 +116,14 @@ export const MediaList: React.FC<MediaListProps> = ({
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300">
-                      {item.mimeType.split('/')[1] || item.type}
+                      {item.mime_type ? (item.mime_type.split('/')[1] || item.type) : item.type}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)] hidden md:table-cell">
-                    {formatDate(item.createdAt)}
+                    {formatDate(item.created_at)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)] hidden lg:table-cell">
-                    {formatBytes(item.size)}
+                    {item.readable_size || formatBytes(item.size)}
                   </td>
                 </tr>
               );

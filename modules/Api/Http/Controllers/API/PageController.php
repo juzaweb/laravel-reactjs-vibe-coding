@@ -15,6 +15,7 @@ class PageController extends APIController
     /**
      * @OA\Get(
      *      path="/api/v1/pages",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Pages"},
      *      summary="Get list of pages",
      *
@@ -54,6 +55,7 @@ class PageController extends APIController
     /**
      * @OA\Post(
      *      path="/api/v1/pages",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Pages"},
      *      summary="Create a new page",
      *
@@ -93,6 +95,7 @@ class PageController extends APIController
     /**
      * @OA\Get(
      *      path="/api/v1/pages/{id}",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Pages"},
      *      summary="Get page details by id",
      *
@@ -126,6 +129,7 @@ class PageController extends APIController
     /**
      * @OA\Put(
      *      path="/api/v1/pages/{id}",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Pages"},
      *      summary="Update an existing page",
      *
@@ -172,6 +176,7 @@ class PageController extends APIController
     /**
      * @OA\Delete(
      *      path="/api/v1/pages/{id}",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Pages"},
      *      summary="Delete a page",
      *

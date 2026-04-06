@@ -46,6 +46,8 @@ return [
         'api' => [
             'driver' => 'juzaweb',
             'provider' => 'users',
+            'client_id' => env('AUTH_API_CLIENT_ID'),
+            'client_secret' => env('AUTH_API_CLIENT_SECRET'),
         ],
     ],
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { MediaType, MediaItem } from './types';
-import { fetchMedia, uploadMedia, deleteMedia } from '../../services/api/media';
+import { useMedia, useCreateMedia, useDeleteMedia } from './hooks';
 import { MediaToolbar } from './MediaToolbar';
 import { MediaGrid } from './MediaGrid';
 import { MediaList } from './MediaList';
@@ -9,7 +8,6 @@ import { MediaSidebar } from './MediaSidebar';
 import { MediaUploadDropzone } from './MediaUploadDropzone';
 
 export const MediaLibrary: React.FC = () => {
-  const queryClient = useQueryClient();
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
@@ -17,13 +15,14 @@ export const MediaLibrary: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [showUpload, setShowUpload] = useState(false);
   const [page, setPage] = useState(1);
+  const limit = 15; // default limit
 
-  // Debounce search query to avoid spamming API on every keystroke
+  // Debounce search query
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedSearchQuery((prev) => {
           if (prev !== searchQuery) {
-              setPage(1); // Reset page safely when debounced search actually changes
+              setPage(1);
               return searchQuery;
           }
           return prev;
@@ -41,50 +40,12 @@ export const MediaLibrary: React.FC = () => {
     setPage(1);
   };
 
-  // Fetch Media
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['media', { page, keyword: debouncedSearchQuery, type: filterType === 'all' ? undefined : filterType }],
-    queryFn: () => fetchMedia({
-      page,
-      keyword: debouncedSearchQuery || undefined,
-      type: filterType === 'all' ? undefined : filterType,
-    }),
-  });
+  // Hooks
+  const { data, isLoading, isError } = useMedia(page, limit, debouncedSearchQuery, filterType);
+  const createMediaMutation = useCreateMedia();
+  const deleteMediaMutation = useDeleteMedia();
 
   const items = data?.data || [];
-
-  // Upload Mutation
-  const uploadMutation = useMutation({
-    mutationFn: (files: FileList) => uploadMedia(files),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['media'] });
-      setShowUpload(false);
-    },
-    onError: (error) => {
-      console.error('Upload failed:', error);
-      alert('Upload failed. Please try again.');
-    }
-  });
-
-  // Delete Mutation
-  const deleteMutation = useMutation({
-    mutationFn: (id: string | number) => deleteMedia(id),
-    onSuccess: (_, deletedId) => {
-      queryClient.invalidateQueries({ queryKey: ['media'] });
-      setSelectedIds((prev) => {
-        const newSet = new Set(prev);
-        newSet.delete(deletedId.toString());
-        return newSet;
-      });
-      if (activeItem?.id.toString() === deletedId.toString()) {
-        setActiveItem(null);
-      }
-    },
-    onError: (error) => {
-      console.error('Delete failed:', error);
-      alert('Delete failed. Please try again.');
-    }
-  });
 
   // Selection handlers
   const handleToggleSelect = (id: string, multi: boolean = false) => {
@@ -118,18 +79,31 @@ export const MediaLibrary: React.FC = () => {
 
   const handleDelete = (id: string) => {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
-      deleteMutation.mutate(id);
+      deleteMediaMutation.mutate(id, {
+         onSuccess: () => {
+            setSelectedIds((prev) => {
+              const newSet = new Set(prev);
+              newSet.delete(id.toString());
+              return newSet;
+            });
+            if (activeItem?.id.toString() === id.toString()) {
+              setActiveItem(null);
+            }
+         },
+         onError: (error) => {
+            console.error('Delete failed:', error);
+            alert('Delete failed. Please try again.');
+         }
+      });
     }
   };
 
   const handleBulkDelete = () => {
     if (window.confirm(`Are you sure you want to permanently delete ${selectedIds.size} items?`)) {
       // In a real app, you might want a bulk delete endpoint. Here we'll delete one by one or Promise.all
-      // Assuming a simple iteration for now since the backend might not have bulk delete
       const idsArray = Array.from(selectedIds);
-      Promise.all(idsArray.map(id => deleteMedia(id)))
+      Promise.all(idsArray.map(id => deleteMediaMutation.mutateAsync(id)))
         .then(() => {
-          queryClient.invalidateQueries({ queryKey: ['media'] });
           if (activeItem && selectedIds.has(activeItem.id.toString())) {
              setActiveItem(null);
           }
@@ -143,7 +117,15 @@ export const MediaLibrary: React.FC = () => {
   };
 
   const handleUpload = (files: FileList) => {
-    uploadMutation.mutate(files);
+    createMediaMutation.mutate({ files }, {
+        onSuccess: () => {
+           setShowUpload(false);
+        },
+        onError: (error) => {
+           console.error('Upload failed:', error);
+           alert('Upload failed. Please try again.');
+        }
+    });
   };
 
   return (
@@ -200,7 +182,7 @@ export const MediaLibrary: React.FC = () => {
             />
           )}
 
-          {/* Pagination Controls - Simple implementation */}
+          {/* Pagination Controls */}
           {data?.meta && data.meta.last_page > 1 && (
              <div className="flex justify-center mt-6 gap-2">
                 <button

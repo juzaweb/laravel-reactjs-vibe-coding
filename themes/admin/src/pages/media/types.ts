@@ -17,6 +17,18 @@ export interface PaginationLinks {
   next: string | null;
 }
 
+export interface PaginatedResponse<T> {
+  data: T[];
+  meta: PaginationMeta;
+  links: PaginationLinks;
+  success: boolean;
+}
+
+export interface SingleResponse<T> {
+  data: T;
+  success: boolean;
+}
+
 export interface MediaItem {
   id: string; // The ID from backend is integer, but frequently stored/used as string in frontend. Changing to number to match backend exactly, but need to check existing usage. Backend uses integer.
   name: string;

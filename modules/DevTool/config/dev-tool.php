@@ -125,11 +125,8 @@ return [
                 'filter' => ['path' => 'Http/Middleware', 'generate' => true, 'namespace' => 'Http\\Middleware'],
                 'request' => ['path' => 'Http/Requests', 'generate' => true, 'namespace' => 'Http\\Requests'],
                 'provider' => ['path' => 'Providers', 'generate' => true, 'namespace' => 'Providers'],
-                'assets' => ['path' => 'assets/public', 'generate' => false],
-                'assets-js' => ['path' => 'assets/js', 'generate' => true],
-                'assets-css' => ['path' => 'assets/css', 'generate' => true],
                 'lang' => ['path' => 'resources/lang', 'generate' => true],
-                'views' => ['path' => 'resources/views', 'generate' => true],
+                'views' => ['path' => 'resources/views', 'generate' => false],
                 'test' => ['path' => 'Tests/Unit', 'generate' => true, 'namespace' => 'Tests\\Unit'],
                 'test-feature' => ['path' => 'Tests/Feature', 'generate' => true, 'namespace' => 'Tests\\Feature'],
                 'repository' => ['path' => 'Repositories', 'generate' => false, 'namespace' => 'Repositories'],
@@ -144,31 +141,6 @@ return [
                 'component-view' => ['path' => 'resources/views/components', 'generate' => false],
                 'component-class' => ['path' => 'View/Components', 'generate' => false, 'namespace' => 'View\\Components'],
                 'facades' => ['path' => 'Facades', 'generate' => true, 'namespace' => 'Facades'],
-                'datatable' => [
-                    'path' => 'Http/DataTables',
-                    'generate' => false,
-                    'namespace' => 'Http/DataTables',
-                    // Column has link to edit
-                    'titleColumns' => [
-                        'name',
-                        'title',
-                    ],
-                    // Exclude columns of Datatable header
-                    'excludeColumns' => [
-                        'updated_at',
-                        'deleted_at',
-                        'content',
-                        'description',
-                        'locale',
-                        'type',
-                    ],
-
-                    // Exclude actions of Datatable
-                    'excludeActions' => [
-                        'restore',
-                        'forceDelete',
-                    ],
-                ],
             ],
         ],
 

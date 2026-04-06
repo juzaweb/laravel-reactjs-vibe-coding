@@ -34,8 +34,8 @@ class PageResource extends JsonResource
             'description' => $this->resource->description,
             'content' => $this->resource->content,
             'template' => $this->resource->template,
-            'created_at' => $this->resource->created_at?->toIso8601String(),
-            'updated_at' => $this->resource->updated_at?->toIso8601String(),
+            'created_at' => $this->resource->created_at,
+            'updated_at' => $this->resource->updated_at,
         ];
     }
 }

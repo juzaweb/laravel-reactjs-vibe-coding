@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage } from 'react-icons/fi';
+import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
@@ -10,6 +10,7 @@ export const Sidebar: React.FC = () => {
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome },
+    { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText },
     { name: 'Media', path: '/admin/media', icon: FiImage },
     { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2 },
     { name: t('users'), path: '/admin/users', icon: FiUsers },

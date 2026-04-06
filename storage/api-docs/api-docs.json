@@ -50,7 +50,7 @@
                     "Pages"
                 ],
                 "summary": "Get page details by slug",
-                "operationId": "d5e8b95a779d32612a4a246843d76d99",
+                "operationId": "e32848b0144beea57cfe97e315ecc30c",
                 "parameters": [
                     {
                         "name": "slug",
@@ -63,7 +63,14 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PageResource"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Page not found"
@@ -360,6 +367,488 @@
                     }
                 }
             }
+        },
+        "/api/auth/user/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login User",
+                "operationId": "user.login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "admin@gmail.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "$ref": "#/components/schemas/TokenResource"
+                                                },
+                                                "user": {
+                                                    "$ref": "#/components/schemas/UserResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/refresh-token": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Refresh Token",
+                "operationId": "user.refresh",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "refresh_token": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "token": {
+                                                    "$ref": "#/components/schemas/TokenResource"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register User",
+                "operationId": "user.register",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/resend-verification-email": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Resend Verification Email",
+                "operationId": "user.resend-verification-email",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Verification link sent!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/email/verify/{id}/{hash}": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Verify Email",
+                "operationId": "user.verify-email",
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your email has been verified."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/forgot-password": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Forgot Password",
+                "operationId": "user.forgot-password",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "We have e-mailed your password reset link!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/reset-password/{token}": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Reset Password",
+                "operationId": "user.reset-password",
+                "parameters": [
+                    {
+                        "name": "token",
+                        "in": "path",
+                        "description": "Password Reset Token",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Your password has been reset!"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Logout",
+                "operationId": "user.logout",
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Successfully logged out"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/auth/user/social/{driver}/redirect": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login User with Social Redirect",
+                "operationId": "user.social.redirect",
+                "parameters": [
+                    {
+                        "name": "driver",
+                        "in": "path",
+                        "description": "Social Driver",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect_url": {
+                                                    "type": "string"
+                                                },
+                                                "provider": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/auth/user/social/{driver}/callback": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login User with Social Callback",
+                "operationId": "user.social.callback",
+                "parameters": [
+                    {
+                        "name": "driver",
+                        "in": "path",
+                        "description": "Social Driver",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get Data Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect_url": {
+                                                    "type": "string"
+                                                },
+                                                "provider": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -411,6 +900,44 @@
                     "updated_at": {
                         "type": "string",
                         "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "PageResource": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "About Us"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "about-us"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "About us description"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "About us content"
+                    },
+                    "template": {
+                        "type": "string",
+                        "example": "page"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
                     }
                 },
                 "type": "object"
@@ -842,185 +1369,6 @@
                 }
             }
         },
-        "requestBodies": {
-            "ChangePasswordRequest": {
-                "description": "Forgot Password Request",
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "required": [
-                                "current_password",
-                                "password",
-                                "password_confirmation"
-                            ],
-                            "properties": {
-                                "current_password": {
-                                    "description": "User current password",
-                                    "type": "string",
-                                    "format": "password"
-                                },
-                                "password": {
-                                    "description": "New password",
-                                    "type": "string",
-                                    "format": "password"
-                                },
-                                "password_confirmation": {
-                                    "description": "Confirm new password",
-                                    "type": "string",
-                                    "format": "password"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "ForgotPasswordRequest": {
-                "description": "Forgot Password Request",
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "required": [
-                                "email"
-                            ],
-                            "properties": {
-                                "email": {
-                                    "description": "User email",
-                                    "type": "string",
-                                    "format": "email"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "LoginRequest": {
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "required": [
-                                "email",
-                                "password"
-                            ],
-                            "properties": {
-                                "email": {
-                                    "type": "string",
-                                    "format": "email"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "captcha": {
-                                    "description": "(Optional) ReCaptcha Token",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "RefreshTokenRequest": {
-                "required": true,
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "required": [
-                                "refresh_token"
-                            ],
-                            "properties": {
-                                "refresh_token": {
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "RegisterRequest": {
-                "required": true,
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "required": [
-                                "email",
-                                "password",
-                                "name",
-                                "password_confirmation"
-                            ],
-                            "properties": {
-                                "name": {
-                                    "type": "string"
-                                },
-                                "email": {
-                                    "type": "string",
-                                    "format": "email"
-                                },
-                                "password": {
-                                    "type": "string"
-                                },
-                                "password_confirmation": {
-                                    "type": "string"
-                                },
-                                "birthday": {
-                                    "type": "string",
-                                    "format": "date"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "ResendVerificationEmailRequest": {
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "required": [
-                                "email"
-                            ],
-                            "properties": {
-                                "email": {
-                                    "type": "string",
-                                    "format": "email"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            },
-            "ResetPasswordRequest": {
-                "description": "Forgot Password Request",
-                "required": true,
-                "content": {
-                    "multipart/form-data": {
-                        "schema": {
-                            "required": [
-                                "password",
-                                "password_confirmation"
-                            ],
-                            "properties": {
-                                "password": {
-                                    "type": "string"
-                                },
-                                "password_confirmation": {
-                                    "description": "Confirm password",
-                                    "type": "string"
-                                }
-                            },
-                            "type": "object"
-                        }
-                    }
-                }
-            }
-        },
         "securitySchemes": {
             "bearerAuth": {
                 "type": "oauth2",
@@ -1064,6 +1412,10 @@
         {
             "name": "Translations",
             "description": "Translations"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
         }
     ]
 }

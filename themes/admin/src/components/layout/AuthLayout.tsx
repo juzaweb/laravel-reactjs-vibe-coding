@@ -3,8 +3,9 @@ import { useAppSelector } from '../../store/hooks';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import { useDispatch } from 'react-redux';
 import { toggleTheme } from '../../store/uiSlice';
+import { Outlet } from 'react-router-dom';
 
-export const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthLayout: React.FC = () => {
   const dispatch = useDispatch();
   const { theme } = useAppSelector((state) => state.ui);
 
@@ -27,7 +28,7 @@ export const AuthLayout: React.FC<{ children: React.ReactNode }> = ({ children }
         </div>
 
         <div className="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-sm p-6 sm:p-8">
-          {children}
+          <Outlet />
         </div>
 
         <div className="mt-6 text-center text-sm text-[var(--text-muted)]">

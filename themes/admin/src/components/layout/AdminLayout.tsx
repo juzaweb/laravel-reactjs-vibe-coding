@@ -3,12 +3,9 @@ import { Sidebar } from './Sidebar';
 import { Header } from './Header';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { toggleSidebar } from '../../store/uiSlice';
+import { Outlet } from 'react-router-dom';
 
-interface AdminLayoutProps {
-  children: React.ReactNode;
-}
-
-export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+export const AdminLayout: React.FC = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
   const dispatch = useAppDispatch();
 
@@ -21,7 +18,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
         <main className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 lg:p-8">
           <div className="mx-auto max-w-7xl">
-            {children}
+            <Outlet />
           </div>
         </main>
       </div>

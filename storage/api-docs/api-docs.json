@@ -83,7 +83,7 @@
                                         },
                                         "success": {
                                             "type": "boolean",
-                                            "example": "true"
+                                            "example": true
                                         }
                                     },
                                     "type": "object"
@@ -172,7 +172,7 @@
                                         },
                                         "success": {
                                             "type": "boolean",
-                                            "example": "true"
+                                            "example": true
                                         }
                                     },
                                     "type": "object"

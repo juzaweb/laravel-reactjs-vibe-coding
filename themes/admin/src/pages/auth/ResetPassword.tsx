@@ -28,7 +28,7 @@ export const ResetPassword: React.FC = () => {
     try {
       const resetToken = data.token || token;
       await dispatch(resetPassword({ ...data, token: resetToken })).unwrap();
-      navigate('/login?reset=success');
+      navigate('/auth/login?reset=success');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const errorMessage = err?.message || err || 'Failed to reset password.';
@@ -89,7 +89,7 @@ export const ResetPassword: React.FC = () => {
       </form>
 
       <div className="mt-6 text-center text-sm">
-        <Link to="/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
+        <Link to="/auth/login" className="font-medium text-[var(--text-muted)] hover:text-[var(--text-main)]">
           Back to login
         </Link>
       </div>

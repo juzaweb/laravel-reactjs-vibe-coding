@@ -16,7 +16,7 @@ export const Register: React.FC = () => {
   const onSubmit = async (data: Record<string, unknown>) => {
     try {
       await dispatch(registerUser(data)).unwrap();
-      navigate('/login');
+      navigate('/auth/login');
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const errorMessage = err?.message || err || 'Registration failed.';
@@ -93,7 +93,7 @@ export const Register: React.FC = () => {
 
       <div className="mt-6 text-center text-sm text-[var(--text-muted)]">
         Already have an account?{' '}
-        <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
+        <Link to="/auth/login" className="font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300">
           Sign in
         </Link>
       </div>

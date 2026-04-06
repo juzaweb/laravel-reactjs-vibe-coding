@@ -102,6 +102,71 @@ return [
         */
 
         'migration' => base_path('database/migrations'),
+
+        /*
+        |--------------------------------------------------------------------------
+        | Generator path
+        |--------------------------------------------------------------------------
+        | Customise the paths where the folders will be generated.
+        | Set the generate key to false to not generate that folder
+        */
+        'generator' => [
+            'config' => ['path' => 'config', 'generate' => false],
+            'command' => ['path' => 'Commands', 'generate' => true, 'namespace' => 'Commands'],
+            'migration' => ['path' => 'Database/migrations', 'generate' => true],
+            'seeder' => ['path' => 'Database/Seeders', 'generate' => true, 'namespace' => 'Database\\Seeders'],
+            'factory' => ['path' => 'Database/Factories', 'generate' => true, 'namespace' => 'Database\\Factories'],
+            'model' => ['path' => 'Models', 'generate' => true, 'namespace' => 'Models'],
+            'routes' => ['path' => 'routes', 'generate' => true],
+            'controller' => ['path' => 'Http/Controllers', 'generate' => true, 'namespace' => 'Http\\Controllers'],
+            'filter' => ['path' => 'Http/Middleware', 'generate' => true, 'namespace' => 'Http\\Middleware'],
+            'request' => ['path' => 'Http/Requests', 'generate' => true, 'namespace' => 'Http\\Requests'],
+            'provider' => ['path' => 'Providers', 'generate' => true, 'namespace' => 'Providers'],
+            'assets' => ['path' => 'assets/public', 'generate' => false],
+            'assets-js' => ['path' => 'assets/js', 'generate' => true],
+            'assets-css' => ['path' => 'assets/css', 'generate' => true],
+            'lang' => ['path' => 'resources/lang', 'generate' => true],
+            'views' => ['path' => 'resources/views', 'generate' => true],
+            'test' => ['path' => 'Tests/Unit', 'generate' => true, 'namespace' => 'Tests\\Unit'],
+            'test-feature' => ['path' => 'Tests/Feature', 'generate' => true, 'namespace' => 'Tests\\Feature'],
+            'repository' => ['path' => 'Repositories', 'generate' => false, 'namespace' => 'Repositories'],
+            'event' => ['path' => 'Events', 'generate' => false, 'namespace' => 'Events'],
+            'listener' => ['path' => 'Listeners', 'generate' => false, 'namespace' => 'Listeners'],
+            'policies' => ['path' => 'Policies', 'generate' => false, 'namespace' => 'Policies'],
+            'rules' => ['path' => 'Rules', 'generate' => false, 'namespace' => 'Rules'],
+            'jobs' => ['path' => 'Jobs', 'generate' => false, 'namespace' => 'Jobs'],
+            'emails' => ['path' => 'Emails', 'generate' => false, 'namespace' => 'Emails'],
+            'notifications' => ['path' => 'Notifications', 'generate' => false, 'namespace' => 'Notifications'],
+            'resource' => ['path' => 'Http/Resources', 'generate' => false, 'namespace' => 'Http\\Resources'],
+            'component-view' => ['path' => 'resources/views/components', 'generate' => false],
+            'component-class' => ['path' => 'View/Components', 'generate' => false, 'namespace' => 'View\\Components'],
+            'facades' => ['path' => 'Facades', 'generate' => true, 'namespace' => 'Facades'],
+            'datatable' => [
+                'path' => 'Http/DataTables',
+                'generate' => false,
+                'namespace' => 'Http/DataTables',
+                // Column has link to edit
+                'titleColumns' => [
+                    'name',
+                    'title',
+                ],
+                // Exclude columns of Datatable header
+                'excludeColumns' => [
+                    'updated_at',
+                    'deleted_at',
+                    'content',
+                    'description',
+                    'locale',
+                    'type',
+                ],
+
+                // Exclude actions of Datatable
+                'excludeActions' => [
+                    'restore',
+                    'forceDelete',
+                ],
+            ],
+        ],
     ],
 
     /*

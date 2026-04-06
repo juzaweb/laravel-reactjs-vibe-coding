@@ -19,17 +19,37 @@ export interface AuthState {
 }
 
 interface LoginPayload {
-  user: User;
+  user?: User;
+  data?: {
+    user?: User;
+    token?: {
+      access_token?: string;
+      token?: string;
+    };
+  };
   accessToken?: string;
   access_token?: string;
   token?: string;
 }
 
+// Helper to safely parse user from localStorage
+const getUserFromStorage = (): User | null => {
+  try {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  } catch {
+    return null;
+  }
+};
+
+const initialAccessToken = localStorage.getItem('accessToken');
+const initialUser = getUserFromStorage();
+
 // Initial state
 const initialState: AuthState = {
-  user: null,
-  accessToken: null,
-  isAuthenticated: false,
+  user: initialUser,
+  accessToken: initialAccessToken,
+  isAuthenticated: !!initialAccessToken,
   status: 'idle',
 };
 
@@ -167,18 +187,28 @@ const authSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action: PayloadAction<LoginPayload>) => {
         state.status = 'idle';
-        const token = action.payload.accessToken || action.payload.access_token || action.payload.token;
+
+        // Extract token depending on API response structure
+        const token =
+          action.payload.data?.token?.access_token ||
+          action.payload.data?.token?.token ||
+          action.payload.accessToken ||
+          action.payload.access_token ||
+          action.payload.token;
+
+        // Extract user depending on API response structure
+        const user = action.payload.data?.user || action.payload.user || null;
 
         state.accessToken = token || null;
-        state.user = action.payload.user || null;
+        state.user = user;
         state.isAuthenticated = !!token;
 
-        // Optionally save to localStorage
+        // Save to localStorage to persist session
         if (token) {
           localStorage.setItem('accessToken', token);
         }
-        if (action.payload.user) {
-          localStorage.setItem('user', JSON.stringify(action.payload.user));
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
         }
       })
       .addCase(loginUser.rejected, (state) => {

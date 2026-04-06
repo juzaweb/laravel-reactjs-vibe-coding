@@ -37,7 +37,7 @@ trait HasPassportPasswordGrant
             'client_secret' => $config['client_secret'],
             'username' => $username,
             'password' => $password,
-            'scope' => $scopes,
+            'scope' => is_array($scopes) ? implode(' ', $scopes) : $scopes,
         ];
 
         $serverRequest = app(ServerRequestInterface::class)->withParsedBody($requestData);
@@ -46,13 +46,11 @@ trait HasPassportPasswordGrant
             app(AuthorizationServer::class)->respondToAccessTokenRequest($serverRequest, new Psr7Response)
         );
 
-        return json_decode($response->content(), false, 512, JSON_THROW_ON_ERROR);
+        return json_decode($response->getContent(), false, 512, JSON_THROW_ON_ERROR);
     }
 
     protected function getPasswordGrantConfig(): array
     {
-        $table = $this->getTable();
-
-        return config("auth.providers.{$table}.passport", []);
+        return config('auth.guards.api', []);
     }
 }

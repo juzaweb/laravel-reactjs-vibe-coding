@@ -31,12 +31,15 @@ use Juzaweb\Modules\Core\Permissions\Traits\HasRoles;
 use Juzaweb\Modules\Core\Traits\CausesActivity;
 use Juzaweb\Modules\Core\Traits\HasAPI;
 use Juzaweb\Modules\Core\Traits\HasMeta;
+use Juzaweb\Modules\Core\Traits\HasPassportPasswordGrant;
 use Juzaweb\Modules\Core\Traits\HasSocialConnection;
 use Juzaweb\QueryCache\QueryCacheable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use HasPassportPasswordGrant;
+
     use CausesActivity,
         HasAPI,
         HasApiTokens,

@@ -40,6 +40,7 @@ class AdminServiceProvider extends ServiceProvider
             return $user && $user->isSuperAdmin();
         });
 
+        Passport::enablePasswordGrant();
         Passport::useClientModel(Client::class);
 
         $this->registerSettings();

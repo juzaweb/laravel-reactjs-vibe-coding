@@ -114,9 +114,6 @@ abstract class TestCase extends Orchestra
             TranslationsServiceProvider::class,
             PermissionServiceProvider::class,
             ChunkUploadServiceProvider::class,
-            DataTablesServiceProvider::class,
-            ButtonsServiceProvider::class,
-            HtmlServiceProvider::class,
             PaymentServiceProvider::class,
         ];
     }
@@ -137,7 +134,6 @@ abstract class TestCase extends Orchestra
             'PageTemplate' => PageTemplate::class,
             'PageBlock' => PageBlock::class,
             'Chart' => Chart::class,
-            'DataTables' => DataTables::class,
             'Menu' => Menu::class,
         ];
     }

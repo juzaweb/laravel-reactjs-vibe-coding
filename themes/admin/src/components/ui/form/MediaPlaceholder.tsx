@@ -8,12 +8,13 @@ export interface MediaPlaceholderProps extends React.HTMLAttributes<HTMLDivEleme
   error?: string;
   wrapperClassName?: string;
   required?: boolean;
+  name?: string;
 }
 
 export const MediaPlaceholder = forwardRef<HTMLDivElement, MediaPlaceholderProps>(
-  ({ label, description, error, required, className = '', wrapperClassName = '', id, ...props }, ref) => {
+  ({ label, description, error, required, className = '', wrapperClassName = '', id, name, ...props }, ref) => {
     const uniqueId = useId();
-    const mediaId = id || uniqueId;
+    const mediaId = id || name || uniqueId;
 
     return (
       <FieldWrapper

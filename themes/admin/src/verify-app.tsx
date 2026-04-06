@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import {
   Text,
@@ -10,10 +9,10 @@ import {
   DateTimePicker,
   ColorPicker,
   MediaPlaceholder,
-  EditorPlaceholder
+  Editor
 } from './components/ui/form';
 
-const App = () => {
+export const App = () => {
   return (
     <div className="p-8 bg-gray-50 dark:bg-gray-900 min-h-screen text-gray-900 dark:text-gray-100 font-sans max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-6">Juzaweb Form Fields Verification</h1>
@@ -44,7 +43,7 @@ const App = () => {
         <ColorPicker label="Background Color" name="bg_color" defaultValue="#3b82f6" />
 
         <MediaPlaceholder label="Thumbnail" name="thumbnail" />
-        <EditorPlaceholder label="Content" name="content" />
+        <Editor label="Content" name="content" />
       </div>
     </div>
   );

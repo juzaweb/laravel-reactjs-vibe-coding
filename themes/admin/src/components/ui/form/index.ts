@@ -8,4 +8,4 @@ export * from './Switch';
 export * from './DateTimePicker';
 export * from './ColorPicker';
 export * from './MediaPlaceholder';
-export * from './EditorPlaceholder';
+export * from './Editor';

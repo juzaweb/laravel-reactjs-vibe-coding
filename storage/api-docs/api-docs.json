@@ -44,16 +44,103 @@
                 ]
             }
         },
-        "/api/v1/pages/{slug}": {
+        "/api/v1/pages": {
             "get": {
                 "tags": [
                     "Pages"
                 ],
-                "summary": "Get page details by slug",
-                "operationId": "e32848b0144beea57cfe97e315ecc30c",
+                "summary": "Get list of pages",
+                "operationId": "9e05f7ba039b9d59de1e43b0a78ca181",
                 "parameters": [
                     {
-                        "name": "slug",
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PageResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Create a new page",
+                "operationId": "d810dbe9fe40d6fcc6014a7320c6d99b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PageResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            }
+        },
+        "/api/v1/pages/{id}": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Get page details by id",
+                "operationId": "577c2ec499b66899010c542d14d3194c",
+                "parameters": [
+                    {
+                        "name": "id",
                         "in": "path",
                         "required": true,
                         "schema": {
@@ -67,7 +154,104 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/PageResource"
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PageResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Update an existing page",
+                "operationId": "ebe61096ddf4608a7e35a512582c8b6d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PageRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PageResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Delete a page",
+                "operationId": "6933f58f61835a011bb8ab33a9f51c7d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
@@ -853,6 +1037,43 @@
     },
     "components": {
         "schemas": {
+            "PageRequest": {
+                "required": [
+                    "title",
+                    "locale",
+                    "status"
+                ],
+                "properties": {
+                    "locale": {
+                        "type": "string",
+                        "example": "en"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "published"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Page Title"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "page-slug"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Page content"
+                    },
+                    "template": {
+                        "type": "string",
+                        "example": "default"
+                    },
+                    "thumbnail": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
             "LanguageResource": {
                 "properties": {
                     "code": {
@@ -1070,6 +1291,43 @@
                     }
                 },
                 "type": "object"
+            },
+            "PaginationMeta": {
+                "properties": {
+                    "total_pages": {
+                        "type": "integer"
+                    },
+                    "limit": {
+                        "type": "integer"
+                    },
+                    "total": {
+                        "type": "integer"
+                    },
+                    "page": {
+                        "type": "integer"
+                    }
+                },
+                "type": "object"
+            },
+            "PaginationLinks": {
+                "properties": {
+                    "self": {
+                        "type": "string"
+                    },
+                    "first": {
+                        "type": "string"
+                    },
+                    "prev": {
+                        "type": "string"
+                    },
+                    "next": {
+                        "type": "string"
+                    },
+                    "last": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
             }
         },
         "responses": {
@@ -1140,7 +1398,7 @@
                                 },
                                 "meta": {
                                     "properties": {
-                                        "totalPages": {
+                                        "total_pages": {
                                             "type": "integer"
                                         },
                                         "limit": {

@@ -121,7 +121,7 @@ use OpenApi\Annotations as OA;
  *          @OA\Property(
  *              property="meta",
  *              type="object",
- *              @OA\Property(property="totalPages", type="integer"),
+ *              @OA\Property(property="total_pages", type="integer"),
  *              @OA\Property(property="limit", type="integer"),
  *              @OA\Property(property="total", type="integer"),
  *              @OA\Property(property="page", type="integer")
@@ -227,7 +227,26 @@ use OpenApi\Annotations as OA;
  *          ),
  *          @OA\Property(property="message", type="string", example=""),
  *      )
- *  )
+ *  ),
+ *
+ * @OA\Schema(
+ *     schema="PaginationMeta",
+ *     type="object",
+ *     @OA\Property(property="total_pages", type="integer"),
+ *     @OA\Property(property="limit", type="integer"),
+ *     @OA\Property(property="total", type="integer"),
+ *     @OA\Property(property="page", type="integer")
+ * ),
+ *
+ * @OA\Schema(
+ *     schema="PaginationLinks",
+ *     type="object",
+ *     @OA\Property(property="self", type="string"),
+ *     @OA\Property(property="first", type="string"),
+ *     @OA\Property(property="prev", type="string"),
+ *     @OA\Property(property="next", type="string"),
+ *     @OA\Property(property="last", type="string")
+ * )
  */
 abstract class APIController extends Controller
 {

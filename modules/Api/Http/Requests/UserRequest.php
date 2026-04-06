@@ -15,7 +15,21 @@ namespace Juzaweb\Modules\Api\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Juzaweb\Modules\Core\Rules\AllExist;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *      schema="UserRequest",
+ *      type="object",
+ *      required={"name", "email"},
+ *
+ *      @OA\Property(property="name", type="string", example="John Doe"),
+ *      @OA\Property(property="email", type="string", example="john@example.com"),
+ *      @OA\Property(property="password", type="string", example="password123"),
+ *      @OA\Property(property="password_confirmation", type="string", example="password123"),
+ *      @OA\Property(property="roles", type="array", @OA\Items(type="integer"))
+ * )
+ */
 class UserRequest extends FormRequest
 {
     public function rules(): array

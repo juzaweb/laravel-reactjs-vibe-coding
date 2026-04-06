@@ -16,7 +16,28 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 use Juzaweb\Modules\Core\Models\Media;
 
+use OpenApi\Annotations as OA;
+
 /**
+ * @OA\Schema(
+ *     schema="MediaResource",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ *     @OA\Property(property="readable_size", type="string"),
+ *     @OA\Property(property="type", type="string"),
+ *     @OA\Property(property="mime_type", type="string"),
+ *     @OA\Property(property="size", type="integer"),
+ *     @OA\Property(property="path", type="string"),
+ *     @OA\Property(property="url", type="string"),
+ *     @OA\Property(property="extension", type="string"),
+ *     @OA\Property(property="disk", type="string"),
+ *     @OA\Property(property="is_directory", type="boolean"),
+ *     @OA\Property(property="is_image", type="boolean"),
+ *     @OA\Property(property="is_video", type="boolean"),
+ *     @OA\Property(property="created_at", type="string", format="date-time"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time")
+ * )
+ *
  * @property-read Media $resource
  */
 class MediaResource extends JsonResource

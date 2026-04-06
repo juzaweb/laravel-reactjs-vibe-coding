@@ -37,7 +37,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/login",
+     *      path="/api/v1/auth/user/login",
      *      tags={"Auth"},
      *      summary="Login User",
      *      operationId="user.login",
@@ -98,7 +98,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/refresh-token",
+     *      path="/api/v1/auth/user/refresh-token",
      *      tags={"Auth"},
      *      summary="Refresh Token",
      *      operationId="user.refresh",
@@ -159,7 +159,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/register",
+     *      path="/api/v1/auth/user/register",
      *      tags={"Auth"},
      *      summary="Register User",
      *      operationId="user.register",
@@ -218,7 +218,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/resend-verification-email",
+     *      path="/api/v1/auth/user/resend-verification-email",
      *      tags={"Auth"},
      *      summary="Resend Verification Email",
      *      operationId="user.resend-verification-email",
@@ -259,7 +259,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/email/verify/{id}/{hash}",
+     *      path="/api/v1/auth/user/email/verify/{id}/{hash}",
      *      tags={"Auth"},
      *      summary="Verify Email",
      *      operationId="user.verify-email",
@@ -303,7 +303,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/forgot-password",
+     *      path="/api/v1/auth/user/forgot-password",
      *      tags={"Auth"},
      *      summary="Forgot Password",
      *      operationId="user.forgot-password",
@@ -351,7 +351,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/reset-password/{token}",
+     *      path="/api/v1/auth/user/reset-password/{token}",
      *      tags={"Auth"},
      *      summary="Reset Password",
      *      operationId="user.reset-password",
@@ -412,7 +412,7 @@ class AuthController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/logout",
+     *      path="/api/v1/auth/user/logout",
      *      tags={"Auth"},
      *      security={{"bearerAuth": {}}},
      *      summary="Logout",

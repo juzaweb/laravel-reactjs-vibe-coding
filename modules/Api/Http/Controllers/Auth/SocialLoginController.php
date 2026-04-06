@@ -25,7 +25,7 @@ class SocialLoginController extends APIController
 {
     /**
      * @OA\Post(
-     *      path="/api/auth/user/social/{driver}/redirect",
+     *      path="//api/v1/auth/user/social/{driver}/redirect",
      *      tags={"Auth"},
      *      summary="Login User with Social Redirect",
      *      operationId="user.social.redirect",
@@ -90,7 +90,7 @@ class SocialLoginController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/auth/user/social/{driver}/callback",
+     *      path="//api/v1/auth/user/social/{driver}/callback",
      *      tags={"Auth"},
      *      summary="Login User with Social Callback",
      *      operationId="user.social.callback",

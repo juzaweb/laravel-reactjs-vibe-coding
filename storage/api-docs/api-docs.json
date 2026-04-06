@@ -91,7 +91,13 @@
                             }
                         }
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             },
             "post": {
                 "tags": [

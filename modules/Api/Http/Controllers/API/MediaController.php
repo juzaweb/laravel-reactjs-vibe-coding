@@ -74,7 +74,7 @@ class MediaController extends APIController
 
         $media = $query->paginate($limit);
 
-        return $this->restSuccess(MediaResource::collection($media));
+        return $this->restSuccess($media);
     }
 
     /**
@@ -115,7 +115,7 @@ class MediaController extends APIController
             }
         );
 
-        return $this->restSuccess(new MediaResource($media));
+        return $this->restSuccess($media);
     }
 
     /**
@@ -151,7 +151,7 @@ class MediaController extends APIController
     {
         $media = Media::findOrFail($id);
 
-        return $this->restSuccess(new MediaResource($media));
+        return $this->restSuccess($media);
     }
 
     /**
@@ -207,7 +207,7 @@ class MediaController extends APIController
             }
         );
 
-        return $this->restSuccess(new MediaResource($media));
+        return $this->restSuccess($media);
     }
 
     /**

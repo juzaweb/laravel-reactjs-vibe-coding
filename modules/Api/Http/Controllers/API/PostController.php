@@ -41,13 +41,10 @@ class PostController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
-        $keyword = $request->input('keyword');
 
         $query = Post::query();
 
-        if ($keyword) {
-            $query->search($keyword);
-        }
+        $query->api($request->all());
 
         $posts = $query->paginate($limit);
 

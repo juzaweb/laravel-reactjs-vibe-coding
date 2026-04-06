@@ -24,7 +24,7 @@ use OpenApi\Annotations as OA;
  *      @OA\Property(property="content", type="string", example="Post content"),
  *      @OA\Property(property="slug", type="string", example="post-slug"),
  *      @OA\Property(property="thumbnail", type="string", example="https://example.com/thumbnail.jpg"),
- *      @OA\Property(property="status", type="string", example="published"),
+ *      @OA\Property(property="status", type="string", enum={"published", "private", "draft"}),
  *      @OA\Property(property="categories", type="array", @OA\Items(type="integer")),
  *      @OA\Property(property="tags", type="array", @OA\Items(type="string"))
  * )

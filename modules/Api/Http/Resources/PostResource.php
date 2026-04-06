@@ -14,7 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  *     @OA\Property(property="slug", type="string", example="post-title"),
  *     @OA\Property(property="content", type="string", example="Post content"),
  *     @OA\Property(property="thumbnail", type="string", example="https://example.com/thumbnail.jpg"),
- *     @OA\Property(property="status", type="string", example="published"),
+ *     @OA\Property(property="status", type="string", enum={"published", "private", "draft"}),
  *     @OA\Property(property="created_at", type="string", format="date-time", example="2022-01-01T00:00:00.000000Z"),
  *     @OA\Property(property="updated_at", type="string", format="date-time", example="2022-01-01T00:00:00.000000Z"),
  * )

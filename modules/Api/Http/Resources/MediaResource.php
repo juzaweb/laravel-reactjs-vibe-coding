@@ -15,12 +15,12 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JsonSerializable;
 use Juzaweb\Modules\Core\Models\Media;
-
 use OpenApi\Annotations as OA;
 
 /**
  * @OA\Schema(
  *     schema="MediaResource",
+ *
  *     @OA\Property(property="id", type="integer"),
  *     @OA\Property(property="name", type="string"),
  *     @OA\Property(property="readable_size", type="string"),

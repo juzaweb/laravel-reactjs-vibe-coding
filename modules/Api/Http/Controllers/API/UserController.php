@@ -42,13 +42,10 @@ class UserController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
-        $keyword = $request->input('keyword');
 
         $query = User::query();
 
-        if ($keyword) {
-            $query->search($keyword);
-        }
+        $query->api($request->all());
 
         $users = $query->paginate($limit);
 

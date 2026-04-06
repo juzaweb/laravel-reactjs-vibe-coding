@@ -57,15 +57,12 @@ class MediaController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
-        $keyword = $request->input('keyword');
         $folderId = $request->input('folder_id');
         $type = $request->input('type');
 
         $query = Media::query();
 
-        if ($keyword) {
-            $query->search($keyword);
-        }
+        $query->api($request->all());
 
         if ($folderId !== null) {
             $query->where('folder_id', $folderId);

@@ -76,5 +76,29 @@ echo "--- Setup Completed! ---"
 php artisan migrate
 php artisan l5-swagger:generate
 
+echo "--- Generating Passport Client ---"
+CLIENT_KEYS=$(php artisan passport:client --password --name="Users" --provider=users --no-interaction)
+CLIENT_ID=$(echo "$CLIENT_KEYS" | grep "Client ID" | awk '{print $3}')
+CLIENT_SECRET=$(echo "$CLIENT_KEYS" | grep "Client Secret" | awk '{print $3}')
+
+# Fallback: awk might vary depending on exact output format
+if [ -z "$CLIENT_ID" ]; then
+    CLIENT_ID=$(echo "$CLIENT_KEYS" | sed -n 's/.*Client ID \([^ ]*\).*/\1/p')
+    CLIENT_SECRET=$(echo "$CLIENT_KEYS" | sed -n 's/.*Client Secret \([^ ]*\).*/\1/p')
+fi
+
+# Set to .env.testing
+if [ -f .env.testing ]; then
+    sed -i "s/^AUTH_API_CLIENT_ID=.*/AUTH_API_CLIENT_ID=${CLIENT_ID}/" .env.testing
+    sed -i "s/^AUTH_API_CLIENT_SECRET=.*/AUTH_API_CLIENT_SECRET=${CLIENT_SECRET}/" .env.testing
+fi
+
+# Set to .env
+if [ -f .env ]; then
+    sed -i "s/^AUTH_API_CLIENT_ID=.*/AUTH_API_CLIENT_ID=${CLIENT_ID}/" .env
+    sed -i "s/^AUTH_API_CLIENT_SECRET=.*/AUTH_API_CLIENT_SECRET=${CLIENT_SECRET}/" .env
+fi
+
+
 cd themes/admin
 npm install

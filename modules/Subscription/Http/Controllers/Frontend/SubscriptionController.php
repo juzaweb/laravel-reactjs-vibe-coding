@@ -5,14 +5,14 @@ namespace Juzaweb\Modules\Subscription\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Juzaweb\Modules\Core\Http\Controllers\ThemeController;
+use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Subscription\Exceptions\SubscriptionException;
 use Juzaweb\Modules\Subscription\Facades\Subscription;
 use Juzaweb\Modules\Subscription\Models\Plan;
 use Juzaweb\Modules\Subscription\Models\SubscriptionHistory;
 use Juzaweb\Modules\Subscription\Models\SubscriptionMethod;
 
-class SubscriptionController extends ThemeController
+class SubscriptionController extends APIController
 {
     public function subscribe(Request $request, string $module)
     {
@@ -25,7 +25,8 @@ class SubscriptionController extends ThemeController
         try {
             $billable = decrypt($token);
 
-            if (! is_array($billable)
+            if (
+                ! is_array($billable)
                 || ! isset($billable['billable_id'], $billable['billable_type'])
             ) {
                 throw new \Exception('Invalid bill token');
@@ -45,7 +46,7 @@ class SubscriptionController extends ThemeController
 
         try {
             $payment = DB::transaction(
-                fn () => Subscription::create($user, $billable, $module, $plan, $method, $request->all())
+                fn() => Subscription::create($user, $billable, $module, $plan, $method, $request->all())
             );
         } catch (SubscriptionException $e) {
             return $this->error(['message' => $e->getMessage()]);

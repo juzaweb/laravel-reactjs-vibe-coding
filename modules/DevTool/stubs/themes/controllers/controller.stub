@@ -12,9 +12,9 @@
 
 namespace Juzaweb\Themes\$NAMESPACE_SHORT$\Http\Controllers;
 
-use Juzaweb\Modules\Core\Http\Controllers\ThemeController;
+use Juzaweb\Modules\Core\Http\Controllers\APIController;
 
-class $CLASS$ extends ThemeController
+class $CLASS$ extends APIController
 {
     //
 }

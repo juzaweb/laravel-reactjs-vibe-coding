@@ -5,7 +5,7 @@ namespace Juzaweb\Modules\Payment\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Juzaweb\Modules\Core\Http\Controllers\ThemeController;
+use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Payment\Enums\PaymentHistoryStatus;
 use Juzaweb\Modules\Payment\Events\PaymentFail;
 use Juzaweb\Modules\Payment\Events\PaymentSuccess;
@@ -16,7 +16,7 @@ use Juzaweb\Modules\Payment\Http\Requests\PaymentRequest;
 use Juzaweb\Modules\Payment\Models\PaymentHistory;
 use Juzaweb\Modules\Payment\Models\PaymentMethod;
 
-class PaymentController extends ThemeController
+class PaymentController extends APIController
 {
     public function checkout(CheckoutRequest $request, string $module)
     {

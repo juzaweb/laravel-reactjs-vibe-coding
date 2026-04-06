@@ -13,14 +13,14 @@
 namespace Juzaweb\Modules\Payment\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Core\Http\Controllers\ThemeController;
+use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Payment\Enums\OrderPaymentStatus;
 use Juzaweb\Modules\Payment\Facades\PaymentManager;
 use Juzaweb\Modules\Payment\Models\Cart;
 use Juzaweb\Modules\Payment\Models\Order;
 use Juzaweb\Modules\Payment\Models\PaymentMethod;
 
-class CheckoutController extends ThemeController
+class CheckoutController extends APIController
 {
     public function index(Request $request, string $module, string $cartId)
     {
@@ -83,7 +83,7 @@ class CheckoutController extends ThemeController
         $order = Order::findOrFail($orderId);
 
         $order->load([
-            'items.orderable' => fn ($q) => $q->withTranslation(),
+            'items.orderable' => fn($q) => $q->withTranslation(),
         ]);
 
         return view(

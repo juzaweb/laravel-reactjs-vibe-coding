@@ -6,6 +6,285 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/media": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get list of media files",
+                "operationId": "b7198dfff17ffa70df56cd807f41abaa",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    },
+                    {
+                        "name": "folder_id",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "image",
+                                "video",
+                                "audio",
+                                "document",
+                                "file"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/MediaResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Upload a new media file",
+                "operationId": "384996999b5dc974c3fd192c9328d087",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "$ref": "#/components/schemas/MediaRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/MediaResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/media/{id}": {
+            "get": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Get media details by id",
+                "operationId": "3573334ce3674dd235f8a91c9855bf09",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/MediaResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Update media info (name, etc)",
+                "operationId": "e500083a6b6069636ed730c0ce31a524",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "folder_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/MediaResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Delete a media file",
+                "operationId": "405a4579bc2822b04a2d6df1487f1d12",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Media not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/notifications": {
             "get": {
                 "tags": [
@@ -450,6 +729,254 @@
                 ]
             }
         },
+        "/api/v1/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get list of roles",
+                "operationId": "d22d4fe16cd9a109e57903586143bed8",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/RoleResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Create a new role",
+                "operationId": "6f4a3a7f3e5be08c22517c206648c431",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/RoleResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get role details by id",
+                "operationId": "add677207e362549b32b9e62d9ffac06",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/RoleResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update an existing role",
+                "operationId": "082b1191737996db83c6dca623afedc0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RoleRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/RoleResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete a role",
+                "operationId": "7407a6f96bc76daa04bfd128054bacab",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Role not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/settings": {
             "get": {
                 "tags": [
@@ -571,6 +1098,254 @@
                         "$ref": "#/components/responses/error_500"
                     }
                 }
+            }
+        },
+        "/api/v1/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users",
+                "operationId": "2472daaa1eb4358cb75afbd99c8c9db6",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/UserResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "operationId": "f918d89f778af0a38e4f357149a52de1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user details by id",
+                "operationId": "ca8fe385175dc6962d6209f3e34e67a2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing user",
+                "operationId": "32e53f3a582962a06b961eb9b3f9747e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/UserResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete a user",
+                "operationId": "76cb51f7390072c6f9caae9228a9c223",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/user/login": {
@@ -1054,10 +1829,626 @@
                     }
                 }
             }
+        },
+        "/api/v1/posts": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get list of posts",
+                "operationId": "5da0263dc9df8867865c9958583781e3",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PostResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Create a new post",
+                "operationId": "289d67514aba2b0c6c169b093836d2f2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PostResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/posts/{id}": {
+            "get": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Get post details by id",
+                "operationId": "9419ff5b04053d549e76c0cafcffd404",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PostResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Update an existing post",
+                "operationId": "ff21fef18218987e81ebb2933ed1577b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PostRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PostResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Posts"
+                ],
+                "summary": "Delete a post",
+                "operationId": "761b06f7a54c6b8485bf3eacdb647341",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/plans": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get active plans",
+                "description": "Returns active plans.",
+                "operationId": "667b4d26cc5e587746c5287c2348cefe",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PlanResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/subscription/subscriptions": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get user subscriptions",
+                "description": "Returns the authenticated user's subscriptions.",
+                "operationId": "473868c8e43a8b0f0ff95792c22827f1",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SubscriptionResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/{module}/subscribe": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Create a subscription",
+                "description": "Create a subscription for the authenticated user.",
+                "operationId": "445c9bda1415f642b47cd82325c5c498",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "method_id",
+                                    "plan_id",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "method_id": {
+                                        "type": "string",
+                                        "example": "method_id"
+                                    },
+                                    "plan_id": {
+                                        "type": "string",
+                                        "example": "plan_id"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "example": "encrypted_token"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/{module}/return/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Return after subscription",
+                "description": "Return endpoint after subscription payment process.",
+                "operationId": "d1cbf3f45d32db17c4529cf6f54c8fd0",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment completed successfully!"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/{module}/cancel/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Cancel a subscription",
+                "description": "Cancel a subscription payment.",
+                "operationId": "a38fdaf8f3f4d985bf87a1bc44e2bbc6",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription cancelled successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/histories": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get user subscription histories",
+                "description": "Returns the authenticated user's subscription histories.",
+                "operationId": "c8a202aa950d6eaea135f046d3244741",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SubscriptionHistoryResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/methods": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get active subscription methods",
+                "description": "Returns active subscription methods.",
+                "operationId": "b902a73f044294d6c3865a7ad1d8fc24",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SubscriptionMethodResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "MediaRequest": {
+                "required": [
+                    "file"
+                ],
+                "properties": {
+                    "file": {
+                        "description": "The file to upload",
+                        "type": "string",
+                        "format": "binary"
+                    },
+                    "folder_id": {
+                        "description": "The ID of the folder where the media belongs (optional)",
+                        "type": "integer",
+                        "example": 1
+                    }
+                },
+                "type": "object"
+            },
             "PageRequest": {
                 "required": [
                     "title",
@@ -1095,6 +2486,66 @@
                 },
                 "type": "object"
             },
+            "RoleRequest": {
+                "title": "Role Request",
+                "description": "Role request schema",
+                "required": [
+                    "name",
+                    "code"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "example": [
+                            "create_posts",
+                            "edit_posts"
+                        ]
+                    }
+                },
+                "type": "object"
+            },
+            "UserRequest": {
+                "required": [
+                    "name",
+                    "email"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "type": "string",
+                        "example": "john@example.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "example": "password123"
+                    },
+                    "password_confirmation": {
+                        "type": "string",
+                        "example": "password123"
+                    },
+                    "roles": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "LanguageResource": {
                 "properties": {
                     "code": {
@@ -1104,6 +2555,58 @@
                         "type": "string"
                     },
                     "default": {
+                        "type": "boolean"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            },
+            "MediaResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "readable_size": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "mime_type": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "path": {
+                        "type": "string"
+                    },
+                    "url": {
+                        "type": "string"
+                    },
+                    "extension": {
+                        "type": "string"
+                    },
+                    "disk": {
+                        "type": "string"
+                    },
+                    "is_directory": {
+                        "type": "boolean"
+                    },
+                    "is_image": {
+                        "type": "boolean"
+                    },
+                    "is_video": {
                         "type": "boolean"
                     },
                     "created_at": {
@@ -1212,6 +2715,49 @@
                 },
                 "type": "object"
             },
+            "RoleResource": {
+                "title": "Role Resource",
+                "description": "Role resource schema",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "code": {
+                        "type": "string",
+                        "example": "admin"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Admin"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Admin role"
+                    },
+                    "grant_all_permissions": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01T00:00:00Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2021-01-01T00:00:00Z"
+                    },
+                    "permissions": {
+                        "type": "array",
+                        "items": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "TokenResource": {
                 "required": [
                     "token_type",
@@ -1313,6 +2859,93 @@
                 },
                 "type": "object"
             },
+            "PostRequest": {
+                "required": [
+                    "title"
+                ],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "example": "Post Title"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Post content"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "post-slug"
+                    },
+                    "thumbnail": {
+                        "type": "string",
+                        "example": "https://example.com/thumbnail.jpg"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "published",
+                            "private",
+                            "draft"
+                        ]
+                    },
+                    "categories": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "PostResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Post Title"
+                    },
+                    "slug": {
+                        "type": "string",
+                        "example": "post-title"
+                    },
+                    "content": {
+                        "type": "string",
+                        "example": "Post content"
+                    },
+                    "thumbnail": {
+                        "type": "string",
+                        "example": "https://example.com/thumbnail.jpg"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "published",
+                            "private",
+                            "draft"
+                        ]
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "PaginationMeta": {
                 "properties": {
                     "total_pages": {
@@ -1346,6 +2979,163 @@
                     },
                     "last": {
                         "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PlanResource": {
+                "title": "PlanResource",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Premium Plan"
+                    },
+                    "price": {
+                        "type": "number",
+                        "example": 9.99
+                    },
+                    "is_free": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "duration": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "duration_unit": {
+                        "type": "string",
+                        "example": "month"
+                    },
+                    "features": {
+                        "type": "array",
+                        "items": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "value": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "SubscriptionHistoryResource": {
+                "title": "SubscriptionHistoryResource",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "subscription_id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "plan_id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "method_id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "example": 9.99
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-10 10:10:10"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "success"
+                    },
+                    "plan": {
+                        "$ref": "#/components/schemas/PlanResource"
+                    },
+                    "method": {
+                        "$ref": "#/components/schemas/SubscriptionMethodResource"
+                    }
+                },
+                "type": "object"
+            },
+            "SubscriptionMethodResource": {
+                "title": "SubscriptionMethodResource",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Paypal"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Pay with paypal"
+                    },
+                    "driver": {
+                        "type": "string",
+                        "example": "paypal"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "SubscriptionResource": {
+                "title": "SubscriptionResource",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "plan_id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "method_id": {
+                        "type": "string",
+                        "example": "99a5e8aa-534a-4467-9c98-107f9c21b96d"
+                    },
+                    "amount": {
+                        "type": "number",
+                        "example": 9.99
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-10-10 10:10:10"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2023-11-10 10:10:10"
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "active"
+                    },
+                    "plan": {
+                        "$ref": "#/components/schemas/PlanResource"
+                    },
+                    "method": {
+                        "$ref": "#/components/schemas/SubscriptionMethodResource"
                     }
                 },
                 "type": "object"
@@ -1673,6 +3463,10 @@
     },
     "tags": [
         {
+            "name": "Media",
+            "description": "Media"
+        },
+        {
             "name": "Notification",
             "description": "Notification"
         },
@@ -1685,6 +3479,10 @@
             "description": "Profile"
         },
         {
+            "name": "Roles",
+            "description": "Roles"
+        },
+        {
             "name": "Settings",
             "description": "Settings"
         },
@@ -1693,8 +3491,20 @@
             "description": "Translations"
         },
         {
+            "name": "Users",
+            "description": "Users"
+        },
+        {
             "name": "Auth",
             "description": "Auth"
+        },
+        {
+            "name": "Posts",
+            "description": "Posts"
+        },
+        {
+            "name": "Subscription",
+            "description": "Subscription"
         }
     ]
 }

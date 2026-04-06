@@ -15,11 +15,11 @@ namespace Juzaweb\Modules\Payment\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Modules\Core\Http\Controllers\ThemeController;
+use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Payment\Http\Requests\CartAddRequest;
 use Juzaweb\Modules\Payment\Models\Cart;
 
-class CartController extends ThemeController
+class CartController extends APIController
 {
     public function add(CartAddRequest $request)
     {

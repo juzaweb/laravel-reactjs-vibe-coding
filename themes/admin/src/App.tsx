@@ -29,22 +29,30 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Auth Routes */}
-        <Route path="/auth/login" element={<AuthLayout><Login /></AuthLayout>} />
-        <Route path="/auth/register" element={<AuthLayout><Register /></AuthLayout>} />
-        <Route path="/auth/forgot-password" element={<AuthLayout><ForgotPassword /></AuthLayout>} />
-        <Route path="/auth/reset-password" element={<AuthLayout><ResetPassword /></AuthLayout>} />
-        <Route path="/auth/verify-email" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
-        <Route path="/auth/verify-email/:id/:hash" element={<AuthLayout><VerifyEmail /></AuthLayout>} />
+        <Route path="/auth" element={<AuthLayout />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password" element={<ResetPassword />} />
+          <Route path="verify-email">
+            <Route index element={<VerifyEmail />} />
+            <Route path=":id/:hash" element={<VerifyEmail />} />
+          </Route>
+        </Route>
 
         {/* Protected Routes (Admin) */}
-        <Route path="/admin" element={<ProtectedRoute><AdminLayout><Dashboard /></AdminLayout></ProtectedRoute>} />
-        <Route path="/admin/media" element={<ProtectedRoute><AdminLayout><MediaLibrary /></AdminLayout></ProtectedRoute>} />
+        <Route element={<ProtectedRoute />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="media" element={<MediaLibrary />} />
+          </Route>
+        </Route>
 
         {/* Root Redirect */}
         <Route path="/" element={<Navigate to="/admin" replace />} />
 
         {/* Fallback for other routes */}
-        <Route path="*" element={<ProtectedRoute><AdminLayout><div className="p-8 text-center text-[var(--text-muted)]">Page not found or under construction.</div></AdminLayout></ProtectedRoute>} />
+        <Route path="*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </BrowserRouter>
   )

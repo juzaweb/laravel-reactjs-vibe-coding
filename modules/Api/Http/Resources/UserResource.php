@@ -23,7 +23,7 @@ use OpenApi\Annotations as OA;
  *     required={"id", "name", "email", "created_at", "updated_at"},
  *     properties={
  *
- *         @OA\Property(property="id", type="integer"),
+ *         @OA\Property(property="id", type="string", format="uuid"),
  *         @OA\Property(property="name", type="string"),
  *         @OA\Property(property="email", type="string"),
  *         @OA\Property(property="created_at", type="string", format="date-time"),

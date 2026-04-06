@@ -30,7 +30,7 @@ class PageController extends APIController
      *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PageResource")),
      *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
      *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
-     *              @OA\Property(property="success", type="boolean", example="true"),
+     *              @OA\Property(property="success", type="boolean", example=true),
      *          )
      *      ),
      * )
@@ -112,7 +112,7 @@ class PageController extends APIController
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="data", ref="#/components/schemas/PageResource"),
-     *              @OA\Property(property="success", type="boolean", example="true")
+     *              @OA\Property(property="success", type="boolean", example=true)
      *          )
      *      ),
      *      @OA\Response(response=404, description="Page not found")

@@ -339,6 +339,67 @@
                 ]
             }
         },
+        "/api/v1/menu-boxes": {
+            "get": {
+                "tags": [
+                    "Menus"
+                ],
+                "summary": "Get list of menu boxes",
+                "operationId": "d8ee496290e8914f702dd8e4cfb78358",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "example": "pages"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "core::translation.pages"
+                                                    },
+                                                    "icon": {
+                                                        "type": "string",
+                                                        "example": "fas fa-layer-group"
+                                                    },
+                                                    "priority": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "field": {
+                                                        "type": "string",
+                                                        "example": "title"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/menus": {
             "get": {
                 "tags": [

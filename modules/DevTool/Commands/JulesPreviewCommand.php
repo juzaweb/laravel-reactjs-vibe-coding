@@ -36,38 +36,6 @@ class JulesPreviewCommand extends Command
      */
     protected $ollamaModel = 'qwen3-coder:480b-cloud';
 
-    /**
-     * The system prompt for the review.
-     *
-     * @var string
-     */
-    protected $systemPrompt = <<<'PROMPT'
-Bạn là một AI Agent chuyên review và đánh giá mã nguồn.
-Google Jules vừa tạo ra/đề xuất đoạn mã chức năng (hoặc thông tin hoạt động).
-
-Hãy xem xét dữ liệu sau và thực hiện review code, tìm ra các lỗi theo "Yêu cầu phản hồi" dưới đây:
-{jules_data}
-
-Yêu cầu phản hồi (luôn tuân thủ):
-- **Validation:** Always create and use a **FormRequest** class.
-- **Enum:** Always use **PHP Enums** for status, type,... columns.
-- Use English for variable names/comments.
-- No "TODO" comments; implement full logic.
-- Use camelCase for variable names.
-- Use camelCase for method names.
-- Use snake_case for function names.
-- Use snake_case for table names.
-- Use snake_case for column names.
-- All PHP code MUST follow the Laravel style coding standard strictly.
-- Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
-- Always define swagger for new API endpoints.
-- Always use restSuccess and restFail in trait HasRestResponses for API responses. Using public static function getResource(): string method in model (define in HasResource trait) to custom Resource for api response.
-
-Lưu ý:
-- Chỉ list các lỗi theo dạng từng gạch đầu dòng
-- Không thêm bất kỳ nội dung nào khác ngoài "Yêu cầu phản hồi"
-PROMPT;
-
     public function handle()
     {
         $apiKey = config('dev-tool.jules.api_key');
@@ -211,7 +179,8 @@ PROMPT;
     {
         $this->info('--- [2] PREVIEWING GOOGLE JULES CODE (OLLAMA MODEL) ---');
 
-        $prompt = str_replace('{jules_data}', $julesData, $this->systemPrompt);
+        $systemPrompt = file_get_contents(base_path('review-prompt.md'));
+        $prompt = str_replace('{jules_data}', $julesData, $systemPrompt);
 
         $response = Http::timeout(300)->post($this->ollamaUrl, [
             'model' => $this->ollamaModel,

@@ -1,21 +1,22 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector, usePermissions } from '../../store/hooks';
 import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
   const { t } = useTranslation();
+  const { hasPermission } = usePermissions();
 
   const navItems = [
-    { name: t('dashboard'), path: '/admin', icon: FiHome },
-    { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText },
-    { name: 'Media', path: '/admin/media', icon: FiImage },
-    { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2 },
-    { name: t('users'), path: '/admin/users', icon: FiUsers },
-    { name: t('settings'), path: '/admin/settings', icon: FiSettings },
-  ];
+    { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
+    { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText, permission: 'pages.index' },
+    { name: 'Media', path: '/admin/media', icon: FiImage, permission: 'media.index' },
+    { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2, permission: null },
+    { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
+    { name: t('settings'), path: '/admin/settings', icon: FiSettings, permission: 'settings.index' },
+  ].filter(item => !item.permission || hasPermission(item.permission));
 
   return (
     <aside

@@ -4,11 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
 import { usePages, useDeletePage } from './hooks';
+import { usePermissions } from '../../store/hooks';
 
 export const PagesList: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const { hasPermission } = usePermissions();
 
   const { data, isLoading, error } = usePages(page, limit);
   const deletePageMutation = useDeletePage();
@@ -36,12 +38,14 @@ export const PagesList: React.FC = () => {
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-[var(--text-main)]">{t('pages', 'Pages')}</h1>
-        <Link to="/admin/pages/create">
-          <Button variant="primary" className="flex items-center gap-2">
-            <FiPlus className="w-4 h-4" />
-            {t('create_page', 'Create Page')}
-          </Button>
-        </Link>
+        {hasPermission('pages.create') && (
+          <Link to="/admin/pages/create">
+            <Button variant="primary" className="flex items-center gap-2">
+              <FiPlus className="w-4 h-4" />
+              {t('create_page', 'Create Page')}
+            </Button>
+          </Link>
+        )}
       </div>
 
       <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
@@ -84,20 +88,24 @@ export const PagesList: React.FC = () => {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">
-                      <Link to={`/admin/pages/${page.id}/edit`}>
-                        <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
-                          <FiEdit2 className="w-4 h-4" />
+                      {hasPermission('pages.edit') && (
+                        <Link to={`/admin/pages/${page.id}/edit`}>
+                          <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
+                            <FiEdit2 className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                      )}
+                      {hasPermission('pages.delete') && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
+                          onClick={() => handleDelete(page.id)}
+                          disabled={deletePageMutation.isPending}
+                        >
+                          <FiTrash2 className="w-4 h-4" />
                         </Button>
-                      </Link>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                        onClick={() => handleDelete(page.id)}
-                        disabled={deletePageMutation.isPending}
-                      >
-                        <FiTrash2 className="w-4 h-4" />
-                      </Button>
+                      )}
                     </div>
                   </td>
                 </tr>

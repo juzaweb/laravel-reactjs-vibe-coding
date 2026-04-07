@@ -128,6 +128,79 @@
                 ]
             }
         },
+        "/api/v1/media/chunk": {
+            "post": {
+                "tags": [
+                    "Media"
+                ],
+                "summary": "Upload a media file in chunks",
+                "operationId": "23b586a653372bd92139a84c73879b87",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "properties": {
+                                    "file": {
+                                        "description": "The chunk file",
+                                        "type": "string",
+                                        "format": "binary"
+                                    },
+                                    "folder_id": {
+                                        "description": "The folder ID",
+                                        "type": "integer"
+                                    },
+                                    "resumableChunkNumber": {
+                                        "description": "The current chunk number",
+                                        "type": "integer"
+                                    },
+                                    "resumableTotalChunks": {
+                                        "description": "The total number of chunks",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation. If finished, returns data. If continuing, returns chunk info.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "oneOf": [
+                                                {
+                                                    "$ref": "#/components/schemas/MediaResource"
+                                                }
+                                            ],
+                                            "nullable": true
+                                        },
+                                        "done": {
+                                            "description": "Percentage done",
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/media/{id}": {
             "get": {
                 "tags": [

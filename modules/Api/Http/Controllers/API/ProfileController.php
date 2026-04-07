@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Juzaweb\Modules\Api\Http\Requests\Profile\UpdatePasswordRequest;
 use Juzaweb\Modules\Api\Http\Requests\Profile\UpdateProfileRequest;
-use Juzaweb\Modules\Api\Http\Resources\UserResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use OpenApi\Annotations as OA;
 
@@ -40,7 +39,7 @@ class ProfileController extends APIController
         $user = clone $request->user();
         $user->mergeCasts(['status' => 'string']);
 
-        return $this->restSuccess(UserResource::make($user)->resolve());
+        return $this->restSuccess($user);
     }
 
     /**
@@ -87,7 +86,7 @@ class ProfileController extends APIController
         $user = clone $user;
         $user->mergeCasts(['status' => 'string']);
 
-        return $this->restSuccess(UserResource::make($user)->resolve());
+        return $this->restSuccess($user);
     }
 
     /**

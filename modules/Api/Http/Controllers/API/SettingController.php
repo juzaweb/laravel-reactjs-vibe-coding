@@ -3,6 +3,7 @@
 namespace Juzaweb\Modules\Api\Http\Controllers\API;
 
 use Illuminate\Http\JsonResponse;
+use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\Setting;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Translations\Models\Language;
@@ -46,6 +47,12 @@ class SettingController extends APIController
      *                          type="string",
      *                          description="Language name, e.g. English, Vietnamese, Japanese"
      *                      )
+     *                  ),
+     *                  @OA\Property(
+     *                      property="active_modules",
+     *                      type="array",
+     *                      description="List of active module names",
+     *                      @OA\Items(type="string", example="Blog")
      *                  )
      *              )
      *          )
@@ -77,6 +84,7 @@ class SettingController extends APIController
                 'languages' => Language::languages()->mapWithKeys(function ($item) {
                     return [$item->code => $item->name];
                 })->toArray(),
+                'active_modules' => array_keys(Module::allEnabled()),
             ]
         );
     }

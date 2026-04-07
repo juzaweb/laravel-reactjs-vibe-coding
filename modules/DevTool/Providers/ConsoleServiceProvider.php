@@ -4,6 +4,7 @@ namespace Juzaweb\Modules\DevTool\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
+use Juzaweb\Modules\DevTool\Commands\JulesPreviewCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\CommandMakeCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\ComponentClassMakeCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\ComponentViewMakeCommand;
@@ -64,6 +65,7 @@ class ConsoleServiceProvider extends ServiceProvider
      * The available commands
      */
     protected array $commands = [
+        JulesPreviewCommand::class,
         PublishAgentsCommand::class,
         CommandMakeCommand::class,
         ControllerMakeCommand::class,

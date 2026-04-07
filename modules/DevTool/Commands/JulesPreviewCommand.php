@@ -69,8 +69,8 @@ Yêu cầu phản hồi:
 - Use `scopeWhereFrontend` for theme and api queries. Use trait `Juzaweb\Modules\Admin\Traits\UsedInFrontend` to model if not exists.
 - Always define swagger for new API endpoints.
 - Always use restSuccess and restFail in trait HasRestResponses for API responses. Using public static function getResource(): string method in model (define in HasResource trait) to custom Resource for api response.
-- Chỉ ra các vấn đề về kiến trúc, bảo mật hoặc tối ưu hóa.
-- Tóm tắt gọn gàng để có thể submit feedback lại cho Jules.
+- Identify any architectural, security, or optimization issues.
+- Provide a concise summary so that feedback can be submitted to Jules.
 PROMPT;
 
     public function handle()

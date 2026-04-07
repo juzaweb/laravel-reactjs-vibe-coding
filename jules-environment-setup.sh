@@ -75,6 +75,7 @@ echo "--- Setup Completed! ---"
 
 php artisan migrate
 php artisan l5-swagger:generate
+php artisan user:make --name=Admin --email=admin@gmail.com --pass=password --super-admin
 
 echo "--- Generating Passport Client ---"
 CLIENT_KEYS=$(php artisan passport:client --password --name="Users" --provider=users --no-interaction)

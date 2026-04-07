@@ -76,6 +76,7 @@ Instead of putting all business logic inside the generic `/app` directory, this 
 - **Frontend Admin**: `cd themes/admin && npm run dev`
 - **Frontend App**: `cd themes/app && npm run dev`
 - Or use the root command defined in composer: `composer run dev` (starts concurrently server, queue, logs, and frontend vite).
+- Testing user: email: admin@gmail.com password: password. Run `php artisan user:make --name=Admin --email=admin@gmail.com --pass=password --super-admin` to create admin user if not exists.
 
 ## 5. Coding Rules (Important)
 - **Database:** Always create a **Model** for any table update.

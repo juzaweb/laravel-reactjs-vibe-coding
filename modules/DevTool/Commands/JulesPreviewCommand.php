@@ -48,7 +48,27 @@ Google Jules vừa tạo ra/đề xuất đoạn mã chức năng (hoặc thông
 Hãy xem xét dữ liệu sau từ Jules và thực hiện preview code, tìm ra các lỗi điểm yếu hoặc gửi nhận xét của bạn:
 {jules_data}
 
-Yêu cầu phản hồi: 
+Yêu cầu phản hồi:
+- **Database:** Always create a **Model** for any table update.
+- **Validation:** Always create and use a **FormRequest** class.
+- **Enum:** Use **PHP Enums** for status, type, and category columns.
+- **Imports:** Always use `use` statements at the top. DO NOT use Fully Qualified Class Names (e.g., `\App\Models\User`) inline.
+- **Safety:** Always check functions/methods exists before dynamic calls.
+- **Efficiency:** Only refresh/run specific modified migration files using `--path`. DO NOT run `migrate:refresh` or `migrate:fresh` on the entire folder.
+- Use English for variable names/comments.
+- Prefer functional patterns.
+- No "TODO" comments; implement full logic.
+- Use camelCase for variable names.
+- Use camelCase for method names.
+- Use snake_case for function names.
+- Use snake_case for table names.
+- Use snake_case for column names.
+- All PHP code MUST follow the Laravel style coding standard strictly.
+- Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
+- Models using the `Translatable` trait must have a corresponding `ModelTranslation` class.
+- Use `scopeWhereFrontend` for theme and api queries. Use trait `Juzaweb\Modules\Admin\Traits\UsedInFrontend` to model if not exists.
+- Always define swagger for new API endpoints.
+- Always use restSuccess and restFail in trait HasRestResponses for API responses. Using public static function getResource(): string method in model (define in HasResource trait) to custom Resource for api response.
 - Chỉ ra các vấn đề về kiến trúc, bảo mật hoặc tối ưu hóa.
 - Tóm tắt gọn gàng để có thể submit feedback lại cho Jules.
 PROMPT;
@@ -69,6 +89,8 @@ PROMPT;
         // 1. Fetch Jules Data
         $julesData = $this->fetchJulesData($apiKey, $sessionId);
 
+        dd($julesData);
+
         if (empty($julesData)) {
             $this->warn('Không tìm thấy nội dung git diff nào hoặc lỗi khi fetch nhánh.');
 
@@ -85,7 +107,7 @@ PROMPT;
         }
 
         $this->info("\n--- KẾT QUẢ CUỐI CÙNG ---");
-        $this->line("Feedback đã tạo:\n".$previewFeedback);
+        $this->line("Feedback đã tạo:\n" . $previewFeedback);
 
         // 3. Submit feedback back to Jules (Commented out logically as requested)
         // $apiStatus = $this->submitFeedbackToJules($apiKey, $sessionId, $previewFeedback);
@@ -170,21 +192,21 @@ PROMPT;
 
             $fetchProcess = Process::run("git fetch origin {$fetchRef}");
             if ($fetchProcess->failed()) {
-                $this->error('Lỗi khi git fetch: '.$fetchProcess->errorOutput());
+                $this->error('Lỗi khi git fetch: ' . $fetchProcess->errorOutput());
 
                 return null;
             }
 
             $diffProcess = Process::run("git diff {$baseBranch}...FETCH_HEAD");
             if ($diffProcess->failed()) {
-                $this->error('Lỗi khi git diff: '.$diffProcess->errorOutput());
+                $this->error('Lỗi khi git diff: ' . $diffProcess->errorOutput());
 
                 return null;
             }
 
             return $diffProcess->output();
         } catch (\Exception $e) {
-            $this->error('Lỗi git command: '.$e->getMessage());
+            $this->error('Lỗi git command: ' . $e->getMessage());
 
             return null;
         }
@@ -209,7 +231,7 @@ PROMPT;
             return $response->json('response');
         }
 
-        $this->error('Ollama API Error: '.$response->body());
+        $this->error('Ollama API Error: ' . $response->body());
 
         return null;
     }
@@ -228,6 +250,6 @@ PROMPT;
             'prompt' => $feedback,
         ]);
 
-        return 'Completed feedback submit with HTTP '.$response->status();
+        return 'Completed feedback submit with HTTP ' . $response->status();
     }
 }

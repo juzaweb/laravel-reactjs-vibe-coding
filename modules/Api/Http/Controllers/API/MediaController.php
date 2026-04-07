@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Api\Http\Requests\MediaBulkRequest;
 use Juzaweb\Modules\Api\Http\Requests\MediaRequest;
-use Juzaweb\Modules\Api\Http\Resources\MediaResource;
 use Juzaweb\Modules\Core\Contracts\Media as MediaContract;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Media;

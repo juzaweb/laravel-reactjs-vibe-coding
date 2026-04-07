@@ -11,7 +11,7 @@ The project is structured as a **Monolithic Repository with Headless Architectur
 The primary directories are:
 - `/modules/`: Contains backend business logic separated into isolated Laravel modules (e.g., Core, Api, Blog, Payment, Subscription).
 - `/themes/admin/`: An isolated React Single Page Application (SPA) serving as the administration dashboard.
-- `/themes/app/`: An isolated Next.js Application serving as the server-rendered, public-facing website.
+- `/themes/app/`: An isolated Next.js Application serving as the server-rendered, public-facing website. This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code.
 - `/app/` & `/bootstrap/` & `/config/`: Core Laravel directories integrating the modular framework.
 
 ---

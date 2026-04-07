@@ -3,8 +3,8 @@
 namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\Modules\DevTool\Tests\TestCase;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
+use Juzaweb\Modules\DevTool\Tests\TestCase;
 
 class FactoryMakeCommandTest extends TestCase
 {
@@ -26,13 +26,13 @@ class FactoryMakeCommandTest extends TestCase
         $this->app['config']->set('dev-tool.modules.paths.generator.model.namespace', 'Models');
 
         // Stubs path
-        $this->app['config']->set('dev-tool.modules.stubs.path', dirname(__DIR__, 2) . '/stubs/modules/');
-        $this->app['config']->set('modules.stubs.path', dirname(__DIR__, 2) . '/stubs/modules/');
+        $this->app['config']->set('dev-tool.modules.stubs.path', dirname(__DIR__, 2).'/stubs/modules/');
+        $this->app['config']->set('modules.stubs.path', dirname(__DIR__, 2).'/stubs/modules/');
 
-        Stub::setBasePath(dirname(__DIR__, 2) . '/stubs/modules/');
+        Stub::setBasePath(dirname(__DIR__, 2).'/stubs/modules/');
 
         // Create a dummy module
-        if (!File::isDirectory(base_path('modules/Blog'))) {
+        if (! File::isDirectory(base_path('modules/Blog'))) {
             File::makeDirectory(base_path('modules/Blog'), 0755, true);
         }
 
@@ -47,7 +47,7 @@ class FactoryMakeCommandTest extends TestCase
             'providers' => [],
             'aliases' => [],
             'files' => [],
-            'requires' => []
+            'requires' => [],
         ]));
     }
 

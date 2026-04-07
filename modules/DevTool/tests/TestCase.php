@@ -2,8 +2,11 @@
 
 namespace Juzaweb\Modules\DevTool\Tests;
 
-use Juzaweb\Modules\DevTool\Providers\DevToolServiceProvider;
+use Juzaweb\Modules\Core\Facades\Module;
+use Juzaweb\Modules\Core\Facades\Theme;
 use Juzaweb\Modules\Core\Providers\CoreServiceProvider;
+use Juzaweb\Modules\DevTool\Providers\DevToolServiceProvider;
+use Juzaweb\QueryCache\QueryCacheServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -11,7 +14,7 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageProviders($app)
     {
         return [
-            \Juzaweb\QueryCache\QueryCacheServiceProvider::class,
+            QueryCacheServiceProvider::class,
             CoreServiceProvider::class,
             DevToolServiceProvider::class,
         ];
@@ -20,8 +23,8 @@ abstract class TestCase extends BaseTestCase
     protected function getPackageAliases($app)
     {
         return [
-            'Theme' => \Juzaweb\Modules\Core\Facades\Theme::class,
-            'Module' => \Juzaweb\Modules\Core\Facades\Module::class,
+            'Theme' => Theme::class,
+            'Module' => Module::class,
         ];
     }
 }

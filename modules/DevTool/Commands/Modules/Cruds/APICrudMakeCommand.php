@@ -3,8 +3,8 @@
 /**
  * LARABIZ CMS - Full SPA Laravel CMS
  *
- * @package    larabizcms/larabiz
  * @author     The Anh Dang
+ *
  * @link       https://larabiz.com
  */
 
@@ -12,13 +12,13 @@ namespace Juzaweb\Modules\DevTool\Commands\Modules\Cruds;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Juzaweb\Modules\Core\Modules\Contracts\RepositoryInterface;
 use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Juzaweb\Modules\Core\Modules\Module;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
 use Juzaweb\Modules\Core\Modules\Traits\UseFromModel;
+use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -83,9 +83,9 @@ class APICrudMakeCommand extends Command
 
         $controllerPath = GenerateConfigReader::read('controller');
 
-        $path .= $controllerPath->getPath() . '/APIs/' . $this->getControllerName() . '.php';
+        $path .= $controllerPath->getPath().'/APIs/'.$this->getControllerName().'.php';
 
-        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
+        if (! $this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
 
@@ -94,28 +94,28 @@ class APICrudMakeCommand extends Command
         $this->tableName = $this->makeModel($module)->getTable();
 
         $contents = (new Stub('cruds/api/controller.stub', [
-            'MODULENAME'        => $module->getStudlyName(),
-            'CONTROLLERNAME'    => $this->getControllerName(),
-            'NAMESPACE'         => $module->getStudlyName(),
-            'CLASS_NAMESPACE'   => $this->getClassNamespace($module, 'Http\\Controllers\\APIs\\'),
-            'CLASS'             => $this->getControllerNameWithoutNamespace(),
-            'LOWER_NAME'        => $module->getLowerName(),
-            'MODULE'            => $this->getModuleName(),
-            'NAME'              => $this->getModuleName(),
-            'STUDLY_NAME'       => $module->getStudlyName(),
-            'MODULE_NAMESPACE'  => app(RepositoryInterface::class)->config('namespace'),
-            'MODEL_NAMESPACE'   => $this->getModelClass($module),
-            'URL_PREFIX'        => $this->getUrlPrefix(),
-            'MODEL_NAME'       => $this->getModelName(),
+            'MODULENAME' => $module->getStudlyName(),
+            'CONTROLLERNAME' => $this->getControllerName(),
+            'NAMESPACE' => $module->getStudlyName(),
+            'CLASS_NAMESPACE' => $this->getClassNamespace($module, 'Http\\Controllers\\APIs\\'),
+            'CLASS' => $this->getControllerNameWithoutNamespace(),
+            'LOWER_NAME' => $module->getLowerName(),
+            'MODULE' => $this->getModuleName(),
+            'NAME' => $this->getModuleName(),
+            'STUDLY_NAME' => $module->getStudlyName(),
+            'MODULE_NAMESPACE' => app(RepositoryInterface::class)->config('namespace'),
+            'MODEL_NAMESPACE' => $this->getModelClass($module),
+            'URL_PREFIX' => $this->getUrlPrefix(),
+            'MODEL_NAME' => $this->getModelName(),
             'REPOSITORY_NAMESPACE' => $this->getRepositoryClass($module),
-            'REPOSITORY_CLASS'   => $this->getRepositoryName(),
-            'REPOSITORY_NAME'    => Str::camel($this->getRepositoryName()),
-            'TITLE'             => $this->getTitle(),
-            'SINGULAR_TITLE'    => Str::singular($this->getTitle()),
-            'TABLE'             => $this->tableName,
+            'REPOSITORY_CLASS' => $this->getRepositoryName(),
+            'REPOSITORY_NAME' => Str::camel($this->getRepositoryName()),
+            'TITLE' => $this->getTitle(),
+            'SINGULAR_TITLE' => Str::singular($this->getTitle()),
+            'TABLE' => $this->tableName,
             'REQUEST_NAMESPACE' => $this->getRequestNamespace($module),
             'BULK_REQUEST_NAMESPACE' => $this->getBulkRequestNamespace($module),
-            'REQUEST_NAME'     => "{$this->modelName}Request",
+            'REQUEST_NAME' => "{$this->modelName}Request",
             'BULK_REQUEST_NAME' => "{$this->modelName}ActionsRequest",
         ]))->render();
 
@@ -153,9 +153,6 @@ class APICrudMakeCommand extends Command
         return Str::plural(Str::slug($this->argument('model')));
     }
 
-    /**
-     * @return string
-     */
     protected function getControllerNameWithoutNamespace(): string
     {
         return class_basename($this->getControllerName());
@@ -179,8 +176,6 @@ class APICrudMakeCommand extends Command
 
     /**
      * Get class name.
-     *
-     * @return string
      */
     protected function getClass(): string
     {
@@ -189,8 +184,6 @@ class APICrudMakeCommand extends Command
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
     protected function getArguments(): array
     {

@@ -3,18 +3,18 @@
 namespace Juzaweb\Modules\DevTool\Commands\Modules\Databases;
 
 use Illuminate\Support\Str;
-use Juzaweb\Modules\DevTool\Commands\Modules\GeneratorCommand;
 use Juzaweb\Modules\Core\Modules\Support\Config\GenerateConfigReader;
 use Juzaweb\Modules\Core\Modules\Support\Stub;
 use Juzaweb\Modules\Core\Modules\Traits\CanClearModulesCache;
 use Juzaweb\Modules\Core\Modules\Traits\ModuleCommandTrait;
+use Juzaweb\Modules\DevTool\Commands\Modules\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class SeedMakeCommand extends GeneratorCommand
 {
-    use ModuleCommandTrait;
     use CanClearModulesCache;
+    use ModuleCommandTrait;
 
     protected string $argumentName = 'name';
 
@@ -88,7 +88,7 @@ class SeedMakeCommand extends GeneratorCommand
 
         $seederPath = GenerateConfigReader::read('seeder');
 
-        return $path . $seederPath->getPath() . '/' . $this->getSeederName() . '.php';
+        return $path.$seederPath->getPath().'/'.$this->getSeederName().'.php';
     }
 
     /**
@@ -100,13 +100,11 @@ class SeedMakeCommand extends GeneratorCommand
     {
         $end = $this->option('master') ? 'DatabaseSeeder' : 'TableSeeder';
 
-        return Str::studly($this->argument('name')) . $end;
+        return Str::studly($this->argument('name')).$end;
     }
 
     /**
      * Get default namespace.
-     *
-     * @return string
      */
     public function getDefaultNamespace(): string
     {

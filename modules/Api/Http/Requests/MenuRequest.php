@@ -14,7 +14,18 @@ namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use OpenApi\Annotations as OA;
 
+/**
+ * @OA\Schema(
+ *      schema="MenuRequest",
+ *      type="object",
+ *      required={"name"},
+ *
+ *      @OA\Property(property="name", type="string", example="Main Menu", description="The name of the menu"),
+ *      @OA\Property(property="content", type="string", example="[]", description="JSON content of the menu items (required on PUT)")
+ * )
+ */
 class MenuRequest extends FormRequest
 {
     public function rules(): array

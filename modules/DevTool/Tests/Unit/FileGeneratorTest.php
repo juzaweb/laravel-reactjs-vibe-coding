@@ -3,9 +3,9 @@
 namespace Juzaweb\Modules\DevTool\Tests\Unit;
 
 use Illuminate\Filesystem\Filesystem;
+use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Juzaweb\Modules\DevTool\Generators\FileGenerator;
 use Juzaweb\Modules\DevTool\Tests\TestCase;
-use Juzaweb\Modules\Core\Modules\Exceptions\FileAlreadyExistException;
 use Mockery;
 
 class FileGeneratorTest extends TestCase

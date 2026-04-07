@@ -83,7 +83,7 @@ class CheckoutController extends APIController
         $order = Order::findOrFail($orderId);
 
         $order->load([
-            'items.orderable' => fn($q) => $q->withTranslation(),
+            'items.orderable' => fn ($q) => $q->withTranslation(),
         ]);
 
         return view(

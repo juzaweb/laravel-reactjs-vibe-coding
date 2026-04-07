@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Juzaweb\Modules\Api\Http\Controllers\API\MediaController;
+use Juzaweb\Modules\Api\Http\Controllers\API\MenuController;
 use Juzaweb\Modules\Api\Http\Controllers\API\NotificationController;
 use Juzaweb\Modules\Api\Http\Controllers\API\PageController;
 use Juzaweb\Modules\Api\Http\Controllers\API\ProfileController;
@@ -10,7 +12,6 @@ use Juzaweb\Modules\Api\Http\Controllers\API\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\API\UserController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\AuthController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\SocialLoginController;
-use Illuminate\Support\Facades\Route;
 
 Route::get('settings', [SettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
@@ -25,6 +26,7 @@ Route::middleware('auth:api')->group(function () {
     Route::api('roles', RoleController::class);
     Route::api('users', UserController::class);
     Route::api('media', MediaController::class);
+    Route::api('menus', MenuController::class);
 });
 
 Route::group(['prefix' => 'auth/user'], function () {

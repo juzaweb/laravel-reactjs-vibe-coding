@@ -72,3 +72,27 @@ Instead of putting all business logic inside the generic `/app` directory, this 
 - **Frontend Admin**: `cd themes/admin && npm run dev`
 - **Frontend App**: `cd themes/app && npm run dev`
 - Or use the root command defined in composer: `composer run dev` (starts concurrently server, queue, logs, and frontend vite).
+
+## 5. Coding Rules (Important)
+- **Database:** Always create a **Model** for any table update.
+- **Validation:** Always create and use a **FormRequest** class.
+- **Enum:** Use **PHP Enums** for status, type, and category columns.
+- **Imports:** Always use `use` statements at the top. DO NOT use Fully Qualified Class Names (e.g., `\App\Models\User`) inline.
+- **Safety:** Always check functions/methods exists before dynamic calls.
+- **Efficiency:** Only refresh/run specific modified migration files using `--path`. DO NOT run `migrate:refresh` or `migrate:fresh` on the entire folder.
+- Use English for variable names/comments.
+- Prefer functional patterns.
+- No "TODO" comments; implement full logic.
+- Use camelCase for variable names.
+- Use camelCase for method names.
+- Use snake_case for function names.
+- Use snake_case for table names.
+- Use snake_case for column names.
+- All PHP code MUST follow the Laravel style coding standard strictly.
+- Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
+- Models using the `Translatable` trait must have a corresponding `ModelTranslation` class.
+- Use `scopeWhereFrontend` for theme and api queries. Use trait `Juzaweb\Modules\Admin\Traits\UsedInFrontend` to model if not exists.
+- **Inheritance:** All new Service classes MUST extend `Juzaweb\Modules\Core\Services\BaseService`.
+- **Database Safety:** Use `$this->transaction(fn() => ...)` for operations involving multiple database changes. This leverages Laravel's native `DB::transaction()` for safety and nesting support.
+- **Return Consistency:** Service methods should return a consistent structure (e.g., using `$this->result($status, $data, $message)`).
+- **Naming:** Service files must end with the suffix `Service.php`.

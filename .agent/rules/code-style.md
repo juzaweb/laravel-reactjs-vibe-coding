@@ -43,4 +43,3 @@ description: Core rules required for the project (always on)
 - **Database Safety:** Use `$this->transaction(fn() => ...)` for operations involving multiple database changes. This leverages Laravel's native `DB::transaction()` for safety and nesting support.
 - **Return Consistency:** Service methods should return a consistent structure (e.g., using `$this->result($status, $data, $message)`).
 - **Naming:** Service files must end with the suffix `Service.php`.
-### **CSRF TOKEN VERIFICATION (TESTING)**

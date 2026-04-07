@@ -11,8 +11,10 @@
 |
 */
 
+use Juzaweb\Modules\Blog\Http\Controllers\API\CategoryController;
 use Juzaweb\Modules\Blog\Http\Controllers\API\PostController;
 
 Route::middleware('auth:api')->group(function () {
     Route::api('posts', PostController::class);
+    Route::api('categories', CategoryController::class);
 });

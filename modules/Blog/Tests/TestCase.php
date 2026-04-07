@@ -14,6 +14,7 @@ use Juzaweb\Modules\Core\Facades\Theme;
 use Juzaweb\Modules\Core\Facades\Widget;
 use Juzaweb\Modules\Core\Permissions\PermissionServiceProvider;
 use Juzaweb\Modules\Core\Providers\CoreServiceProvider;
+use Juzaweb\Modules\Core\Themes\Activators\SettingActivator;
 use Juzaweb\Modules\Core\Translations\TranslationsServiceProvider;
 use Juzaweb\QueryCache\QueryCacheServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
@@ -25,6 +26,19 @@ abstract class TestCase extends Orchestra
     protected function setUp(): void
     {
         parent::setUp();
+    }
+
+    protected function getEnvironmentSetUp($app)
+    {
+        $app['config']->set('themes.path', __DIR__.'/themes');
+
+        $app['config']->set('themes.activator', 'setting');
+        $app['config']->set('themes.activators.setting.class', SettingActivator::class);
+
+        $app['config']->set('auth.guards.api', [
+            'driver' => 'session',
+            'provider' => 'users',
+        ]);
     }
 
     /**

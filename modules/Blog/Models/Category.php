@@ -32,7 +32,6 @@ class Category extends Model implements TranslatableContract
 
     protected $fillable = [
         'parent_id',
-        'thumbnail',
     ];
 
     public $translatedAttributes = [

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import type { MediaType, MediaItem } from './types';
-import { useMedia, useCreateMedia, useDeleteMedia } from './hooks';
+import { useMedia, useDeleteMedia } from './hooks';
 import { MediaToolbar } from './MediaToolbar';
 import { MediaGrid } from './MediaGrid';
 import { MediaList } from './MediaList';
@@ -47,7 +47,6 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
 
   // Hooks
   const { data, isLoading, isError } = useMedia(page, limit, debouncedSearchQuery, filterType);
-  const createMediaMutation = useCreateMedia();
   const deleteMediaMutation = useDeleteMedia();
 
   const items = data?.data || [];
@@ -124,18 +123,6 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
     }
   };
 
-  const handleUpload = (files: FileList) => {
-    createMediaMutation.mutate({ files }, {
-        onSuccess: () => {
-           setShowUpload(false);
-        },
-        onError: (error) => {
-           console.error('Upload failed:', error);
-           alert('Upload failed. Please try again.');
-        }
-    });
-  };
-
   return (
     <div className={`flex flex-col ${isSelectMode ? 'h-full' : 'h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8'}`}>
       {!isSelectMode && (
@@ -160,7 +147,6 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
       {showUpload && (
         <MediaUploadDropzone
           onClose={() => setShowUpload(false)}
-          onUpload={handleUpload}
         />
       )}
 

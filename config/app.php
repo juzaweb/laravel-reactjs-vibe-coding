@@ -122,21 +122,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Token Verification
-    |--------------------------------------------------------------------------
-    |
-    | This option controls whether token verification is enabled for API
-    | requests. When enabled, requests must include a valid jw-token.
-    | You can disable this for development or testing purposes.
-    |
-    | Default: true
-    |
-    */
-
-    'verify_token' => (bool) env('VERIFY_TOKEN', true),
-
-    /*
-    |--------------------------------------------------------------------------
     | Encryption Key
     |--------------------------------------------------------------------------
     |

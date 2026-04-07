@@ -7,7 +7,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { notificationService } from '../../store/hooks';
+import { notificationService } from '../../pages/notifications/hooks';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -8,6 +8,8 @@ import { MediaLibrary } from './pages/media/MediaLibrary'
 import { PagesList } from './pages/pages/PagesList'
 import { PageForm } from './pages/pages/PageForm'
 import { ProfileForm } from './pages/profile/ProfileForm'
+import { UsersList } from './pages/users/UsersList'
+import { UserForm } from './pages/users/UserForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -53,6 +55,11 @@ function App() {
               <Route index element={<PagesList />} />
               <Route path="create" element={<PageForm />} />
               <Route path=":id/edit" element={<PageForm />} />
+            </Route>
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route path="create" element={<UserForm />} />
+              <Route path=":id/edit" element={<UserForm />} />
             </Route>
           </Route>
         </Route>

@@ -7,6 +7,10 @@ import { Dashboard } from './pages/Dashboard'
 import { MediaLibrary } from './pages/media/MediaLibrary'
 import { PagesList } from './pages/pages/PagesList'
 import { PageForm } from './pages/pages/PageForm'
+import { PostsList } from './pages/posts/PostsList'
+import { PostForm } from './pages/posts/PostForm'
+import { CategoriesList } from './pages/categories/CategoriesList'
+import { CategoryForm } from './pages/categories/CategoryForm'
 import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
 import { UsersList } from './pages/users/UsersList'
@@ -57,6 +61,15 @@ function App() {
               <Route path="create" element={<PageForm />} />
               <Route path=":id/edit" element={<PageForm />} />
             </Route>
+            <Route path="posts">
+              <Route index element={<PostsList />} />
+              <Route path="create" element={<PostForm />} />
+              <Route path=":id/edit" element={<PostForm />} />
+            </Route>
+            <Route path="categories">
+              <Route index element={<CategoriesList />} />
+              <Route path="create" element={<CategoryForm />} />
+              <Route path=":id/edit" element={<CategoryForm />} />
             <Route path="menus" element={<MenusManager />} />
             <Route path="users">
               <Route index element={<UsersList />} />

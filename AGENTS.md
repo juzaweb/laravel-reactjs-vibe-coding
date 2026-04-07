@@ -102,5 +102,5 @@ Instead of putting all business logic inside the generic `/app` directory, this 
 - **Return Consistency:** Service methods should return a consistent structure (e.g., using `$this->result($status, $data, $message)`).
 - **Naming:** Service files must end with the suffix `Service.php`.
 - Always define swagger for new API endpoints.
-- Always use restSuccess and restFail in trait HasRestResponses for API responses. Using `public static function getResource(): string` method in model (define in HasResource trait) to custom Resource for api response.
+- Always use `restSuccess` and `restFail` in trait `HasRestResponses` for API responses. Using `public static function getResource(): string` method in model (define in `HasResource` trait) to custom Resource for api response.
 - To build, lint, or run the local development server for the themes/admin, themes/app frontend, use `npm run build`, `npm run lint`, and `npm run dev` respectively within the themes/admin, themes/app directory.

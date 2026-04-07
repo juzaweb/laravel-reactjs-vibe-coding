@@ -1,22 +1,44 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useAppSelector, usePermissions } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText } from 'react-icons/fi';
+import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText, FiChevronDown, FiChevronRight, FiEdit } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
   const { t } = useTranslation();
   const { hasPermission } = usePermissions();
+  const location = useLocation();
+
+  const isBlogActive = location.pathname.startsWith('/admin/posts') || location.pathname.startsWith('/admin/categories');
+  const [isBlogOpen, setIsBlogOpen] = useState(isBlogActive);
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
+    {
+      name: t('blog', 'Blog'),
+      icon: FiEdit,
+      permission: null, // Depending on if there's a global blog permission
+      children: [
+        { name: t('posts', 'Posts'), path: '/admin/posts', permission: 'posts.index' },
+        { name: t('categories', 'Categories'), path: '/admin/categories', permission: 'categories.index' },
+      ],
+    },
     { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText, permission: 'pages.index' },
     { name: 'Media', path: '/admin/media', icon: FiImage, permission: 'media.index' },
     { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2, permission: null },
     { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
     { name: t('settings'), path: '/admin/settings', icon: FiSettings, permission: 'settings.index' },
-  ].filter(item => !item.permission || hasPermission(item.permission));
+  ].filter(item => !item.permission || hasPermission(item.permission))
+   .map(item => {
+     if (item.children) {
+       return {
+         ...item,
+         children: item.children.filter(child => !child.permission || hasPermission(child.permission))
+       }
+     }
+     return item;
+   }).filter(item => !item.children || item.children.length > 0);
 
   return (
     <aside
@@ -39,33 +61,86 @@ export const Sidebar: React.FC = () => {
       </div>
 
       <nav className="mt-6 px-3 space-y-1">
-        {navItems.map((item) => (
-          <NavLink
-            key={item.name}
-            to={item.path}
-            className={({ isActive }) =>
-              `flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 group ${
-                isActive
-                  ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
-                  : 'text-[var(--text-muted)] hover:bg-slate-100 hover:text-[var(--text-main)] dark:hover:bg-slate-800'
-              }`
-            }
-            title={!isSidebarOpen ? item.name : undefined}
-          >
-            <item.icon
-              className={`flex-shrink-0 w-5 h-5 transition-colors duration-200 ${
-                !isSidebarOpen ? 'mx-auto' : 'mr-3'
-              }`}
-            />
-            <span
-              className={`transition-opacity duration-300 ${
-                !isSidebarOpen ? 'lg:opacity-0 lg:hidden' : 'opacity-100'
-              }`}
+        {navItems.map((item) => {
+          if (item.children) {
+            return (
+              <div key={item.name} className="space-y-1">
+                <button
+                  onClick={() => setIsBlogOpen(!isBlogOpen)}
+                  className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 group ${
+                    isBlogActive
+                      ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                      : 'text-[var(--text-muted)] hover:bg-slate-100 hover:text-[var(--text-main)] dark:hover:bg-slate-800'
+                  }`}
+                  title={!isSidebarOpen ? item.name : undefined}
+                >
+                  <item.icon
+                    className={`flex-shrink-0 w-5 h-5 transition-colors duration-200 ${
+                      !isSidebarOpen ? 'mx-auto' : 'mr-3'
+                    }`}
+                  />
+                  <span
+                    className={`flex-1 text-left transition-opacity duration-300 ${
+                      !isSidebarOpen ? 'lg:opacity-0 lg:hidden' : 'opacity-100'
+                    }`}
+                  >
+                    {item.name}
+                  </span>
+                  {isSidebarOpen && (
+                    isBlogOpen ? <FiChevronDown className="w-4 h-4" /> : <FiChevronRight className="w-4 h-4" />
+                  )}
+                </button>
+                {isSidebarOpen && isBlogOpen && (
+                  <div className="pl-11 space-y-1 mt-1">
+                    {item.children.map((child) => (
+                      <NavLink
+                        key={child.name}
+                        to={child.path}
+                        className={({ isActive }) =>
+                          `block px-3 py-2 text-sm font-medium rounded-lg transition-colors duration-200 ${
+                            isActive
+                              ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                              : 'text-[var(--text-muted)] hover:bg-slate-100 hover:text-[var(--text-main)] dark:hover:bg-slate-800'
+                          }`
+                        }
+                      >
+                        {child.name}
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+
+          return (
+            <NavLink
+              key={item.name}
+              to={item.path}
+              className={({ isActive }) =>
+                `flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 group ${
+                  isActive
+                    ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
+                    : 'text-[var(--text-muted)] hover:bg-slate-100 hover:text-[var(--text-main)] dark:hover:bg-slate-800'
+                }`
+              }
+              title={!isSidebarOpen ? item.name : undefined}
             >
-              {item.name}
-            </span>
-          </NavLink>
-        ))}
+              <item.icon
+                className={`flex-shrink-0 w-5 h-5 transition-colors duration-200 ${
+                  !isSidebarOpen ? 'mx-auto' : 'mr-3'
+                }`}
+              />
+              <span
+                className={`transition-opacity duration-300 ${
+                  !isSidebarOpen ? 'lg:opacity-0 lg:hidden' : 'opacity-100'
+                }`}
+              >
+                {item.name}
+              </span>
+            </NavLink>
+          );
+        })}
       </nav>
     </aside>
   );

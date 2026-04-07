@@ -49,7 +49,7 @@ class UserController extends APIController
 
         $users = $query->paginate($limit);
 
-        return $this->restSuccess(UserResource::collection($users));
+        return $this->restSuccess($users);
     }
 
     /**
@@ -96,7 +96,7 @@ class UserController extends APIController
             }
         );
 
-        return $this->restSuccess(new UserResource($user));
+        return $this->restSuccess($user);
     }
 
     /**
@@ -132,7 +132,7 @@ class UserController extends APIController
     {
         $user = User::findOrFail($id);
 
-        return $this->restSuccess(new UserResource($user));
+        return $this->restSuccess($user);
     }
 
     /**
@@ -190,7 +190,7 @@ class UserController extends APIController
             }
         );
 
-        return $this->restSuccess(new UserResource($user));
+        return $this->restSuccess($user);
     }
 
     /**

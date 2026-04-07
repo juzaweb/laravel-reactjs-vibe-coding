@@ -29,10 +29,6 @@ return Application::configure(basePath: dirname(__DIR__))
                 'scope' => CheckTokenForAnyScope::class,
             ]);
 
-            if (! env('VERIFY_TOKEN', true)) {
-                $middleware->validateCsrfTokens(except: ['*']);
-            }
-
             $middleware->append(ForceSchemeUrl::class);
         }
     )

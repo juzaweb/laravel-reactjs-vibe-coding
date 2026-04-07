@@ -23,14 +23,14 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('notifications', [NotificationController::class, 'index']);
     Route::api('pages', PageController::class);
-    Route::apiResource('roles', RoleController::class);
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('media', MediaController::class);
-    Route::apiResource('menus', MenuController::class);
+    Route::api('roles', RoleController::class);
+    Route::api('users', UserController::class);
+    Route::api('media', MediaController::class);
+    Route::api('menus', MenuController::class);
 });
 
 Route::group(['prefix' => 'auth/user'], function () {
-    Route::post('login', [AuthController::class, 'login']);
+    Route::post('login', [AuthController::class, 'login'])->middleware('captcha');
     Route::post('refresh-token', [AuthController::class, 'refreshToken']);
     Route::post('register', [AuthController::class, 'register']);
     Route::post('resend-verification-email', [AuthController::class, 'resendVerificationEmail']);

@@ -44,4 +44,3 @@ description: Core rules required for the project (always on)
 - **Return Consistency:** Service methods should return a consistent structure (e.g., using `$this->result($status, $data, $message)`).
 - **Naming:** Service files must end with the suffix `Service.php`.
 ### **CSRF TOKEN VERIFICATION (TESTING)**
-- **Disable for Testing:** Set `VERIFY_TOKEN=false` in [.env](.env) to disable CSRF token verification

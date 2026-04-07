@@ -21,7 +21,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('profile', [ProfileController::class, 'update']);
     Route::put('profile/password', [ProfileController::class, 'updatePassword']);
 
-    Route::get('notifications', [NotificationController::class, 'index']);
+    Route::api('notifications', NotificationController::class)->only(['index', 'show', 'destroy', 'bulk']);
     Route::api('pages', PageController::class);
     Route::api('roles', RoleController::class);
     Route::api('users', UserController::class);

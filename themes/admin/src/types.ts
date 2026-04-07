@@ -1,5 +1,3 @@
-import axiosClient from '../utils/axiosClient';
-
 export interface NotificationData {
   id: string;
   title: string;
@@ -39,10 +37,3 @@ export interface ApiResponse<T> {
   data: T;
   message?: string;
 }
-
-export const notificationService = {
-  getNotifications: async () => {
-    const response = await axiosClient.get<ApiResponse<PaginatedData<NotificationData>>>('/v1/notifications');
-    return response.data;
-  },
-};

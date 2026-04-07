@@ -698,6 +698,112 @@
                 ]
             }
         },
+        "/api/v1/notifications/{id}": {
+            "get": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Get a specific notification",
+                "description": "Returns a specific notification by ID.",
+                "operationId": "89da3494e30fadd42c042dc96ab55b42",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/NotificationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Delete a notification",
+                "description": "Deletes a specific notification.",
+                "operationId": "15fd96da940bed803ca24d81cf13d7dd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/notifications/bulk": {
+            "post": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Bulk actions for notifications",
+                "description": "Perform bulk actions on notifications.",
+                "operationId": "6eec854473f1318742cfc9a07e44ca49",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BulkNotificationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/pages": {
             "get": {
                 "tags": [
@@ -3310,6 +3416,33 @@
                         "description": "JSON content of the menu items (required on PUT)",
                         "type": "string",
                         "example": "[]"
+                    }
+                },
+                "type": "object"
+            },
+            "BulkNotificationRequest": {
+                "title": "Bulk Notification Request",
+                "description": "Request body data for bulk actions on notifications",
+                "required": [
+                    "ids",
+                    "action"
+                ],
+                "properties": {
+                    "ids": {
+                        "description": "Array of notification IDs",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "action": {
+                        "description": "Action to perform",
+                        "type": "string",
+                        "enum": [
+                            "delete",
+                            "mark_as_read",
+                            "mark_as_unread"
+                        ]
                     }
                 },
                 "type": "object"

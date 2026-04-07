@@ -59,6 +59,13 @@ class CategoryApiTest extends TestCase
         $this->assertEquals($category->id, $response->json('data.id'));
     }
 
+    public function test_show_category_not_found()
+    {
+        $response = $this->getJson('api/v1/categories/invalid-uuid-format-or-not-found');
+
+        $response->assertStatus(404);
+    }
+
     public function test_store_category()
     {
         $data = [
@@ -76,6 +83,18 @@ class CategoryApiTest extends TestCase
         $this->assertDatabaseHas('post_category_translations', [
             'name' => 'New Test Category',
         ]);
+    }
+
+    public function test_store_category_validation_error()
+    {
+        $data = [
+            'description' => 'Missing name',
+        ];
+
+        $response = $this->postJson('api/v1/categories', $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['name']);
     }
 
     public function test_update_category()
@@ -97,6 +116,31 @@ class CategoryApiTest extends TestCase
         ]);
     }
 
+    public function test_update_category_not_found()
+    {
+        $data = [
+            'name' => 'Valid Name',
+        ];
+
+        $response = $this->putJson('api/v1/categories/invalid-id-here', $data);
+
+        $response->assertStatus(404);
+    }
+
+    public function test_update_category_validation_error()
+    {
+        $category = Category::factory()->create();
+
+        $data = [
+            // Missing name
+        ];
+
+        $response = $this->putJson("api/v1/categories/{$category->id}", $data);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['name']);
+    }
+
     public function test_delete_category()
     {
         $category = Category::factory()->create();
@@ -108,6 +152,13 @@ class CategoryApiTest extends TestCase
         $this->assertDatabaseMissing('post_categories', [
             'id' => $category->id,
         ]);
+    }
+
+    public function test_delete_category_not_found()
+    {
+        $response = $this->deleteJson('api/v1/categories/invalid-id-here');
+
+        $response->assertStatus(404);
     }
 
     public function test_bulk_delete_categories()
@@ -127,5 +178,15 @@ class CategoryApiTest extends TestCase
                 'id' => $id,
             ]);
         }
+    }
+
+    public function test_bulk_action_validation_error()
+    {
+        $response = $this->postJson('api/v1/categories/bulk', [
+            'action' => 'invalid_action',
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonValidationErrors(['ids', 'action']);
     }
 }

@@ -11,7 +11,7 @@ The project is structured as a **Monolithic Repository with Headless Architectur
 The primary directories are:
 - `/modules/`: Contains backend business logic separated into isolated Laravel modules (e.g., Core, Api, Blog, Payment, Subscription).
 - `/themes/admin/`: An isolated React Single Page Application (SPA) serving as the administration dashboard.
-- `/themes/app/`: An isolated Next.js Application serving as the server-rendered, public-facing website. This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code.
+- `/themes/app/`: An isolated Next.js Application serving as the server-rendered, public-facing website.
 - `/app/` & `/bootstrap/` & `/config/`: Core Laravel directories integrating the modular framework.
 
 ---
@@ -22,7 +22,7 @@ The primary directories are:
 Located in the project root and `/modules`.
 - **Framework**: Laravel 11.x (PHP 8.2+).
 - **Authentication**: `laravel/passport` (OAuth2 API Authentication).
-- **API Documentation**: Swagger/OpenAPI using `darkaonline/l5-swagger`.
+- **API Documentation**: Swagger/OpenAPI using `darkaonline/l5-swagger`. API documentation in path: storage/api-docs/api-docs.json
 - **Key Packages**:
   - `astrotomic/laravel-translatable`: For multi-language model translations.
   - `spatie/laravel-activitylog`: For logging user activities and system events.
@@ -46,6 +46,10 @@ An SEO-friendly frontend application for end-user interaction.
 - **State Management**: Redux Toolkit & React Query.
 - **UI & Styling**: Tailwind CSS (v4).
 - **Forms**: React Hook Form.
+- **This version has breaking changes** — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `/themes/app/node_modules/next/dist/docs/` before writing any code.
+- Frontend API calls should utilize the configured axiosClient found in themes/admin/src/utils/axiosClient.ts, which natively handles VITE_API_BASE_URL and injecting authentication tokens via interceptors.
+
+**Take screenshots of the previews of the pages you create if possible.**
 
 ---
 
@@ -97,3 +101,4 @@ Instead of putting all business logic inside the generic `/app` directory, this 
 - **Return Consistency:** Service methods should return a consistent structure (e.g., using `$this->result($status, $data, $message)`).
 - **Naming:** Service files must end with the suffix `Service.php`.
 - Always define swagger for new API endpoints.
+- To build, lint, or run the local development server for the themes/admin, themes/app frontend, use npm run build, npm run lint, and npm run dev respectively within the themes/admin, themes/app directory.

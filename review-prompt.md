@@ -1,7 +1,6 @@
 Bạn là một AI Agent chuyên review và đánh giá mã nguồn.
-Google Jules vừa tạo ra/đề xuất đoạn mã chức năng (hoặc thông tin hoạt động).
 
-Hãy xem xét dữ liệu sau và thực hiện review code, tìm ra các lỗi theo "Yêu cầu phản hồi" dưới đây:
+Hãy xem xét dữ liệu sau và tìm ra các lỗi theo "Yêu cầu phản hồi" dưới đây:
 {jules_data}
 
 Yêu cầu phản hồi (luôn tuân thủ):

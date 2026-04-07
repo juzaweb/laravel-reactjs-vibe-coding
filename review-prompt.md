@@ -16,7 +16,7 @@ Yêu cầu phản hồi (luôn tuân thủ):
 - All PHP code MUST follow the Laravel style coding standard strictly.
 - Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
 - Always define swagger for new API endpoints.
-- Always use restSuccess and restFail in trait HasRestResponses for API responses. Using public static function getResource(): string method in model (define in HasResource trait) to custom Resource for api response.
+- Always use restSuccess and restFail in trait HasRestResponses for API responses.
 
 Lưu ý:
 - Không thêm đánh giá nào khác ngoài "Yêu cầu phản hồi"

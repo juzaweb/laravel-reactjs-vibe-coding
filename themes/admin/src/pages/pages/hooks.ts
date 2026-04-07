@@ -14,6 +14,19 @@ export const usePages = (page: number = 1, limit: number = 10, keyword: string =
   });
 };
 
+export const useBulkPages = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: { ids: string[], action: string }) => {
+      const response = await axiosClient.post('/v1/pages/bulk', data);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['pages'] });
+    },
+  });
+};
+
 export const usePage = (id: string) => {
   return useQuery({
     queryKey: ['pages', id],

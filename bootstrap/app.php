@@ -15,10 +15,6 @@ use Laravel\Passport\Http\Middleware\CheckTokenForAnyScope;
 return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(
         function (Middleware $middleware) {
-            $middleware->redirectGuestsTo(
-                fn (Request $request) => route('login', ['redirect' => $request->fullUrl()])
-            );
-
             $middleware->appendToGroup('api', ForceJsonResponse::class);
 
             $middleware->alias([

@@ -9,11 +9,15 @@ import './i18n'
 
 const queryClient = new QueryClient()
 
+import { Suspense } from 'react'
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <Suspense fallback={<div>Loading...</div>}>
+          <App />
+        </Suspense>
       </QueryClientProvider>
     </Provider>
   </StrictMode>,

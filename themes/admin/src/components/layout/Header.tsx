@@ -138,17 +138,31 @@ export const Header: React.FC = () => {
                   ) : (
                     <div className="divide-y divide-[var(--border-color)]">
                       {notifications.map((notification) => (
-                        <div key={notification.id} className={`px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${!notification.read ? 'bg-slate-50/50 dark:bg-slate-800/50' : ''}`}>
+                        <Link
+                          key={notification.id}
+                          to={`/admin/notifications/${notification.id}`}
+                          onClick={() => setIsNotificationMenuOpen(false)}
+                          className={`block px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${!notification.read ? 'bg-slate-50/50 dark:bg-slate-800/50' : ''}`}
+                        >
                           <p className={`text-sm ${!notification.read ? 'font-semibold text-[var(--text-main)]' : 'text-[var(--text-muted)]'}`}>
                             {notification.title || notification.data?.title || t('new_notification', 'New notification')}
                           </p>
                           <p className="text-xs text-[var(--text-muted)] mt-1">
                             {new Date(notification.created_at).toLocaleDateString()}
                           </p>
-                        </div>
+                        </Link>
                       ))}
                     </div>
                   )}
+                </div>
+                <div className="px-4 py-3 border-t border-[var(--border-color)] text-center">
+                  <Link
+                    to="/admin/notifications"
+                    onClick={() => setIsNotificationMenuOpen(false)}
+                    className="text-sm font-medium text-blue-600 hover:text-blue-500 dark:text-blue-400 dark:hover:text-blue-300"
+                  >
+                    {t('view_all_notifications', 'View all notifications')}
+                  </Link>
                 </div>
               </div>
             )}

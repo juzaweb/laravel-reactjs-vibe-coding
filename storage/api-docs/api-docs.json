@@ -696,65 +696,6 @@
                         "bearerAuth": []
                     }
                 ]
-            },
-            "post": {
-                "tags": [
-                    "Notification"
-                ],
-                "summary": "Create a new notification",
-                "description": "Creates a new notification for the authenticated user.",
-                "operationId": "a452be27c9b8ae8d9867453f9904a1c4",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "title"
-                                ],
-                                "properties": {
-                                    "title": {
-                                        "type": "string",
-                                        "example": "New Notification"
-                                    },
-                                    "type": {
-                                        "type": "string",
-                                        "example": "system"
-                                    },
-                                    "data": {
-                                        "type": "object",
-                                        "example": {
-                                            "message": "This is a notification"
-                                        }
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/NotificationResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
             }
         },
         "/api/v1/notifications/{id}": {
@@ -775,65 +716,6 @@
                         }
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/components/schemas/NotificationResource"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Notification"
-                ],
-                "summary": "Update a notification",
-                "description": "Updates a specific notification (e.g., mark as read).",
-                "operationId": "6398149920643bbf7c9c768f95bb5aac",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": false,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "read": {
-                                        "type": "boolean",
-                                        "example": true
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -905,27 +787,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "ids",
-                                    "action"
-                                ],
-                                "properties": {
-                                    "ids": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "action": {
-                                        "type": "string",
-                                        "enum": [
-                                            "delete",
-                                            "mark_as_read",
-                                            "mark_as_unread"
-                                        ]
-                                    }
-                                },
-                                "type": "object"
+                                "$ref": "#/components/schemas/BulkNotificationRequest"
                             }
                         }
                     }
@@ -3546,6 +3408,33 @@
                         "description": "JSON content of the menu items (required on PUT)",
                         "type": "string",
                         "example": "[]"
+                    }
+                },
+                "type": "object"
+            },
+            "BulkNotificationRequest": {
+                "title": "Bulk Notification Request",
+                "description": "Request body data for bulk actions on notifications",
+                "required": [
+                    "ids",
+                    "action"
+                ],
+                "properties": {
+                    "ids": {
+                        "description": "Array of notification IDs",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "action": {
+                        "description": "Action to perform",
+                        "type": "string",
+                        "enum": [
+                            "delete",
+                            "mark_as_read",
+                            "mark_as_unread"
+                        ]
                     }
                 },
                 "type": "object"

@@ -5,9 +5,9 @@ namespace Juzaweb\Modules\Api\Http\Controllers\API;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Modules\Api\Http\Requests\MediaBulkRequest;
 use Juzaweb\Modules\Api\Http\Requests\MediaRequest;
-use Juzaweb\Modules\Api\Http\Resources\MediaResource;
-use Juzaweb\Modules\Core\Contracts\MediaContract;
+use Juzaweb\Modules\Core\FileManager\Contracts\Media as MediaContract;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Media;
 use OpenApi\Annotations as OA;
@@ -245,5 +245,44 @@ class MediaController extends APIController
         $media->delete();
 
         return $this->restSuccess([], 'Deleted successfully');
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/media/bulk",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Media"},
+     *      summary="Bulk action on media files",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\JsonContent(
+     *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
+     *              @OA\Property(property="action", type="string")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Bulk action successfully")
+     *          )
+     *      )
+     * )
+     */
+    public function bulk(MediaBulkRequest $request): JsonResponse
+    {
+        $ids = $request->input('ids');
+        $action = $request->input('action');
+
+        if ($action === 'delete') {
+            Media::whereIn('id', $ids)->delete();
+        }
+
+        return $this->restSuccess([], 'Bulk action successfully');
     }
 }

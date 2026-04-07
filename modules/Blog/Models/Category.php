@@ -10,6 +10,8 @@ use Juzaweb\Modules\Core\FileManager\Traits\HasMedia;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Support\Traits\MenuBoxable;
 use Juzaweb\Modules\Core\Traits\HasAPI;
+use Juzaweb\Modules\Blog\Http\Resources\CategoryResource;
+use Juzaweb\Modules\Core\Traits\HasResource;
 use Juzaweb\Modules\Core\Traits\HasThumbnail;
 use Juzaweb\Modules\Core\Traits\Translatable;
 use Juzaweb\Modules\Core\Traits\UsedInFrontend;
@@ -20,6 +22,7 @@ class Category extends Model implements TranslatableContract
     use HasAPI,
         HasFactory,
         HasMedia,
+        HasResource,
         HasThumbnail,
         HasUuids,
         MenuBoxable,
@@ -32,7 +35,6 @@ class Category extends Model implements TranslatableContract
 
     protected $fillable = [
         'parent_id',
-        'thumbnail',
     ];
 
     public $translatedAttributes = [
@@ -81,6 +83,11 @@ class Category extends Model implements TranslatableContract
     public function getUrl(): string
     {
         return home_url("post/category/{$this->slug}", $this->locale);
+    }
+
+    public static function getResource(): string
+    {
+        return CategoryResource::class;
     }
 
     /**

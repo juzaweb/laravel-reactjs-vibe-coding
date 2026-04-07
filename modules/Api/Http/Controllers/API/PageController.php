@@ -226,6 +226,7 @@ class PageController extends APIController
      *          required=true,
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
      *              @OA\Property(property="action", type="string")
      *          )

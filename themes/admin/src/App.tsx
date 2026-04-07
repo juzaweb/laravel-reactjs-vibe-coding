@@ -9,6 +9,8 @@ import { PagesList } from './pages/pages/PagesList'
 import { PageForm } from './pages/pages/PageForm'
 import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
+import { UsersList } from './pages/users/UsersList'
+import { UserForm } from './pages/users/UserForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -56,6 +58,11 @@ function App() {
               <Route path=":id/edit" element={<PageForm />} />
             </Route>
             <Route path="menus" element={<MenusManager />} />
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route path="create" element={<UserForm />} />
+              <Route path=":id/edit" element={<UserForm />} />
+            </Route>
           </Route>
         </Route>
 

@@ -70,6 +70,7 @@ function App() {
               <Route index element={<CategoriesList />} />
               <Route path="create" element={<CategoryForm />} />
               <Route path=":id/edit" element={<CategoryForm />} />
+            </Route>
             <Route path="menus" element={<MenusManager />} />
             <Route path="users">
               <Route index element={<UsersList />} />

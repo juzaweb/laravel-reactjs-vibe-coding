@@ -5,6 +5,11 @@ return [
         'github_token' => env('JW_RELEASE_GITHUB_TOKEN'),
     ],
 
+    'jules' => [
+        'api_key' => env('JULES_API_KEY'),
+        'session_id' => env('JULES_SESSION_ID'),
+    ],
+
     'themes' => [
         'stubs' => [
             'path' => base_path('modules/DevTool/stubs/themes/'),

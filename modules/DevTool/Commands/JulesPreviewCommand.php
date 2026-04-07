@@ -55,8 +55,8 @@ PROMPT;
 
     public function handle()
     {
-        $apiKey = env('JULES_API_KEY');
-        $sessionId = $this->option('session') ?: env('JULES_SESSION_ID');
+        $apiKey = config('dev-tool.jules.api_key');
+        $sessionId = $this->option('session') ?: config('dev-tool.jules.session_id');
 
         if (empty($apiKey) || empty($sessionId)) {
             $this->error('Lỗi: Vui lòng cung cấp JULES_API_KEY và JULES_SESSION_ID trong file .env hoặc qua tham số --session!');

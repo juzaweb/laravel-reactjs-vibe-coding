@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Juzaweb\Modules\Api\Http\Requests\UserBulkRequest;
 use Juzaweb\Modules\Api\Http\Requests\UserRequest;
 use Juzaweb\Modules\Api\Http\Resources\UserResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
@@ -257,13 +258,8 @@ class UserController extends APIController
      *      )
      * )
      */
-    public function bulk(Request $request): JsonResponse
+    public function bulk(UserBulkRequest $request): JsonResponse
     {
-        $request->validate([
-            'ids' => 'required|array',
-            'action' => 'required|in:delete,active,inactive,banned',
-        ]);
-
         $ids = $request->input('ids');
         $action = $request->input('action');
 

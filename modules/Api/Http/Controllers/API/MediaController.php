@@ -5,6 +5,7 @@ namespace Juzaweb\Modules\Api\Http\Controllers\API;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Modules\Api\Http\Requests\MediaBulkRequest;
 use Juzaweb\Modules\Api\Http\Requests\MediaRequest;
 use Juzaweb\Modules\Api\Http\Resources\MediaResource;
 use Juzaweb\Modules\Core\Contracts\MediaContract;
@@ -274,13 +275,8 @@ class MediaController extends APIController
      *      )
      * )
      */
-    public function bulk(Request $request): JsonResponse
+    public function bulk(MediaBulkRequest $request): JsonResponse
     {
-        $request->validate([
-            'ids' => 'required|array',
-            'action' => 'required|in:delete',
-        ]);
-
         $ids = $request->input('ids');
         $action = $request->input('action');
 

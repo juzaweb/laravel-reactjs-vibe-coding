@@ -5,6 +5,7 @@ namespace Juzaweb\Modules\Blog\Http\Controllers\API;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Modules\Blog\Http\Requests\PostBulkRequest;
 use Juzaweb\Modules\Blog\Http\Requests\PostRequest;
 use Juzaweb\Modules\Blog\Http\Resources\PostResource;
 use Juzaweb\Modules\Blog\Models\Post;
@@ -244,13 +245,8 @@ class PostController extends APIController
      *      )
      * )
      */
-    public function bulk(Request $request): JsonResponse
+    public function bulk(PostBulkRequest $request): JsonResponse
     {
-        $request->validate([
-            'ids' => 'required|array',
-            'action' => 'required|in:delete,published,private,draft',
-        ]);
-
         $ids = $request->input('ids');
         $action = $request->input('action');
 

@@ -100,6 +100,6 @@ if [ -f .env ]; then
     sed -i "s/^AUTH_API_CLIENT_SECRET=.*/AUTH_API_CLIENT_SECRET=${CLIENT_SECRET}/" .env
 fi
 
-
+echo "--- Installing Admin Theme Dependencies ---"
 cd themes/admin
 npm install

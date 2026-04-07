@@ -45,7 +45,7 @@ class JulesPreviewCommand extends Command
 Bạn là một AI Agent chuyên review và đánh giá mã nguồn.
 Google Jules vừa tạo ra/đề xuất đoạn mã chức năng (hoặc thông tin hoạt động).
 
-Hãy xem xét dữ liệu sau từ Jules và thực hiện preview code, tìm ra các lỗi điểm yếu hoặc gửi nhận xét của bạn:
+Hãy xem xét dữ liệu sau và thực hiện review code, tìm ra các lỗi theo "Yêu cầu phản hồi" dưới đây:
 {jules_data}
 
 Yêu cầu phản hồi:
@@ -66,11 +66,12 @@ Yêu cầu phản hồi:
 - All PHP code MUST follow the Laravel style coding standard strictly.
 - Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
 - Models using the `Translatable` trait must have a corresponding `ModelTranslation` class.
-- Use `scopeWhereFrontend` for theme and api queries. Use trait `Juzaweb\Modules\Admin\Traits\UsedInFrontend` to model if not exists.
 - Always define swagger for new API endpoints.
 - Always use restSuccess and restFail in trait HasRestResponses for API responses. Using public static function getResource(): string method in model (define in HasResource trait) to custom Resource for api response.
-- Identify any architectural, security, or optimization issues.
-- Provide a concise summary so that feedback can be submitted to Jules.
+
+Lưu ý:
+- Chỉ list các lỗi theo dạng từng gạch đầu dòng
+- Không thêm bất kỳ nội dung nào khác ngoài "Yêu cầu phản hồi"
 PROMPT;
 
     public function handle()
@@ -89,8 +90,6 @@ PROMPT;
         // 1. Fetch Jules Data
         $julesData = $this->fetchJulesData($apiKey, $sessionId);
 
-        dd($julesData);
-
         if (empty($julesData)) {
             $this->warn('Không tìm thấy nội dung git diff nào hoặc lỗi khi fetch nhánh.');
 
@@ -102,7 +101,6 @@ PROMPT;
 
         if (empty($previewFeedback)) {
             $this->error('Lỗi khi gọi lên Ollama API để review mã.');
-
             return 1;
         }
 

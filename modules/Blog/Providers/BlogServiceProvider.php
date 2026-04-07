@@ -24,7 +24,6 @@ class BlogServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
     }
@@ -79,20 +78,6 @@ class BlogServiceProvider extends ServiceProvider
 
     protected function registerTranslations(): void
     {
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'blog');
         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
-    }
-
-    protected function registerViews(): void
-    {
-        $viewPath = resource_path('views/modules/blog');
-
-        $sourcePath = __DIR__.'/../resources/views';
-
-        $this->publishes([
-            $sourcePath => $viewPath,
-        ], ['views', 'blog-module-views']);
-
-        $this->loadViewsFrom($sourcePath, 'blog');
     }
 }

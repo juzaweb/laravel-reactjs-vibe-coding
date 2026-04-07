@@ -15,6 +15,8 @@ export const Sidebar: React.FC = () => {
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
+    { name: 'Media', path: '/admin/media', icon: FiImage, permission: 'media.index' },
+    { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText, permission: 'pages.index' },
     {
       name: t('blog', 'Blog'),
       icon: FiEdit,
@@ -24,10 +26,7 @@ export const Sidebar: React.FC = () => {
         { name: t('categories', 'Categories'), path: '/admin/categories', permission: 'categories.index' },
       ],
     },
-    { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText, permission: 'pages.index' },
     { name: t('menus', 'Menus'), path: '/admin/menus', icon: FiList, permission: null },
-    { name: 'Media', path: '/admin/media', icon: FiImage, permission: 'media.index' },
-    { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2, permission: null },
     { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
     { name: t('settings'), path: '/admin/settings', icon: FiSettings, permission: 'settings.index' },
   ].filter(item => !item.permission || hasPermission(item.permission))

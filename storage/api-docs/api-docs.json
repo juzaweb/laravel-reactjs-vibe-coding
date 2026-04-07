@@ -1471,6 +1471,14 @@
                                                         "description": "Language name, e.g. English, Vietnamese, Japanese",
                                                         "type": "string"
                                                     }
+                                                },
+                                                "active_modules": {
+                                                    "description": "List of active module names",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "Blog"
+                                                    }
                                                 }
                                             },
                                             "type": "object"

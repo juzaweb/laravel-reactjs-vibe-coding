@@ -14,5 +14,5 @@
 use Juzaweb\Modules\Blog\Http\Controllers\API\PostController;
 
 Route::middleware('auth:api')->group(function () {
-    Route::apiResource('posts', PostController::class);
+    Route::api('posts', PostController::class);
 });

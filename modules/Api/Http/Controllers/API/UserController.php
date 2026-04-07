@@ -229,4 +229,50 @@ class UserController extends APIController
 
         return $this->restSuccess([], 'Deleted successfully');
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/users/bulk",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Users"},
+     *      summary="Bulk action on users",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\JsonContent(
+     *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
+     *              @OA\Property(property="action", type="string")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Bulk action successfully")
+     *          )
+     *      )
+     * )
+     */
+    public function bulk(Request $request): JsonResponse
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'action' => 'required|in:delete,active,inactive,banned',
+        ]);
+
+        $ids = $request->input('ids');
+        $action = $request->input('action');
+
+        if ($action === 'delete') {
+            User::whereIn('id', $ids)->delete();
+        } else {
+            User::whereIn('id', $ids)->update(['status' => $action]);
+        }
+
+        return $this->restSuccess([], 'Bulk action successfully');
+    }
 }

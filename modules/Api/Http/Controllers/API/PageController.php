@@ -213,4 +213,50 @@ class PageController extends APIController
 
         return $this->restSuccess([], 'Deleted successfully');
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/pages/bulk",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Pages"},
+     *      summary="Bulk action on pages",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\JsonContent(
+     *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
+     *              @OA\Property(property="action", type="string")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Bulk action successfully")
+     *          )
+     *      )
+     * )
+     */
+    public function bulk(Request $request): JsonResponse
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'action' => 'required|in:delete,published,draft',
+        ]);
+
+        $ids = $request->input('ids');
+        $action = $request->input('action');
+
+        if ($action === 'delete') {
+            Page::whereIn('id', $ids)->delete();
+        } else {
+            Page::whereIn('id', $ids)->update(['status' => $action]);
+        }
+
+        return $this->restSuccess([], 'Bulk action successfully');
+    }
 }

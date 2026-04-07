@@ -774,6 +774,51 @@
                 ]
             }
         },
+        "/api/v1/notifications/{id}/read": {
+            "put": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Mark a specific notification as read",
+                "description": "Marks a specific notification as read by ID.",
+                "operationId": "73bbba02996e81e85ef72334bafac3ec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/NotificationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/notifications/bulk": {
             "post": {
                 "tags": [

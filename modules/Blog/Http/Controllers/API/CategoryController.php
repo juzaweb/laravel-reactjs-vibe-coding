@@ -50,7 +50,7 @@ class CategoryController extends APIController
 
         $categories = $query->paginate($limit);
 
-        return $this->restSuccess(CategoryResource::collection($categories));
+        return $this->restSuccess($categories);
     }
 
     /**
@@ -92,7 +92,7 @@ class CategoryController extends APIController
             }
         );
 
-        return $this->restSuccess(new CategoryResource($category));
+        return $this->restSuccess($category);
     }
 
     /**
@@ -129,7 +129,7 @@ class CategoryController extends APIController
         $locale = $request->input('locale');
         $category = Category::withTranslation($locale)->findOrFail($id);
 
-        return $this->restSuccess(new CategoryResource($category));
+        return $this->restSuccess($category);
     }
 
     /**
@@ -178,7 +178,7 @@ class CategoryController extends APIController
             }
         );
 
-        return $this->restSuccess(new CategoryResource($category));
+        return $this->restSuccess($category);
     }
 
     /**

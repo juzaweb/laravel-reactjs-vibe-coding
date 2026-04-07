@@ -11,6 +11,9 @@ use Juzaweb\Modules\Core\FileManager\Contracts\Media as MediaContract;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Media;
 use OpenApi\Annotations as OA;
+use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
+use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
+use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
 class MediaController extends APIController
 {
@@ -116,6 +119,85 @@ class MediaController extends APIController
         );
 
         return $this->restSuccess($media);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/media/chunk",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Media"},
+     *      summary="Upload a media file in chunks",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *
+     *              @OA\Schema(
+     *                  @OA\Property(property="file", type="string", format="binary", description="The chunk file"),
+     *                  @OA\Property(property="folder_id", type="integer", description="The folder ID"),
+     *                  @OA\Property(property="resumableChunkNumber", type="integer", description="The current chunk number"),
+     *                  @OA\Property(property="resumableTotalChunks", type="integer", description="The total number of chunks")
+     *              )
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation. If finished, returns data. If continuing, returns chunk info.",
+     *
+     *          @OA\JsonContent(
+     *              @OA\Property(property="data", ref="#/components/schemas/MediaResource", nullable=true),
+     *              @OA\Property(property="done", type="integer", description="Percentage done")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(response=422, description="Validation Error")
+     * )
+     */
+    public function chunk(Request $request): JsonResponse
+    {
+        $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
+
+        if ($receiver->isUploaded() === false) {
+            throw new UploadMissingFileException;
+        }
+
+        $save = $receiver->receive();
+
+        if ($save->isFinished()) {
+            $media = DB::transaction(
+                function () use ($save, $request) {
+                    $file = $save->getFile();
+                    $folderId = $request->input('folder_id');
+
+                    $uploader = app(MediaContract::class)->upload($file, 'public', $file->getClientOriginalName());
+
+                    if ($folderId) {
+                        $uploader->folder($folderId);
+                    }
+
+                    $media = $uploader->upload();
+
+                    unlink($file->getPathname());
+
+                    return $media;
+                }
+            );
+
+            return $this->restSuccess($media);
+        }
+
+        /** @var \Pion\Laravel\ChunkUpload\Handler\AbstractHandler $handler */
+        $handler = $save->handler();
+
+        return response()->json(
+            [
+                'done' => $handler->getPercentageDone(),
+                'status' => true,
+            ]
+        );
     }
 
     /**

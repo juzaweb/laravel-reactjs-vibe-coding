@@ -11,7 +11,10 @@ import { PostsList } from './pages/posts/PostsList'
 import { PostForm } from './pages/posts/PostForm'
 import { CategoriesList } from './pages/categories/CategoriesList'
 import { CategoryForm } from './pages/categories/CategoryForm'
+import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
+import { UsersList } from './pages/users/UsersList'
+import { UserForm } from './pages/users/UserForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -67,6 +70,11 @@ function App() {
               <Route index element={<CategoriesList />} />
               <Route path="create" element={<CategoryForm />} />
               <Route path=":id/edit" element={<CategoryForm />} />
+            <Route path="menus" element={<MenusManager />} />
+            <Route path="users">
+              <Route index element={<UsersList />} />
+              <Route path="create" element={<UserForm />} />
+              <Route path=":id/edit" element={<UserForm />} />
             </Route>
           </Route>
         </Route>

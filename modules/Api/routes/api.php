@@ -25,6 +25,7 @@ Route::middleware('auth:api')->group(function () {
     Route::api('pages', PageController::class);
     Route::api('roles', RoleController::class);
     Route::api('users', UserController::class);
+    Route::post('media/chunk', [MediaController::class, 'chunk']);
     Route::api('media', MediaController::class);
     Route::api('menus', MenuController::class);
 });

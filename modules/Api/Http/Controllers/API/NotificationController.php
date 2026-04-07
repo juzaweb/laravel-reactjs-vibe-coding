@@ -38,8 +38,6 @@ class NotificationController extends APIController
 
         $notifications = $user->notifications()->paginate(10);
 
-        return response()->json(
-            NotificationResource::collection($notifications)->response()->getData(true)
-        );
+        return $this->restSuccess($notifications);
     }
 }

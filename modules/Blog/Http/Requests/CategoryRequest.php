@@ -12,9 +12,9 @@ use OpenApi\Annotations as OA;
  *      required={"name"},
  *
  *      @OA\Property(property="name", type="string", example="Category Name"),
- *      @OA\Property(property="description", type="string", example="Category description"),
- *      @OA\Property(property="slug", type="string", example="category-slug"),
- *      @OA\Property(property="parent_id", type="string", example="null")
+ *      @OA\Property(property="description", type="string", nullable=true, example="Category description"),
+ *      @OA\Property(property="slug", type="string", nullable=true, example="category-slug"),
+ *      @OA\Property(property="parent_id", type="string", nullable=true, example="null")
  * )
  */
 class CategoryRequest extends FormRequest

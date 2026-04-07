@@ -3678,15 +3678,18 @@
                     },
                     "description": {
                         "type": "string",
-                        "example": "Category description"
+                        "example": "Category description",
+                        "nullable": true
                     },
                     "slug": {
                         "type": "string",
-                        "example": "category-slug"
+                        "example": "category-slug",
+                        "nullable": true
                     },
                     "parent_id": {
                         "type": "string",
-                        "example": "null"
+                        "example": "null",
+                        "nullable": true
                     }
                 },
                 "type": "object"

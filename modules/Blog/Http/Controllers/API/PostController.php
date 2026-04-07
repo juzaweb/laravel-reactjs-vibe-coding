@@ -5,6 +5,7 @@ namespace Juzaweb\Modules\Blog\Http\Controllers\API;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Juzaweb\Modules\Blog\Http\Requests\PostBulkRequest;
 use Juzaweb\Modules\Blog\Http\Requests\PostRequest;
 use Juzaweb\Modules\Blog\Http\Resources\PostResource;
 use Juzaweb\Modules\Blog\Models\Post;
@@ -215,5 +216,46 @@ class PostController extends APIController
         $post->delete();
 
         return $this->restSuccess([], 'Deleted successfully');
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/posts/bulk",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Posts"},
+     *      summary="Bulk action on posts",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *
+     *          @OA\JsonContent(
+     *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
+     *              @OA\Property(property="action", type="string")
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="message", type="string", example="Bulk action successfully")
+     *          )
+     *      )
+     * )
+     */
+    public function bulk(PostBulkRequest $request): JsonResponse
+    {
+        $ids = $request->input('ids');
+        $action = $request->input('action');
+
+        if ($action === 'delete') {
+            Post::whereIn('id', $ids)->delete();
+        } else {
+            Post::whereIn('id', $ids)->update(['status' => $action]);
+        }
+
+        return $this->restSuccess([], 'Bulk action successfully');
     }
 }

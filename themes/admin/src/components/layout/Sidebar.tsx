@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAppSelector, usePermissions } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText } from 'react-icons/fi';
+import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText, FiList } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
@@ -12,6 +12,7 @@ export const Sidebar: React.FC = () => {
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
     { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText, permission: 'pages.index' },
+    { name: t('menus', 'Menus'), path: '/admin/menus', icon: FiList, permission: null },
     { name: 'Media', path: '/admin/media', icon: FiImage, permission: 'media.index' },
     { name: t('analytics'), path: '/admin/analytics', icon: FiBarChart2, permission: null },
     { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },

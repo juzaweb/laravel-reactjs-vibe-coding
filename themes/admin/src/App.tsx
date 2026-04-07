@@ -7,6 +7,7 @@ import { Dashboard } from './pages/Dashboard'
 import { MediaLibrary } from './pages/media/MediaLibrary'
 import { PagesList } from './pages/pages/PagesList'
 import { PageForm } from './pages/pages/PageForm'
+import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
@@ -54,6 +55,7 @@ function App() {
               <Route path="create" element={<PageForm />} />
               <Route path=":id/edit" element={<PageForm />} />
             </Route>
+            <Route path="menus" element={<MenusManager />} />
           </Route>
         </Route>
 

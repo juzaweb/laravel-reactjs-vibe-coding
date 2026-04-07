@@ -73,6 +73,40 @@ class NotificationController extends APIController
         return $this->restSuccess($notification);
     }
 
+    /**
+     * @OA\Put(
+     *      path="/api/v1/notifications/{id}/read",
+     *      tags={"Notification"},
+     *      summary="Mark a specific notification as read",
+     *      description="Marks a specific notification as read by ID.",
+     *      security={{"bearerAuth":{}}},
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="data", ref="#/components/schemas/NotificationResource")
+     *          )
+     *      ),
+     *      @OA\Response(response=404, description="Not Found")
+     * )
+     */
+    public function markAsRead(Request $request, string $id): JsonResponse
+    {
+        $notification = $request->user()->notifications()->findOrFail($id);
+
+        if (is_null($notification->read_at)) {
+            $notification->markAsRead();
+        }
+
+        return $this->restSuccess($notification);
+    }
 
     /**
      * @OA\Delete(

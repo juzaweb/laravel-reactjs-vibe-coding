@@ -22,6 +22,7 @@ Route::middleware('auth:api')->group(function () {
     Route::put('profile/password', [ProfileController::class, 'updatePassword']);
 
     Route::api('notifications', NotificationController::class)->only(['index', 'show', 'destroy', 'bulk']);
+    Route::put('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::api('pages', PageController::class);
     Route::api('roles', RoleController::class);
     Route::api('users', UserController::class);

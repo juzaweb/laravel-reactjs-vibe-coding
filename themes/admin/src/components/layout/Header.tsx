@@ -6,6 +6,8 @@ import { FiMenu, FiSun, FiMoon, FiBell, FiGlobe } from 'react-icons/fi';
 import { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { notificationService } from '../../services/notificationService';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,6 +20,16 @@ export const Header: React.FC = () => {
   const langMenuRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const [isNotificationMenuOpen, setIsNotificationMenuOpen] = useState(false);
+  const notificationMenuRef = useRef<HTMLDivElement>(null);
+
+  const { data: notificationsData } = useQuery({
+    queryKey: ['notifications'],
+    queryFn: notificationService.getNotifications,
+  });
+
+  const notifications = notificationsData?.data?.data || [];
+  const unreadCount = notifications.filter(n => !n.read).length;
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -26,6 +38,9 @@ export const Header: React.FC = () => {
       }
       if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
         setIsUserMenuOpen(false);
+      }
+      if (notificationMenuRef.current && !notificationMenuRef.current.contains(event.target as Node)) {
+        setIsNotificationMenuOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -97,13 +112,47 @@ export const Header: React.FC = () => {
             )}
           </button>
 
-          <button
-            type="button"
-            className="-m-2.5 p-2.5 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors"
-          >
-            <span className="sr-only">{t('view_notifications')}</span>
-            <FiBell className="h-5 w-5" aria-hidden="true" />
-          </button>
+          <div className="relative" ref={notificationMenuRef}>
+            <button
+              type="button"
+              className="-m-2.5 p-2.5 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors relative"
+              onClick={() => setIsNotificationMenuOpen(!isNotificationMenuOpen)}
+            >
+              <span className="sr-only">{t('view_notifications')}</span>
+              <FiBell className="h-5 w-5" aria-hidden="true" />
+              {unreadCount > 0 && (
+                <span className="absolute top-2 right-2 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-[var(--bg-card)]" />
+              )}
+            </button>
+
+            {isNotificationMenuOpen && (
+              <div className="absolute right-0 z-10 mt-2 w-80 origin-top-right rounded-md bg-[var(--bg-card)] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-[var(--border-color)] overflow-hidden">
+                <div className="px-4 py-3 border-b border-[var(--border-color)]">
+                  <p className="text-sm font-medium text-[var(--text-main)]">{t('notifications', 'Notifications')}</p>
+                </div>
+                <div className="max-h-60 overflow-y-auto">
+                  {notifications.length === 0 ? (
+                    <div className="px-4 py-4 text-sm text-[var(--text-muted)] text-center">
+                      {t('no_notifications', 'No notifications yet')}
+                    </div>
+                  ) : (
+                    <div className="divide-y divide-[var(--border-color)]">
+                      {notifications.map((notification) => (
+                        <div key={notification.id} className={`px-4 py-3 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors ${!notification.read ? 'bg-slate-50/50 dark:bg-slate-800/50' : ''}`}>
+                          <p className={`text-sm ${!notification.read ? 'font-semibold text-[var(--text-main)]' : 'text-[var(--text-muted)]'}`}>
+                            {notification.title || notification.data?.title || t('new_notification', 'New notification')}
+                          </p>
+                          <p className="text-xs text-[var(--text-muted)] mt-1">
+                            {new Date(notification.created_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
 
           <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-[var(--border-color)]" aria-hidden="true" />
 

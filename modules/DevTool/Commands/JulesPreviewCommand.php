@@ -49,14 +49,9 @@ Hãy xem xét dữ liệu sau và thực hiện review code, tìm ra các lỗi 
 {jules_data}
 
 Yêu cầu phản hồi:
-- **Database:** Always create a **Model** for any table update.
 - **Validation:** Always create and use a **FormRequest** class.
-- **Enum:** Use **PHP Enums** for status, type, and category columns.
-- **Imports:** Always use `use` statements at the top. DO NOT use Fully Qualified Class Names (e.g., `\App\Models\User`) inline.
-- **Safety:** Always check functions/methods exists before dynamic calls.
-- **Efficiency:** Only refresh/run specific modified migration files using `--path`. DO NOT run `migrate:refresh` or `migrate:fresh` on the entire folder.
+- **Enum:** Use **PHP Enums** for status, type,... columns.
 - Use English for variable names/comments.
-- Prefer functional patterns.
 - No "TODO" comments; implement full logic.
 - Use camelCase for variable names.
 - Use camelCase for method names.

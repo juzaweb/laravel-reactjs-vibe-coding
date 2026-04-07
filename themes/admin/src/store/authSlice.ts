@@ -7,6 +7,9 @@ export interface User {
   id?: number | string;
   name?: string;
   email?: string;
+  permissions?: string[];
+  roles?: string[];
+  has_all_permissions?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
 }
@@ -156,6 +159,23 @@ export const resendVerificationEmail = createAsyncThunk(
   }
 );
 
+export const fetchProfile = createAsyncThunk(
+  'auth/fetchProfile',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await axiosClient.get('/v1/profile');
+      return response.data;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data);
+      }
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // Slice
 const authSlice = createSlice({
   name: 'auth',
@@ -216,6 +236,13 @@ const authSlice = createSlice({
         state.user = null;
         state.accessToken = null;
         state.isAuthenticated = false;
+      })
+      .addCase(fetchProfile.fulfilled, (state, action) => {
+        const user = action.payload?.data || action.payload;
+        if (user) {
+          state.user = { ...state.user, ...user };
+          localStorage.setItem('user', JSON.stringify(state.user));
+        }
       });
   },
 });

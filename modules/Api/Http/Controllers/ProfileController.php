@@ -57,7 +57,8 @@ class ProfileController extends APIController
      *              type="object",
      *
      *              @OA\Property(property="name", type="string", example="John Doe"),
-     *              @OA\Property(property="birthday", type="string", format="date", example="1990-01-01")
+     *              @OA\Property(property="birthday", type="string", format="date", example="1990-01-01"),
+     *              @OA\Property(property="avatar", type="string", example="path/to/image.jpg")
      *          )
      *      ),
      *
@@ -82,6 +83,10 @@ class ProfileController extends APIController
 
         $user->fill($request->only(['name', 'birthday']));
         $user->save();
+
+        if ($request->has('avatar')) {
+            $user->syncMedia($request->post('avatar'), 'avatar');
+        }
 
         $user = clone $user;
         $user->mergeCasts(['status' => 'string']);

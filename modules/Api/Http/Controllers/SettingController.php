@@ -5,6 +5,7 @@ namespace Juzaweb\Modules\Api\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Juzaweb\Modules\Api\Http\Requests\SettingResourceRequest;
+use Juzaweb\Modules\Api\Http\Requests\SettingRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Setting;
 use OpenApi\Annotations as OA;
@@ -77,6 +78,45 @@ class SettingController extends APIController
         $setting = Setting::findOrFail($id);
 
         return $this->restSuccess($setting);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/settings",
+     *      tags={"Settings"},
+     *      summary="Update site settings",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      description="Update multiple settings by passing key-value pairs.",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              type="object",
+     *              example={"title": "New Site Title", "language": "en"}
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object"
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response=422, description="Validation error")
+     * )
+     */
+    public function store(SettingRequest $request): JsonResponse
+    {
+        $data = $request->validated();
+
+        \Juzaweb\Modules\Core\Facades\Setting::sets($data);
+
+        return $this->restSuccess($data);
     }
 
     /**

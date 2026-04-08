@@ -15,7 +15,6 @@ use Juzaweb\Modules\Api\Http\Controllers\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\UserController;
 
 Route::get('app/settings', [AppSettingController::class, 'index']);
-Route::post('app/settings', [AppSettingController::class, 'update'])->middleware('auth:api');
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
 
 Route::middleware('auth:api')->group(
@@ -33,7 +32,7 @@ Route::middleware('auth:api')->group(
         Route::post('media/chunk', [MediaController::class, 'chunk']);
         Route::api('media', MediaController::class);
         Route::api('menus', MenuController::class);
-        Route::api('settings', SettingController::class)->only(['index', 'show', 'update']);
+        Route::api('settings', SettingController::class)->only(['index', 'show', 'store', 'update']);
     }
 );
 

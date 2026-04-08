@@ -61,7 +61,7 @@ class PaymentMethodController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
-        $locale = $request->input('locale');
+        $locale = $request->input('locale', app()->getLocale());
 
         $query = PaymentMethod::query();
         if ($locale) {
@@ -138,7 +138,7 @@ class PaymentMethodController extends APIController
      */
     public function show(Request $request, string $id): JsonResponse
     {
-        $locale = $request->input('locale');
+        $locale = $request->input('locale', app()->getLocale());
         $query = PaymentMethod::query();
         if ($locale) {
             $query->withTranslation($locale);

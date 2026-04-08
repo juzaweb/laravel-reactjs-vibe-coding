@@ -26,7 +26,6 @@ export const PostForm: React.FC = () => {
     defaultValues: {
       title: '',
       slug: '',
-      description: '',
       content: '',
       thumbnail: '',
       status: 'draft',
@@ -38,7 +37,6 @@ export const PostForm: React.FC = () => {
       reset({
         title: postData.title || '',
         slug: postData.slug || '',
-        description: postData.description || '',
         content: postData.content || '',
         thumbnail: postData.thumbnail || '',
         status: postData.status || 'draft',
@@ -129,22 +127,6 @@ export const PostForm: React.FC = () => {
                   label={t('content', 'Content')}
                   error={fieldState.error?.message}
                 />
-              )}
-            />
-
-            <Controller
-              name="description"
-              control={control}
-              render={({ field, fieldState }) => (
-                <div className="space-y-1">
-                   <label className="block text-sm font-medium text-[var(--text-main)]">{t('description', 'Description')}</label>
-                   <textarea
-                     {...field}
-                     className="w-full px-3 py-2 border border-[var(--border-color)] rounded-md bg-[var(--bg-card)] text-[var(--text-main)] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                     rows={3}
-                   />
-                   {fieldState.error && <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>}
-                </div>
               )}
             />
           </div>

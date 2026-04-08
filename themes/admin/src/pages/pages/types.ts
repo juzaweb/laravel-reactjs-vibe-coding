@@ -14,7 +14,6 @@ export interface Page {
 export interface PageFormData {
   title: string;
   slug?: string;
-  description?: string;
   content?: string;
   template?: string;
   status: string;

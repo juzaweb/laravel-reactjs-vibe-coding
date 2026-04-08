@@ -113,7 +113,6 @@ class SettingController extends APIController
      *              @OA\Property(property="language", type="string", example="en"),
      *              @OA\Property(property="user_registration", type="string", example="1"),
      *              @OA\Property(property="user_verification", type="string", example="1"),
-     *              @OA\Property(property="language_type", type="string", example="prefix"),
      *              @OA\Property(property="custom_header_script", type="string", example="<script></script>"),
      *              @OA\Property(property="custom_footer_script", type="string", example="<script></script>"),
      *              @OA\Property(property="enable_cookie_consent", type="string", example="1"),

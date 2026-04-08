@@ -15,7 +15,6 @@ interface SettingFormData {
   sitename: string;
   user_registration: boolean;
   user_verification: boolean;
-  language_type: string;
   custom_header_script: string;
   custom_footer_script: string;
   enable_cookie_consent: boolean;
@@ -39,7 +38,6 @@ export const SettingPage: React.FC = () => {
       sitename: '',
       user_registration: false,
       user_verification: false,
-      language_type: 'prefix',
       custom_header_script: '',
       custom_footer_script: '',
       enable_cookie_consent: false,
@@ -60,7 +58,6 @@ export const SettingPage: React.FC = () => {
         sitename: settingsData.sitename || '',
         user_registration: settingsData.user_registration === '1' || settingsData.user_registration === true,
         user_verification: settingsData.user_verification === '1' || settingsData.user_verification === true,
-        language_type: settingsData.language_type || 'prefix',
         custom_header_script: settingsData.custom_header_script || '',
         custom_footer_script: settingsData.custom_footer_script || '',
         enable_cookie_consent: settingsData.enable_cookie_consent === '1' || settingsData.enable_cookie_consent === true,
@@ -160,51 +157,6 @@ export const SettingPage: React.FC = () => {
                     onChange={field.onChange}
                     label={t('user_verification', 'User Verification')}
                   />
-                )}
-              />
-            </div>
-          </div>
-
-          {/* Multiple Language */}
-          <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
-            <div className="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-[var(--border-color)]">
-              <h3 className="text-lg font-medium text-[var(--text-main)]">{t('multiple_language', 'Multiple Language')}</h3>
-            </div>
-            <div className="p-6 space-y-4">
-              <Controller
-                name="language_type"
-                control={control}
-                render={({ field }) => (
-                  <div className="space-y-3">
-                    <Radio
-                      name="language_type"
-                      value="disable"
-                      checked={field.value === 'disable'}
-                      onChange={() => field.onChange('disable')}
-                      label={t('disable_multiple_language', 'Disable multiple language')}
-                    />
-                    <Radio
-                      name="language_type"
-                      value="session"
-                      checked={field.value === 'session'}
-                      onChange={() => field.onChange('session')}
-                      label={t('use_session_language', 'Use session to store language')}
-                    />
-                    <Radio
-                      name="language_type"
-                      value="prefix"
-                      checked={field.value === 'prefix'}
-                      onChange={() => field.onChange('prefix')}
-                      label={t('use_prefix_slug', 'Use prefix in slug (Ex: /fr/about-us)')}
-                    />
-                    <Radio
-                      name="language_type"
-                      value="subdomain"
-                      checked={field.value === 'subdomain'}
-                      onChange={() => field.onChange('subdomain')}
-                      label={t('use_subdomain_language', 'Use Subdomain for each language (Ex: fr.example.com)')}
-                    />
-                  </div>
                 )}
               />
             </div>

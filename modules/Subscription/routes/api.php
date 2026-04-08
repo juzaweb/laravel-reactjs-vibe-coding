@@ -1,25 +1,15 @@
 <?php
 
-/**
- * JUZAWEB CMS - Laravel CMS for Your Project
- *
- * @author     The Anh Dang
- *
- * @link       https://cms.juzaweb.com
- *
- * @license    GNU V2
- */
-
 use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\Subscription\Http\Controllers\API\PlanController;
-use Juzaweb\Modules\Subscription\Http\Controllers\API\SubscriptionController;
-use Juzaweb\Modules\Subscription\Http\Controllers\API\SubscriptionHistoryController;
-use Juzaweb\Modules\Subscription\Http\Controllers\API\SubscriptionMethodController;
+use Juzaweb\Modules\Subscription\Http\Controllers\PlanController;
+use Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionController;
+use Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionHistoryController;
+use Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionMethodController;
 
 Route::get('subscription/methods', [SubscriptionMethodController::class, 'index']);
 Route::get('subscription/plans', [PlanController::class, 'index']);
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth:api')->group(function () {
     Route::get('subscription/subscriptions', [SubscriptionController::class, 'index']);
     Route::get('subscription/histories', [SubscriptionHistoryController::class, 'index']);
 
@@ -27,3 +17,6 @@ Route::middleware('auth')->group(function () {
     Route::get('subscription/{module}/return/{transactionId}', [SubscriptionController::class, 'return']);
     Route::get('subscription/{module}/cancel/{transactionId}', [SubscriptionController::class, 'cancel']);
 });
+
+Route::post('subscription/{method}/webhook', [SubscriptionController::class, 'webhook'])
+    ->name('subscription.webhook');

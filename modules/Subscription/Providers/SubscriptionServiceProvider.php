@@ -13,6 +13,7 @@
 namespace Juzaweb\Modules\Subscription\Providers;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 use Juzaweb\Modules\Core\Facades\Locale;
 use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
@@ -48,20 +49,11 @@ class SubscriptionServiceProvider extends ServiceProvider
                 return new TestSubscription;
             }
         );
-
-        $this->booted(
-            function () {
-                Route::middleware(['theme'])
-                    ->prefix(Locale::setLocale())
-                    ->group(__DIR__.'/../routes/subscribe.php');
-            }
-        );
     }
 
     public function register(): void
     {
         $this->registerTranslations();
-        $this->registerViews();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
 
@@ -90,19 +82,5 @@ class SubscriptionServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'subscription');
         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
-    }
-
-    /**
-     * Register views.
-     */
-    protected function registerViews(): void
-    {
-        $viewPath = resource_path('views/modules/subscription');
-
-        $sourcePath = __DIR__.'/../resources/views';
-
-        $this->publishes([$sourcePath => $viewPath], ['views', 'subscription-module-views']);
-
-        $this->loadViewsFrom($sourcePath, 'subscription');
     }
 }

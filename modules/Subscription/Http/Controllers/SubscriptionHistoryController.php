@@ -1,11 +1,10 @@
 <?php
 
-namespace Juzaweb\Modules\Subscription\Http\Controllers\API;
+namespace Juzaweb\Modules\Subscription\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
-use Juzaweb\Modules\Subscription\Http\Resources\SubscriptionHistoryResource;
 use Juzaweb\Modules\Subscription\Models\SubscriptionHistory;
 use OpenApi\Annotations as OA;
 

@@ -10,6 +10,7 @@ Route::get('subscription/methods', [SubscriptionMethodController::class, 'index'
 
 Route::middleware('auth:api')->group(
     function () {
+        Route::api('subscription/methods', \Juzaweb\Modules\Subscription\Http\Controllers\API\SubscriptionMethodController::class);
         Route::api('subscription/plans', PlanController::class);
 
         Route::get('subscription/subscriptions', [SubscriptionController::class, 'index']);

@@ -63,6 +63,7 @@ export const Sidebar: React.FC = () => {
             permission: null,
             children: [
               { name: t('plans', 'Plans'), path: '/admin/subscription/plans', permission: null },
+              { name: t('subscription_methods', 'Subscription Methods'), path: '/admin/subscription-methods', permission: null },
             ],
           },
         ]

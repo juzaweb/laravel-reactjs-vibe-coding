@@ -2186,15 +2186,9 @@
                 "tags": [
                     "Settings"
                 ],
-                "summary": "Get list of settings",
+                "summary": "Get list of settings as key-value pairs",
                 "operationId": "ba35cafb574bc9ed4cba2167d4cf0010",
                 "parameters": [
-                    {
-                        "$ref": "#/components/parameters/query_limit"
-                    },
-                    {
-                        "$ref": "#/components/parameters/query_page"
-                    },
                     {
                         "$ref": "#/components/parameters/query_keyword"
                     }
@@ -2207,16 +2201,7 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object"
-                                            }
-                                        },
-                                        "meta": {
-                                            "$ref": "#/components/schemas/PaginationMeta"
-                                        },
-                                        "links": {
-                                            "$ref": "#/components/schemas/PaginationLinks"
+                                            "type": "object"
                                         },
                                         "success": {
                                             "type": "boolean",
@@ -2237,60 +2222,18 @@
                 ]
             }
         },
-        "/api/v1/settings/{id}": {
-            "get": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Get a setting",
-                "operationId": "5d01ff5b4e91deaff43362903f8e6bb8",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Setting not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            },
+        "/api/v1/settings/{code}": {
             "put": {
                 "tags": [
                     "Settings"
                 ],
-                "summary": "Update an existing setting",
-                "operationId": "52bbb580aff1df564b7e7eaeaa495c88",
+                "summary": "Update an existing setting or create if not exists",
+                "operationId": "230a0e5780b0bdc5297724d6c2722977",
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "code",
                         "in": "path",
+                        "description": "Setting Code (acts as ID)",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -2335,9 +2278,6 @@
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "Setting not found"
                     },
                     "422": {
                         "description": "Validation Error"

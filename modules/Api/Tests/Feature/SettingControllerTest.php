@@ -38,25 +38,8 @@ class SettingControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJsonStructure([
-            'data',
-            'meta',
-            'links',
-            'success',
-        ]);
-    }
-
-    public function test_show()
-    {
-        $setting = Setting::create(['code' => 'test_code_show', 'value' => 'test_value_show']);
-
-        $response = $this->getJson('/api/v1/settings/'.$setting->id);
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure([
             'data' => [
-                'id',
-                'code',
-                'value',
+                'test_code_1'
             ],
             'success',
         ]);
@@ -67,13 +50,13 @@ class SettingControllerTest extends TestCase
         $setting = Setting::create(['code' => 'test_code_4', 'value' => 'test_value_4']);
 
         $data = [
-            'code' => 'test_code_4_updated',
+            'code' => 'test_code_4',
             'value' => 'test_value_4_updated',
         ];
 
-        $response = $this->putJson('/api/v1/settings/'.$setting->id, $data);
+        $response = $this->putJson('/api/v1/settings/'.$setting->code, $data);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('settings', ['code' => 'test_code_4_updated']);
+        $this->assertDatabaseHas('settings', ['code' => 'test_code_4', 'value' => 'test_value_4_updated']);
     }
 }

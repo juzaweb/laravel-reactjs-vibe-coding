@@ -16,10 +16,8 @@ class SettingController extends APIController
      *      path="/api/v1/settings",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Settings"},
-     *      summary="Get list of settings",
+     *      summary="Get list of settings as key-value pairs",
      *
-     *      @OA\Parameter(ref="#/components/parameters/query_limit"),
-     *      @OA\Parameter(ref="#/components/parameters/query_page"),
      *      @OA\Parameter(ref="#/components/parameters/query_keyword"),
      *
      *      @OA\Response(
@@ -27,10 +25,7 @@ class SettingController extends APIController
      *          description="Successful operation",
      *
      *          @OA\JsonContent(
-     *
-     *              @OA\Property(property="data", type="array", @OA\Items(type="object")),
-     *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
-     *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
+     *              @OA\Property(property="data", type="object"),
      *              @OA\Property(property="success", type="boolean", example=true),
      *          )
      *      ),
@@ -38,59 +33,26 @@ class SettingController extends APIController
      */
     public function index(Request $request): JsonResponse
     {
-        $limit = $this->getLimitRequest();
-
         $query = Setting::query()->api($request->all());
 
-        $settings = $query->paginate($limit);
+        // Get all items and map them to code => value format as requested
+        $settings = $query->get()->pluck('value', 'code');
 
         return $this->restSuccess($settings);
     }
 
     /**
-     * @OA\Get(
-     *      path="/api/v1/settings/{id}",
-     *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Settings"},
-     *      summary="Get a setting",
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
-     *
-     *      @OA\Response(
-     *           response=200,
-     *           description="Successful operation",
-     *
-     *           @OA\JsonContent(@OA\Property(property="data", type="object"))
-     *       ),
-     *
-     *      @OA\Response(response=404, description="Setting not found"),
-     * )
-     */
-    public function show(string $id): JsonResponse
-    {
-        $setting = Setting::findOrFail($id);
-
-        return $this->restSuccess($setting);
-    }
-
-    /**
      * @OA\Put(
-     *      path="/api/v1/settings/{id}",
+     *      path="/api/v1/settings/{code}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Settings"},
-     *      summary="Update an existing setting",
+     *      summary="Update an existing setting or create if not exists",
      *
      *      @OA\Parameter(
-     *          name="id",
+     *          name="code",
      *          in="path",
      *          required=true,
-     *
+     *          description="Setting Code (acts as ID)",
      *          @OA\Schema(type="string")
      *      ),
      *
@@ -112,14 +74,15 @@ class SettingController extends APIController
      *           @OA\JsonContent(@OA\Property(property="data", type="object"))
      *       ),
      *
-     *      @OA\Response(response=404, description="Setting not found"),
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
     public function update(SettingResourceRequest $request, string $id): JsonResponse
     {
-        $setting = Setting::findOrFail($id);
-        $setting->update($request->validated());
+        // Using $id as the "code" so we don't need numeric IDs when bulk updating from frontend
+        $setting = Setting::firstOrNew(['code' => $id]);
+        $setting->fill($request->validated());
+        $setting->save();
 
         return $this->restSuccess($setting);
     }

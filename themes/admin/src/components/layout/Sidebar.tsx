@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAppSelector, usePermissions } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit } from 'react-icons/fi';
+import { FiHome, FiUsers, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit, FiCreditCard } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
@@ -14,8 +14,12 @@ export const Sidebar: React.FC = () => {
   const isBlogActive = location.pathname.startsWith('/admin/posts') || location.pathname.startsWith('/admin/categories');
   const [isBlogOpen, setIsBlogOpen] = useState(isBlogActive);
 
+  const isPaymentActive = location.pathname.startsWith('/admin/payment');
+  const [isPaymentOpen, setIsPaymentOpen] = useState(isPaymentActive);
+
   const activeModules = settings?.active_modules || [];
   const isBlogModuleActive = activeModules.includes('Blog');
+  const isPaymentModuleActive = activeModules.includes('Payment');
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
@@ -30,6 +34,18 @@ export const Sidebar: React.FC = () => {
             children: [
               { name: t('posts', 'Posts'), path: '/admin/posts', permission: 'posts.index' },
               { name: t('categories', 'Categories'), path: '/admin/categories', permission: 'categories.index' },
+            ],
+          },
+        ]
+      : []),
+    ...(isPaymentModuleActive
+      ? [
+          {
+            name: t('payment', 'Payment'),
+            icon: FiCreditCard,
+            permission: null,
+            children: [
+              { name: t('payment_methods', 'Payment Methods'), path: '/admin/payment-methods', permission: 'payment_methods.index' },
             ],
           },
         ]
@@ -71,12 +87,19 @@ export const Sidebar: React.FC = () => {
       <nav className="mt-6 px-3 space-y-1">
         {navItems.map((item) => {
           if (item.children) {
+            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : false);
+            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : false);
+            const toggleGroup = () => {
+              if (item.name === t('blog', 'Blog')) setIsBlogOpen(!isBlogOpen);
+              if (item.name === t('payment', 'Payment')) setIsPaymentOpen(!isPaymentOpen);
+            };
+
             return (
               <div key={item.name} className="space-y-1">
                 <button
-                  onClick={() => setIsBlogOpen(!isBlogOpen)}
+                  onClick={toggleGroup}
                   className={`w-full flex items-center px-3 py-2.5 text-sm font-medium rounded-lg transition-colors duration-200 group ${
-                    isBlogActive
+                    isGroupActive
                       ? 'bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400'
                       : 'text-[var(--text-muted)] hover:bg-slate-100 hover:text-[var(--text-main)] dark:hover:bg-slate-800'
                   }`}
@@ -95,10 +118,10 @@ export const Sidebar: React.FC = () => {
                     {item.name}
                   </span>
                   {isSidebarOpen && (
-                    isBlogOpen ? <FiChevronDown className="w-4 h-4" /> : <FiChevronRight className="w-4 h-4" />
+                    isGroupOpen ? <FiChevronDown className="w-4 h-4" /> : <FiChevronRight className="w-4 h-4" />
                   )}
                 </button>
-                {isSidebarOpen && isBlogOpen && (
+                {isSidebarOpen && isGroupOpen && (
                   <div className="pl-11 space-y-1 mt-1">
                     {item.children.map((child) => (
                       <NavLink

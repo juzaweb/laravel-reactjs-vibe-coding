@@ -4,12 +4,12 @@ namespace Juzaweb\Modules\Api\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Api\Http\Requests\MenuRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Menus\Menu;
 use Juzaweb\Modules\Core\Models\Menus\MenuItem;
 use OpenApi\Annotations as OA;
-use Illuminate\Support\Facades\DB;
 
 class MenuController extends APIController
 {
@@ -187,7 +187,7 @@ class MenuController extends APIController
         $this->processItems($menu, $items, null, $processedItemIds, $existingItemIds);
 
         $itemsToDelete = array_diff($existingItemIds, $processedItemIds);
-        if (!empty($itemsToDelete)) {
+        if (! empty($itemsToDelete)) {
             MenuItem::whereIn('id', $itemsToDelete)->delete();
         }
     }
@@ -223,7 +223,7 @@ class MenuController extends APIController
 
             $processedItemIds[] = $itemId;
 
-            if (!empty($itemData['children'])) {
+            if (! empty($itemData['children'])) {
                 $this->processItems($menu, $itemData['children'], $itemId, $processedItemIds, $existingItemIds);
             }
         }

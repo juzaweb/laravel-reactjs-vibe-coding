@@ -161,7 +161,7 @@ export const PagesList: React.FC = () => {
                         ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
                         : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
                     }`}>
-                      {t(`status_${page.status}`, page.status)}
+                      {page.status ? t(`status_${page.status}`, page.status) : t('status_unknown', 'Unknown')}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)]">

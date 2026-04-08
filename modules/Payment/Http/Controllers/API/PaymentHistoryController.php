@@ -34,9 +34,9 @@ class PaymentHistoryController extends APIController
         $query = PaymentHistory::query();
 
         // If the user does not have permission to view all, scope it to their own records
-        if (!$request->user()->hasPermissionTo('payment_histories.index')) {
-             $query->where('payer_id', $request->user()->id)
-                   ->where('payer_type', get_class($request->user()));
+        if (! $request->user()->hasPermissionTo('payment_histories.index')) {
+            $query->where('payer_id', $request->user()->id)
+                ->where('payer_type', get_class($request->user()));
         }
 
         $query->api($request->all());

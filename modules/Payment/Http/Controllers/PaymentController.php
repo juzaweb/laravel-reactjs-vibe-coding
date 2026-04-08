@@ -29,7 +29,7 @@ class PaymentController extends APIController
                 return $handler->createOrder($request->all());
             });
         } catch (\Exception $e) {
-            return $this->error($e->getMessage());
+            return $this->restFail($e->getMessage());
         }
 
         $method = PaymentMethod::where('driver', $request->get('method'))
@@ -37,10 +37,10 @@ class PaymentController extends APIController
             ->first();
 
         if (! $method) {
-            return $this->error(__('Payment method not found!'));
+            return $this->restFail(__('Payment method not found!'));
         }
 
-        return $this->success([
+        return $this->restSuccess([
             'order_id' => $order->id,
             'order_code' => $order->getCode(),
             'payment_method' => $method->driver,
@@ -71,16 +71,16 @@ class PaymentController extends APIController
                 }
             );
         } catch (PaymentException $e) {
-            return $this->error($e->getMessage());
+            return $this->restFail($e->getMessage());
         }
 
         if ($payment->isSuccessful()) {
-            return $this->success(__('Payment successful!'));
+            return $this->restSuccess([], __('Payment successful!'));
         }
 
         if ($payment->isRedirect()) {
             if ($method->paymentDriver()->isReturnInEmbed()) {
-                return $this->success(
+                return $this->restSuccess(
                     [
                         'type' => 'embed',
                         'embed_url' => $payment->getRedirectUrl(),
@@ -90,12 +90,12 @@ class PaymentController extends APIController
                 );
             }
 
-            return $this->success(
+            return $this->restSuccess(
                 [
                     'type' => 'redirect',
                     'redirect' => $payment->getRedirectUrl(),
-                    'message' => __('Redirecting to payment gateway...'),
-                ]
+                ],
+                __('Redirecting to payment gateway...')
             );
         }
 
@@ -126,20 +126,17 @@ class PaymentController extends APIController
                 }
             );
         } catch (PaymentException $e) {
-            return $this->error(
-                [
-                    'message' => $e->getMessage(),
-                    'redirect' => $returnUrl,
-                ]
+            return $this->restFail(
+                $e->getMessage(),
+                422,
+                ['redirect' => $returnUrl]
             );
         }
 
         if ($payment->isSuccessful()) {
-            return $this->success(
-                [
-                    'message' => __('Payment completed successfully!'),
-                    'redirect' => $returnUrl,
-                ]
+            return $this->restSuccess(
+                ['redirect' => $returnUrl],
+                __('Payment completed successfully!')
             );
         }
 
@@ -162,17 +159,17 @@ class PaymentController extends APIController
                 }
             );
         } catch (PaymentException $e) {
-            return $this->error([
-                'message' => $e->getMessage(),
-                'redirect' => $returnUrl,
-            ]);
+            return $this->restFail(
+                $e->getMessage(),
+                422,
+                ['redirect' => $returnUrl]
+            );
         }
 
-        return $this->warning(
-            [
-                'message' => __('Payment has been cancelled!'),
-                'redirect' => $returnUrl,
-            ]
+        return $this->restFail(
+            __('Payment has been cancelled!'),
+            400,
+            ['redirect' => $returnUrl]
         );
     }
 
@@ -281,7 +278,7 @@ class PaymentController extends APIController
 
         $paymentHistory->load(['paymentable']);
 
-        return $this->success(
+        return $this->restSuccess(
             [
                 'status' => $paymentHistory->status->value,
             ]
@@ -291,15 +288,14 @@ class PaymentController extends APIController
     protected function failResponse(?string $redirectUrl = null)
     {
         if ($redirectUrl) {
-            return $this->error(
-                [
-                    'message' => __('Payment failed!'),
-                    'redirect' => $redirectUrl,
-                ]
+            return $this->restFail(
+                __('Payment failed!'),
+                422,
+                ['redirect' => $redirectUrl]
             );
         }
 
-        return $this->error(
+        return $this->restFail(
             __('Sorry, there was an error processing your payment. Please try again later.')
         );
     }

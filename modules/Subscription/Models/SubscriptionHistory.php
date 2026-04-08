@@ -17,7 +17,6 @@ class SubscriptionHistory extends Model
 
     protected $fillable = [
         'driver',
-        'module',
         'amount',
         'agreement_id',
         'end_date',

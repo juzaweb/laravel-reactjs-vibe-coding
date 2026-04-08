@@ -1420,6 +1420,55 @@
                 ]
             }
         },
+        "/api/v1/pages/templates": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Get list of page templates",
+                "operationId": "aedab3791637ae99f87ee360b4bc1054",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "example": "default"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "Default Template"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/pages": {
             "get": {
                 "tags": [
@@ -1777,6 +1826,10 @@
                                         "type": "string",
                                         "format": "date",
                                         "example": "1990-01-01"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "path/to/image.jpg"
                                     }
                                 },
                                 "type": "object"
@@ -3451,6 +3504,57 @@
                 ]
             }
         },
+        "/api/v1/payment-histories": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get list of payment histories",
+                "operationId": "79a5e9e957c256d9f9d96474e10844c7",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payment-methods/drivers": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Get list of payment drivers",
+                "operationId": "ca83b20bb238f70aaa2ac3cd86c418a5",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/payment-methods": {
             "get": {
                 "tags": [
@@ -3662,6 +3766,36 @@
                 ]
             }
         },
+        "/api/v1/app/subscription/methods": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get active subscription methods",
+                "description": "Returns active subscription methods.",
+                "operationId": "ca2496d2318f1521c132521a383280c1",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SubscriptionMethodResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/subscription/plans": {
             "get": {
                 "tags": [
@@ -3729,10 +3863,6 @@
                                     },
                                     "active": {
                                         "type": "boolean"
-                                    },
-                                    "module": {
-                                        "type": "string",
-                                        "nullable": true
                                     },
                                     "features": {
                                         "type": "array",
@@ -3872,10 +4002,6 @@
                                     },
                                     "active": {
                                         "type": "boolean"
-                                    },
-                                    "module": {
-                                        "type": "string",
-                                        "nullable": true
                                     },
                                     "features": {
                                         "type": "array",
@@ -4291,31 +4417,212 @@
         "/api/v1/subscription/methods": {
             "get": {
                 "tags": [
-                    "Subscription"
+                    "Subscription Methods"
                 ],
-                "summary": "Get active subscription methods",
-                "description": "Returns active subscription methods.",
+                "summary": "Get list of subscription methods",
                 "operationId": "a4415e2cb0b1c62e77929eb0d3f334aa",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/SubscriptionMethodResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Create a new subscription method",
+                "operationId": "f47107080b9678f1af88c6245d868d64",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubscriptionMethodRequest"
                             }
                         }
                     }
-                }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/methods/{id}": {
+            "get": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Get subscription method details by id",
+                "operationId": "1f3798c4c6331eae5665693cd8d67a7f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Subscription method not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Update an existing subscription method",
+                "operationId": "a1ab1ec77e8976e67df5d337d2ab8b4c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubscriptionMethodRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Subscription method not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Delete a subscription method",
+                "operationId": "0ca58612c7b619ddfa16ada38a8aec37",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Subscription method not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/methods/bulk": {
+            "post": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Bulk action on subscription methods",
+                "operationId": "c2d0f2f5c2f14c15ce385d8b45093e6c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "action": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             }
         }
     },
@@ -5189,6 +5496,56 @@
                 },
                 "type": "object"
             },
+            "SubscriptionMethodRequest": {
+                "title": "SubscriptionMethodRequest",
+                "description": "Subscription Method request body data",
+                "required": [
+                    "driver",
+                    "name",
+                    "locale",
+                    "config",
+                    "active"
+                ],
+                "properties": {
+                    "driver": {
+                        "title": "Driver",
+                        "description": "The subscription driver",
+                        "type": "string",
+                        "example": "PayPal"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "The name of the subscription method",
+                        "type": "string",
+                        "example": "PayPal Subscription"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "The description of the subscription method",
+                        "type": "string",
+                        "example": "Subscribe via PayPal"
+                    },
+                    "locale": {
+                        "title": "Locale",
+                        "description": "The language locale",
+                        "type": "string",
+                        "example": "en",
+                        "nullable": true
+                    },
+                    "config": {
+                        "title": "Config",
+                        "description": "Configuration for the subscription method driver",
+                        "type": "object"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Whether the subscription method is active",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "PlanResource": {
                 "title": "PlanResource",
                 "properties": {
@@ -5713,12 +6070,20 @@
             "description": "Orders"
         },
         {
+            "name": "Payment",
+            "description": "Payment"
+        },
+        {
             "name": "Payment Methods",
             "description": "Payment Methods"
         },
         {
             "name": "Subscription",
             "description": "Subscription"
+        },
+        {
+            "name": "Subscription Methods",
+            "description": "Subscription Methods"
         }
     ]
 }

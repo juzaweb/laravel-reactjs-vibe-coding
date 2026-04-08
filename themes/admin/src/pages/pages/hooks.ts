@@ -14,6 +14,16 @@ export const usePages = (page: number = 1, limit: number = 10, keyword: string =
   });
 };
 
+export const usePageTemplates = () => {
+  return useQuery({
+    queryKey: ['pages', 'templates'],
+    queryFn: async () => {
+      const response = await axiosClient.get<{ data: { key: string; label: string }[] }>('/v1/pages/templates');
+      return response.data.data;
+    },
+  });
+};
+
 export const useBulkPages = () => {
   const queryClient = useQueryClient();
   return useMutation({

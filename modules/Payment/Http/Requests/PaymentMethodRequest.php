@@ -65,7 +65,7 @@ class PaymentMethodRequest extends FormRequest
             'name' => ['required', 'string', 'max:200'],
             'description' => ['nullable', 'string', 'max:500'],
             'locale' => ['required', 'string', 'max:10', 'exists:languages,code'],
-            'config' => ['required', 'array'],
+            'config' => ['nullable', 'array'],
             'active' => ['required', 'boolean'],
         ];
     }

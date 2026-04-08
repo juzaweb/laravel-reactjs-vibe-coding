@@ -1,6 +1,16 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../utils/axiosClient';
-import type { PaymentMethod, PaymentMethodFormData, PaginatedResponse, SingleResponse } from './types';
+import type { PaymentDriver, PaymentMethod, PaymentMethodFormData, PaginatedResponse, SingleResponse } from './types';
+
+export const usePaymentDrivers = () => {
+  return useQuery({
+    queryKey: ['payment-drivers'],
+    queryFn: async () => {
+      const response = await axiosClient.get<{ data: PaymentDriver[] }>('/v1/payment-methods/drivers');
+      return response.data.data;
+    },
+  });
+};
 
 export const usePaymentMethods = (page: number = 1, limit: number = 10, keyword: string = '') => {
   return useQuery({

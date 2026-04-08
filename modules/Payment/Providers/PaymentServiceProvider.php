@@ -16,13 +16,6 @@ class PaymentServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->registerMenu();
-
-        // $this->app[PaymentManager::class]->registerModule(
-        //     'test',
-        //     new PaymentTestHandler()
-        // );
-
         $this->app[PaymentManager::class]->registerDriver(
             'PayPal',
             fn () => new PaymentDriverAdapter(
@@ -97,32 +90,6 @@ class PaymentServiceProvider extends ServiceProvider
     protected function registerHelpers(): void
     {
         require_once __DIR__.'/../helpers/helpers.php';
-    }
-
-    protected function registerMenu(): void
-    {
-        Menu::make('orders', function () {
-            return [
-                'title' => __('Orders'),
-                'icon' => 'fas fa-shopping-cart',
-            ];
-        });
-
-        Menu::make('payment-histories', function () {
-            return [
-                'title' => __('Payment Histories'),
-                'icon' => 'fas fa-history',
-                'parent' => 'payment',
-                'url' => admin_url('payment-histories'),
-            ];
-        });
-
-        Menu::make('payment-methods', function () {
-            return [
-                'title' => __('Payment Methods'),
-                'parent' => 'payment',
-            ];
-        });
     }
 
     /**

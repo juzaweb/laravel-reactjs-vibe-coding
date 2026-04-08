@@ -11,10 +11,12 @@ use Juzaweb\Modules\Core\Traits\Translatable;
 use Juzaweb\Modules\Payment\Contracts\PaymentGatewayInterface;
 use Juzaweb\Modules\Payment\Database\factories\PaymentMethodFactory;
 use Juzaweb\Modules\Payment\Facades\PaymentManager;
+use Juzaweb\Modules\Payment\Http\Resources\PaymentMethodResource;
+use Juzaweb\Modules\Core\Traits\HasResource;
 
 class PaymentMethod extends Model
 {
-    use HasAPI, HasFactory, HasUuids, Translatable;
+    use HasAPI, HasFactory, HasUuids, Translatable, HasResource;
 
     protected $table = 'payment_methods';
 
@@ -73,5 +75,10 @@ class PaymentMethod extends Model
     protected static function newFactory()
     {
         return PaymentMethodFactory::new();
+    }
+
+    public static function getResource(): string
+    {
+        return PaymentMethodResource::class;
     }
 }

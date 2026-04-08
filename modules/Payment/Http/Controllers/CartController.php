@@ -59,9 +59,8 @@ class CartController extends APIController
         $subtotal = $cartModel->items->sum(fn ($item) => $item->orderable->price * $item->quantity);
         $itemTotal = $item->orderable->price * $item->quantity;
 
-        return $this->success(
+        return $this->restSuccess(
             [
-                'message' => __('Product added to cart successfully'),
                 'cart_id' => $cartModel->id,
                 'cart_count' => $cartModel->items->count(),
                 'cart_subtotal' => $subtotal,
@@ -75,7 +74,8 @@ class CartController extends APIController
                     'thumbnail' => $item->orderable->thumbnail,
                     'slug' => $item->orderable->slug,
                 ],
-            ]
+            ],
+            __('Product added to cart successfully')
         );
     }
 
@@ -86,21 +86,20 @@ class CartController extends APIController
         $cart = Cart::find($cartId);
 
         if (! $cart) {
-            return $this->error(__('Cart not found'));
+            return $this->restFail(__('Cart not found'));
         }
 
         $item = $cart->items()->where('id', $itemId)->first();
 
         if (! $item) {
-            return $this->error(__('Item not found in cart'));
+            return $this->restFail(__('Item not found in cart'));
         }
 
         $item->delete();
 
-        return $this->success(
-            [
-                'message' => __('Item removed from cart successfully'),
-            ]
+        return $this->restSuccess(
+            [],
+            __('Item removed from cart successfully')
         );
     }
 }

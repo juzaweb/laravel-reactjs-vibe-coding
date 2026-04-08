@@ -37,7 +37,7 @@ class RouteServiceProvider extends ServiceProvider
                 require __DIR__.'/../routes/statics.php';
             });
 
-            Route::middleware(['theme'])
+            Route::middleware([])
                 ->group(__DIR__.'/../routes/web.php');
         });
     }

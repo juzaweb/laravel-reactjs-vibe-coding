@@ -7,12 +7,46 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Api\Http\Requests\PageBulkRequest;
 use Juzaweb\Modules\Api\Http\Requests\PageRequest;
+use Juzaweb\Modules\Core\Facades\PageTemplate;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use OpenApi\Annotations as OA;
 
 class PageController extends APIController
 {
+    /**
+     * @OA\Get(
+     *      path="/api/v1/pages/templates",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Pages"},
+     *      summary="Get list of page templates",
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *
+     *          @OA\JsonContent(
+     *
+     *              @OA\Property(property="data", type="array", @OA\Items(
+     *                  @OA\Property(property="key", type="string", example="default"),
+     *                  @OA\Property(property="label", type="string", example="Default Template"),
+     *              )),
+     *              @OA\Property(property="success", type="boolean", example=true),
+     *          )
+     *      ),
+     * )
+     */
+    public function templates(): JsonResponse
+    {
+        $templates = collect(PageTemplate::all())->values()->map(function ($template) {
+            return [
+                'key' => $template->key,
+                'label' => $template->label,
+            ];
+        });
+
+        return $this->restSuccess($templates);
+    }
     /**
      * @OA\Get(
      *      path="/api/v1/pages",

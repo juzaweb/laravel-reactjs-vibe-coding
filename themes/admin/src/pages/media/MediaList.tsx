@@ -1,7 +1,7 @@
 import React from 'react';
 import { formatBytes, formatDate } from './types';
 import type { MediaItem } from './types';
-import { FiImage, FiVideo, FiFileText, FiMusic } from 'react-icons/fi';
+import { FiImage, FiVideo, FiFileText, FiMusic, FiFolder } from 'react-icons/fi';
 
 interface MediaListProps {
   items: MediaItem[];
@@ -18,14 +18,12 @@ export const MediaList: React.FC<MediaListProps> = ({
   onItemClick,
   onSelectAll,
 }) => {
-  const getIconForType = (type: string, is_directory: boolean) => {
-    if (is_directory) return <FiFileText className="w-6 h-6 text-[var(--text-muted)]" />;
-    switch (type) {
-      case 'video': return <FiVideo className="w-6 h-6 text-[var(--text-muted)]" />;
-      case 'document': return <FiFileText className="w-6 h-6 text-[var(--text-muted)]" />;
-      case 'audio': return <FiMusic className="w-6 h-6 text-[var(--text-muted)]" />;
-      default: return <FiImage className="w-6 h-6 text-[var(--text-muted)]" />;
-    }
+  const getIconForType = (item: MediaItem) => {
+    if (item.is_directory || item.type === 'dir') return <FiFolder className="w-6 h-6 text-[var(--text-muted)]" />;
+    if (item.is_video || item.mime_type?.startsWith('video/')) return <FiVideo className="w-6 h-6 text-[var(--text-muted)]" />;
+    if (item.mime_type?.startsWith('audio/')) return <FiMusic className="w-6 h-6 text-[var(--text-muted)]" />;
+    if (item.is_image || item.mime_type?.startsWith('image/')) return <FiImage className="w-6 h-6 text-[var(--text-muted)]" />;
+    return <FiFileText className="w-6 h-6 text-[var(--text-muted)]" />;
   };
 
   const allSelected = items.length > 0 && selectedIds.size === items.length;
@@ -104,7 +102,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                         {thumbnailUrl ? (
                           <img src={thumbnailUrl} alt="" className="h-full w-full object-cover" />
                         ) : (
-                          getIconForType(item.type, item.is_directory)
+                          getIconForType(item)
                         )}
                       </div>
                       <div className="ml-2">
@@ -116,7 +114,7 @@ export const MediaList: React.FC<MediaListProps> = ({
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300">
-                      {item.mime_type ? (item.mime_type.split('/')[1] || item.type) : item.type}
+                      {item.is_directory || item.type === 'dir' ? 'Folder' : (item.mime_type ? item.mime_type.split('/')[1] : 'File')}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)] hidden md:table-cell">

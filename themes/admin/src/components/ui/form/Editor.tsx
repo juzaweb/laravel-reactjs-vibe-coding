@@ -73,9 +73,9 @@ export const Editor = forwardRef<any, EditorProps>(
       if (!editorInstanceRef.current) return;
 
       const editor = editorInstanceRef.current;
-      if (item.type === 'image') {
+      if (item.is_image || item.mime_type?.startsWith('image/')) {
         editor.execute('insertImage', { source: item.url });
-      } else if (item.type === 'video') {
+      } else if (item.is_video || item.mime_type?.startsWith('video/')) {
         editor.execute('mediaEmbed', { url: item.url });
       }
     };

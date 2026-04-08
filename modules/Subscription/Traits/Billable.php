@@ -39,7 +39,7 @@ trait Billable
 
     public function getDefaultPlan(string $module): ?Plan
     {
-        return Plan::where(['is_free' => true, 'module' => $module])
+        return Plan::where(['is_free' => true])
             ->whereActive(true)
             ->first();
     }

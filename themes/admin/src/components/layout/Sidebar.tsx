@@ -49,6 +49,7 @@ export const Sidebar: React.FC = () => {
             icon: FiCreditCard,
             permission: null,
             children: [
+              { name: t('orders', 'Orders'), path: '/admin/orders', permission: 'orders.index' },
               { name: t('payment_histories', 'Payment Histories'), path: '/admin/payment-histories', permission: 'payment_histories.index' },
               { name: t('payment_methods', 'Payment Methods'), path: '/admin/payment-methods', permission: 'payment_methods.index' },
             ],
@@ -63,6 +64,9 @@ export const Sidebar: React.FC = () => {
             permission: null,
             children: [
               { name: t('plans', 'Plans'), path: '/admin/subscription/plans', permission: null },
+              { name: t('subscription_methods', 'Subscription Methods'), path: '/admin/subscription-methods', permission: null },
+              { name: t('subscriptions', 'Subscriptions'), path: '/admin/subscription/subscriptions', permission: null },
+              { name: t('subscription_histories', 'Subscription Histories'), path: '/admin/subscription/histories', permission: null },
             ],
           },
         ]

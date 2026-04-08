@@ -14,6 +14,35 @@ class PaymentMethodController extends APIController
 {
     /**
      * @OA\Get(
+     *      path="/api/v1/payment-methods/drivers",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Payment Methods"},
+     *      summary="Get list of payment drivers",
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *      ),
+     * )
+     */
+    public function drivers(): JsonResponse
+    {
+        $drivers = \Juzaweb\Modules\Payment\Facades\PaymentManager::drivers();
+        $data = [];
+
+        foreach ($drivers as $name => $label) {
+            $data[] = [
+                'name' => $name,
+                'label' => $label,
+                'configs' => \Juzaweb\Modules\Payment\Facades\PaymentManager::config($name),
+            ];
+        }
+
+        return $this->restSuccess($data);
+    }
+
+    /**
+     * @OA\Get(
      *      path="/api/v1/payment-methods",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Payment Methods"},
@@ -32,7 +61,7 @@ class PaymentMethodController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
-        $locale = $request->input('locale');
+        $locale = $request->input('locale', app()->getLocale());
 
         $query = PaymentMethod::query();
         if ($locale) {
@@ -109,7 +138,7 @@ class PaymentMethodController extends APIController
      */
     public function show(Request $request, string $id): JsonResponse
     {
-        $locale = $request->input('locale');
+        $locale = $request->input('locale', app()->getLocale());
         $query = PaymentMethod::query();
         if ($locale) {
             $query->withTranslation($locale);

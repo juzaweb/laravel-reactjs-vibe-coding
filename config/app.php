@@ -196,7 +196,6 @@ return [
             'Sidebar' => Sidebar::class,
             'PageTemplate' => PageTemplate::class,
             'PageBlock' => PageBlock::class,
-            'Menu' => Menu::class,
         ]
     )->toArray(),
 

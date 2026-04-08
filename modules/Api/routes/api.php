@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\Api\Http\Controllers\App\SettingController;
+use Juzaweb\Modules\Api\Http\Controllers\App\SettingController as AppSettingController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\AuthController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\SocialLoginController;
 use Juzaweb\Modules\Api\Http\Controllers\MediaController;
@@ -10,28 +10,31 @@ use Juzaweb\Modules\Api\Http\Controllers\NotificationController;
 use Juzaweb\Modules\Api\Http\Controllers\PageController;
 use Juzaweb\Modules\Api\Http\Controllers\ProfileController;
 use Juzaweb\Modules\Api\Http\Controllers\RoleController;
+use Juzaweb\Modules\Api\Http\Controllers\SettingController;
 use Juzaweb\Modules\Api\Http\Controllers\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\UserController;
 
-Route::get('app/settings', [SettingController::class, 'index']);
+Route::get('app/settings', [AppSettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
 
-Route::middleware('auth:api')->group(function () {
-    Route::post('app/settings', [SettingController::class, 'update']);
-    Route::get('profile', [ProfileController::class, 'show']);
-    Route::put('profile', [ProfileController::class, 'update']);
-    Route::put('profile/password', [ProfileController::class, 'updatePassword']);
+Route::middleware('auth:api')->group(
+    function () {
+        Route::get('profile', [ProfileController::class, 'show']);
+        Route::put('profile', [ProfileController::class, 'update']);
+        Route::put('profile/password', [ProfileController::class, 'updatePassword']);
 
-    Route::api('notifications', NotificationController::class)->only(['index', 'show', 'destroy', 'bulk']);
-    Route::put('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
-    Route::api('pages', PageController::class);
-    Route::api('roles', RoleController::class);
-    Route::api('users', UserController::class);
-    Route::post('media/chunk', [MediaController::class, 'chunk']);
-    Route::api('media', MediaController::class);
-    Route::api('menus', MenuController::class);
-    Route::api('settings', Juzaweb\Modules\Api\Http\Controllers\SettingController::class)->only(['index', 'update']);
-});
+        Route::api('notifications', NotificationController::class)->only(['index', 'show', 'destroy', 'bulk']);
+        Route::put('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::get('pages/templates', [PageController::class, 'templates']);
+        Route::api('pages', PageController::class);
+        Route::api('roles', RoleController::class);
+        Route::api('users', UserController::class);
+        Route::post('media/chunk', [MediaController::class, 'chunk']);
+        Route::api('media', MediaController::class);
+        Route::api('menus', MenuController::class);
+        Route::api('settings', SettingController::class)->only(['index', 'update']);
+    }
+);
 
 Route::group(['prefix' => 'auth/user'], function () {
     Route::post('login', [AuthController::class, 'login'])->middleware('captcha');

@@ -20,7 +20,6 @@ return new class extends Migration
                 $table->string('agreement_id', 100)->unique()
                     ->comment('Agreement of payment partner');
                 $table->decimal('amount', 15, 2)->index();
-                $table->string('module', 50)->index();
                 $table->string('driver', 50)->index();
                 $table->dateTime('start_date')->index()->nullable();
                 $table->dateTime('end_date')->index()->nullable();

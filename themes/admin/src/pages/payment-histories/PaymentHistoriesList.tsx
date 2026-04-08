@@ -61,7 +61,7 @@ export const PaymentHistoriesList: React.FC = () => {
                         : history.status === 'processing' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
                         : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                     }`}>
-                      {t(`status_${history.status}`, history.status)}
+                      {history.status ? t(`status_${history.status}`, history.status) : t('status_unknown', 'Unknown')}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)]">

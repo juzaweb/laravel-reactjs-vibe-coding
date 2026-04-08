@@ -51,23 +51,27 @@ class PlanController extends APIController
      *      tags={"Subscription"},
      *      summary="Create a new plan",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="name", type="string"),
      *              @OA\Property(property="is_free", type="boolean"),
      *              @OA\Property(property="price", type="number", nullable=true),
      *              @OA\Property(property="duration", type="integer", nullable=true),
      *              @OA\Property(property="duration_unit", type="string", enum={"day", "week", "month", "year"}, nullable=true),
      *              @OA\Property(property="active", type="boolean"),
-     *              @OA\Property(property="module", type="string", nullable=true),
      *              @OA\Property(property="features", type="array", @OA\Items(
      *                  @OA\Property(property="name", type="string"),
      *                  @OA\Property(property="value", type="string", nullable=true)
      *              ))
      *          )
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation",
+     *
      *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PlanResource"))
      *      )
      * )
@@ -78,7 +82,7 @@ class PlanController extends APIController
             $data = $request->validated();
             $plan = Plan::create($data);
 
-            if (!empty($data['features'])) {
+            if (! empty($data['features'])) {
                 $plan->features()->createMany($data['features']);
             }
 
@@ -94,10 +98,14 @@ class PlanController extends APIController
      *      tags={"Subscription"},
      *      summary="Get plan details",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *
      *      @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string")),
+     *
      *      @OA\Response(response=200, description="Successful operation",
+     *
      *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PlanResource"))
      *      ),
+     *
      *      @OA\Response(response=404, description="Plan not found")
      * )
      */
@@ -114,26 +122,32 @@ class PlanController extends APIController
      *      tags={"Subscription"},
      *      summary="Update a plan",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *
      *      @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string")),
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="name", type="string"),
      *              @OA\Property(property="is_free", type="boolean"),
      *              @OA\Property(property="price", type="number", nullable=true),
      *              @OA\Property(property="duration", type="integer", nullable=true),
      *              @OA\Property(property="duration_unit", type="string", enum={"day", "week", "month", "year"}, nullable=true),
      *              @OA\Property(property="active", type="boolean"),
-     *              @OA\Property(property="module", type="string", nullable=true),
      *              @OA\Property(property="features", type="array", @OA\Items(
      *                  @OA\Property(property="name", type="string"),
      *                  @OA\Property(property="value", type="string", nullable=true)
      *              ))
      *          )
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation",
+     *
      *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PlanResource"))
      *      ),
+     *
      *      @OA\Response(response=404, description="Plan not found")
      * )
      */
@@ -162,7 +176,9 @@ class PlanController extends APIController
      *      tags={"Subscription"},
      *      summary="Delete a plan",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *
      *      @OA\Parameter(name="id", in="path", required=true, @OA\Schema(type="string")),
+     *
      *      @OA\Response(response=200, description="Successful operation"),
      *      @OA\Response(response=404, description="Plan not found")
      * )
@@ -181,13 +197,17 @@ class PlanController extends APIController
      *      tags={"Subscription"},
      *      summary="Bulk action on plans",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
      *              @OA\Property(property="action", type="string")
      *          )
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */

@@ -36,7 +36,7 @@ class Media extends Model
         'parent_id',
         'mime_type',
         'size',
-        'type',
+        'type', // file or dir
         'metadata',
         'extension',
         'image_size',

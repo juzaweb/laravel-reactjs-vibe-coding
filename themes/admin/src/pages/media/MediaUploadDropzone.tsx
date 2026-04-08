@@ -10,7 +10,7 @@ interface MediaUploadDropzoneProps {
 
 export const MediaUploadDropzone: React.FC<MediaUploadDropzoneProps> = ({ onClose, folderId }) => {
   const dropzoneRef = useRef<HTMLDivElement>(null);
-  const browseRef = useRef<HTMLButtonElement>(null);
+  const browseRef = useRef<HTMLInputElement>(null);
   const resumableRef = useRef<Resumable | null>(null);
   const queryClient = useQueryClient();
   const [isDragging, setIsDragging] = useState(false);
@@ -39,7 +39,6 @@ export const MediaUploadDropzone: React.FC<MediaUploadDropzoneProps> = ({ onClos
       return;
     }
 
-    r.assignBrowse(browseRef.current, false);
     r.assignDrop(dropzoneRef.current);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -72,7 +71,13 @@ export const MediaUploadDropzone: React.FC<MediaUploadDropzoneProps> = ({ onClos
       setUploadingFiles((prev) => prev.filter((f) => f.id !== file.uniqueIdentifier));
     });
 
+    const currentDropzone = dropzoneRef.current;
+
     return () => {
+      if (currentDropzone) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (r as any).unAssignDrop(currentDropzone);
+      }
       r.cancel();
     };
   }, [folderId, queryClient]);
@@ -119,8 +124,21 @@ export const MediaUploadDropzone: React.FC<MediaUploadDropzoneProps> = ({ onClos
           or click below to browse your computer
         </p>
 
-        <button
+        <input
+          type="file"
+          multiple
+          className="hidden"
           ref={browseRef}
+          onChange={(e) => {
+            if (e.target.files && e.target.files.length > 0) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              (resumableRef.current as any)?.addFiles(Array.from(e.target.files), e.nativeEvent);
+              e.target.value = ''; // Reset to allow selecting the same file again
+            }
+          }}
+        />
+        <button
+          onClick={() => browseRef.current?.click()}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-md font-medium cursor-pointer transition-colors"
         >
           Select Files

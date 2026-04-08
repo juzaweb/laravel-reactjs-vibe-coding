@@ -7,6 +7,7 @@ use Juzaweb\Modules\Core\Providers\ServiceProvider;
 use Juzaweb\Modules\Payment\Contracts\PaymentManager;
 use Juzaweb\Modules\Payment\Methods;
 use Juzaweb\Modules\Payment\Services\PaymentDriverAdapter;
+use Juzaweb\Modules\Payment\Services\PaymentManager as PaymentManagerService;
 
 class PaymentServiceProvider extends ServiceProvider
 {
@@ -83,13 +84,12 @@ class PaymentServiceProvider extends ServiceProvider
         $this->registerHelpers();
         $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
 
         $this->app->singleton(
             PaymentManager::class,
             function ($app) {
-                return new \Juzaweb\Modules\Payment\Services\PaymentManager;
+                return new PaymentManagerService;
             }
         );
     }
@@ -134,19 +134,5 @@ class PaymentServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'payment');
         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
-    }
-
-    /**
-     * Register views.
-     */
-    protected function registerViews(): void
-    {
-        $viewPath = resource_path('views/modules/payment');
-
-        $sourcePath = __DIR__.'/../resources/views';
-
-        $this->publishes([$sourcePath => $viewPath], ['views', 'payment-module-views']);
-
-        $this->loadViewsFrom($sourcePath, 'payment');
     }
 }

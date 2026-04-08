@@ -75,7 +75,6 @@ abstract class TestCase extends Orchestra
             'Sidebar' => Sidebar::class,
             'PageTemplate' => PageTemplate::class,
             'PageBlock' => PageBlock::class,
-            'Chart' => Chart::class,
         ];
     }
 

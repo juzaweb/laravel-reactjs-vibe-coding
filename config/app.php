@@ -198,8 +198,6 @@ return [
             'Sidebar' => Sidebar::class,
             'PageTemplate' => PageTemplate::class,
             'PageBlock' => PageBlock::class,
-            'Chart' => Chart::class,
-            'Breadcrumb' => Breadcrumb::class,
             'Menu' => Menu::class,
         ]
     )->toArray(),

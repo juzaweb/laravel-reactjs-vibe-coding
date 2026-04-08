@@ -14,7 +14,6 @@ namespace Juzaweb\Modules\Core\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Juzaweb\Modules\Core\Contracts\Sitemap;
-use Juzaweb\Modules\Core\Facades\Chart;
 use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Facades\MenuBox;
 use Juzaweb\Modules\Core\Facades\PageBlock;
@@ -24,12 +23,6 @@ use Juzaweb\Modules\Core\Models\Client;
 use Juzaweb\Modules\Core\Models\Pages\Page;
 use Juzaweb\Modules\Core\Models\Pages\PageTranslation;
 use Juzaweb\Modules\Core\Models\User;
-use Juzaweb\Modules\Core\Support\Dashboard\SessionDurationChart;
-use Juzaweb\Modules\Core\Support\Dashboard\SessionsByDeviceChart;
-use Juzaweb\Modules\Core\Support\Dashboard\TopPagesChart;
-use Juzaweb\Modules\Core\Support\Dashboard\TrafficSourcesChart;
-use Juzaweb\Modules\Core\Support\Dashboard\UsersByCountryChart;
-use Juzaweb\Modules\Core\Support\Dashboard\UsersChart;
 use Laravel\Passport\Passport;
 
 class AdminServiceProvider extends ServiceProvider
@@ -44,7 +37,6 @@ class AdminServiceProvider extends ServiceProvider
         Passport::useClientModel(Client::class);
 
         $this->registerSettings();
-        $this->registerCharts();
         $this->registerGlobalPageBlocks();
         $this->registerGlobalWidgets();
 
@@ -310,16 +302,6 @@ class AdminServiceProvider extends ServiceProvider
                 Setting::make('captcha_site_secret')->rules(['nullable', 'string']);
             }
         );
-    }
-
-    protected function registerCharts(): void
-    {
-        Chart::chart('users', UsersChart::class);
-        Chart::chart('users-by-country', UsersByCountryChart::class);
-        Chart::chart('sessions-by-device', SessionsByDeviceChart::class);
-        Chart::chart('top-pages', TopPagesChart::class);
-        Chart::chart('session-duration', SessionDurationChart::class);
-        Chart::chart('traffic-sources', TrafficSourcesChart::class);
     }
 
     protected function registerGlobalPageBlocks(): void

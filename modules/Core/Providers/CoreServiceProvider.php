@@ -15,9 +15,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Juzaweb\Hooks\Contracts\Hook;
-use Juzaweb\Modules\Core\Contracts\Breadcrumb;
-use Juzaweb\Modules\Core\Contracts\Chart;
-use Juzaweb\Modules\Core\Contracts\Field;
 use Juzaweb\Modules\Core\Contracts\GlobalData;
 use Juzaweb\Modules\Core\Contracts\Locale;
 use Juzaweb\Modules\Core\Contracts\Menu;
@@ -34,16 +31,12 @@ use Juzaweb\Modules\Core\Contracts\Theme;
 use Juzaweb\Modules\Core\Contracts\ThemeSetting;
 use Juzaweb\Modules\Core\Contracts\Thumbnail;
 use Juzaweb\Modules\Core\Contracts\Widget;
-use Juzaweb\Modules\Core\DataTables\HtmlBuilder;
 use Juzaweb\Modules\Core\FileManager\Providers\FileManagerServiceProvider;
 use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Modules\Providers\ModulesServiceProvider;
 use Juzaweb\Modules\Core\Permissions\PermissionServiceProvider;
 use Juzaweb\Modules\Core\Rules\ModelExists;
 use Juzaweb\Modules\Core\Rules\ModelUnique;
-use Juzaweb\Modules\Core\Support\BreadcrumbFactory;
-use Juzaweb\Modules\Core\Support\ChartRepository;
-use Juzaweb\Modules\Core\Support\FieldFactory;
 use Juzaweb\Modules\Core\Support\GlobalDataRepository;
 use Juzaweb\Modules\Core\Support\LocaleRepository;
 use Juzaweb\Modules\Core\Support\MenuBoxRepository;
@@ -67,11 +60,6 @@ class CoreServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->customServices();
-
-        $this->app->bind(
-            'datatables.html',
-            fn () => $this->app->make(HtmlBuilder::class)
-        );
 
         // Before check user permission
         Gate::before(
@@ -104,8 +92,6 @@ class CoreServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
 
         $this->registerTranslations();
-        $this->registerViews();
-        $this->publishAssets();
 
         $this->app->singleton(
             Locale::class,
@@ -147,14 +133,6 @@ class CoreServiceProvider extends ServiceProvider
             }
         );
 
-        $this->app->singleton(Breadcrumb::class, function () {
-            return new BreadcrumbFactory;
-        });
-
-        $this->app->singleton(Field::class, function ($app) {
-            return new FieldFactory;
-        });
-
         $this->app->singleton(
             RouteResource::class,
             fn ($app) => new RouteResourceRepository($app->make('router'))
@@ -166,11 +144,6 @@ class CoreServiceProvider extends ServiceProvider
                 $app[GlobalData::class],
                 $app[Hook::class]
             )
-        );
-
-        $this->app->singleton(
-            Chart::class,
-            fn ($app) => new ChartRepository
         );
 
         $this->app->singleton(
@@ -263,28 +236,5 @@ class CoreServiceProvider extends ServiceProvider
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'core');
         $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
-    }
-
-    /**
-     * Register views.
-     */
-    protected function registerViews(): void
-    {
-        $viewPath = resource_path('views/vendor/core');
-
-        $sourcePath = __DIR__.'/../resources/views';
-
-        $this->publishes([
-            $sourcePath => $viewPath,
-        ], ['views', 'core-views']);
-
-        $this->loadViewsFrom($sourcePath, 'core');
-    }
-
-    protected function publishAssets(): void
-    {
-        $this->publishes([
-            __DIR__.'/../../assets/public' => public_path('juzaweb'),
-        ], 'core-assets');
     }
 }

@@ -93,6 +93,99 @@
                         "$ref": "#/components/responses/error_500"
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Update site settings",
+                "description": "Update key-value pairs of public site settings such as title, logo, language, etc.",
+                "operationId": "993aba4b0ad7ce4d43289fef41286d4c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "My Site"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "example": "Site description"
+                                    },
+                                    "sitename": {
+                                        "type": "string",
+                                        "example": "mysite"
+                                    },
+                                    "logo": {
+                                        "type": "string",
+                                        "example": "https://example.com/logo.png"
+                                    },
+                                    "favicon": {
+                                        "type": "string",
+                                        "example": "https://example.com/favicon.ico"
+                                    },
+                                    "banner": {
+                                        "type": "string",
+                                        "example": "https://example.com/banner.jpg"
+                                    },
+                                    "language": {
+                                        "type": "string",
+                                        "example": "en"
+                                    },
+                                    "user_registration": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "user_verification": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "language_type": {
+                                        "type": "string",
+                                        "example": "prefix"
+                                    },
+                                    "custom_header_script": {
+                                        "type": "string",
+                                        "example": "<script></script>"
+                                    },
+                                    "custom_footer_script": {
+                                        "type": "string",
+                                        "example": "<script></script>"
+                                    },
+                                    "enable_cookie_consent": {
+                                        "type": "string",
+                                        "example": "1"
+                                    },
+                                    "cookie_consent_message": {
+                                        "type": "string",
+                                        "example": "Message"
+                                    },
+                                    "google_analytics": {
+                                        "type": "string",
+                                        "example": "G-123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/auth/user/login": {
@@ -3451,6 +3544,37 @@
                 ]
             }
         },
+        "/api/v1/payment-histories": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get list of payment histories",
+                "operationId": "79a5e9e957c256d9f9d96474e10844c7",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/payment-methods": {
             "get": {
                 "tags": [
@@ -5711,6 +5835,10 @@
         {
             "name": "Orders",
             "description": "Orders"
+        },
+        {
+            "name": "Payment",
+            "description": "Payment"
         },
         {
             "name": "Payment Methods",

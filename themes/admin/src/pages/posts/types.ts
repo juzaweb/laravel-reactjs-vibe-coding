@@ -13,7 +13,6 @@ export interface Post {
 export interface PostFormData {
   title: string;
   slug?: string;
-  description?: string;
   content?: string;
   thumbnail?: string;
   status: string;

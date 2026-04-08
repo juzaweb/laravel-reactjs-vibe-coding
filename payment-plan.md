@@ -29,10 +29,15 @@ Sau khi sửa lỗi Test Framework, cần kiểm tra tỷ lệ coverage:
   - `OrderResource`
 - **Việc cần làm:** Đảm bảo rằng các Class FormRequest và JsonResource này có `@OA\Schema` annotations rõ ràng để khi generate file `api-docs.json` (`php artisan l5-swagger:generate`) không bị thiếu schema (hoặc lỗi tham chiếu).
 
-## 4. Tối ưu API / Security / Code Quality
+## 4. Bổ sung các API còn thiếu
+- Rà soát file `modules/Payment/routes/api.php` cho thấy route `payment-histories` được định nghĩa cho cả hai method là `index` và `show` (`Route::api('payment-histories', PaymentHistoryController::class)->only(['index', 'show']);`).
+- Tuy nhiên, trong `PaymentHistoryController.php` hiện chỉ mới implement hàm `index`, hoàn toàn **bị thiếu hàm `show`**.
+- **Việc cần làm:** Cần bổ sung hàm `show` vào `PaymentHistoryController` để trả về chi tiết lịch sử thanh toán, đồng thời kèm theo `@OA\Get` Swagger annotations cho nó. Đảm bảo có check quyền (`hasPermissionTo` hoặc giới hạn bởi `payer_id`) tương tự như hàm `index` để tránh lỗi bảo mật.
+
+## 5. Tối ưu API / Security / Code Quality
 - Các controller (như `OrderController`, `PaymentHistoryController`) hiện đã được giới hạn quyền xem theo `user()` và `hasPermissionTo()`. Đây là một điểm tốt về IDOR prevention.
 - **Việc cần làm:**
-  - Kiểm tra xem middleware `auth:api` đã được áp dụng đúng trên các routes nằm trong thư mục `modules/Payment/routes/api.php` hay chưa.
+  - Middleware `auth:api` đã được áp dụng trong `modules/Payment/routes/api.php`. Cần đảm bảo tất cả các endpoint đều hoạt động đúng.
   - Sử dụng FormRequest riêng biệt trong `Http/Requests/API/` thay vì dùng inline validate, để đảm bảo an toàn về mass-assignment. (Cần kiểm tra `CreateOrderRequest`, `PaymentMethodRequest` đã được định nghĩa đúng chuẩn chưa).
 
 ## Tổng kết

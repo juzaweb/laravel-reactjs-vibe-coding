@@ -29,8 +29,6 @@ class SubscriptionServiceProvider extends ServiceProvider
                 if (File::missing(storage_path('app/installed'))) {
                     return;
                 }
-
-                $this->registerMenu();
             }
         );
 
@@ -61,16 +59,6 @@ class SubscriptionServiceProvider extends ServiceProvider
                 return new SubscriptionManager($app);
             }
         );
-    }
-
-    protected function registerMenu(): void
-    {
-        Menu::make('subscription-methods', function () {
-            return [
-                'title' => __('Subscription Methods'),
-                'parent' => 'settings',
-            ];
-        });
     }
 
     /**

@@ -315,7 +315,12 @@ export const MenusManager: React.FC = () => {
             {/* Pages Accordion */}
             <button
               className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-[var(--border-color)] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              onClick={() => setIsPagesOpen(!isPagesOpen)}
+              onClick={() => {
+                setIsPagesOpen(!isPagesOpen);
+                if (!isPagesOpen) {
+                  setIsCustomLinkOpen(false);
+                }
+              }}
             >
               <span className="font-semibold text-[var(--text-main)]">{t('pages', 'Pages')}</span>
               {isPagesOpen ? <FiChevronDown className="text-[var(--text-muted)]" /> : <FiChevronRight className="text-[var(--text-muted)]" />}
@@ -359,7 +364,12 @@ export const MenusManager: React.FC = () => {
             {/* Custom Links Accordion */}
             <button
               className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800/50 border-b border-[var(--border-color)] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              onClick={() => setIsCustomLinkOpen(!isCustomLinkOpen)}
+              onClick={() => {
+                setIsCustomLinkOpen(!isCustomLinkOpen);
+                if (!isCustomLinkOpen) {
+                  setIsPagesOpen(false);
+                }
+              }}
             >
               <span className="font-semibold text-[var(--text-main)]">{t('custom_links', 'Custom Links')}</span>
               {isCustomLinkOpen ? <FiChevronDown className="text-[var(--text-muted)]" /> : <FiChevronRight className="text-[var(--text-muted)]" />}

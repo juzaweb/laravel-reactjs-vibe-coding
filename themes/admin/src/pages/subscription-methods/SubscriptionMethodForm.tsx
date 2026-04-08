@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { FiArrowLeft, FiSave } from 'react-icons/fi'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { Button } from '../../components/ui/Button'
 import { Text as Input } from '../../components/ui/form/Text'
 import { Textarea } from '../../components/ui/form/Textarea'
-import { Checkbox } from '../../components/ui/form/Checkbox'
 import { useSubscriptionMethod, useCreateSubscriptionMethod, useUpdateSubscriptionMethod } from './hooks'
 import type { SubscriptionMethodFormData } from './types'
 import { useAppSelector } from '../../store/hooks'
@@ -35,7 +35,6 @@ export function SubscriptionMethodForm() {
   const updateMutation = useUpdateSubscriptionMethod()
 
   const {
-    register,
     handleSubmit,
     control,
     reset,
@@ -98,42 +97,59 @@ export function SubscriptionMethodForm() {
   }
 
   if (isEdit && isLoadingMethod) {
-    return <div>Loading...</div>
+    return <div className="p-6 text-center">{t('common.loading', 'Loading...')}</div>
   }
 
   return (
-    <div className="space-y-6">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       <PageHeader
         title={isEdit ? t('subscription_method.edit', 'Edit Subscription Method') : t('subscription_method.create', 'Create Subscription Method')}
         breadcrumbs={[
           { label: t('subscription.title', 'Subscription') },
           { label: t('subscription_method.title', 'Subscription Methods'), href: '/admin/subscription-methods' },
-          { label: isEdit ? t('common.edit') : t('common.create') },
+          { label: isEdit ? t('common.edit', 'Edit') : t('common.create', 'Create') },
         ]}
       />
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 gap-6">
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">{t('subscription_method.name', 'Name')}</label>
-            <Input {...register('name')} placeholder={t('subscription_method.name_placeholder', 'Enter method name')} />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message?.toString()}</p>}
-          </div>
+      <div className="flex items-center justify-between mb-4">
+        <Link to="/admin/subscription-methods">
+          <Button variant="ghost" className="flex items-center gap-2 text-[var(--text-muted)] hover:text-[var(--text-main)]">
+            <FiArrowLeft className="w-4 h-4" />
+            {t('common.back_to_list', 'Back to List')}
+          </Button>
+        </Link>
+      </div>
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">{t('subscription_method.description', 'Description')}</label>
-            <Textarea {...register('description')} placeholder={t('subscription_method.description_placeholder', 'Enter description')} rows={3} />
-            {errors.description && <p className="text-red-500 text-sm mt-1">{errors.description.message?.toString()}</p>}
-          </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-3xl">
+        <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
+          <div className="p-6 space-y-6">
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label={t('subscription_method.name', 'Name')}
+                  error={errors.name?.message?.toString()}
+                  placeholder={t('subscription_method.name_placeholder', 'Enter method name')}
+                  {...field}
+                />
+              )}
+            />
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">{t('subscription_method.driver', 'Driver')}</label>
-            <Input {...register('driver')} placeholder="e.g. PayPal, Stripe" disabled={isEdit} />
-            {errors.driver && <p className="text-red-500 text-sm mt-1">{errors.driver.message?.toString()}</p>}
-          </div>
+            <Controller
+              name="driver"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label={t('subscription_method.driver', 'Driver')}
+                  error={errors.driver?.message?.toString()}
+                  placeholder="e.g. PayPal, Stripe"
+                  disabled={isEdit}
+                  {...field}
+                />
+              )}
+            />
 
-          <div className="space-y-4">
-            <label className="block text-sm font-medium">{t('subscription_method.config', 'Configuration (JSON)')}</label>
             <Controller
               name="config"
               control={control}
@@ -155,51 +171,97 @@ export function SubscriptionMethodForm() {
                 }, [value])
 
                 return (
-                  <Textarea
-                    {...field}
-                    value={localValue}
-                    onChange={(e: any) => {
-                      setLocalValue(e.target.value)
-                    }}
-                    onBlur={(e: any) => {
-                      try {
-                        const val = e.target.value ? JSON.parse(e.target.value) : {}
-                        onChange(val)
-                        field.onBlur?.()
-                      } catch (err) {
-                        // ignore invalid json on blur, wait for user to fix
-                      }
-                    }}
-                    placeholder='{"client_id": "...", "secret": "..."}'
-                    rows={10}
-                    className="font-mono text-sm"
-                  />
+                  <div className="space-y-1">
+                    <label className="block text-sm font-medium text-[var(--text-main)]">
+                      {t('subscription_method.config', 'Configuration (JSON)')}
+                    </label>
+                    <Textarea
+                      {...field}
+                      value={localValue}
+                      onChange={(e: any) => {
+                        setLocalValue(e.target.value)
+                      }}
+                      onBlur={(e: any) => {
+                        try {
+                          const val = e.target.value ? JSON.parse(e.target.value) : {}
+                          onChange(val)
+                          field.onBlur?.()
+                        } catch (err) {
+                          // ignore invalid json on blur, wait for user to fix
+                        }
+                      }}
+                      placeholder='{"client_id": "...", "secret": "..."}'
+                      rows={10}
+                      className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors p-2 font-mono text-sm"
+                    />
+                    {errors.config && (
+                      <p className="text-sm text-red-500 mt-1">{errors.config.message?.toString()}</p>
+                    )}
+                  </div>
                 )
               }}
             />
-            {errors.config && <p className="text-red-500 text-sm mt-1">{errors.config.message?.toString()}</p>}
-          </div>
 
-          <div className="space-y-4">
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-1">
+                  <label className="block text-sm font-medium text-[var(--text-main)]">
+                    {t('subscription_method.description', 'Description')}
+                  </label>
+                  <textarea
+                    {...field}
+                    rows={3}
+                    placeholder={t('subscription_method.description_placeholder', 'Enter description')}
+                    className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors p-2"
+                  />
+                  {errors.description && (
+                    <p className="text-sm text-red-500 mt-1">{errors.description.message?.toString()}</p>
+                  )}
+                </div>
+              )}
+            />
+
             <Controller
               name="active"
               control={control}
-              render={({ field }) => (
-                <Checkbox
-                  checked={field.value}
-                  onChange={field.onChange}
-                  label={t('common.active', 'Active')}
-                />
+              render={({ field: { onChange, value, ref } }) => (
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center h-5">
+                    <input
+                      id="active"
+                      type="checkbox"
+                      className="w-4 h-4 text-blue-600 bg-[var(--bg-main)] border-[var(--border-color)] rounded focus:ring-blue-500"
+                      checked={value}
+                      onChange={(e) => onChange(e.target.checked)}
+                      ref={ref}
+                    />
+                  </div>
+                  <div className="text-sm">
+                    <label htmlFor="active" className="font-medium text-[var(--text-main)] cursor-pointer">
+                      {t('common.active', 'Active')}
+                    </label>
+                  </div>
+                </div>
               )}
             />
-          </div>
 
-          <div className="flex justify-end space-x-3">
-            <Button type="button" variant="secondary" onClick={() => navigate('/admin/subscription-methods')}>
-              {t('common.cancel')}
-            </Button>
-            <Button type="submit" disabled={isSubmitting || createMutation.isPending || updateMutation.isPending}>
-              {t('common.save')}
+          </div>
+          <div className="px-6 py-4 bg-slate-50 dark:bg-slate-800/50 border-t border-[var(--border-color)] flex justify-end gap-3">
+            <Link to="/admin/subscription-methods">
+              <Button type="button" variant="outline">
+                {t('common.cancel', 'Cancel')}
+              </Button>
+            </Link>
+            <Button
+              type="submit"
+              variant="primary"
+              className="flex items-center gap-2"
+              disabled={isSubmitting || createMutation.isPending || updateMutation.isPending}
+            >
+              <FiSave className="w-4 h-4" />
+              {t('common.save', 'Save')}
             </Button>
           </div>
         </div>

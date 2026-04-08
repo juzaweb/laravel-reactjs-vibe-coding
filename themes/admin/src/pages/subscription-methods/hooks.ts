@@ -5,7 +5,7 @@ import type { SubscriptionMethod, SubscriptionMethodFormData } from './types'
 import toast from 'react-hot-toast'
 import { isAxiosError } from 'axios'
 
-const API_URL = '/subscription/methods'
+const API_URL = '/v1/subscription/methods'
 
 export const useSubscriptionMethods = (
   page: number = 1,

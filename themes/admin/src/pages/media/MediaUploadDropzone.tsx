@@ -25,7 +25,7 @@ export const MediaUploadDropzone: React.FC<MediaUploadDropzoneProps> = ({ onClos
 
     const r = new Resumable({
       target: `${baseURL}/v1/media/chunk`,
-      chunkSize: 2 * 1024 * 1024, // 2MB
+      chunkSize: 1000 * 1024, // 1000KB
       simultaneousUploads: 3,
       testChunks: false,
       headers: token ? { Authorization: `Bearer ${token}` } : {},

@@ -5,7 +5,6 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { Switch } from '../../components/ui/form/Switch';
-import { Radio } from '../../components/ui/form/Radio';
 import { MediaPlaceholder } from '../../components/ui/form/MediaPlaceholder';
 import { useSettings, useUpdateSettings } from './hooks';
 

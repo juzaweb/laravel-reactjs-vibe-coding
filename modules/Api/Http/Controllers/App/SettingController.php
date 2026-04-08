@@ -3,11 +3,11 @@
 namespace Juzaweb\Modules\Api\Http\Controllers\App;
 
 use Illuminate\Http\JsonResponse;
+use Juzaweb\Modules\Api\Http\Requests\SettingRequest;
 use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\Setting;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Translations\Models\Language;
-use Juzaweb\Modules\Api\Http\Requests\SettingRequest;
 use OpenApi\Annotations as OA;
 
 class SettingController extends APIController
@@ -102,8 +102,10 @@ class SettingController extends APIController
      *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(property="title", type="string", example="My Site"),
      *              @OA\Property(property="description", type="string", example="Site description"),
      *              @OA\Property(property="sitename", type="string", example="mysite"),
@@ -126,7 +128,6 @@ class SettingController extends APIController
      *          response=200,
      *          description="Successful operation",
      *      ),
-     *
      *      @OA\Response(response=500, description="Server error", ref="#/components/responses/error_500")
      * )
      */

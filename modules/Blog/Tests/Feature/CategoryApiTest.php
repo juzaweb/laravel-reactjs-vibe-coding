@@ -3,6 +3,7 @@
 namespace Juzaweb\Modules\Blog\Tests\Feature;
 
 use Juzaweb\Modules\Blog\Models\Category;
+use Juzaweb\Modules\Blog\Providers\BlogServiceProvider;
 use Juzaweb\Modules\Blog\Tests\TestCase;
 use Juzaweb\Modules\Core\Models\User;
 
@@ -14,7 +15,7 @@ class CategoryApiTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
-        $this->app->register(\Juzaweb\Modules\Blog\Providers\BlogServiceProvider::class);
+        $this->app->register(BlogServiceProvider::class);
     }
 
     public function test_index_categories()

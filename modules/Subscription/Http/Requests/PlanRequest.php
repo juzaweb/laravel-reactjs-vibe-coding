@@ -24,7 +24,7 @@ class PlanRequest extends FormRequest
                 Rule::requiredIf(! $this->input('is_free') && $this->isMethod('post')),
                 'numeric',
                 'min:0',
-                'nullable'
+                'nullable',
             ],
             'duration' => ['nullable', 'integer', 'min:1'],
             'duration_unit' => ['nullable', 'string', 'in:day,week,month,year'],

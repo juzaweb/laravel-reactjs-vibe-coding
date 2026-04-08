@@ -39,6 +39,9 @@ export const Editor = forwardRef<TinyMCEEditor, EditorProps>(
             init={{
               height: 400,
               menubar: false,
+              promotion: false,
+              branding: false,
+              remove_script_host: false,
               plugins: [
                 'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                 'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',

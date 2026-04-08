@@ -5496,6 +5496,55 @@
                 },
                 "type": "object"
             },
+            "PaymentMethodResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "PayPal"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "Pay via PayPal"
+                    },
+                    "driver": {
+                        "type": "string",
+                        "example": "PayPal"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "sandbox": {
+                        "type": "boolean",
+                        "example": false
+                    },
+                    "config": {
+                        "type": "object",
+                        "example": {
+                            "sandbox": false
+                        }
+                    },
+                    "locale": {
+                        "type": "string",
+                        "example": "en"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "SubscriptionMethodRequest": {
                 "title": "SubscriptionMethodRequest",
                 "description": "Subscription Method request body data",

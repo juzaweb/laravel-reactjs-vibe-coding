@@ -4,6 +4,7 @@ export interface Post {
   slug: string;
   description: string | null;
   content: string | null;
+  thumbnail?: string | null;
   status: string;
   created_at: string;
   updated_at: string;
@@ -14,6 +15,7 @@ export interface PostFormData {
   slug?: string;
   description?: string;
   content?: string;
+  thumbnail?: string;
   status: string;
 }
 

@@ -7,6 +7,7 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { Editor } from '../../components/ui/form/Editor';
+import { MediaPlaceholder } from '../../components/ui/form/MediaPlaceholder';
 import { usePost, useCreatePost, useUpdatePost } from './hooks';
 import type { PostFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
@@ -27,6 +28,7 @@ export const PostForm: React.FC = () => {
       slug: '',
       description: '',
       content: '',
+      thumbnail: '',
       status: 'draft',
     },
   });
@@ -38,6 +40,7 @@ export const PostForm: React.FC = () => {
         slug: postData.slug || '',
         description: postData.description || '',
         content: postData.content || '',
+        thumbnail: postData.thumbnail || '',
         status: postData.status || 'draft',
       });
     }
@@ -175,6 +178,21 @@ export const PostForm: React.FC = () => {
                 <Input
                   {...field}
                   label={t('slug', 'URL Slug')}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
+          </div>
+
+          <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
+            <h3 className="text-lg font-medium text-[var(--text-main)]">{t('thumbnail', 'Thumbnail')}</h3>
+
+            <Controller
+              name="thumbnail"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MediaPlaceholder
+                  {...field}
                   error={fieldState.error?.message}
                 />
               )}

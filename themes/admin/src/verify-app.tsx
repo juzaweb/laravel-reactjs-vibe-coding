@@ -1,23 +1,23 @@
+import React from 'react';
 import { createRoot } from 'react-dom/client';
+import { Editor } from './components/ui/form/Editor';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MenusManager } from './pages/menus/MenusManager';
-import './i18n'; // Need translations initialized
-import './index.css';
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      retry: false,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
-export const App = () => {
+const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] font-sans">
-        <MenusManager />
-      </div>
+        <Provider store={store}>
+            <BrowserRouter>
+                <div className="p-10">
+                    <Editor />
+                </div>
+            </BrowserRouter>
+        </Provider>
     </QueryClientProvider>
   );
 };

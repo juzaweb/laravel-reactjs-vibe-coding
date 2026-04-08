@@ -774,6 +774,51 @@
                 ]
             }
         },
+        "/api/v1/notifications/{id}/read": {
+            "put": {
+                "tags": [
+                    "Notification"
+                ],
+                "summary": "Mark a specific notification as read",
+                "description": "Marks a specific notification as read by ID.",
+                "operationId": "73bbba02996e81e85ef72334bafac3ec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/NotificationResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/notifications/bulk": {
             "post": {
                 "tags": [
@@ -3031,6 +3076,217 @@
                 ]
             }
         },
+        "/api/v1/payment-methods": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Get list of payment methods",
+                "operationId": "836788e2c257c69b5a1e74cf857b2079",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Create a new payment method",
+                "operationId": "8fda77821fb2fbac0d964ca270fd43a2",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentMethodRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payment-methods/{id}": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Get payment method details by id",
+                "operationId": "2c3a3ce71e8baa5b8f43142872ecaa96",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Payment method not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Update an existing payment method",
+                "operationId": "cf26127e2b964005f97ca8e06a526f01",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaymentMethodRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Payment method not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Delete a payment method",
+                "operationId": "7bbc364f4e81b1453a3d7ecc5baf17b5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Payment method not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payment-methods/bulk": {
+            "post": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Bulk action on payment methods",
+                "operationId": "ba448fb478c93f59defb821bae4c2063",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "action": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/subscription/plans": {
             "get": {
                 "tags": [
@@ -4060,6 +4316,56 @@
                 },
                 "type": "object"
             },
+            "PaymentMethodRequest": {
+                "title": "PaymentMethodRequest",
+                "description": "Payment Method request body data",
+                "required": [
+                    "driver",
+                    "name",
+                    "locale",
+                    "config",
+                    "active"
+                ],
+                "properties": {
+                    "driver": {
+                        "title": "Driver",
+                        "description": "The payment driver",
+                        "type": "string",
+                        "example": "PayPal"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "description": "The name of the payment method",
+                        "type": "string",
+                        "example": "PayPal Payment"
+                    },
+                    "description": {
+                        "title": "Description",
+                        "description": "The description of the payment method",
+                        "type": "string",
+                        "example": "Pay via PayPal"
+                    },
+                    "locale": {
+                        "title": "Locale",
+                        "description": "The language locale",
+                        "type": "string",
+                        "example": "en",
+                        "nullable": true
+                    },
+                    "config": {
+                        "title": "Config",
+                        "description": "Configuration for the payment method driver",
+                        "type": "object"
+                    },
+                    "active": {
+                        "title": "Active",
+                        "description": "Whether the payment method is active",
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
             "PlanResource": {
                 "title": "PlanResource",
                 "properties": {
@@ -4578,6 +4884,10 @@
         {
             "name": "Posts",
             "description": "Posts"
+        },
+        {
+            "name": "Payment Methods",
+            "description": "Payment Methods"
         },
         {
             "name": "Subscription",

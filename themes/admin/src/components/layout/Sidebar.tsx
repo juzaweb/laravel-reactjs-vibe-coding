@@ -111,9 +111,27 @@ export const Sidebar: React.FC = () => {
             const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : (item.name === t('subscription', 'Subscription') ? isSubscriptionActive : false));
             const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : (item.name === t('subscription', 'Subscription') ? isSubscriptionOpen : false));
             const toggleGroup = () => {
-              if (item.name === t('blog', 'Blog')) setIsBlogOpen(!isBlogOpen);
-              if (item.name === t('payment', 'Payment')) setIsPaymentOpen(!isPaymentOpen);
-              if (item.name === t('subscription', 'Subscription')) setIsSubscriptionOpen(!isSubscriptionOpen);
+              if (item.name === t('blog', 'Blog')) {
+                setIsBlogOpen(!isBlogOpen);
+                if (!isBlogOpen) {
+                  setIsPaymentOpen(false);
+                  setIsSubscriptionOpen(false);
+                }
+              }
+              if (item.name === t('payment', 'Payment')) {
+                setIsPaymentOpen(!isPaymentOpen);
+                if (!isPaymentOpen) {
+                  setIsBlogOpen(false);
+                  setIsSubscriptionOpen(false);
+                }
+              }
+              if (item.name === t('subscription', 'Subscription')) {
+                setIsSubscriptionOpen(!isSubscriptionOpen);
+                if (!isSubscriptionOpen) {
+                  setIsBlogOpen(false);
+                  setIsPaymentOpen(false);
+                }
+              }
             };
 
             return (

@@ -28,7 +28,7 @@ export const PageForm: React.FC = () => {
       slug: '',
       description: '',
       content: '',
-      template: 'default',
+      template: '',
       status: 'draft',
       locale: 'en',
     },
@@ -41,7 +41,7 @@ export const PageForm: React.FC = () => {
         slug: pageData.slug || '',
         description: pageData.description || '',
         content: pageData.content || '',
-        template: pageData.template || 'default',
+        template: pageData.template || '',
         status: pageData.status || 'draft',
         locale: pageData.locale || 'en',
       });
@@ -189,7 +189,7 @@ export const PageForm: React.FC = () => {
                         ? [{ value: '', label: t('loading', 'Loading...') }]
                         : templateOptions.length === 0
                         ? [{ value: '', label: t('no_templates', 'No templates') }]
-                        : templateOptions
+                        : [{ value: '', label: t('default_template', 'Default Template') }, ...templateOptions]
                     }
                     error={fieldState.error?.message}
                     disabled={isLoadingTemplates || templateOptions.length === 0}

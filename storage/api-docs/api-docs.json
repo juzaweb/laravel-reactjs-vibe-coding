@@ -1513,6 +1513,55 @@
                 ]
             }
         },
+        "/api/v1/pages/templates": {
+            "get": {
+                "tags": [
+                    "Pages"
+                ],
+                "summary": "Get list of page templates",
+                "operationId": "aedab3791637ae99f87ee360b4bc1054",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "key": {
+                                                        "type": "string",
+                                                        "example": "default"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "Default Template"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/pages": {
             "get": {
                 "tags": [
@@ -3575,6 +3624,26 @@
                 ]
             }
         },
+        "/api/v1/payment-methods/drivers": {
+            "get": {
+                "tags": [
+                    "Payment Methods"
+                ],
+                "summary": "Get list of payment drivers",
+                "operationId": "ca83b20bb238f70aaa2ac3cd86c418a5",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/payment-methods": {
             "get": {
                 "tags": [
@@ -3854,10 +3923,6 @@
                                     "active": {
                                         "type": "boolean"
                                     },
-                                    "module": {
-                                        "type": "string",
-                                        "nullable": true
-                                    },
                                     "features": {
                                         "type": "array",
                                         "items": {
@@ -3996,10 +4061,6 @@
                                     },
                                     "active": {
                                         "type": "boolean"
-                                    },
-                                    "module": {
-                                        "type": "string",
-                                        "nullable": true
                                     },
                                     "features": {
                                         "type": "array",

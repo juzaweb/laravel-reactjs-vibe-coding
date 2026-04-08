@@ -45,11 +45,14 @@
         "league/omnipay": "^3",
         "nyholm/psr7": "^1.8",
         "omnipay/paypal": "^3.0",
+        "omnipay/stripe": "^3.2",
         "opcodesio/log-viewer": "^3.21",
         "pion/laravel-chunk-upload": "^1.5",
         "spatie/image-optimizer": "^1.4",
         "spatie/laravel-activitylog": "^4.10",
         "spatie/laravel-sitemap": "^7.3",
+        "srmklive/paypal": "^3.0",
+        "stripe/stripe-php": "^20.0",
         "symfony/cache": "^6.0"
     },
     "require-dev": {

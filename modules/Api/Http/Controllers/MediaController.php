@@ -12,6 +12,7 @@ use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Media;
 use OpenApi\Annotations as OA;
 use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
+use Pion\Laravel\ChunkUpload\Handler\AbstractHandler;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
 
@@ -135,6 +136,7 @@ class MediaController extends APIController
      *              mediaType="multipart/form-data",
      *
      *              @OA\Schema(
+     *
      *                  @OA\Property(property="file", type="string", format="binary", description="The chunk file"),
      *                  @OA\Property(property="folder_id", type="integer", description="The folder ID"),
      *                  @OA\Property(property="resumableChunkNumber", type="integer", description="The current chunk number"),
@@ -148,6 +150,7 @@ class MediaController extends APIController
      *          description="Successful operation. If finished, returns data. If continuing, returns chunk info.",
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="data", ref="#/components/schemas/MediaResource", nullable=true),
      *              @OA\Property(property="done", type="integer", description="Percentage done")
      *          )
@@ -189,7 +192,7 @@ class MediaController extends APIController
             return $this->restSuccess($media);
         }
 
-        /** @var \Pion\Laravel\ChunkUpload\Handler\AbstractHandler $handler */
+        /** @var AbstractHandler $handler */
         $handler = $save->handler();
 
         return response()->json(

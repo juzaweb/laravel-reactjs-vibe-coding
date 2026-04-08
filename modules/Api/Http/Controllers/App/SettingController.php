@@ -48,10 +48,12 @@ class SettingController extends APIController
      *                          description="Language name, e.g. English, Vietnamese, Japanese"
      *                      )
      *                  ),
+     *
      *                  @OA\Property(
      *                      property="active_modules",
      *                      type="array",
      *                      description="List of active module names",
+     *
      *                      @OA\Items(type="string", example="Blog")
      *                  )
      *              )

@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
 use Juzaweb\Modules\Core\Application;
 use Juzaweb\Modules\Core\Http\Middleware\Authenticate;
 use Juzaweb\Modules\Core\Http\Middleware\Captcha;

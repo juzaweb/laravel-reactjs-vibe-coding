@@ -63,11 +63,12 @@ class JulesPreviewCommand extends Command
 
         if (empty($previewFeedback)) {
             $this->error('Lỗi khi gọi lên Ollama API để review mã.');
+
             return 1;
         }
 
         $this->info("\n--- KẾT QUẢ CUỐI CÙNG ---");
-        $this->line("Feedback đã tạo:\n" . $previewFeedback);
+        $this->line("Feedback đã tạo:\n".$previewFeedback);
 
         // 3. Submit feedback back to Jules (Commented out logically as requested)
         // $apiStatus = $this->submitFeedbackToJules($apiKey, $sessionId, $previewFeedback);
@@ -152,21 +153,21 @@ class JulesPreviewCommand extends Command
 
             $fetchProcess = Process::run("git fetch origin {$fetchRef}");
             if ($fetchProcess->failed()) {
-                $this->error('Lỗi khi git fetch: ' . $fetchProcess->errorOutput());
+                $this->error('Lỗi khi git fetch: '.$fetchProcess->errorOutput());
 
                 return null;
             }
 
             $diffProcess = Process::run("git diff {$baseBranch}...FETCH_HEAD");
             if ($diffProcess->failed()) {
-                $this->error('Lỗi khi git diff: ' . $diffProcess->errorOutput());
+                $this->error('Lỗi khi git diff: '.$diffProcess->errorOutput());
 
                 return null;
             }
 
             return $diffProcess->output();
         } catch (\Exception $e) {
-            $this->error('Lỗi git command: ' . $e->getMessage());
+            $this->error('Lỗi git command: '.$e->getMessage());
 
             return null;
         }
@@ -192,7 +193,7 @@ class JulesPreviewCommand extends Command
             return $response->json('response');
         }
 
-        $this->error('Ollama API Error: ' . $response->body());
+        $this->error('Ollama API Error: '.$response->body());
 
         return null;
     }
@@ -211,6 +212,6 @@ class JulesPreviewCommand extends Command
             'prompt' => $feedback,
         ]);
 
-        return 'Completed feedback submit with HTTP ' . $response->status();
+        return 'Completed feedback submit with HTTP '.$response->status();
     }
 }

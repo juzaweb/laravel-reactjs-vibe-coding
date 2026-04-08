@@ -4,6 +4,7 @@ namespace Juzaweb\Modules\Payment\Tests\Unit;
 
 use Illuminate\Support\Facades\Event;
 use Juzaweb\Modules\Admin\Models\User;
+use Juzaweb\Modules\Core\Themes\Activators\SettingActivator;
 use Juzaweb\Modules\Payment\Contracts\ModuleHandlerInterface;
 use Juzaweb\Modules\Payment\Contracts\PaymentGatewayInterface;
 use Juzaweb\Modules\Payment\Contracts\PaymentManager;
@@ -26,7 +27,7 @@ class PaymentManagerTest extends TestCase
         parent::setUp();
         // Ensure database tables are created
         app('config')->set('themes.activator', 'setting');
-        app('config')->set('themes.activators.setting.class', \Juzaweb\Modules\Core\Themes\Activators\SettingActivator::class);
+        app('config')->set('themes.activators.setting.class', SettingActivator::class);
         app('config')->set('themes.path', base_path('themes'));
         app('config')->set('app.key', 'base64:D6fZlKIkxqWaMJLmMkw170JIMRhWkQ25+wpmCwoUtD0=');
     }

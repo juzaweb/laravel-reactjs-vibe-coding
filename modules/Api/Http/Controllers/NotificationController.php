@@ -48,20 +48,26 @@ class NotificationController extends APIController
      *      summary="Get a specific notification",
      *      description="Returns a specific notification by ID.",
      *      security={{"bearerAuth":{}}},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(property="data", ref="#/components/schemas/NotificationResource")
      *          )
      *      ),
+     *
      *      @OA\Response(response=404, description="Not Found")
      * )
      */
@@ -79,20 +85,26 @@ class NotificationController extends APIController
      *      summary="Mark a specific notification as read",
      *      description="Marks a specific notification as read by ID.",
      *      security={{"bearerAuth":{}}},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
+     *
      *          @OA\JsonContent(
      *              type="object",
+     *
      *              @OA\Property(property="data", ref="#/components/schemas/NotificationResource")
      *          )
      *      ),
+     *
      *      @OA\Response(response=404, description="Not Found")
      * )
      */
@@ -114,12 +126,15 @@ class NotificationController extends APIController
      *      summary="Delete a notification",
      *      description="Deletes a specific notification.",
      *      security={{"bearerAuth":{}}},
+     *
      *      @OA\Parameter(
      *          name="id",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"
@@ -143,10 +158,13 @@ class NotificationController extends APIController
      *      summary="Bulk actions for notifications",
      *      description="Perform bulk actions on notifications.",
      *      security={{"bearerAuth":{}}},
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/BulkNotificationRequest")
      *      ),
+     *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation"

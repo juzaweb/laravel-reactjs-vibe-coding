@@ -6,7 +6,6 @@ use Illuminate\Foundation\Application;
 use Juzaweb\Hooks\HooksServiceProvider;
 use Juzaweb\Modules\Api\Providers\ApiServiceProvider;
 use Juzaweb\Modules\Api\Providers\RouteServiceProvider;
-use Juzaweb\Modules\Core\Contracts\ThemeSetting;
 use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\PageBlock;

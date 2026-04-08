@@ -22,8 +22,6 @@ use Illuminate\Session\SessionServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
-use Juzaweb\Modules\Core\Facades\Breadcrumb;
-use Juzaweb\Modules\Core\Facades\Chart;
 use Juzaweb\Modules\Core\Facades\Field;
 use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Facades\Module;

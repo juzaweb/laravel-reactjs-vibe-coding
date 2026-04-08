@@ -293,7 +293,7 @@ class SubscriptionController extends APIController
             'payload' => $request->all(),
         ]);
 
-        \Juzaweb\Modules\Subscription\Facades\Subscription::webhook($request, $driver);
+        SubscriptionFacade::webhook($request, $driver);
 
         return response('Webhook Failed', 200);
     }

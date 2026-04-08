@@ -13,8 +13,6 @@
 namespace Juzaweb\Modules\Subscription\Providers;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\Core\Facades\Locale;
 use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
 use Juzaweb\Modules\Subscription\Contracts\Subscription;

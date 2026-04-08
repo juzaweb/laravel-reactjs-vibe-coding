@@ -19,7 +19,7 @@ use Juzaweb\Modules\Payment\Http\Resources\OrderResource;
 
 class Order extends Model implements Paymentable
 {
-    use HasAPI, HasCodeWithMonth, HasCreator,  HasUuids, HasResource;
+    use HasAPI, HasCodeWithMonth, HasCreator,  HasResource, HasUuids;
 
     protected $table = 'orders';
 

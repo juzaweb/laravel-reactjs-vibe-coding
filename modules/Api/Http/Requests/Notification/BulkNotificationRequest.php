@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Modules\Api\Http\Requests\Notification;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use OpenApi\Annotations as OA;
 
@@ -11,6 +12,7 @@ use OpenApi\Annotations as OA;
  *      description="Request body data for bulk actions on notifications",
  *      type="object",
  *      required={"ids", "action"},
+ *
  *      @OA\Property(property="ids", type="array", description="Array of notification IDs", @OA\Items(type="string")),
  *      @OA\Property(property="action", type="string", description="Action to perform", enum={"delete", "mark_as_read", "mark_as_unread"})
  * )
@@ -28,7 +30,7 @@ class BulkNotificationRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {

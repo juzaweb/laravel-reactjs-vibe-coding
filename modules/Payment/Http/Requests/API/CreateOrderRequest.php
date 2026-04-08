@@ -3,9 +3,6 @@
 namespace Juzaweb\Modules\Payment\Http\Requests\API;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
-use Juzaweb\Modules\Payment\Enums\OrderDeliveryStatus;
-use Juzaweb\Modules\Payment\Enums\OrderPaymentStatus;
 
 /**
  * @OA\Schema(

@@ -23,7 +23,6 @@ class ThemeServiceProvider extends ServiceProvider
             $this->app[Theme::class]->init();
         }
 
-
     }
 
     public function register(): void

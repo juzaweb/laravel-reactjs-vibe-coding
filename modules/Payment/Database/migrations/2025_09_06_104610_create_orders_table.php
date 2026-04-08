@@ -27,6 +27,7 @@ return new class extends Migration
                 $table->text('note')->nullable();
                 $table->string('payment_status', 10)->index()->default('pending')->comment('pending');
                 $table->string('delivery_status', 10)->index()->default('pending')->comment('pending');
+                $table->string('module')->nullable();
                 $table->datetimes();
                 $table->creator();
 

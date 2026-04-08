@@ -13,7 +13,7 @@ abstract class TestCase extends BaseTestCase
     {
         $connection = config('database.default');
 
-        $this->loadLaravelMigrations(['--database' => $connection]);
+        parent::defineDatabaseMigrations();
 
         // Load package migrations
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');

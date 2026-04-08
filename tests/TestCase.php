@@ -104,4 +104,19 @@ abstract class TestCase extends Orchestra
 
         $app['config']->set('auth.providers.users.model', User::class);
     }
+
+    /**
+     * Define database migrations.
+     */
+    protected function defineDatabaseMigrations(): void
+    {
+        $connection = config('database.default');
+
+        $this->loadLaravelMigrations(['--database' => $connection]);
+
+        // Load package migrations
+        $this->loadMigrationsFrom(__DIR__.'/../modules/Core/Database/migrations');
+
+        $this->artisan('migrate', ['--database' => $connection])->run();
+    }
 }

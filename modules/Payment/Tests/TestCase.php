@@ -64,7 +64,11 @@ abstract class TestCase extends Orchestra
             }
         }
 
-        $this->app[ThemeSetting::class]->set('setup', 1);
+        try {
+            $this->app[ThemeSetting::class]->set('setup', 1);
+        } catch (\Throwable $e) {
+            // Ignore in tests
+        }
     }
 
     protected function createMixManifest(): void

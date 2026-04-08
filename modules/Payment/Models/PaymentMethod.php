@@ -4,15 +4,17 @@ namespace Juzaweb\Modules\Payment\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Traits\HasAPI;
 use Juzaweb\Modules\Core\Traits\Translatable;
 use Juzaweb\Modules\Payment\Contracts\PaymentGatewayInterface;
+use Juzaweb\Modules\Payment\Database\factories\PaymentMethodFactory;
 use Juzaweb\Modules\Payment\Facades\PaymentManager;
 
 class PaymentMethod extends Model
 {
-    use HasAPI, HasUuids, Translatable;
+    use HasAPI, HasFactory, HasUuids, Translatable;
 
     protected $table = 'payment_methods';
 
@@ -66,5 +68,10 @@ class PaymentMethod extends Model
         }
 
         return data_get($this->config, $key, $default);
+    }
+
+    protected static function newFactory()
+    {
+        return PaymentMethodFactory::new();
     }
 }

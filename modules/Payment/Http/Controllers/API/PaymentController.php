@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Payment\Http\Controllers;
+namespace Juzaweb\Modules\Payment\Http\Controllers\API;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +18,21 @@ use Juzaweb\Modules\Payment\Models\PaymentMethod;
 
 class PaymentController extends APIController
 {
+    /**
+     * @OA\Post(
+     *      path="/api/v1/payment/{module}/checkout",
+     *      tags={"Payment"},
+     *      summary="Checkout",
+     *      operationId="payment_checkout",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function checkout(CheckoutRequest $request, string $module)
     {
         abort_if(PaymentManager::hasModule($module) === false, 404, __('Payment module not found!'));
@@ -49,6 +64,21 @@ class PaymentController extends APIController
         ]);
     }
 
+    /**
+     * @OA\Post(
+     *      path="/api/v1/payment/{module}/purchase",
+     *      tags={"Payment"},
+     *      summary="Purchase",
+     *      operationId="payment_purchase",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function purchase(PaymentRequest $request, string $module)
     {
         abort_if(PaymentManager::hasModule($module) === false, 404, __('Payment module not found!'));
@@ -102,6 +132,27 @@ class PaymentController extends APIController
         return $this->failResponse();
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/payment/{module}/return/{paymentHistoryId}",
+     *      tags={"Payment"},
+     *      summary="Return URL for payment gateway",
+     *      operationId="payment_return",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="paymentHistoryId",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function return(Request $request, string $module, string $paymentHistoryId)
     {
         $paymentModule = PaymentManager::module($module);
@@ -143,6 +194,27 @@ class PaymentController extends APIController
         return $this->failResponse($returnUrl);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/payment/{module}/cancel/{transactionId}",
+     *      tags={"Payment"},
+     *      summary="Cancel URL for payment gateway",
+     *      operationId="payment_cancel",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="transactionId",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function cancel(Request $request, string $module, string $transactionId)
     {
         $paymentModule = PaymentManager::module($module);
@@ -173,6 +245,27 @@ class PaymentController extends APIController
         );
     }
 
+    /**
+     * @OA\Post(
+     *      path="/payment/{module}/webhook/{driver}",
+     *      tags={"Payment"},
+     *      summary="Webhook for payment gateway",
+     *      operationId="payment_webhook",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="driver",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function webhook(Request $request, string $module, string $driver)
     {
         $handler = PaymentManager::module($module);
@@ -256,6 +349,27 @@ class PaymentController extends APIController
         return response(['success' => true]);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/payment/{module}/embed/{transactionId}",
+     *      tags={"Payment"},
+     *      summary="Embed URL for payment gateway",
+     *      operationId="payment_embed",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="transactionId",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function embed(string $module, string $transactionId)
     {
         $paymentHistory = PaymentHistory::find($transactionId);
@@ -270,6 +384,27 @@ class PaymentController extends APIController
         );
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/payment/{module}/status/{transactionId}",
+     *      tags={"Payment"},
+     *      summary="Get payment status",
+     *      operationId="payment_status",
+     *      @OA\Parameter(
+     *          name="module",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="transactionId",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(response=200, description="Successful operation")
+     * )
+     */
     public function status(string $module, string $transactionId)
     {
         $paymentHistory = PaymentHistory::find($transactionId);

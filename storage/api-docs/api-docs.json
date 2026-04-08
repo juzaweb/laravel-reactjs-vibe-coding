@@ -3256,6 +3256,65 @@
                 ]
             }
         },
+        "/api/v1/cart/add": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Add to cart",
+                "operationId": "payment_cart_add",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "orderable_type": {
+                                        "type": "string"
+                                    },
+                                    "orderable_id": {
+                                        "type": "string"
+                                    },
+                                    "quantity": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/cart/{itemId}": {
+            "delete": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Remove item from cart",
+                "operationId": "payment_cart_remove",
+                "parameters": [
+                    {
+                        "name": "itemId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
         "/api/v1/orders": {
             "get": {
                 "tags": [
@@ -3502,6 +3561,214 @@
                         "apiKey": []
                     }
                 ]
+            }
+        },
+        "/api/v1/payment/{module}/checkout": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Checkout",
+                "operationId": "payment_checkout",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/{module}/purchase": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Purchase",
+                "operationId": "payment_purchase",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/{module}/return/{paymentHistoryId}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Return URL for payment gateway",
+                "operationId": "payment_return",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "paymentHistoryId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/{module}/cancel/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Cancel URL for payment gateway",
+                "operationId": "payment_cancel",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/payment/{module}/webhook/{driver}": {
+            "post": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Webhook for payment gateway",
+                "operationId": "payment_webhook",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "driver",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/{module}/embed/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Embed URL for payment gateway",
+                "operationId": "payment_embed",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
+            }
+        },
+        "/api/v1/payment/{module}/status/{transactionId}": {
+            "get": {
+                "tags": [
+                    "Payment"
+                ],
+                "summary": "Get payment status",
+                "operationId": "payment_status",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                }
             }
         },
         "/api/v1/payment-histories": {
@@ -6115,12 +6382,12 @@
             "description": "Posts"
         },
         {
-            "name": "Orders",
-            "description": "Orders"
-        },
-        {
             "name": "Payment",
             "description": "Payment"
+        },
+        {
+            "name": "Orders",
+            "description": "Orders"
         },
         {
             "name": "Payment Methods",

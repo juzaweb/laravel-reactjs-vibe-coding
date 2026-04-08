@@ -69,7 +69,6 @@ class SubscriptionManager implements Subscription
         $history->fill(
             [
                 'driver' => $method->driver,
-                'module' => $module,
                 'amount' => $plan->price,
                 'method_id' => $method->id,
                 'plan_id' => $plan->id,
@@ -100,7 +99,7 @@ class SubscriptionManager implements Subscription
         return $subscribe;
     }
 
-    public function complete(SubscriptionHistory $history, array $params = []): SubscriptionReturnResult
+    public function complete(SubscriptionHistory $history, string $module, array $params = []): SubscriptionReturnResult
     {
         $sandbox = $this->sandboxMode();
 
@@ -118,13 +117,12 @@ class SubscriptionManager implements Subscription
 
             $complete->setSubscriptionHistory($history);
 
-            $handler = $this->module($history->module);
+            $handler = $this->module($module);
             $handler->onSuccess($complete, $params);
 
             SubscriptionModel::create(
                 [
                     'driver' => $history->driver,
-                    'module' => $history->module,
                     'amount' => $history->amount,
                     'agreement_id' => $history->agreement_id,
                     'start_date' => now(),
@@ -143,11 +141,11 @@ class SubscriptionManager implements Subscription
         return $complete;
     }
 
-    public function cancel(SubscriptionHistory $history, array $params = []): true
+    public function cancel(SubscriptionHistory $history, string $module, array $params = []): true
     {
         $history->update(['status' => SubscriptionHistoryStatus::CANCELLED]);
 
-        $handler = $this->module($history->module);
+        $handler = $this->module($module);
 
         $handler->onCancel($history, $params);
 
@@ -192,7 +190,6 @@ class SubscriptionManager implements Subscription
                 $newSubscription = SubscriptionModel::create(
                     [
                         'driver' => $history->driver,
-                        'module' => $history->module,
                         'amount' => $history->amount,
                         'agreement_id' => $history->agreement_id,
                         'start_date' => now(),

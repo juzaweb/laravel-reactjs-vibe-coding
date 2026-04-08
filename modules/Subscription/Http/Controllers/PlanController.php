@@ -63,7 +63,6 @@ class PlanController extends APIController
      *              @OA\Property(property="duration", type="integer", nullable=true),
      *              @OA\Property(property="duration_unit", type="string", enum={"day", "week", "month", "year"}, nullable=true),
      *              @OA\Property(property="active", type="boolean"),
-     *              @OA\Property(property="module", type="string", nullable=true),
      *              @OA\Property(property="features", type="array", @OA\Items(
      *                  @OA\Property(property="name", type="string"),
      *                  @OA\Property(property="value", type="string", nullable=true)
@@ -137,7 +136,6 @@ class PlanController extends APIController
      *              @OA\Property(property="duration", type="integer", nullable=true),
      *              @OA\Property(property="duration_unit", type="string", enum={"day", "week", "month", "year"}, nullable=true),
      *              @OA\Property(property="active", type="boolean"),
-     *              @OA\Property(property="module", type="string", nullable=true),
      *              @OA\Property(property="features", type="array", @OA\Items(
      *                  @OA\Property(property="name", type="string"),
      *                  @OA\Property(property="value", type="string", nullable=true)

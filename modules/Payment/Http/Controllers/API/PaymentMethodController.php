@@ -14,23 +14,6 @@ class PaymentMethodController extends APIController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/payment-methods",
-     *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Payment Methods"},
-     *      summary="Get list of payment methods",
-     *
-     *      @OA\Parameter(ref="#/components/parameters/query_limit"),
-     *      @OA\Parameter(ref="#/components/parameters/query_page"),
-     *      @OA\Parameter(ref="#/components/parameters/query_keyword"),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *      ),
-     * )
-     */
-    /**
-     * @OA\Get(
      *      path="/api/v1/payment-methods/drivers",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Payment Methods"},
@@ -58,6 +41,23 @@ class PaymentMethodController extends APIController
         return $this->restSuccess($data);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/v1/payment-methods",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Payment Methods"},
+     *      summary="Get list of payment methods",
+     *
+     *      @OA\Parameter(ref="#/components/parameters/query_limit"),
+     *      @OA\Parameter(ref="#/components/parameters/query_page"),
+     *      @OA\Parameter(ref="#/components/parameters/query_keyword"),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *      ),
+     * )
+     */
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();

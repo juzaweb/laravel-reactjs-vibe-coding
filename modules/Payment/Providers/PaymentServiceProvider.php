@@ -105,6 +105,7 @@ class PaymentServiceProvider extends ServiceProvider
             return [
                 'title' => __('Orders'),
                 'icon' => 'fas fa-shopping-cart',
+                'url' => admin_url('orders'),
             ];
         });
 

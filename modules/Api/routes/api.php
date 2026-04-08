@@ -29,6 +29,7 @@ Route::middleware('auth:api')->group(function () {
     Route::post('media/chunk', [MediaController::class, 'chunk']);
     Route::api('media', MediaController::class);
     Route::api('menus', MenuController::class);
+    Route::api('settings', Juzaweb\Modules\Api\Http\Controllers\SettingController::class)->only(['index', 'store', 'update']);
 });
 
 Route::group(['prefix' => 'auth/user'], function () {

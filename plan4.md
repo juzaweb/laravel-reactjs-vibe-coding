@@ -1,0 +1,4 @@
+Wait! I've checked `SettingController` from `Juzaweb\Modules\Api\Http\Controllers\App\SettingController`. The user asked for "Viết api crud cho Settings, auth:api".
+
+Looking at the typical backend structure, there's `Route::api('settings', SettingController::class)` which would implement the `Juzaweb\Modules\Core\Models\Setting` standard API endpoints. But usually settings in the frontend are managed through `Route::post('settings', [SettingController::class, 'update'])`? Or do they manage them via CRUD operations (each setting is a table row)?
+Since the instruction says "Viết api crud cho Settings", this implies building a full standard resource endpoint. I will use `APIController` trait to quickly build out the `index`, `show`, `store`, `update`, `destroy` just like in `MenuController` or `RoleController`? Let's verify `RoleController` to see if it uses the same pattern.

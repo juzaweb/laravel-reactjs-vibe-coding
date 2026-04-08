@@ -89,7 +89,7 @@ export const SubscriptionsList: React.FC = () => {
                           ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
                           : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
                       }`}>
-                        {t(`subscriptions.status_${subscription.status}`, subscription.status)}
+                        {subscription.status ? t(`subscriptions.status_${subscription.status}`, subscription.status) : t('status_unknown', 'Unknown')}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)] hidden md:table-cell">

@@ -7,7 +7,7 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { Editor } from '../../components/ui/form/Editor';
-import { usePage, useCreatePage, useUpdatePage } from './hooks';
+import { usePage, useCreatePage, useUpdatePage, usePageTemplates } from './hooks';
 import type { PageFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
 
@@ -18,6 +18,7 @@ export const PageForm: React.FC = () => {
   const isEditMode = !!id;
 
   const { data: pageData, isLoading: isLoadingPage } = usePage(id || '');
+  const { data: pageTemplates, isLoading: isLoadingTemplates } = usePageTemplates();
   const createPageMutation = useCreatePage();
   const updatePageMutation = useUpdatePage();
 
@@ -174,17 +175,27 @@ export const PageForm: React.FC = () => {
             <Controller
               name="template"
               control={control}
-              render={({ field, fieldState }) => (
-                <Select
-                  {...field}
-                  label={t('template', 'Template')}
-                  options={[
-                    { value: 'default', label: t('default_template', 'Default Template') },
-                    // More templates can be added here
-                  ]}
-                  error={fieldState.error?.message}
-                />
-              )}
+              render={({ field, fieldState }) => {
+                const templateOptions = pageTemplates && pageTemplates.length > 0
+                  ? pageTemplates.map((tpl) => ({ value: tpl.key, label: tpl.label }))
+                  : [];
+
+                return (
+                  <Select
+                    {...field}
+                    label={t('template', 'Template')}
+                    options={
+                      isLoadingTemplates
+                        ? [{ value: '', label: t('loading', 'Loading...') }]
+                        : templateOptions.length === 0
+                        ? [{ value: '', label: t('no_templates', 'No templates') }]
+                        : templateOptions
+                    }
+                    error={fieldState.error?.message}
+                    disabled={isLoadingTemplates || templateOptions.length === 0}
+                  />
+                );
+              }}
             />
 
             <Controller

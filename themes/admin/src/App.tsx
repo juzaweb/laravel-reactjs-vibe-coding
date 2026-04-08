@@ -17,6 +17,8 @@ import { PlansList } from './pages/plans/PlansList'
 import { PlanForm } from './pages/plans/PlanForm'
 import { SubscriptionMethodsList } from './pages/subscription-methods/SubscriptionMethodsList'
 import { SubscriptionMethodForm } from './pages/subscription-methods/SubscriptionMethodForm'
+import { SubscriptionsList } from './pages/subscriptions/SubscriptionsList'
+import { SubscriptionHistoriesList } from './pages/subscription-histories/SubscriptionHistoriesList'
 import { PaymentMethodsList } from './pages/payment-methods/PaymentMethodsList'
 import { PaymentMethodForm } from './pages/payment-methods/PaymentMethodForm'
 import { PaymentHistoriesList } from './pages/payment-histories/PaymentHistoriesList'
@@ -104,6 +106,8 @@ function App() {
               <Route path="create" element={<SubscriptionMethodForm />} />
               <Route path=":id/edit" element={<SubscriptionMethodForm />} />
             </Route>
+            <Route path="subscription/subscriptions" element={<SubscriptionsList />} />
+            <Route path="subscription/histories" element={<SubscriptionHistoriesList />} />
             <Route path="notifications">
               <Route index element={<NotificationsList />} />
               <Route path=":id" element={<NotificationShow />} />

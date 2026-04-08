@@ -19,7 +19,6 @@ class Plan extends Model
         'price',
         'is_free',
         'active',
-        'module',
         'duration',
         'duration_unit',
         'name',

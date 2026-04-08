@@ -19,7 +19,6 @@ class Subscription extends Model
 
     protected $fillable = [
         'driver',
-        'module',
         'amount',
         'agreement_id',
         'start_date',

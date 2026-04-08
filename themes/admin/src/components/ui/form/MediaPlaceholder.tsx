@@ -21,16 +21,20 @@ export const MediaPlaceholder = forwardRef<HTMLDivElement, MediaPlaceholderProps
     const mediaId = id || name || uniqueId;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedUrl, setSelectedUrl] = useState<string | undefined>(value);
+    const lastEmittedValue = React.useRef<string | undefined>();
 
     // Update internal state if value prop changes
     React.useEffect(() => {
-      setSelectedUrl(value);
+      if (value !== lastEmittedValue.current) {
+        setSelectedUrl(value);
+      }
     }, [value]);
 
     const handleSelect = (item: MediaItem) => {
       setSelectedUrl(item.url);
       if (onChange) {
-        onChange(item.url);
+        lastEmittedValue.current = item.path;
+        onChange(item.path);
       }
     };
 
@@ -38,6 +42,7 @@ export const MediaPlaceholder = forwardRef<HTMLDivElement, MediaPlaceholderProps
       e.stopPropagation();
       setSelectedUrl(undefined);
       if (onChange) {
+        lastEmittedValue.current = '';
         onChange('');
       }
     };

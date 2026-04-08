@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAppSelector, usePermissions } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiBarChart2, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit } from 'react-icons/fi';
+import { FiHome, FiUsers, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {

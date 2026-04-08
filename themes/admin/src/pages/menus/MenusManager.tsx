@@ -4,6 +4,7 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { FiPlus, FiChevronDown, FiChevronRight, FiSearch } from 'react-icons/fi';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const MenusManager: React.FC = () => {
   const { t } = useTranslation();
@@ -23,6 +24,11 @@ export const MenusManager: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl mx-auto">
+      <PageHeader
+        title={t('menus', 'Menus')}
+        breadcrumbs={[{ label: t('menus', 'Menus') }]}
+      />
+
       {/* Top Header Section */}
       <div className="flex items-center gap-3 pb-6 border-b border-[var(--border-color)]">
         <span className="text-sm font-medium text-[var(--text-main)]">

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { notificationService } from './hooks';
 import { FiBell, FiCheck, FiEye } from 'react-icons/fi';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const NotificationsList: React.FC = () => {
   const { t } = useTranslation();
@@ -39,11 +40,10 @@ export const NotificationsList: React.FC = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">
-          {t('notifications', 'Notifications')}
-        </h1>
-      </div>
+      <PageHeader
+        title={t('notifications', 'Notifications')}
+        breadcrumbs={[{ label: t('notifications', 'Notifications') }]}
+      />
 
       <div className="bg-[var(--bg-card)] rounded-lg shadow-sm border border-[var(--border-color)] overflow-hidden">
         {isLoading ? (

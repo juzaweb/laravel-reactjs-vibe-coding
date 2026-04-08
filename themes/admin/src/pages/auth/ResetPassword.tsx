@@ -5,8 +5,10 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { useAppDispatch } from '../../store/hooks';
 import { resetPassword } from '../../store/authSlice';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const ResetPassword: React.FC = () => {
+  usePageTitle('Set New Password');
   const [searchParams] = useSearchParams();
   const token = searchParams.get('token');
   const email = searchParams.get('email');

@@ -7,6 +7,7 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { useUser, useCreateUser, useUpdateUser } from './hooks';
 import type { UserFormData } from './types';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const UserForm: React.FC = () => {
   const { t } = useTranslation();
@@ -60,19 +61,23 @@ export const UserForm: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">
-          {isEditMode ? t('edit_user', 'Edit User') : t('create_user', 'Create User')}
-        </h1>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={() => navigate('/admin/users')}>
-            {t('cancel', 'Cancel')}
-          </Button>
-          <Button variant="primary" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
-            {isSubmitting ? t('saving', 'Saving...') : t('save', 'Save')}
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title={isEditMode ? t('edit_user', 'Edit User') : t('create_user', 'Create User')}
+        breadcrumbs={[
+          { label: t('users', 'Users'), href: '/admin/users' },
+          { label: isEditMode ? t('edit', 'Edit') : t('create', 'Create') }
+        ]}
+        actions={
+          <>
+            <Button variant="outline" onClick={() => navigate('/admin/users')}>
+              {t('cancel', 'Cancel')}
+            </Button>
+            <Button variant="primary" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+              {isSubmitting ? t('saving', 'Saving...') : t('save', 'Save')}
+            </Button>
+          </>
+        }
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">

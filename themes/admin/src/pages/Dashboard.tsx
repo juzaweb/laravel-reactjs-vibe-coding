@@ -3,22 +3,23 @@ import { StatCard } from '../components/ui/StatCard';
 import { Button } from '../components/ui/Button';
 import { FiUsers, FiDollarSign, FiShoppingCart, FiActivity } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
+import { PageHeader } from '../components/ui/PageHeader';
 
 export const Dashboard: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight text-[var(--text-main)]">{t('dashboard')}</h2>
-          <p className="text-[var(--text-muted)] mt-1">{t('welcome_back', { name: 'Tom' })}</p>
-        </div>
-        <div className="flex gap-3">
-          <Button variant="outline">{t('export')}</Button>
-          <Button variant="primary">{t('generate_report')}</Button>
-        </div>
-      </div>
+      <PageHeader
+        title={t('dashboard')}
+        description={t('welcome_back', { name: 'Tom' })}
+        actions={
+          <>
+            <Button variant="outline">{t('export')}</Button>
+            <Button variant="primary">{t('generate_report')}</Button>
+          </>
+        }
+      />
 
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard

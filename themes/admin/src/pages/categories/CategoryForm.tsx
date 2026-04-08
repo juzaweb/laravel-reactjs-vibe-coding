@@ -7,6 +7,7 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { useCategory, useCreateCategory, useUpdateCategory } from './hooks';
 import type { CategoryFormData } from './types';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const CategoryForm: React.FC = () => {
   const { t } = useTranslation();
@@ -60,19 +61,23 @@ export const CategoryForm: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">
-          {isEditMode ? t('edit_category', 'Edit Category') : t('create_category', 'Create Category')}
-        </h1>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={() => navigate('/admin/categories')}>
-            {t('cancel', 'Cancel')}
-          </Button>
-          <Button variant="primary" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
-            {isSubmitting ? t('saving', 'Saving...') : t('save', 'Save')}
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title={isEditMode ? t('edit_category', 'Edit Category') : t('create_category', 'Create Category')}
+        breadcrumbs={[
+          { label: t('categories', 'Categories'), href: '/admin/categories' },
+          { label: isEditMode ? t('edit', 'Edit') : t('create', 'Create') }
+        ]}
+        actions={
+          <>
+            <Button variant="outline" onClick={() => navigate('/admin/categories')}>
+              {t('cancel', 'Cancel')}
+            </Button>
+            <Button variant="primary" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+              {isSubmitting ? t('saving', 'Saving...') : t('save', 'Save')}
+            </Button>
+          </>
+        }
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">

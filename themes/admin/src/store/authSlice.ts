@@ -161,7 +161,6 @@ export const resendVerificationEmail = createAsyncThunk(
 
 export const fetchProfile = createAsyncThunk(
   'auth/fetchProfile',
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosClient.get('/v1/profile');

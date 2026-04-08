@@ -53,11 +53,20 @@ export const Editor = forwardRef<any, EditorProps>(
         htmlFor={editorId}
         className={wrapperClassName}
       >
-        <div className={`
-          w-full rounded-lg overflow-hidden
-          ${error ? 'border border-red-500' : 'border border-[var(--border-color)]'}
-          ${className}
-        `} style={{ '--ck-border-radius': '0.5rem' } as React.CSSProperties}>
+        <style>{`
+          #${editorId}-wrapper .ck-editor__editable_inline {
+            min-height: 400px;
+          }
+        `}</style>
+        <div
+          id={`${editorId}-wrapper`}
+          className={`
+            w-full rounded-lg overflow-hidden
+            ${error ? 'border border-red-500' : 'border border-[var(--border-color)]'}
+            ${className}
+          `}
+          style={{ '--ck-border-radius': '0.5rem' } as React.CSSProperties}
+        >
           <CKEditor
             editor={ClassicEditor}
             data={value || ''}

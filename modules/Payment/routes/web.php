@@ -1,13 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use Juzaweb\Modules\Payment\Http\Controllers\CartController;
 use Juzaweb\Modules\Payment\Http\Controllers\CheckoutController;
 use Juzaweb\Modules\Payment\Http\Controllers\PaymentController;
 
 Route::post('payment/{module}', [PaymentController::class, 'checkout'])
     ->name('payment.checkout');
-Route::get('order/{orderId}/checkout', [CheckoutController::class, 'orderCheckout'])
-    ->name('payment.order.checkout');
 
 Route::post('payment/{module}/purchase', [PaymentController::class, 'purchase'])
     ->name('payment.purchase');

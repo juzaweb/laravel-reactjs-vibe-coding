@@ -108,10 +108,19 @@ class PaymentServiceProvider extends ServiceProvider
             ];
         });
 
+        Menu::make('payment-histories', function () {
+            return [
+                'title' => __('Payment Histories'),
+                'icon' => 'fas fa-history',
+                'parent' => 'payment',
+                'url' => admin_url('payment-histories'),
+            ];
+        });
+
         Menu::make('payment-methods', function () {
             return [
                 'title' => __('Payment Methods'),
-                'parent' => 'settings',
+                'parent' => 'payment',
             ];
         });
     }

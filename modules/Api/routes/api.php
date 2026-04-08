@@ -17,7 +17,6 @@ Route::get('app/settings', [SettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('app/settings', [SettingController::class, 'update']);
     Route::get('profile', [ProfileController::class, 'show']);
     Route::put('profile', [ProfileController::class, 'update']);
     Route::put('profile/password', [ProfileController::class, 'updatePassword']);

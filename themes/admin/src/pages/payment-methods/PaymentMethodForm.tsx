@@ -5,7 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiSave } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
 import { Text as Input } from '../../components/ui/form/Text';
-import { usePaymentMethod, useCreatePaymentMethod, useUpdatePaymentMethod } from './hooks';
+import { Select } from '../../components/ui/form/Select';
+import { usePaymentMethod, useCreatePaymentMethod, useUpdatePaymentMethod, usePaymentDrivers } from './hooks';
 import type { PaymentMethodFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
 import { usePermissions } from '../../store/hooks';
@@ -18,6 +19,7 @@ export const PaymentMethodForm: React.FC = () => {
   const { hasPermission } = usePermissions();
 
   const { data: methodData, isLoading: isLoadingMethod } = usePaymentMethod(id || '');
+  const { data: driversData } = usePaymentDrivers();
   const createMutation = useCreatePaymentMethod();
   const updateMutation = useUpdatePaymentMethod();
 
@@ -25,6 +27,7 @@ export const PaymentMethodForm: React.FC = () => {
     control,
     handleSubmit,
     reset,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<PaymentMethodFormData>({
     defaultValues: {
@@ -33,8 +36,13 @@ export const PaymentMethodForm: React.FC = () => {
       driver: '',
       active: true,
       locale: 'en',
+      config: {},
     },
   });
+
+  const selectedDriver = watch('driver');
+  const currentDriverConfigs = selectedDriver ? driversData?.find((d) => d.name === selectedDriver)?.configs : undefined;
+  const hasDriverConfigs = currentDriverConfigs && Object.keys(currentDriverConfigs).length > 0;
 
   useEffect(() => {
     if (methodData) {
@@ -44,6 +52,7 @@ export const PaymentMethodForm: React.FC = () => {
         driver: methodData.driver || '',
         active: methodData.active,
         locale: methodData.locale || 'en',
+        config: methodData.config || {},
       });
     }
   }, [methodData, reset]);
@@ -106,14 +115,40 @@ export const PaymentMethodForm: React.FC = () => {
               control={control}
               rules={{ required: t('validation_required', 'This field is required') }}
               render={({ field }) => (
-                <Input
+                <Select
                   label={t('driver', 'Driver')}
                   error={errors.driver?.message}
-                  placeholder="paypal, stripe, etc."
+                  options={[
+                    { value: '', label: t('select_driver', 'Select Driver'), disabled: true },
+                    ...(driversData || []).map((d) => ({
+                      value: d.name,
+                      label: d.label,
+                    })),
+                  ]}
                   {...field}
                 />
               )}
             />
+
+            {hasDriverConfigs && (
+              <div className="space-y-4 pt-4 border-t border-[var(--border-color)]">
+                <h3 className="text-sm font-medium text-[var(--text-main)]">{t('configuration', 'Configuration')}</h3>
+                {Object.entries(currentDriverConfigs!).map(([key, label]) => (
+                  <Controller
+                    key={key}
+                    name={`config.${key}`}
+                    control={control}
+                    render={({ field }) => (
+                      <Input
+                        label={label as string}
+                        {...field}
+                        value={field.value || ''}
+                      />
+                    )}
+                  />
+                ))}
+              </div>
+            )}
 
             <Controller
               name="description"

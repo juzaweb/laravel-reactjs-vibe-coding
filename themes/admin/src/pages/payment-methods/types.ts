@@ -1,3 +1,9 @@
+export interface PaymentDriver {
+  name: string;
+  label: string;
+  configs: Record<string, string> | [];
+}
+
 export interface PaymentMethod {
   id: string;
   name: string;
@@ -5,6 +11,7 @@ export interface PaymentMethod {
   driver: string;
   active: boolean;
   locale?: string;
+  config?: Record<string, string>;
   created_at?: string;
   updated_at?: string;
 }
@@ -15,6 +22,7 @@ export interface PaymentMethodFormData {
   driver: string;
   active: boolean;
   locale?: string;
+  config?: Record<string, string>;
 }
 
 export interface PaginationMeta {

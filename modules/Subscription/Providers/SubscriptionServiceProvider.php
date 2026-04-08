@@ -13,8 +13,13 @@
 namespace Juzaweb\Modules\Subscription\Providers;
 
 use Illuminate\Support\Facades\File;
+use Juzaweb\Modules\Core\Facades\Locale;
 use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
+use Juzaweb\Modules\Subscription\Contracts\Subscription;
+use Juzaweb\Modules\Subscription\Methods\PayPal;
+use Juzaweb\Modules\Subscription\Services\SubscriptionManager;
+use Juzaweb\Modules\Subscription\Services\TestSubscription;
 
 class SubscriptionServiceProvider extends ServiceProvider
 {
@@ -29,6 +34,28 @@ class SubscriptionServiceProvider extends ServiceProvider
                 $this->registerMenu();
             }
         );
+
+        $this->app[Subscription::class]->registerDriver(
+            'PayPal',
+            function () {
+                return new PayPal;
+            }
+        );
+
+        $this->app[Subscription::class]->registerModule(
+            'test',
+            function () {
+                return new TestSubscription;
+            }
+        );
+
+        $this->booted(
+            function () {
+                Route::middleware(['theme'])
+                    ->prefix(Locale::setLocale())
+                    ->group(__DIR__.'/../routes/subscribe.php');
+            }
+        );
     }
 
     public function register(): void
@@ -37,6 +64,13 @@ class SubscriptionServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
+
+        $this->app->singleton(
+            Subscription::class,
+            function ($app) {
+                return new SubscriptionManager($app);
+            }
+        );
     }
 
     protected function registerMenu(): void

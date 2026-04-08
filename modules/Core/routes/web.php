@@ -16,10 +16,10 @@ Route::get('sitemap/{provider}/page-{page}.xml', [SitemapController::class, 'pro
     ->where('provider', '[a-z0-9\-]+')
     ->where('page', '[0-9]+');
 
-Route::get('/admin/{any?}', [HomeController::class, 'admin'])
-    ->name('admin')
-    ->where('any', '.*');
-Route::get('/{any?}', [HomeController::class, 'index'])
-    ->name('home')
-    ->where('any', '.*');
+// Route::get('/admin/{any?}', [HomeController::class, 'admin'])
+//     ->name('admin')
+//     ->where('any', '.*');
+// Route::get('/{any?}', [HomeController::class, 'index'])
+//     ->name('home')
+//     ->where('any', '.*');
 

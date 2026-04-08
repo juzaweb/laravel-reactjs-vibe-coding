@@ -5,6 +5,7 @@ import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
 import { useUsers, useDeleteUser, useBulkUsers } from './hooks';
 import { usePermissions } from '../../store/hooks';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const UsersList: React.FC = () => {
   const { t } = useTranslation();
@@ -70,17 +71,20 @@ export const UsersList: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">{t('users', 'Users')}</h1>
-        {hasPermission('users.create') && (
-          <Link to="/admin/users/create">
-            <Button variant="primary" className="flex items-center gap-2">
-              <FiPlus className="w-4 h-4" />
-              {t('create_user', 'Create User')}
-            </Button>
-          </Link>
-        )}
-      </div>
+      <PageHeader
+        title={t('users', 'Users')}
+        breadcrumbs={[{ label: t('users', 'Users') }]}
+        actions={
+          hasPermission('users.create') ? (
+            <Link to="/admin/users/create">
+              <Button variant="primary" className="flex items-center gap-2">
+                <FiPlus className="w-4 h-4" />
+                {t('create_user', 'Create User')}
+              </Button>
+            </Link>
+          ) : undefined
+        }
+      />
 
       <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
 

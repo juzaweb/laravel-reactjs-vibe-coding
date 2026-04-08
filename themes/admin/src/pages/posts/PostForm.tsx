@@ -7,8 +7,10 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { Editor } from '../../components/ui/form/Editor';
+import { MediaPlaceholder } from '../../components/ui/form/MediaPlaceholder';
 import { usePost, useCreatePost, useUpdatePost } from './hooks';
 import type { PostFormData } from './types';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const PostForm: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +28,7 @@ export const PostForm: React.FC = () => {
       slug: '',
       description: '',
       content: '',
+      thumbnail: '',
       status: 'draft',
     },
   });
@@ -37,6 +40,7 @@ export const PostForm: React.FC = () => {
         slug: postData.slug || '',
         description: postData.description || '',
         content: postData.content || '',
+        thumbnail: postData.thumbnail || '',
         status: postData.status || 'draft',
       });
     }
@@ -74,19 +78,23 @@ export const PostForm: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">
-          {isEditMode ? t('edit_post', 'Edit Post') : t('create_post', 'Create Post')}
-        </h1>
-        <div className="flex gap-3">
-          <Button variant="outline" onClick={() => navigate('/admin/posts')}>
-            {t('cancel', 'Cancel')}
-          </Button>
-          <Button variant="primary" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
-            {isSubmitting ? t('saving', 'Saving...') : t('save', 'Save')}
-          </Button>
-        </div>
-      </div>
+      <PageHeader
+        title={isEditMode ? t('edit_post', 'Edit Post') : t('create_post', 'Create Post')}
+        breadcrumbs={[
+          { label: t('posts', 'Posts'), href: '/admin/posts' },
+          { label: isEditMode ? t('edit', 'Edit') : t('create', 'Create') }
+        ]}
+        actions={
+          <>
+            <Button variant="outline" onClick={() => navigate('/admin/posts')}>
+              {t('cancel', 'Cancel')}
+            </Button>
+            <Button variant="primary" onClick={handleSubmit(onSubmit)} disabled={isSubmitting}>
+              {isSubmitting ? t('saving', 'Saving...') : t('save', 'Save')}
+            </Button>
+          </>
+        }
+      />
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
@@ -170,6 +178,21 @@ export const PostForm: React.FC = () => {
                 <Input
                   {...field}
                   label={t('slug', 'URL Slug')}
+                  error={fieldState.error?.message}
+                />
+              )}
+            />
+          </div>
+
+          <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
+            <h3 className="text-lg font-medium text-[var(--text-main)]">{t('thumbnail', 'Thumbnail')}</h3>
+
+            <Controller
+              name="thumbnail"
+              control={control}
+              render={({ field, fieldState }) => (
+                <MediaPlaceholder
+                  {...field}
                   error={fieldState.error?.message}
                 />
               )}

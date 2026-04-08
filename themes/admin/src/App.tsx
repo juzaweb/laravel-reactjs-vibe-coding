@@ -13,6 +13,9 @@ import { CategoriesList } from './pages/categories/CategoriesList'
 import { CategoryForm } from './pages/categories/CategoryForm'
 import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
+import { PaymentMethodsList } from './pages/payment-methods/PaymentMethodsList'
+import { PaymentMethodForm } from './pages/payment-methods/PaymentMethodForm'
+import { PaymentHistoriesList } from './pages/payment-histories/PaymentHistoriesList'
 import { UsersList } from './pages/users/UsersList'
 import { UserForm } from './pages/users/UserForm'
 import { NotificationsList } from './pages/notifications/NotificationsList'
@@ -74,6 +77,13 @@ function App() {
               <Route path=":id/edit" element={<CategoryForm />} />
             </Route>
             <Route path="menus" element={<MenusManager />} />
+            <Route path="payment" element={<Navigate to="/admin/payment-methods" replace />} />
+            <Route path="payment-methods">
+              <Route index element={<PaymentMethodsList />} />
+              <Route path="create" element={<PaymentMethodForm />} />
+              <Route path=":id/edit" element={<PaymentMethodForm />} />
+            </Route>
+            <Route path="payment-histories" element={<PaymentHistoriesList />} />
             <Route path="users">
               <Route index element={<UsersList />} />
               <Route path="create" element={<UserForm />} />

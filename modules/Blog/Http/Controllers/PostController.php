@@ -88,6 +88,10 @@ class PostController extends APIController
                 $post->fill($data);
                 $post->save();
 
+                if (isset($data['thumbnail'])) {
+                    $post->setThumbnail($data['thumbnail']);
+                }
+
                 return $post;
             }
         );
@@ -172,7 +176,12 @@ class PostController extends APIController
 
         $post = DB::transaction(
             function () use ($post, $request) {
-                $post->update($request->validated());
+                $data = $request->validated();
+                $post->update($data);
+
+                if (array_key_exists('thumbnail', $data)) {
+                    $post->setThumbnail($data['thumbnail']);
+                }
 
                 return $post;
             }

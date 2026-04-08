@@ -5,8 +5,10 @@ import { Input } from '../../components/ui/Input';
 import { FiCheckCircle, FiXCircle, FiLoader } from 'react-icons/fi';
 import { useAppDispatch } from '../../store/hooks';
 import { verifyEmail, resendVerificationEmail } from '../../store/authSlice';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const VerifyEmail: React.FC = () => {
+  usePageTitle('Verify Email');
   const { id, hash } = useParams<{ id: string, hash: string }>();
 
   const [status, setStatus] = useState<'loading' | 'success' | 'error' | 'idle'>(!id || !hash ? 'idle' : 'loading');

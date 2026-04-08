@@ -61,7 +61,7 @@ class Page extends Model implements TranslatableContract
     public static function home()
     {
         if ($homeId = theme_setting('home_page')) {
-            return static::find($homeId);
+            return static::query()->find($homeId);
         }
 
         return null;

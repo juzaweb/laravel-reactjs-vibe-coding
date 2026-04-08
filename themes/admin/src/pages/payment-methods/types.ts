@@ -1,22 +1,20 @@
-export interface Post {
+export interface PaymentMethod {
   id: string;
-  title: string;
-  slug: string;
+  name: string;
   description: string | null;
-  content: string | null;
-  thumbnail?: string | null;
-  status: string;
-  created_at: string;
-  updated_at: string;
+  driver: string;
+  active: boolean;
+  locale?: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface PostFormData {
-  title: string;
-  slug?: string;
+export interface PaymentMethodFormData {
+  name: string;
   description?: string;
-  content?: string;
-  thumbnail?: string;
-  status: string;
+  driver: string;
+  active: boolean;
+  locale?: string;
 }
 
 export interface PaginationMeta {

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
+import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
-import { useCategories, useDeleteCategory, useBulkCategories } from './hooks';
+import { usePaymentMethods, useDeletePaymentMethod, useBulkPaymentMethods } from './hooks';
 import { usePermissions } from '../../store/hooks';
 import { PageHeader } from '../../components/ui/PageHeader';
 
-export const CategoriesList: React.FC = () => {
+export const PaymentMethodsList: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -15,9 +15,9 @@ export const CategoriesList: React.FC = () => {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [bulkAction, setBulkAction] = useState<string>('');
 
-  const { data, isLoading, error } = useCategories(page, limit);
-  const deleteCategoryMutation = useDeleteCategory();
-  const bulkCategoriesMutation = useBulkCategories();
+  const { data, isLoading, error } = usePaymentMethods(page, limit);
+  const deletePaymentMethodMutation = useDeletePaymentMethod();
+  const bulkPaymentMethodsMutation = useBulkPaymentMethods();
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked && data?.data) {
@@ -36,12 +36,12 @@ export const CategoriesList: React.FC = () => {
   const handleBulkAction = async () => {
     if (!bulkAction || selectedIds.length === 0) return;
 
-    if (bulkAction === 'delete' && !window.confirm(t('are_you_sure_delete_selected_categories', 'Are you sure you want to delete selected categories?'))) {
+    if (bulkAction === 'delete' && !window.confirm(t('are_you_sure_delete_selected_payment_methods', 'Are you sure you want to delete selected payment methods?'))) {
       return;
     }
 
     try {
-      await bulkCategoriesMutation.mutateAsync({ ids: selectedIds, action: bulkAction });
+      await bulkPaymentMethodsMutation.mutateAsync({ ids: selectedIds, action: bulkAction });
       setSelectedIds([]);
       setBulkAction('');
     } catch (err) {
@@ -51,12 +51,12 @@ export const CategoriesList: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (window.confirm(t('are_you_sure_delete_category', 'Are you sure you want to delete this category?'))) {
+    if (window.confirm(t('are_you_sure_delete_payment_method', 'Are you sure you want to delete this payment method?'))) {
       try {
-        await deleteCategoryMutation.mutateAsync(id);
+        await deletePaymentMethodMutation.mutateAsync(id);
       } catch (err) {
-        console.error('Failed to delete category:', err);
-        alert(t('error_deleting_category', 'Error deleting category'));
+        console.error('Failed to delete payment method:', err);
+        alert(t('error_deleting_payment_method', 'Error deleting payment method'));
       }
     }
   };
@@ -66,20 +66,20 @@ export const CategoriesList: React.FC = () => {
   }
 
   if (error) {
-    return <div className="p-6 text-center text-red-500">{t('error_loading_categories', 'Error loading categories')}</div>;
+    return <div className="p-6 text-center text-red-500">{t('error_loading_payment_methods', 'Error loading payment methods')}</div>;
   }
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
       <PageHeader
-        title={t('categories', 'Categories')}
-        breadcrumbs={[{ label: t('categories', 'Categories') }]}
+        title={t('payment_methods', 'Payment Methods')}
+        breadcrumbs={[{ label: t('payment_methods', 'Payment Methods') }]}
         actions={
-          hasPermission('categories.create') ? (
-            <Link to="/admin/categories/create">
+          hasPermission('payment_methods.create') ? (
+            <Link to="/admin/payment-methods/create">
               <Button variant="primary" className="flex items-center gap-2">
                 <FiPlus className="w-4 h-4" />
-                {t('create_category', 'Create Category')}
+                {t('create_payment_method', 'Create Payment Method')}
               </Button>
             </Link>
           ) : undefined
@@ -95,15 +95,13 @@ export const CategoriesList: React.FC = () => {
             className="bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-main)] text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 p-2"
           >
             <option value="">{t('bulk_actions', 'Bulk Actions')}</option>
-            <option value="published">{t('publish', 'Publish')}</option>
-            <option value="draft">{t('draft', 'Draft')}</option>
-            {hasPermission('categories.delete') && <option value="delete">{t('delete', 'Delete')}</option>}
+            {hasPermission('payment_methods.delete') && <option value="delete">{t('delete', 'Delete')}</option>}
           </select>
           <Button
             variant="outline"
             size="sm"
             onClick={handleBulkAction}
-            disabled={!bulkAction || selectedIds.length === 0 || bulkCategoriesMutation.isPending}
+            disabled={!bulkAction || selectedIds.length === 0 || bulkPaymentMethodsMutation.isPending}
           >
             {t('apply', 'Apply')}
           </Button>
@@ -130,6 +128,9 @@ export const CategoriesList: React.FC = () => {
                   {t('name', 'Name')}
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
+                  {t('driver', 'Driver')}
+                </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                   {t('status', 'Status')}
                 </th>
                 <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
@@ -138,45 +139,48 @@ export const CategoriesList: React.FC = () => {
               </tr>
             </thead>
             <tbody className="bg-[var(--bg-card)] divide-y divide-[var(--border-color)]">
-              {data?.data?.map((category) => (
-                <tr key={category.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
+              {data?.data?.map((method) => (
+                <tr key={method.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap w-10">
                     <input
                       type="checkbox"
                       className="rounded border-[var(--border-color)] text-blue-600 focus:ring-blue-500"
-                      checked={selectedIds.includes(category.id)}
-                      onChange={() => handleSelect(category.id)}
+                      checked={selectedIds.includes(method.id)}
+                      onChange={() => handleSelect(method.id)}
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-[var(--text-main)]">{category.name}</div>
-                    <div className="text-sm text-[var(--text-muted)]">{category.slug}</div>
+                    <div className="text-sm font-medium text-[var(--text-main)]">{method.name}</div>
+                    <div className="text-sm text-[var(--text-muted)] truncate max-w-[200px]">{method.description}</div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-muted)]">
+                    {method.driver}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      category.status === 'published'
+                      method.active
                         ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                        : 'bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300'
                     }`}>
-                      {t(`status_${category.status}`, category.status)}
+                      {method.active ? t('active', 'Active') : t('inactive', 'Inactive')}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">
-                      {hasPermission('categories.edit') && (
-                        <Link to={`/admin/categories/${category.id}/edit`}>
+                      {hasPermission('payment_methods.edit') && (
+                        <Link to={`/admin/payment-methods/${method.id}/edit`}>
                           <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-900 dark:text-blue-400 dark:hover:text-blue-300">
                             <FiEdit2 className="w-4 h-4" />
                           </Button>
                         </Link>
                       )}
-                      {hasPermission('categories.delete') && (
+                      {hasPermission('payment_methods.delete') && (
                         <Button
                           variant="ghost"
                           size="sm"
                           className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"
-                          onClick={() => handleDelete(category.id)}
-                          disabled={deleteCategoryMutation.isPending}
+                          onClick={() => handleDelete(method.id)}
+                          disabled={deletePaymentMethodMutation.isPending}
                         >
                           <FiTrash2 className="w-4 h-4" />
                         </Button>
@@ -188,8 +192,8 @@ export const CategoriesList: React.FC = () => {
 
               {(!data?.data || data.data.length === 0) && (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-[var(--text-muted)]">
-                    {t('no_categories_found', 'No categories found')}
+                  <td colSpan={5} className="px-6 py-8 text-center text-[var(--text-muted)]">
+                    {t('no_payment_methods_found', 'No payment methods found')}
                   </td>
                 </tr>
               )}
@@ -197,7 +201,6 @@ export const CategoriesList: React.FC = () => {
           </table>
         </div>
 
-        {/* Pagination placeholder */}
         {data?.meta && data.meta.last_page > 1 && (
           <div className="px-6 py-4 border-t border-[var(--border-color)] flex items-center justify-between">
              <span className="text-sm text-[var(--text-muted)]">

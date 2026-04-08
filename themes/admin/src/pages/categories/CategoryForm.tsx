@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isAxiosError } from 'axios';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
@@ -18,9 +19,9 @@ export const CategoryForm: React.FC = () => {
   const createCategoryMutation = useCreateCategory();
   const updateCategoryMutation = useUpdateCategory();
 
-  const { control, handleSubmit, reset, setValue } = useForm<CategoryFormData>({
+  const { control, handleSubmit, reset, setValue, setError } = useForm<CategoryFormData>({
     defaultValues: {
-      title: '',
+      name: '',
       slug: '',
       description: '',
       status: 'draft',
@@ -30,7 +31,7 @@ export const CategoryForm: React.FC = () => {
   useEffect(() => {
     if (categoryData) {
       reset({
-        title: categoryData.title || '',
+        name: categoryData.name || '',
         slug: categoryData.slug || '',
         description: categoryData.description || '',
         status: categoryData.status || 'draft',
@@ -48,7 +49,17 @@ export const CategoryForm: React.FC = () => {
       navigate('/admin/categories');
     } catch (error) {
       console.error('Failed to save category:', error);
-      alert(t('error_saving_category', 'Error saving category'));
+      if (isAxiosError(error) && error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors) {
+          Object.keys(errors).forEach((key) => {
+            setError(key as keyof CategoryFormData, {
+              type: 'server',
+              message: errors[key][0],
+            });
+          });
+        }
+      }
     }
   };
 
@@ -78,13 +89,13 @@ export const CategoryForm: React.FC = () => {
         <div className="lg:col-span-2 space-y-6">
           <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
             <Controller
-              name="title"
+              name="name"
               control={control}
-              rules={{ required: 'Title is required' }}
+              rules={{ required: 'Name is required' }}
               render={({ field, fieldState }) => (
                 <Input
                   {...field}
-                  label={t('title', 'Title')}
+                  label={t('name', 'Name')}
                   error={fieldState.error?.message}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     field.onChange(e);

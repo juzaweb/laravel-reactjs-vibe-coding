@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isAxiosError } from 'axios';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
@@ -19,7 +20,7 @@ export const PageForm: React.FC = () => {
   const createPageMutation = useCreatePage();
   const updatePageMutation = useUpdatePage();
 
-  const { control, handleSubmit, reset, setValue } = useForm<PageFormData>({
+  const { control, handleSubmit, reset, setValue, setError } = useForm<PageFormData>({
     defaultValues: {
       title: '',
       slug: '',
@@ -55,7 +56,17 @@ export const PageForm: React.FC = () => {
       navigate('/admin/pages');
     } catch (error) {
       console.error('Failed to save page:', error);
-      alert(t('error_saving_page', 'Error saving page'));
+      if (isAxiosError(error) && error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors) {
+          Object.keys(errors).forEach((key) => {
+            setError(key as keyof PageFormData, {
+              type: 'server',
+              message: errors[key][0],
+            });
+          });
+        }
+      }
     }
   };
 

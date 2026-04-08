@@ -39,6 +39,16 @@ abstract class TestCase extends Orchestra
             'driver' => 'session',
             'provider' => 'users',
         ]);
+
+        // Mock ThemeContract to prevent Theme resolution failure
+        $app->bind(\Juzaweb\Modules\Core\Themes\Contracts\ThemeContract::class, function () {
+            return new class {
+                public function current() { return null; }
+                public function get($name) { return null; }
+                public function set($name) { return null; }
+                public function publicPath($path = '') { return $path; }
+            };
+        });
     }
 
     /**

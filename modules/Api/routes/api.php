@@ -32,7 +32,11 @@ Route::middleware('auth:api')->group(
         Route::post('media/chunk', [MediaController::class, 'chunk']);
         Route::api('media', MediaController::class);
         Route::api('menus', MenuController::class);
-        Route::api('settings', SettingController::class)->only(['index', 'update']);
+
+        // Handle form and update settings specifically for the settings page
+        Route::get('settings/configs', [SettingController::class, 'configs'])->name('api.settings.configs');
+        Route::put('settings', [SettingController::class, 'update'])->name('api.settings.update');
+        Route::api('settings', SettingController::class)->only(['index']);
     }
 );
 

@@ -2220,45 +2220,23 @@
                         "apiKey": []
                     }
                 ]
-            }
-        },
-        "/api/v1/settings/{code}": {
+            },
             "put": {
                 "tags": [
                     "Settings"
                 ],
-                "summary": "Update an existing setting or create if not exists",
-                "operationId": "230a0e5780b0bdc5297724d6c2722977",
-                "parameters": [
-                    {
-                        "name": "code",
-                        "in": "path",
-                        "description": "Setting Code (acts as ID)",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Update multiple settings in bulk",
+                "operationId": "9bb76367cde192073fec10b98f35e3b9",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "code"
-                                ],
-                                "properties": {
-                                    "code": {
-                                        "type": "string",
-                                        "example": "site_name"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "example": "Juzaweb CMS"
-                                    }
-                                },
                                 "type": "object"
+                            },
+                            "example": {
+                                "title": "New Title",
+                                "description": "New Description"
                             }
                         }
                     }

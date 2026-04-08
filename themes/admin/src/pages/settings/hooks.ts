@@ -5,24 +5,20 @@ import { fetchSettings as fetchGlobalSettings } from '../../store/settingSlice';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fetchSettings = async (): Promise<any> => {
-  const response = await axiosClient.get('/v1/settings?limit=100');
+  const response = await axiosClient.get('/v1/settings/configs');
   return response.data?.data || {};
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateSettings = async (data: Record<string, any>): Promise<any> => {
-  // Now that update works by code, we can just send parallel requests
-  const promises = Object.entries(data).map(([code, value]) => {
-    return axiosClient.put(`/v1/settings/${code}`, { code, value });
-  });
-
-  await Promise.all(promises);
-  return data;
+  // Use the bulk update endpoint
+  const response = await axiosClient.put('/v1/settings', data);
+  return response.data?.data || null;
 };
 
 export const useSettings = () => {
   return useQuery({
-    queryKey: ['settings'],
+    queryKey: ['settings_form'],
     queryFn: fetchSettings,
   });
 };
@@ -33,7 +29,7 @@ export const useUpdateSettings = () => {
   return useMutation({
     mutationFn: updateSettings,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['settings'] });
+      queryClient.invalidateQueries({ queryKey: ['settings_form'] });
       dispatch(fetchGlobalSettings());
     },
   });

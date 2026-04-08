@@ -23,9 +23,5 @@ Route::post('cart/add', [CartController::class, 'add'])->name('cart.add');
 Route::delete('cart/{itemId}', [CartController::class, 'remove'])
     ->name('cart.remove');
 
-Route::get('checkout/{module}/{cartId}', [CheckoutController::class, 'index'])
-    ->name('checkout');
-Route::post('checkout/{module}/{cartId}', [CheckoutController::class, 'index']);
-
 Route::get('invoices/{orderId}', [CheckoutController::class, 'thankyou'])
     ->name('checkout.thankyou');

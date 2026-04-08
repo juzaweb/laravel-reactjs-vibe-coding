@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
+use Juzaweb\Modules\Payment\Facades\PaymentManager;
 use Juzaweb\Modules\Payment\Http\Requests\PaymentMethodRequest;
 use Juzaweb\Modules\Payment\Models\PaymentMethod;
 use OpenApi\Annotations as OA;
@@ -27,14 +28,14 @@ class PaymentMethodController extends APIController
      */
     public function drivers(): JsonResponse
     {
-        $drivers = \Juzaweb\Modules\Payment\Facades\PaymentManager::drivers();
+        $drivers = PaymentManager::drivers();
         $data = [];
 
         foreach ($drivers as $name => $label) {
             $data[] = [
                 'name' => $name,
                 'label' => $label,
-                'configs' => \Juzaweb\Modules\Payment\Facades\PaymentManager::config($name),
+                'configs' => PaymentManager::config($name),
             ];
         }
 

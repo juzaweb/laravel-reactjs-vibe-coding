@@ -47,6 +47,7 @@ class PageController extends APIController
 
         return $this->restSuccess($templates);
     }
+
     /**
      * @OA\Get(
      *      path="/api/v1/pages",

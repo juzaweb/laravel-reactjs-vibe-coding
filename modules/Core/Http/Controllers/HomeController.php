@@ -1,10 +1,12 @@
 <?php
+
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
- * @package    juzaweb/cms
  * @author     The Anh Dang
+ *
  * @link       https://cms.juzaweb.com
+ *
  * @license    GNU V2
  */
 
@@ -16,7 +18,7 @@ class HomeController extends Controller
     {
         $themePath = base_path('themes/app/dist/index.html');
 
-        if (!file_exists($themePath)) {
+        if (! file_exists($themePath)) {
             abort(404);
         }
 

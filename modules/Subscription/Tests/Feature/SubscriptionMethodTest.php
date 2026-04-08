@@ -2,8 +2,8 @@
 
 namespace Juzaweb\Modules\Subscription\Tests\Feature;
 
-use Juzaweb\Modules\Subscription\Models\SubscriptionMethod;
 use Juzaweb\Modules\Core\Models\User;
+use Juzaweb\Modules\Subscription\Models\SubscriptionMethod;
 use Juzaweb\Modules\Subscription\Tests\TestCase;
 
 class SubscriptionMethodTest extends TestCase
@@ -24,7 +24,7 @@ class SubscriptionMethodTest extends TestCase
             'config' => ['client_id' => '123'],
             'active' => 1,
             'name' => 'Paypal method',
-            'locale' => 'en'
+            'locale' => 'en',
         ]);
 
         $response = $this->getJson('/api/v1/subscription/methods');
@@ -32,8 +32,8 @@ class SubscriptionMethodTest extends TestCase
         $response->assertStatus(200);
         $response->assertJsonStructure([
             'data' => [
-                '*' => ['id', 'name', 'driver', 'active']
-            ]
+                '*' => ['id', 'name', 'driver', 'active'],
+            ],
         ]);
     }
 
@@ -53,7 +53,7 @@ class SubscriptionMethodTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('subscription_methods', [
             'driver' => 'paypal',
-            'active' => 1
+            'active' => 1,
         ]);
     }
 
@@ -64,7 +64,7 @@ class SubscriptionMethodTest extends TestCase
             'config' => ['client_id' => '123'],
             'active' => false,
             'name' => 'Paypal method',
-            'locale' => 'en'
+            'locale' => 'en',
         ]);
 
         $data = [
@@ -81,7 +81,7 @@ class SubscriptionMethodTest extends TestCase
         $response->assertStatus(200);
         $this->assertDatabaseHas('subscription_methods', [
             'id' => $method->id,
-            'active' => 1
+            'active' => 1,
         ]);
     }
 
@@ -92,7 +92,7 @@ class SubscriptionMethodTest extends TestCase
             'config' => ['client_id' => '123'],
             'active' => 1,
             'name' => 'Paypal method',
-            'locale' => 'en'
+            'locale' => 'en',
         ]);
 
         $response = $this->deleteJson("/api/v1/subscription/methods/{$method->id}");

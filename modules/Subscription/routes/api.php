@@ -6,11 +6,11 @@ use Juzaweb\Modules\Subscription\Http\Controllers\PlanController;
 use Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionController;
 use Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionHistoryController;
 
-Route::get('subscription/methods', [SubscriptionMethodController::class, 'index']);
+Route::get('app/subscription/methods', [SubscriptionMethodController::class, 'index']);
 
 Route::middleware('auth:api')->group(
     function () {
-        Route::api('subscription/methods', \Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionMethodController::class);
+        Route::api('subscription/methods', Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionMethodController::class);
         Route::api('subscription/plans', PlanController::class);
 
         Route::get('subscription/subscriptions', [SubscriptionController::class, 'index']);

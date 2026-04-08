@@ -13,6 +13,8 @@ import { CategoriesList } from './pages/categories/CategoriesList'
 import { CategoryForm } from './pages/categories/CategoryForm'
 import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
+import { PlansList } from './pages/plans/PlansList'
+import { PlanForm } from './pages/plans/PlanForm'
 import { PaymentMethodsList } from './pages/payment-methods/PaymentMethodsList'
 import { PaymentMethodForm } from './pages/payment-methods/PaymentMethodForm'
 import { PaymentHistoriesList } from './pages/payment-histories/PaymentHistoriesList'
@@ -89,6 +91,11 @@ function App() {
               <Route index element={<UsersList />} />
               <Route path="create" element={<UserForm />} />
               <Route path=":id/edit" element={<UserForm />} />
+            </Route>
+            <Route path="subscription/plans">
+              <Route index element={<PlansList />} />
+              <Route path="create" element={<PlanForm />} />
+              <Route path=":id/edit" element={<PlanForm />} />
             </Route>
             <Route path="notifications">
               <Route index element={<NotificationsList />} />

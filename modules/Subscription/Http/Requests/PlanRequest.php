@@ -19,15 +19,21 @@ class PlanRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'description' => ['nullable', 'string'],
             'is_free' => ['required', 'boolean'],
             'price' => [
                 Rule::requiredIf(! $this->input('is_free') && $this->isMethod('post')),
                 'numeric',
                 'min:0',
+                'nullable'
             ],
+            'duration' => ['nullable', 'integer', 'min:1'],
+            'duration_unit' => ['nullable', 'string', 'in:day,week,month,year'],
+            'active' => ['required', 'boolean'],
+            'module' => ['nullable', 'string', 'max:50'],
             'features' => ['nullable', 'array'],
-            'features.*' => ['required'],
+            'features.*' => ['nullable', 'array'],
+            'features.*.name' => ['required_with:features.*', 'string'],
+            'features.*.value' => ['nullable', 'string'],
         ];
     }
 }

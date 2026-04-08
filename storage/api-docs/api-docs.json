@@ -3690,6 +3690,312 @@
                         }
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Create a new plan",
+                "operationId": "e6185589e5d8fa43736754a9949977bd",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "is_free": {
+                                        "type": "boolean"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "duration": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "duration_unit": {
+                                        "type": "string",
+                                        "enum": [
+                                            "day",
+                                            "week",
+                                            "month",
+                                            "year"
+                                        ],
+                                        "nullable": true
+                                    },
+                                    "active": {
+                                        "type": "boolean"
+                                    },
+                                    "module": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "features": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PlanResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/plans/{id}": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get plan details",
+                "operationId": "9324c69e0085dadf698d12d982fb6388",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PlanResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Plan not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Update a plan",
+                "operationId": "44a97d6d708553bfc05ad3f38a18e2a5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "is_free": {
+                                        "type": "boolean"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "nullable": true
+                                    },
+                                    "duration": {
+                                        "type": "integer",
+                                        "nullable": true
+                                    },
+                                    "duration_unit": {
+                                        "type": "string",
+                                        "enum": [
+                                            "day",
+                                            "week",
+                                            "month",
+                                            "year"
+                                        ],
+                                        "nullable": true
+                                    },
+                                    "active": {
+                                        "type": "boolean"
+                                    },
+                                    "module": {
+                                        "type": "string",
+                                        "nullable": true
+                                    },
+                                    "features": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string"
+                                                },
+                                                "value": {
+                                                    "type": "string",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PlanResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Plan not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Delete a plan",
+                "operationId": "a361aec88c79a82134e9ee460b8ce990",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Plan not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/plans/bulk": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Bulk action on plans",
+                "operationId": "02d978fcc74349fd3a52a677d1866c22",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "action": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             }
         },
         "/api/v1/subscription/subscriptions": {

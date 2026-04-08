@@ -17,9 +17,13 @@ export const Sidebar: React.FC = () => {
   const isPaymentActive = location.pathname.startsWith('/admin/payment');
   const [isPaymentOpen, setIsPaymentOpen] = useState(isPaymentActive);
 
+  const isSubscriptionActive = location.pathname.startsWith('/admin/subscription');
+  const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(isSubscriptionActive);
+
   const activeModules = settings?.active_modules || [];
   const isBlogModuleActive = activeModules.includes('Blog');
   const isPaymentModuleActive = activeModules.includes('Payment');
+  const isSubscriptionModuleActive = activeModules.includes('Subscription');
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
@@ -47,6 +51,18 @@ export const Sidebar: React.FC = () => {
             children: [
               { name: t('payment_histories', 'Payment Histories'), path: '/admin/payment-histories', permission: 'payment_histories.index' },
               { name: t('payment_methods', 'Payment Methods'), path: '/admin/payment-methods', permission: 'payment_methods.index' },
+            ],
+          },
+        ]
+      : []),
+    ...(isSubscriptionModuleActive
+      ? [
+          {
+            name: t('subscription', 'Subscription'),
+            icon: FiCreditCard,
+            permission: null,
+            children: [
+              { name: t('plans', 'Plans'), path: '/admin/subscription/plans', permission: null },
             ],
           },
         ]
@@ -88,11 +104,12 @@ export const Sidebar: React.FC = () => {
       <nav className="mt-6 px-3 space-y-1">
         {navItems.map((item) => {
           if (item.children) {
-            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : false);
-            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : false);
+            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : (item.name === t('subscription', 'Subscription') ? isSubscriptionActive : false));
+            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : (item.name === t('subscription', 'Subscription') ? isSubscriptionOpen : false));
             const toggleGroup = () => {
               if (item.name === t('blog', 'Blog')) setIsBlogOpen(!isBlogOpen);
               if (item.name === t('payment', 'Payment')) setIsPaymentOpen(!isPaymentOpen);
+              if (item.name === t('subscription', 'Subscription')) setIsSubscriptionOpen(!isSubscriptionOpen);
             };
 
             return (

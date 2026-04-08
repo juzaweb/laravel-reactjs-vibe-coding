@@ -25,6 +25,10 @@ class PaymentManagerTest extends TestCase
     {
         parent::setUp();
         // Ensure database tables are created
+        app('config')->set('themes.activator', 'setting');
+        app('config')->set('themes.activators.setting.class', \Juzaweb\Modules\Core\Themes\Activators\SettingActivator::class);
+        app('config')->set('themes.path', base_path('themes'));
+        app('config')->set('app.key', 'base64:D6fZlKIkxqWaMJLmMkw170JIMRhWkQ25+wpmCwoUtD0=');
     }
 
     public function test_register_driver_exception()

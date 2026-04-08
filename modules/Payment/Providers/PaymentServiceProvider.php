@@ -96,7 +96,9 @@ class PaymentServiceProvider extends ServiceProvider
 
     protected function registerHelpers(): void
     {
-        require_once __DIR__.'/../../helpers/helpers.php';
+        if (file_exists(__DIR__.'/../../helpers/helpers.php')) {
+            require_once __DIR__.'/../../helpers/helpers.php';
+        }
     }
 
     protected function registerMenu(): void
@@ -121,10 +123,12 @@ class PaymentServiceProvider extends ServiceProvider
      */
     protected function registerConfig(): void
     {
-        $this->publishes([
-            __DIR__.'/../../config/payment.php' => config_path('payment.php'),
-        ], 'config');
-        $this->mergeConfigFrom(__DIR__.'/../../config/payment.php', 'payment');
+        if (file_exists(__DIR__.'/../../config/payment.php')) {
+            $this->publishes([
+                __DIR__.'/../../config/payment.php' => config_path('payment.php'),
+            ], 'config');
+            $this->mergeConfigFrom(__DIR__.'/../../config/payment.php', 'payment');
+        }
     }
 
     /**

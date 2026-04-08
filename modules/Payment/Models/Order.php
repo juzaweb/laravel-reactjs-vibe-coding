@@ -11,13 +11,15 @@ use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Traits\HasAPI;
 use Juzaweb\Modules\Core\Traits\HasCodeWithMonth;
 use Juzaweb\Modules\Core\Traits\HasCreator;
+use Juzaweb\Modules\Core\Traits\HasResource;
 use Juzaweb\Modules\Payment\Contracts\Paymentable;
 use Juzaweb\Modules\Payment\Enums\OrderDeliveryStatus;
 use Juzaweb\Modules\Payment\Enums\OrderPaymentStatus;
+use Juzaweb\Modules\Payment\Http\Resources\OrderResource;
 
 class Order extends Model implements Paymentable
 {
-    use HasAPI, HasCodeWithMonth, HasCreator,  HasUuids;
+    use HasAPI, HasCodeWithMonth, HasCreator,  HasUuids, HasResource;
 
     protected $table = 'orders';
 
@@ -84,5 +86,10 @@ class Order extends Model implements Paymentable
     public function getCode(): string
     {
         return $this->code;
+    }
+
+    public static function getResource(): string
+    {
+        return OrderResource::class;
     }
 }

@@ -19,7 +19,7 @@ export const fetchSettings = createAsyncThunk(
   'settings/fetchSettings',
   async (_, { rejectWithValue }) => {
     try {
-      const response = await axiosClient.get('/v1/settings');
+      const response = await axiosClient.get('/v1/app/settings');
       return response.data?.data || null;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

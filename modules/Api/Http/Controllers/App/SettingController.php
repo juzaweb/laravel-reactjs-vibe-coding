@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\Api\Http\Controllers\App;
 
 use Illuminate\Http\JsonResponse;
 use Juzaweb\Modules\Core\Facades\Module;
@@ -13,7 +13,7 @@ class SettingController extends APIController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/settings",
+     *      path="/api/v1/app/settings",
      *      tags={"Settings"},
      *      summary="Get site settings",
      *      description="Returns key-value pairs of public site settings such as title, logo, language, etc.",

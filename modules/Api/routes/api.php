@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Juzaweb\Modules\Api\Http\Controllers\App\SettingController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\AuthController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\SocialLoginController;
 use Juzaweb\Modules\Api\Http\Controllers\MediaController;
@@ -9,11 +10,10 @@ use Juzaweb\Modules\Api\Http\Controllers\NotificationController;
 use Juzaweb\Modules\Api\Http\Controllers\PageController;
 use Juzaweb\Modules\Api\Http\Controllers\ProfileController;
 use Juzaweb\Modules\Api\Http\Controllers\RoleController;
-use Juzaweb\Modules\Api\Http\Controllers\SettingController;
 use Juzaweb\Modules\Api\Http\Controllers\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\UserController;
 
-Route::get('settings', [SettingController::class, 'index']);
+Route::get('app/settings', [SettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);
 
 Route::middleware('auth:api')->group(function () {

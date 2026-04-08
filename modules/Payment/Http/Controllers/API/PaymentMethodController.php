@@ -71,6 +71,7 @@ class PaymentMethodController extends APIController
         $query->api($request->all());
 
         $methods = $query->paginate($limit);
+        $methods->getCollection()->makeVisible(['config']);
 
         return $this->restSuccess($methods);
     }
@@ -111,6 +112,8 @@ class PaymentMethodController extends APIController
             }
         );
 
+        $method->makeVisible(['config']);
+
         return $this->restSuccess($method);
     }
 
@@ -144,6 +147,7 @@ class PaymentMethodController extends APIController
             $query->withTranslation($locale);
         }
         $method = $query->findOrFail($id);
+        $method->makeVisible(['config']);
 
         return $this->restSuccess($method);
     }
@@ -190,6 +194,8 @@ class PaymentMethodController extends APIController
                 return $method;
             }
         );
+
+        $method->makeVisible(['config']);
 
         return $this->restSuccess($method);
     }

@@ -17,6 +17,7 @@ import { UsersList } from './pages/users/UsersList'
 import { UserForm } from './pages/users/UserForm'
 import { NotificationsList } from './pages/notifications/NotificationsList'
 import { NotificationShow } from './pages/notifications/NotificationShow'
+import { SettingPage } from './pages/settings/SettingPage'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -83,6 +84,7 @@ function App() {
               <Route index element={<NotificationsList />} />
               <Route path=":id" element={<NotificationShow />} />
             </Route>
+            <Route path="settings" element={<SettingPage />} />
           </Route>
         </Route>
 

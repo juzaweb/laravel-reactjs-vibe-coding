@@ -1,13 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\Core\Facades\Theme;
-use Juzaweb\Modules\Core\Http\Controllers\AddonController;
+use Juzaweb\Modules\Core\Http\Controllers\HomeController;
 use Juzaweb\Modules\Core\Http\Controllers\SitemapController;
-
-if (! Theme::current()) {
-    Route::get('/', [AddonController::class, 'redirect']);
-}
 
 Route::get('sitemap.xml', [SitemapController::class, 'index'])
     ->name('sitemap.xml');
@@ -20,3 +15,11 @@ Route::get('sitemap/{provider}/page-{page}.xml', [SitemapController::class, 'pro
     ->name('sitemap.provider')
     ->where('provider', '[a-z0-9\-]+')
     ->where('page', '[0-9]+');
+
+Route::get('/admin/{any?}', [HomeController::class, 'admin'])
+    ->name('admin')
+    ->where('any', '.*');
+Route::get('/{any?}', [HomeController::class, 'index'])
+    ->name('home')
+    ->where('any', '.*');
+

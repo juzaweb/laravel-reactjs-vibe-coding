@@ -14,11 +14,21 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('core::home');
+        $themePath = base_path('themes/app/dist/index.html');
+
+        if (!file_exists($themePath)) {
+            abort(404);
+        }
+
+        $content = file_get_contents($themePath);
+
+        return response($content);
     }
 
     public function admin()
     {
-        return view('core::dashboard');
+        $content = file_get_contents(base_path('themes/admin/dist/index.html'));
+
+        return response($content);
     }
 }

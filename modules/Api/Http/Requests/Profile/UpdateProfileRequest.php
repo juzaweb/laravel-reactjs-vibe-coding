@@ -24,6 +24,7 @@ class UpdateProfileRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:250'],
             'birthday' => ['nullable', 'date'],
+            'avatar' => ['nullable', 'string'],
         ];
     }
 }

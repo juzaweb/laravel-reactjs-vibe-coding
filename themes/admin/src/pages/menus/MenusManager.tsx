@@ -46,10 +46,15 @@ export const MenusManager: React.FC = () => {
   );
 
   useEffect(() => {
-    if (menusData?.data && menusData.data.length > 0 && !selectedMenuId) {
-      // Intentionally setting state in effect here for initial selection initialization
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setSelectedMenuId(menusData.data[0].id);
+    if (menusData?.data && !selectedMenuId) {
+      if (menusData.data.length > 0) {
+        // Intentionally setting state in effect here for initial selection initialization
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setSelectedMenuId(menusData.data[0].id);
+      } else {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setSelectedMenuId('new');
+      }
     }
   }, [menusData, selectedMenuId]);
 
@@ -266,7 +271,7 @@ export const MenusManager: React.FC = () => {
       />
 
       {/* Top Header Section */}
-      <div className="flex items-center gap-3 pb-6 border-b border-[var(--border-color)]">
+      <div className="flex flex-wrap items-center gap-3 pb-6 border-b border-[var(--border-color)]">
         <span className="text-sm font-medium text-[var(--text-main)]">
           {t('select_menu_to_edit', 'Select menu to edit:')}
         </span>
@@ -283,6 +288,20 @@ export const MenusManager: React.FC = () => {
             }}
           />
         </div>
+        <span className="text-sm text-[var(--text-muted)]">
+          {t('or', 'or')}{' '}
+          <button
+            type="button"
+            onClick={() => {
+              setSelectedMenuId('new');
+              setMenuName('');
+              setMenuItems([]);
+            }}
+            className="text-blue-600 hover:underline dark:text-blue-400"
+          >
+            {t('create_new_menu', 'create a new menu')}
+          </button>
+        </span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

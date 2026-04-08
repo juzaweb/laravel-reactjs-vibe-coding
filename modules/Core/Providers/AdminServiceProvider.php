@@ -41,25 +41,11 @@ class AdminServiceProvider extends ServiceProvider
         $this->registerGlobalWidgets();
 
         $this->app[Sitemap::class]->register('pages', PageTranslation::class);
-
-        $this->registerMenuBoxs();
     }
 
     public function register(): void
     {
         //
-    }
-
-    protected function registerMenuBoxs(): void
-    {
-        MenuBox::make('pages', Page::class, function () {
-            return [
-                'label' => __('core::translation.pages'),
-                'icon' => 'fas fa-layer-group',
-                'priority' => 1,
-                'field' => 'title',
-            ];
-        });
     }
 
     protected function registerSettings(): void

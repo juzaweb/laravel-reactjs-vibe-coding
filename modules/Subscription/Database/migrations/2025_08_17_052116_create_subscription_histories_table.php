@@ -18,7 +18,6 @@ return new class extends Migration
             function (Blueprint $table) {
                 $table->uuid('id')->primary();
                 $table->string('driver', 50)->index();
-                $table->string('module', 50)->index();
                 $table->decimal('amount', 15, 2)->index();
                 $table->string('agreement_id', 100)->nullable()->index()
                     ->comment('Agreement of payment partner');

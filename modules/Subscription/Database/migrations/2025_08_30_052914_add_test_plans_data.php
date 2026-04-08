@@ -18,7 +18,6 @@ return new class extends Migration
                 'price' => 9.99,
                 'duration' => 1,
                 'duration_unit' => 'month',
-                'module' => 'test',
                 'active' => true,
             ],
             [
@@ -27,7 +26,6 @@ return new class extends Migration
                 'duration' => 0,
                 'duration_unit' => 'month',
                 'is_free' => true,
-                'module' => 'test',
                 'active' => true,
             ],
             [
@@ -35,7 +33,6 @@ return new class extends Migration
                 'price' => 19.99,
                 'duration' => 1,
                 'duration_unit' => 'month',
-                'module' => 'test',
                 'active' => true,
             ],
         ];
@@ -52,6 +49,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Plan::where(['module' => 'test'])->delete();
+        Plan::whereIn('name', ['Basic Plan', 'Free Plan', 'Premium Plan'])->delete();
     }
 };

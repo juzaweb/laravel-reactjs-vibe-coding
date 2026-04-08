@@ -23,7 +23,6 @@ return new class extends Migration
                 $table->string('duration_unit')->nullable();
                 $table->boolean('is_free')->default(false)->index();
                 $table->boolean('active')->index()->default(true);
-                $table->string('module', 50)->index();
                 $table->datetimes();
             }
         );

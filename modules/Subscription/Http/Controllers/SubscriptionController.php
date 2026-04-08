@@ -200,12 +200,12 @@ class SubscriptionController extends APIController
 
         try {
             $payment = DB::transaction(
-                function () use ($request, $transactionId) {
+                function () use ($request, $module, $transactionId) {
                     $history = SubscriptionHistory::lockForUpdate()->find($transactionId);
 
                     throw_if($history === null, SubscriptionException::class, __('Subscription not found'));
 
-                    return SubscriptionFacade::complete($history, $request->all());
+                    return SubscriptionFacade::complete($history, $module, $request->all());
                 }
             );
         } catch (SubscriptionException $e) {
@@ -268,12 +268,12 @@ class SubscriptionController extends APIController
 
         try {
             $payment = DB::transaction(
-                function () use ($request, $transactionId) {
+                function () use ($request, $module, $transactionId) {
                     $history = SubscriptionHistory::lockForUpdate()->find($transactionId);
 
                     throw_if($history === null, SubscriptionException::class, __('Subscription not found'));
 
-                    return SubscriptionFacade::cancel($history, $request->all());
+                    return SubscriptionFacade::cancel($history, $module, $request->all());
                 }
             );
         } catch (SubscriptionException $e) {

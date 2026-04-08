@@ -24,6 +24,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::api('notifications', NotificationController::class)->only(['index', 'show', 'destroy', 'bulk']);
     Route::put('notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::get('pages/templates', [PageController::class, 'templates']);
     Route::api('pages', PageController::class);
     Route::api('roles', RoleController::class);
     Route::api('users', UserController::class);

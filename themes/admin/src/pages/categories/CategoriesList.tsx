@@ -123,7 +123,7 @@ export const CategoriesList: React.FC = () => {
                   />
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
-                  {t('title', 'Title')}
+                  {t('name', 'Name')}
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                   {t('status', 'Status')}
@@ -145,7 +145,7 @@ export const CategoriesList: React.FC = () => {
                     />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-[var(--text-main)]">{category.title}</div>
+                    <div className="text-sm font-medium text-[var(--text-main)]">{category.name}</div>
                     <div className="text-sm text-[var(--text-muted)]">{category.slug}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">

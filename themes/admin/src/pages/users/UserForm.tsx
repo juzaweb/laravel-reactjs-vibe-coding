@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isAxiosError } from 'axios';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
@@ -18,7 +19,7 @@ export const UserForm: React.FC = () => {
   const createUserMutation = useCreateUser();
   const updateUserMutation = useUpdateUser();
 
-  const { control, handleSubmit, reset } = useForm<UserFormData>({
+  const { control, handleSubmit, reset, setError } = useForm<UserFormData>({
     defaultValues: {
       name: '',
       email: '',
@@ -48,7 +49,17 @@ export const UserForm: React.FC = () => {
       navigate('/admin/users');
     } catch (error) {
       console.error('Failed to save user:', error);
-      alert(t('error_saving_user', 'Error saving user'));
+      if (isAxiosError(error) && error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors) {
+          Object.keys(errors).forEach((key) => {
+            setError(key as keyof UserFormData, {
+              type: 'server',
+              message: errors[key][0],
+            });
+          });
+        }
+      }
     }
   };
 

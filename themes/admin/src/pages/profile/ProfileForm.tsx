@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isAxiosError } from 'axios';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
@@ -17,7 +18,7 @@ export const ProfileForm: React.FC = () => {
   const { user, status } = useAppSelector((state) => state.auth);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
 
-  const { control, handleSubmit, reset } = useForm<ProfileFormData>({
+  const { control, handleSubmit, reset, setError } = useForm<ProfileFormData>({
     defaultValues: {
       name: '',
     },
@@ -41,7 +42,17 @@ export const ProfileForm: React.FC = () => {
       alert(t('profile_updated_successfully', 'Profile updated successfully'));
     } catch (error) {
       console.error('Failed to update profile:', error);
-      alert(t('error_updating_profile', 'Error updating profile'));
+      if (isAxiosError(error) && error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors) {
+          Object.keys(errors).forEach((key) => {
+            setError(key as keyof ProfileFormData, {
+              type: 'server',
+              message: errors[key][0],
+            });
+          });
+        }
+      }
     } finally {
       setIsSubmitting(false);
     }

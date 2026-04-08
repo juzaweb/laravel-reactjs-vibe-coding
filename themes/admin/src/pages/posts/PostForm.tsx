@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { isAxiosError } from 'axios';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
@@ -19,7 +20,7 @@ export const PostForm: React.FC = () => {
   const createPostMutation = useCreatePost();
   const updatePostMutation = useUpdatePost();
 
-  const { control, handleSubmit, reset, setValue } = useForm<PostFormData>({
+  const { control, handleSubmit, reset, setValue, setError } = useForm<PostFormData>({
     defaultValues: {
       title: '',
       slug: '',
@@ -51,7 +52,17 @@ export const PostForm: React.FC = () => {
       navigate('/admin/posts');
     } catch (error) {
       console.error('Failed to save post:', error);
-      alert(t('error_saving_post', 'Error saving post'));
+      if (isAxiosError(error) && error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        if (errors) {
+          Object.keys(errors).forEach((key) => {
+            setError(key as keyof PostFormData, {
+              type: 'server',
+              message: errors[key][0],
+            });
+          });
+        }
+      }
     }
   };
 

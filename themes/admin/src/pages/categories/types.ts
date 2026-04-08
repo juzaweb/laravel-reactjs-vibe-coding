@@ -1,6 +1,6 @@
 export interface Category {
   id: string;
-  title: string;
+  name: string;
   slug: string;
   description: string | null;
   status: string;
@@ -9,7 +9,7 @@ export interface Category {
 }
 
 export interface CategoryFormData {
-  title: string;
+  name: string;
   slug?: string;
   description?: string;
   status: string;

@@ -7,12 +7,10 @@ import { FiPlus, FiChevronDown, FiChevronRight, FiSave, FiTrash2 } from 'react-i
 import { useMenus, useMenu, useCreateMenu, useUpdateMenu, useDeleteMenu } from './hooks';
 import { usePages } from '../pages/hooks';
 import type { MenuItem } from './types';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
-import type { DragEndEvent, DragStartEvent, DragMoveEvent } from '@dnd-kit/core';
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay, type DragEndEvent, type DragStartEvent, type DragMoveEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableMenuItem } from './SortableMenuItem';
-import { FiPlus, FiChevronDown, FiChevronRight, FiSearch } from 'react-icons/fi';
 import { PageHeader } from '../../components/ui/PageHeader';
 
 export const MenusManager: React.FC = () => {

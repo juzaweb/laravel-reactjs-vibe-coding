@@ -4,18 +4,23 @@ import { Header } from './Header';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { toggleSidebar } from '../../store/uiSlice';
 import { fetchProfile } from '../../store/authSlice';
+import { fetchSettings } from '../../store/settingSlice';
 import { Outlet } from 'react-router-dom';
 
 export const AdminLayout: React.FC = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
   const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const { status: settingsStatus } = useAppSelector((state) => state.settings);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (isAuthenticated) {
       void dispatch(fetchProfile());
+      if (settingsStatus === 'idle') {
+        void dispatch(fetchSettings());
+      }
     }
-  }, [dispatch, isAuthenticated]);
+  }, [dispatch, isAuthenticated, settingsStatus]);
 
   return (
     <div className="flex h-screen bg-[var(--bg-main)] overflow-hidden transition-colors duration-300">

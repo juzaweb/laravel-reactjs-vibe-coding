@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
   const { isSidebarOpen } = useAppSelector((state) => state.ui);
+  const { data: settings } = useAppSelector((state) => state.settings);
   const { t } = useTranslation();
   const { hasPermission } = usePermissions();
   const location = useLocation();
@@ -13,19 +14,26 @@ export const Sidebar: React.FC = () => {
   const isBlogActive = location.pathname.startsWith('/admin/posts') || location.pathname.startsWith('/admin/categories');
   const [isBlogOpen, setIsBlogOpen] = useState(isBlogActive);
 
+  const activeModules = settings?.active_modules || [];
+  const isBlogModuleActive = activeModules.includes('Blog');
+
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
     { name: 'Media', path: '/admin/media', icon: FiImage, permission: 'media.index' },
     { name: t('pages', 'Pages'), path: '/admin/pages', icon: FiFileText, permission: 'pages.index' },
-    {
-      name: t('blog', 'Blog'),
-      icon: FiEdit,
-      permission: null, // Depending on if there's a global blog permission
-      children: [
-        { name: t('posts', 'Posts'), path: '/admin/posts', permission: 'posts.index' },
-        { name: t('categories', 'Categories'), path: '/admin/categories', permission: 'categories.index' },
-      ],
-    },
+    ...(isBlogModuleActive
+      ? [
+          {
+            name: t('blog', 'Blog'),
+            icon: FiEdit,
+            permission: null, // Depending on if there's a global blog permission
+            children: [
+              { name: t('posts', 'Posts'), path: '/admin/posts', permission: 'posts.index' },
+              { name: t('categories', 'Categories'), path: '/admin/categories', permission: 'categories.index' },
+            ],
+          },
+        ]
+      : []),
     { name: t('menus', 'Menus'), path: '/admin/menus', icon: FiList, permission: null },
     { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
     { name: t('settings'), path: '/admin/settings', icon: FiSettings, permission: 'settings.index' },

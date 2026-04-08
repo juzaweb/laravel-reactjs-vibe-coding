@@ -1826,6 +1826,10 @@
                                         "type": "string",
                                         "format": "date",
                                         "example": "1990-01-01"
+                                    },
+                                    "avatar": {
+                                        "type": "string",
+                                        "example": "path/to/image.jpg"
                                     }
                                 },
                                 "type": "object"
@@ -3762,215 +3766,34 @@
                 ]
             }
         },
-        "/api/v1/subscription/methods": {
+        "/api/v1/app/subscription/methods": {
             "get": {
                 "tags": [
-                    "Subscription Methods"
+                    "Subscription"
                 ],
-                "summary": "Get list of subscription methods",
-                "operationId": "b902a73f044294d6c3865a7ad1d8fc24",
-                "parameters": [
-                    {
-                        "$ref": "#/components/parameters/query_limit"
-                    },
-                    {
-                        "$ref": "#/components/parameters/query_page"
-                    },
-                    {
-                        "$ref": "#/components/parameters/query_keyword"
-                    }
-                ],
+                "summary": "Get active subscription methods",
+                "description": "Returns active subscription methods.",
+                "operationId": "ca2496d2318f1521c132521a383280c1",
                 "responses": {
                     "200": {
-                        "description": "Successful operation"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            },
-            "post": {
-                "tags": [
-                    "Subscription Methods"
-                ],
-                "summary": "Create a new subscription method",
-                "operationId": "ddabc3b1dd85fb89628aec233a6f0e8a",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SubscriptionMethodRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    },
-                    "422": {
-                        "description": "Validation Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/subscription/methods/{id}": {
-            "get": {
-                "tags": [
-                    "Subscription Methods"
-                ],
-                "summary": "Get subscription method details by id",
-                "operationId": "d3c10b5e2afce4eb39d64b85019a1d14",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    },
-                    "404": {
-                        "description": "Subscription method not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            },
-            "put": {
-                "tags": [
-                    "Subscription Methods"
-                ],
-                "summary": "Update an existing subscription method",
-                "operationId": "b235fd9dadf837bd5fadc4ddd79b4174",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/SubscriptionMethodRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    },
-                    "404": {
-                        "description": "Subscription method not found"
-                    },
-                    "422": {
-                        "description": "Validation Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            },
-            "delete": {
-                "tags": [
-                    "Subscription Methods"
-                ],
-                "summary": "Delete a subscription method",
-                "operationId": "91b30d17be25e3ce76d3873e01178900",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    },
-                    "404": {
-                        "description": "Subscription method not found"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/subscription/methods/bulk": {
-            "post": {
-                "tags": [
-                    "Subscription Methods"
-                ],
-                "summary": "Bulk action on subscription methods",
-                "operationId": "b02f8d32e6ffed39cae519427621e77d",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "ids": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "string"
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/SubscriptionMethodResource"
+                                            }
                                         }
                                     },
-                                    "action": {
-                                        "type": "string"
-                                    }
-                                },
-                                "type": "object"
+                                    "type": "object"
+                                }
                             }
                         }
                     }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
+                }
             }
         },
         "/api/v1/subscription/plans": {
@@ -4591,34 +4414,215 @@
                 ]
             }
         },
-        "/api/v1/app/subscription/methods": {
+        "/api/v1/subscription/methods": {
             "get": {
                 "tags": [
-                    "Subscription"
+                    "Subscription Methods"
                 ],
-                "summary": "Get active subscription methods",
-                "description": "Returns active subscription methods.",
-                "operationId": "fcd14415dccee03414346f4fbdddf465",
+                "summary": "Get list of subscription methods",
+                "operationId": "a4415e2cb0b1c62e77929eb0d3f334aa",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "$ref": "#/components/schemas/SubscriptionMethodResource"
-                                            }
-                                        }
-                                    },
-                                    "type": "object"
-                                }
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Create a new subscription method",
+                "operationId": "f47107080b9678f1af88c6245d868d64",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubscriptionMethodRequest"
                             }
                         }
                     }
-                }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/methods/{id}": {
+            "get": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Get subscription method details by id",
+                "operationId": "1f3798c4c6331eae5665693cd8d67a7f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Subscription method not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Update an existing subscription method",
+                "operationId": "a1ab1ec77e8976e67df5d337d2ab8b4c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubscriptionMethodRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Subscription method not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Delete a subscription method",
+                "operationId": "0ca58612c7b619ddfa16ada38a8aec37",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "404": {
+                        "description": "Subscription method not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/methods/bulk": {
+            "post": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Bulk action on subscription methods",
+                "operationId": "c2d0f2f5c2f14c15ce385d8b45093e6c",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "action": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
             }
         }
     },
@@ -6074,12 +6078,12 @@
             "description": "Payment Methods"
         },
         {
-            "name": "Subscription Methods",
-            "description": "Subscription Methods"
-        },
-        {
             "name": "Subscription",
             "description": "Subscription"
+        },
+        {
+            "name": "Subscription Methods",
+            "description": "Subscription Methods"
         }
     ]
 }

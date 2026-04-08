@@ -1,9 +1,29 @@
 import { forwardRef, useId } from 'react';
 import { FieldWrapper } from './FieldWrapper';
-import { Editor as TinyMCEEditor } from '@tinymce/tinymce-react';
-import type { IAllProps } from '@tinymce/tinymce-react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import {
+    ClassicEditor,
+    Essentials,
+    Bold,
+    Italic,
+    Font,
+    Paragraph,
+    List,
+    Link,
+    Heading,
+    Image,
+    ImageUpload,
+    MediaEmbed,
+    Table,
+    BlockQuote,
+    Alignment,
+    Indent,
+    RemoveFormat,
+    SourceEditing
+} from 'ckeditor5';
+import 'ckeditor5/ckeditor5.css';
 
-export interface EditorProps extends Omit<IAllProps, 'id'> {
+export interface EditorProps {
   label?: string;
   description?: string;
   error?: string;
@@ -12,10 +32,15 @@ export interface EditorProps extends Omit<IAllProps, 'id'> {
   required?: boolean;
   id?: string;
   name?: string;
+  value?: string;
+  onChange?: (value: string) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  config?: any;
 }
 
-export const Editor = forwardRef<TinyMCEEditor, EditorProps>(
-  ({ label, description, error, required, className = '', wrapperClassName = '', id, name, ...props }, ref) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const Editor = forwardRef<any, EditorProps>(
+  ({ label, description, error, required, className = '', wrapperClassName = '', id, name, value, onChange, config, ...props }, ref) => {
     const uniqueId = useId();
     const editorId = id || name || uniqueId;
 
@@ -28,31 +53,54 @@ export const Editor = forwardRef<TinyMCEEditor, EditorProps>(
         htmlFor={editorId}
         className={wrapperClassName}
       >
-        <div className={`
-          w-full rounded-lg overflow-hidden
-          ${error ? 'border border-red-500' : 'border border-[var(--border-color)]'}
-          ${className}
-        `}>
-          <TinyMCEEditor
-            id={editorId}
-            ref={ref}
-            init={{
-              height: 400,
-              menubar: false,
-              promotion: false,
-              branding: false,
-              remove_script_host: false,
+        <style>{`
+          #${editorId}-wrapper .ck-editor__editable_inline {
+            min-height: 400px;
+          }
+        `}</style>
+        <div
+          id={`${editorId}-wrapper`}
+          className={`
+            w-full rounded-lg overflow-hidden
+            ${error ? 'border border-red-500' : 'border border-[var(--border-color)]'}
+            ${className}
+          `}
+          style={{ '--ck-border-radius': '0.5rem' } as React.CSSProperties}
+        >
+          <CKEditor
+            editor={ClassicEditor}
+            data={value || ''}
+            onChange={(_event, editor) => {
+              if (onChange) {
+                const data = editor.getData();
+                onChange(data);
+              }
+            }}
+            onReady={editor => {
+              if (ref) {
+                if (typeof ref === 'function') {
+                  ref(editor);
+                } else {
+                  ref.current = editor;
+                }
+              }
+            }}
+            config={{
+              licenseKey: 'GPL',
               plugins: [
-                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
-                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                Essentials, Bold, Italic, Font, Paragraph, List, Link,
+                Heading, Image, ImageUpload, MediaEmbed, Table, BlockQuote,
+                Alignment, Indent, RemoveFormat, SourceEditing
               ],
-              toolbar: 'undo redo | blocks | ' +
-                'bold italic forecolor | alignleft aligncenter ' +
-                'alignright alignjustify | bullist numlist outdent indent | ' +
-                'removeformat | help',
-              content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
-              ...props.init
+              toolbar: [
+                'undo', 'redo', '|',
+                'heading', '|',
+                'bold', 'italic', 'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
+                'alignment', 'bulletedList', 'numberedList', 'outdent', 'indent', '|',
+                'link', 'insertImage', 'mediaEmbed', 'insertTable', 'blockQuote', '|',
+                'removeFormat', 'sourceEditing'
+              ],
+              ...config
             }}
             {...props}
           />

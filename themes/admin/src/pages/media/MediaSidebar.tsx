@@ -54,7 +54,7 @@ export const MediaSidebar: React.FC<MediaSidebarProps> = ({ item, onClose, onDel
 
           <div>
             <span className="block text-[var(--text-muted)] text-xs uppercase tracking-wider mb-1">File type</span>
-            <span className="text-[var(--text-main)]">{item.mime_type || item.type}</span>
+            <span className="text-[var(--text-main)]">{item.is_directory || item.type === 'dir' ? 'Folder' : (item.mime_type || 'File')}</span>
           </div>
 
           <div>

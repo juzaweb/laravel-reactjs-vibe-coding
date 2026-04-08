@@ -1,6 +1,6 @@
 import React from 'react';
 import type { MediaItem } from './types';
-import { FiImage, FiVideo, FiFileText, FiMusic, FiCheck } from 'react-icons/fi';
+import { FiImage, FiVideo, FiFileText, FiMusic, FiCheck, FiFolder } from 'react-icons/fi';
 
 interface MediaGridProps {
   items: MediaItem[];
@@ -15,14 +15,12 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
   onToggleSelect,
   onItemClick,
 }) => {
-  const getIconForType = (type: string, is_directory: boolean) => {
-    if (is_directory) return <FiFileText className="w-12 h-12 text-[var(--text-muted)]" />;
-    switch (type) {
-      case 'video': return <FiVideo className="w-12 h-12 text-[var(--text-muted)]" />;
-      case 'document': return <FiFileText className="w-12 h-12 text-[var(--text-muted)]" />;
-      case 'audio': return <FiMusic className="w-12 h-12 text-[var(--text-muted)]" />;
-      default: return <FiImage className="w-12 h-12 text-[var(--text-muted)]" />;
-    }
+  const getIconForType = (item: MediaItem) => {
+    if (item.is_directory || item.type === 'dir') return <FiFolder className="w-12 h-12 text-[var(--text-muted)]" />;
+    if (item.is_video || item.mime_type?.startsWith('video/')) return <FiVideo className="w-12 h-12 text-[var(--text-muted)]" />;
+    if (item.mime_type?.startsWith('audio/')) return <FiMusic className="w-12 h-12 text-[var(--text-muted)]" />;
+    if (item.is_image || item.mime_type?.startsWith('image/')) return <FiImage className="w-12 h-12 text-[var(--text-muted)]" />;
+    return <FiFileText className="w-12 h-12 text-[var(--text-muted)]" />;
   };
 
   if (items.length === 0) {
@@ -80,7 +78,7 @@ export const MediaGrid: React.FC<MediaGridProps> = ({
                   loading="lazy"
                 />
               ) : (
-                getIconForType(item.type, item.is_directory)
+                getIconForType(item)
               )}
             </div>
 

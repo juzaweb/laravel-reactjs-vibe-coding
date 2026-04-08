@@ -21,6 +21,7 @@ import { PaymentMethodsList } from './pages/payment-methods/PaymentMethodsList'
 import { PaymentMethodForm } from './pages/payment-methods/PaymentMethodForm'
 import { PaymentHistoriesList } from './pages/payment-histories/PaymentHistoriesList'
 import { OrdersList } from './pages/orders/OrdersList'
+import { OrderShow } from './pages/orders/OrderShow'
 import { UsersList } from './pages/users/UsersList'
 import { UserForm } from './pages/users/UserForm'
 import { NotificationsList } from './pages/notifications/NotificationsList'
@@ -90,7 +91,10 @@ function App() {
               <Route path=":id/edit" element={<PaymentMethodForm />} />
             </Route>
             <Route path="payment-histories" element={<PaymentHistoriesList />} />
-            <Route path="orders" element={<OrdersList />} />
+            <Route path="orders">
+              <Route index element={<OrdersList />} />
+              <Route path=":id" element={<OrderShow />} />
+            </Route>
             <Route path="users">
               <Route index element={<UsersList />} />
               <Route path="create" element={<UserForm />} />

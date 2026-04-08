@@ -13,3 +13,16 @@ export const useOrders = (page: number, limit: number) => {
     queryFn: () => fetchOrders(page, limit),
   });
 };
+
+const fetchOrder = async (id: string): Promise<{ data: Order; success: boolean }> => {
+  const response = await axiosClient.get(`/v1/orders/${id}`);
+  return response.data;
+};
+
+export const useOrder = (id?: string) => {
+  return useQuery({
+    queryKey: ['order', id],
+    queryFn: () => fetchOrder(id!),
+    enabled: !!id,
+  });
+};

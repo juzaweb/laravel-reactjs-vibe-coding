@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { useOrders } from './hooks';
 import { Button } from '../../components/ui/Button';
 import { PageHeader } from '../../components/ui/PageHeader';
@@ -52,7 +53,9 @@ export const OrdersList: React.FC = () => {
               {data?.data?.map((order) => (
                 <tr key={order.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-main)] font-medium">
-                    {order.code}
+                    <Link to={`/admin/orders/${order.id}`} className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 hover:underline">
+                      {order.code}
+                    </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-main)]">
                     {order.total_price}

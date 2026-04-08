@@ -10,6 +10,8 @@ Route::get('subscription/methods', [SubscriptionMethodController::class, 'index'
 Route::get('subscription/plans', [PlanController::class, 'index']);
 
 Route::middleware('auth:api')->group(function () {
+    Route::api('subscription/plans', PlanController::class)->except(['index']);
+
     Route::get('subscription/subscriptions', [SubscriptionController::class, 'index']);
     Route::get('subscription/histories', [SubscriptionHistoryController::class, 'index']);
 

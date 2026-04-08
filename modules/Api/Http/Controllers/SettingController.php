@@ -48,6 +48,38 @@ class SettingController extends APIController
     }
 
     /**
+     * @OA\Get(
+     *      path="/api/v1/settings/{id}",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Settings"},
+     *      summary="Get a setting",
+     *
+     *      @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *
+     *          @OA\Schema(type="string")
+     *      ),
+     *
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *
+     *           @OA\JsonContent(@OA\Property(property="data", type="object"))
+     *       ),
+     *
+     *      @OA\Response(response=404, description="Setting not found"),
+     * )
+     */
+    public function show(string $id): JsonResponse
+    {
+        $setting = Setting::findOrFail($id);
+
+        return $this->restSuccess($setting);
+    }
+
+    /**
      * @OA\Put(
      *      path="/api/v1/settings/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},

@@ -45,6 +45,23 @@ class SettingControllerTest extends TestCase
         ]);
     }
 
+    public function test_show()
+    {
+        $setting = Setting::create(['code' => 'test_code_show', 'value' => 'test_value_show']);
+
+        $response = $this->getJson('/api/v1/settings/'.$setting->id);
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'data' => [
+                'id',
+                'code',
+                'value',
+            ],
+            'success',
+        ]);
+    }
+
     public function test_update()
     {
         $setting = Setting::create(['code' => 'test_code_4', 'value' => 'test_value_4']);

@@ -32,7 +32,7 @@ Route::middleware('auth:api')->group(
         Route::post('media/chunk', [MediaController::class, 'chunk']);
         Route::api('media', MediaController::class);
         Route::api('menus', MenuController::class);
-        Route::api('settings', SettingController::class)->only(['index', 'update']);
+        Route::api('settings', SettingController::class)->only(['index', 'show', 'update']);
     }
 );
 

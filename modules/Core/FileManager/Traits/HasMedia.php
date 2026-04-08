@@ -374,7 +374,7 @@ trait HasMedia
             return $media->getKey();
         }
 
-        if (is_string($media) && Str::isUuid($media)) {
+        if (Str::isUuid($media)) {
             return Media::find($media, ['id'])?->id;
         }
 

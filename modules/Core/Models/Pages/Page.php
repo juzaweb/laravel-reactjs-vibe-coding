@@ -58,7 +58,7 @@ class Page extends Model implements TranslatableContract
 
     public $mediaChannels = ['thumbnail'];
 
-    public static function home()
+    public static function home(): ?static
     {
         if ($homeId = theme_setting('home_page')) {
             return static::query()->find($homeId);

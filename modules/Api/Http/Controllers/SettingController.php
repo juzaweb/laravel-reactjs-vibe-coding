@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers\API;
+namespace Juzaweb\Modules\Api\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Juzaweb\Modules\Core\Facades\Module;

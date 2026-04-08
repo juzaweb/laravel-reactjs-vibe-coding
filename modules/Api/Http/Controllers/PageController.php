@@ -1,25 +1,24 @@
 <?php
 
-namespace Juzaweb\Modules\Blog\Http\Controllers\API;
+namespace Juzaweb\Modules\Api\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Modules\Blog\Http\Requests\CategoryBulkRequest;
-use Juzaweb\Modules\Blog\Http\Requests\CategoryRequest;
-use Juzaweb\Modules\Blog\Http\Resources\CategoryResource;
-use Juzaweb\Modules\Blog\Models\Category;
+use Juzaweb\Modules\Api\Http\Requests\PageBulkRequest;
+use Juzaweb\Modules\Api\Http\Requests\PageRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
+use Juzaweb\Modules\Core\Models\Pages\Page;
 use OpenApi\Annotations as OA;
 
-class CategoryController extends APIController
+class PageController extends APIController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/categories",
+     *      path="/api/v1/pages",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Categories"},
-     *      summary="Get list of categories",
+     *      tags={"Pages"},
+     *      summary="Get list of pages",
      *
      *      @OA\Parameter(ref="#/components/parameters/query_limit"),
      *      @OA\Parameter(ref="#/components/parameters/query_page"),
@@ -31,7 +30,7 @@ class CategoryController extends APIController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/CategoryResource")),
+     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PageResource")),
      *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
      *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
      *              @OA\Property(property="success", type="boolean", example=true),
@@ -44,63 +43,61 @@ class CategoryController extends APIController
         $limit = $this->getLimitRequest();
         $locale = $request->input('locale');
 
-        $query = Category::query()->withTranslation($locale);
+        $query = Page::query()->withTranslation($locale)->api($request->all());
 
-        $query->api($request->all());
+        $pages = $query->paginate($limit);
 
-        $categories = $query->paginate($limit);
-
-        return $this->restSuccess($categories);
+        return $this->restSuccess($pages);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/categories",
+     *      path="/api/v1/pages",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Categories"},
-     *      summary="Create a new category",
+     *      tags={"Pages"},
+     *      summary="Create a new page",
      *
      *      @OA\RequestBody(
      *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/CategoryRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
      *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
      *
-     *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/CategoryResource"))
+     *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))
      *      ),
      *
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
-    public function store(CategoryRequest $request): JsonResponse
+    public function store(PageRequest $request): JsonResponse
     {
-        $category = DB::transaction(
+        $page = DB::transaction(
             function () use ($request) {
                 $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
                 $data = $request->validated();
 
-                $category = new Category;
-                $category->setDefaultLocale($locale);
-                $category->fill($data);
-                $category->save();
+                $page = new Page;
+                $page->setDefaultLocale($locale);
+                $page->fill($data);
+                $page->save();
 
-                return $category;
+                return $page;
             }
         );
 
-        return $this->restSuccess($category);
+        return $this->restSuccess($page);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/v1/categories/{id}",
+     *      path="/api/v1/pages/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Categories"},
-     *      summary="Get category details by id",
+     *      tags={"Pages"},
+     *      summary="Get page details by id",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -116,28 +113,28 @@ class CategoryController extends APIController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="data", ref="#/components/schemas/CategoryResource"),
+     *              @OA\Property(property="data", ref="#/components/schemas/PageResource"),
      *              @OA\Property(property="success", type="boolean", example=true)
      *          )
      *      ),
      *
-     *      @OA\Response(response=404, description="Category not found")
+     *      @OA\Response(response=404, description="Page not found")
      * )
      */
     public function show(Request $request, string $id): JsonResponse
     {
         $locale = $request->input('locale');
-        $category = Category::withTranslation($locale)->findOrFail($id);
+        $page = Page::withTranslation($locale)->findOrFail($id);
 
-        return $this->restSuccess($category);
+        return $this->restSuccess($page);
     }
 
     /**
      * @OA\Put(
-     *      path="/api/v1/categories/{id}",
+     *      path="/api/v1/pages/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Categories"},
-     *      summary="Update an existing category",
+     *      tags={"Pages"},
+     *      summary="Update an existing page",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -150,43 +147,43 @@ class CategoryController extends APIController
      *      @OA\RequestBody(
      *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/CategoryRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/PageRequest")
      *      ),
      *
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
      *
-     *           @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/CategoryResource"))
+     *           @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PageResource"))
      *       ),
      *
-     *      @OA\Response(response=404, description="Category not found"),
+     *      @OA\Response(response=404, description="Page not found"),
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
-    public function update(CategoryRequest $request, string $id): JsonResponse
+    public function update(PageRequest $request, string $id): JsonResponse
     {
-        $category = Category::findOrFail($id);
+        $page = Page::findOrFail($id);
         $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
-        $category->setDefaultLocale($locale);
+        $page->setDefaultLocale($locale);
 
-        $category = DB::transaction(
-            function () use ($category, $request) {
-                $category->update($request->validated());
+        $page = DB::transaction(
+            function () use ($page, $request) {
+                $page->update($request->validated());
 
-                return $category;
+                return $page;
             }
         );
 
-        return $this->restSuccess($category);
+        return $this->restSuccess($page);
     }
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/categories/{id}",
+     *      path="/api/v1/pages/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Categories"},
-     *      summary="Delete a category",
+     *      tags={"Pages"},
+     *      summary="Delete a page",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -207,23 +204,23 @@ class CategoryController extends APIController
      *          )
      *      ),
      *
-     *      @OA\Response(response=404, description="Category not found")
+     *      @OA\Response(response=404, description="Page not found")
      * )
      */
     public function destroy(string $id): JsonResponse
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $page = Page::findOrFail($id);
+        $page->delete();
 
         return $this->restSuccess([], 'Deleted successfully');
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/categories/bulk",
+     *      path="/api/v1/pages/bulk",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Categories"},
-     *      summary="Bulk action on categories",
+     *      tags={"Pages"},
+     *      summary="Bulk action on pages",
      *
      *      @OA\RequestBody(
      *          required=true,
@@ -246,13 +243,15 @@ class CategoryController extends APIController
      *      )
      * )
      */
-    public function bulk(CategoryBulkRequest $request): JsonResponse
+    public function bulk(PageBulkRequest $request): JsonResponse
     {
         $ids = $request->input('ids');
         $action = $request->input('action');
 
         if ($action === 'delete') {
-            Category::whereIn('id', $ids)->delete();
+            Page::whereIn('id', $ids)->delete();
+        } else {
+            Page::whereIn('id', $ids)->update(['status' => $action]);
         }
 
         return $this->restSuccess([], 'Bulk action successfully');

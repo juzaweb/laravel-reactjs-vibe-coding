@@ -1,17 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\Api\Http\Controllers\API\MediaController;
-use Juzaweb\Modules\Api\Http\Controllers\API\MenuController;
-use Juzaweb\Modules\Api\Http\Controllers\API\NotificationController;
-use Juzaweb\Modules\Api\Http\Controllers\API\PageController;
-use Juzaweb\Modules\Api\Http\Controllers\API\ProfileController;
-use Juzaweb\Modules\Api\Http\Controllers\API\RoleController;
-use Juzaweb\Modules\Api\Http\Controllers\API\SettingController;
-use Juzaweb\Modules\Api\Http\Controllers\API\TranslationController;
-use Juzaweb\Modules\Api\Http\Controllers\API\UserController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\AuthController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\SocialLoginController;
+use Juzaweb\Modules\Api\Http\Controllers\MediaController;
+use Juzaweb\Modules\Api\Http\Controllers\MenuController;
+use Juzaweb\Modules\Api\Http\Controllers\NotificationController;
+use Juzaweb\Modules\Api\Http\Controllers\PageController;
+use Juzaweb\Modules\Api\Http\Controllers\ProfileController;
+use Juzaweb\Modules\Api\Http\Controllers\RoleController;
+use Juzaweb\Modules\Api\Http\Controllers\SettingController;
+use Juzaweb\Modules\Api\Http\Controllers\TranslationController;
+use Juzaweb\Modules\Api\Http\Controllers\UserController;
 
 Route::get('settings', [SettingController::class, 'index']);
 Route::get('translations/{locale}', [TranslationController::class, 'index']);

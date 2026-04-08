@@ -4,19 +4,11 @@ namespace Juzaweb\Modules\Api\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Api\Http\DataTables\ApiKeysDataTable;
 use Juzaweb\Modules\Api\Models\ApiKey;
 use Juzaweb\Modules\Core\Http\Controllers\AdminController;
 
 class ApiKeyController extends AdminController
 {
-    public function index(ApiKeysDataTable $dataTable)
-    {
-        return $dataTable->render('api::index', [
-            'title' => trans('api::app.api_keys'),
-        ]);
-    }
-
     public function store(Request $request)
     {
         $request->validate([

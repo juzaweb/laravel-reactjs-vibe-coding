@@ -1,26 +1,25 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers\API;
+namespace Juzaweb\Modules\Blog\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Api\Http\Requests\UserBulkRequest;
-use Juzaweb\Modules\Api\Http\Requests\UserRequest;
-use Juzaweb\Modules\Api\Http\Resources\UserResource;
+use Juzaweb\Modules\Blog\Http\Requests\PostBulkRequest;
+use Juzaweb\Modules\Blog\Http\Requests\PostRequest;
+use Juzaweb\Modules\Blog\Http\Resources\PostResource;
+use Juzaweb\Modules\Blog\Models\Post;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
-use Juzaweb\Modules\Core\Models\User;
 use OpenApi\Annotations as OA;
 
-class UserController extends APIController
+class PostController extends APIController
 {
     /**
      * @OA\Get(
-     *      path="/api/v1/users",
+     *      path="/api/v1/posts",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Users"},
-     *      summary="Get list of users",
+     *      tags={"Posts"},
+     *      summary="Get list of posts",
      *
      *      @OA\Parameter(ref="#/components/parameters/query_limit"),
      *      @OA\Parameter(ref="#/components/parameters/query_page"),
@@ -32,7 +31,7 @@ class UserController extends APIController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/UserResource")),
+     *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/PostResource")),
      *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
      *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
      *              @OA\Property(property="success", type="boolean", example=true),
@@ -43,69 +42,65 @@ class UserController extends APIController
     public function index(Request $request): JsonResponse
     {
         $limit = $this->getLimitRequest();
+        $locale = $request->input('locale');
 
-        $query = User::query();
+        $query = Post::query()->withTranslation($locale);
 
         $query->api($request->all());
 
-        $users = $query->paginate($limit);
+        $posts = $query->paginate($limit);
 
-        return $this->restSuccess($users);
+        return $this->restSuccess(PostResource::collection($posts));
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/users",
+     *      path="/api/v1/posts",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Users"},
-     *      summary="Create a new user",
+     *      tags={"Posts"},
+     *      summary="Create a new post",
      *
      *      @OA\RequestBody(
      *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/UserRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/PostRequest")
      *      ),
      *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
      *
-     *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/UserResource"))
+     *          @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PostResource"))
      *      ),
      *
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
-    public function store(UserRequest $request): JsonResponse
+    public function store(PostRequest $request): JsonResponse
     {
-        $user = DB::transaction(
+        $post = DB::transaction(
             function () use ($request) {
+                $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
                 $data = $request->validated();
-                if (isset($data['password'])) {
-                    $data['password'] = Hash::make($data['password']);
-                }
 
-                $user = new User;
-                $user->fill($data);
-                $user->save();
+                $post = new Post;
+                $post->setDefaultLocale($locale);
+                $post->fill($data);
+                $post->save();
 
-                if (isset($data['roles'])) {
-                    $user->syncRoles($data['roles']);
-                }
-
-                return $user;
+                return $post;
             }
         );
 
-        return $this->restSuccess($user);
+        return $this->restSuccess(new PostResource($post));
     }
 
     /**
      * @OA\Get(
-     *      path="/api/v1/users/{id}",
+     *      path="/api/v1/posts/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Users"},
-     *      summary="Get user details by id",
+     *      tags={"Posts"},
+     *      summary="Get post details by id",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -121,27 +116,28 @@ class UserController extends APIController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="data", ref="#/components/schemas/UserResource"),
+     *              @OA\Property(property="data", ref="#/components/schemas/PostResource"),
      *              @OA\Property(property="success", type="boolean", example=true)
      *          )
      *      ),
      *
-     *      @OA\Response(response=404, description="User not found")
+     *      @OA\Response(response=404, description="Post not found")
      * )
      */
     public function show(Request $request, string $id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $locale = $request->input('locale');
+        $post = Post::withTranslation($locale)->findOrFail($id);
 
-        return $this->restSuccess($user);
+        return $this->restSuccess(new PostResource($post));
     }
 
     /**
      * @OA\Put(
-     *      path="/api/v1/users/{id}",
+     *      path="/api/v1/posts/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Users"},
-     *      summary="Update an existing user",
+     *      tags={"Posts"},
+     *      summary="Update an existing post",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -154,52 +150,43 @@ class UserController extends APIController
      *      @OA\RequestBody(
      *          required=true,
      *
-     *          @OA\JsonContent(ref="#/components/schemas/UserRequest")
+     *          @OA\JsonContent(ref="#/components/schemas/PostRequest")
      *      ),
      *
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
      *
-     *           @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/UserResource"))
+     *           @OA\JsonContent(@OA\Property(property="data", ref="#/components/schemas/PostResource"))
      *       ),
      *
-     *      @OA\Response(response=404, description="User not found"),
+     *      @OA\Response(response=404, description="Post not found"),
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
-    public function update(UserRequest $request, string $id): JsonResponse
+    public function update(PostRequest $request, string $id): JsonResponse
     {
-        $user = User::findOrFail($id);
+        $post = Post::findOrFail($id);
+        $locale = $request->input('locale', config('translatable.fallback_locale', 'en'));
+        $post->setDefaultLocale($locale);
 
-        $user = DB::transaction(
-            function () use ($user, $request) {
-                $data = $request->validated();
-                if (isset($data['password'])) {
-                    $data['password'] = Hash::make($data['password']);
-                } else {
-                    unset($data['password']);
-                }
+        $post = DB::transaction(
+            function () use ($post, $request) {
+                $post->update($request->validated());
 
-                $user->update($data);
-
-                if (isset($data['roles'])) {
-                    $user->syncRoles($data['roles']);
-                }
-
-                return $user;
+                return $post;
             }
         );
 
-        return $this->restSuccess($user);
+        return $this->restSuccess(new PostResource($post));
     }
 
     /**
      * @OA\Delete(
-     *      path="/api/v1/users/{id}",
+     *      path="/api/v1/posts/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Users"},
-     *      summary="Delete a user",
+     *      tags={"Posts"},
+     *      summary="Delete a post",
      *
      *      @OA\Parameter(
      *          name="id",
@@ -220,23 +207,23 @@ class UserController extends APIController
      *          )
      *      ),
      *
-     *      @OA\Response(response=404, description="User not found")
+     *      @OA\Response(response=404, description="Post not found")
      * )
      */
     public function destroy(string $id): JsonResponse
     {
-        $user = User::findOrFail($id);
-        $user->delete();
+        $post = Post::findOrFail($id);
+        $post->delete();
 
         return $this->restSuccess([], 'Deleted successfully');
     }
 
     /**
      * @OA\Post(
-     *      path="/api/v1/users/bulk",
+     *      path="/api/v1/posts/bulk",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Users"},
-     *      summary="Bulk action on users",
+     *      tags={"Posts"},
+     *      summary="Bulk action on posts",
      *
      *      @OA\RequestBody(
      *          required=true,
@@ -259,15 +246,15 @@ class UserController extends APIController
      *      )
      * )
      */
-    public function bulk(UserBulkRequest $request): JsonResponse
+    public function bulk(PostBulkRequest $request): JsonResponse
     {
         $ids = $request->input('ids');
         $action = $request->input('action');
 
         if ($action === 'delete') {
-            User::whereIn('id', $ids)->delete();
+            Post::whereIn('id', $ids)->delete();
         } else {
-            User::whereIn('id', $ids)->update(['status' => $action]);
+            Post::whereIn('id', $ids)->update(['status' => $action]);
         }
 
         return $this->restSuccess([], 'Bulk action successfully');

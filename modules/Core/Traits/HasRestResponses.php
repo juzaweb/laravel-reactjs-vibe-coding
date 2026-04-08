@@ -15,6 +15,7 @@ use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Juzaweb\Modules\Core\Support\Resources\ModelCollectionResource;
 use Juzaweb\Modules\Core\Support\Resources\ModelResource;
 
@@ -45,7 +46,7 @@ trait HasRestResponses
      * @return JsonResponse The JSON response object.
      */
     public function restSuccess(
-        array|Arrayable|LengthAwarePaginator|null $data = [],
+        array|Arrayable|LengthAwarePaginator|AnonymousResourceCollection|null $data = [],
         ?string $message = null,
         int $status = 200,
         array $additional = []

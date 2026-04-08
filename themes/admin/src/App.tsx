@@ -15,6 +15,8 @@ import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
 import { PlansList } from './pages/plans/PlansList'
 import { PlanForm } from './pages/plans/PlanForm'
+import { SubscriptionsList } from './pages/subscriptions/SubscriptionsList'
+import { SubscriptionHistoriesList } from './pages/subscription-histories/SubscriptionHistoriesList'
 import { PaymentMethodsList } from './pages/payment-methods/PaymentMethodsList'
 import { PaymentMethodForm } from './pages/payment-methods/PaymentMethodForm'
 import { PaymentHistoriesList } from './pages/payment-histories/PaymentHistoriesList'
@@ -97,6 +99,8 @@ function App() {
               <Route path="create" element={<PlanForm />} />
               <Route path=":id/edit" element={<PlanForm />} />
             </Route>
+            <Route path="subscription/subscriptions" element={<SubscriptionsList />} />
+            <Route path="subscription/histories" element={<SubscriptionHistoriesList />} />
             <Route path="notifications">
               <Route index element={<NotificationsList />} />
               <Route path=":id" element={<NotificationShow />} />

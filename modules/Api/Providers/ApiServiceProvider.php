@@ -18,8 +18,6 @@ class ApiServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->registerMenus();
-
         Passport::tokensExpireIn(now()->addDays(15));
         Passport::refreshTokensExpireIn(now()->addDays(30));
         Passport::personalAccessTokensExpireIn(now()->addMonths(6));
@@ -56,20 +54,6 @@ class ApiServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
-    }
-
-    protected function registerMenus(): void
-    {
-        if (config('jw-api.enabled')) {
-            Menu::make('api-keys', function () {
-                return [
-                    'title' => trans('api::app.api_keys'),
-                    'icon' => 'fa fa-key',
-                    'parent' => 'settings',
-                    'position' => 'admin-top-profile',
-                ];
-            });
-        }
     }
 
     protected function registerTranslations(): void

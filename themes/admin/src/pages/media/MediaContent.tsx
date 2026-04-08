@@ -6,6 +6,8 @@ import { MediaGrid } from './MediaGrid';
 import { MediaList } from './MediaList';
 import { MediaSidebar } from './MediaSidebar';
 import { MediaUploadDropzone } from './MediaUploadDropzone';
+import { PageHeader } from '../../components/ui/PageHeader';
+import { useTranslation } from 'react-i18next';
 
 export interface MediaContentProps {
   onSelect?: (item: MediaItem) => void;
@@ -85,6 +87,8 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
     }
   };
 
+  const { t } = useTranslation();
+
   const handleDelete = (id: string) => {
     if (window.confirm('Are you sure you want to permanently delete this item?')) {
       deleteMediaMutation.mutate(id, {
@@ -126,9 +130,10 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
   return (
     <div className={`flex flex-col ${isSelectMode ? 'h-full' : 'h-[calc(100vh-4rem)] p-4 sm:p-6 lg:p-8'}`}>
       {!isSelectMode && (
-        <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold text-[var(--text-main)]">Media Library</h1>
-        </div>
+        <PageHeader
+          title={t('media_library', 'Media Library')}
+          breadcrumbs={[{ label: t('media_library', 'Media Library') }]}
+        />
       )}
 
       <MediaToolbar

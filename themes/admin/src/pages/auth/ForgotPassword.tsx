@@ -5,8 +5,10 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { useAppDispatch } from '../../store/hooks';
 import { forgotPassword } from '../../store/authSlice';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const ForgotPassword: React.FC = () => {
+  usePageTitle('Reset Password');
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
   const [isSent, setIsSent] = useState(false);
   const dispatch = useAppDispatch();

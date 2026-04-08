@@ -7,6 +7,7 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import axiosClient from '../../utils/axiosClient';
 import { fetchProfile } from '../../store/authSlice';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 interface ProfileFormData {
   name: string;
@@ -64,11 +65,10 @@ export const ProfileForm: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">
-          {t('profile', 'Profile')}
-        </h1>
-      </div>
+      <PageHeader
+        title={t('profile', 'Profile')}
+        breadcrumbs={[{ label: t('profile', 'Profile') }]}
+      />
 
       <div className="max-w-2xl bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

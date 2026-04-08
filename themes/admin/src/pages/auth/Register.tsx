@@ -5,8 +5,10 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { useAppDispatch } from '../../store/hooks';
 import { registerUser } from '../../store/authSlice';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const Register: React.FC = () => {
+  usePageTitle('Create an Account');
   const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

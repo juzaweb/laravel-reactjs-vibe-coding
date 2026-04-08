@@ -5,6 +5,7 @@ import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
 import { useCategories, useDeleteCategory, useBulkCategories } from './hooks';
 import { usePermissions } from '../../store/hooks';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const CategoriesList: React.FC = () => {
   const { t } = useTranslation();
@@ -70,17 +71,20 @@ export const CategoriesList: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">{t('categories', 'Categories')}</h1>
-        {hasPermission('categories.create') && (
-          <Link to="/admin/categories/create">
-            <Button variant="primary" className="flex items-center gap-2">
-              <FiPlus className="w-4 h-4" />
-              {t('create_category', 'Create Category')}
-            </Button>
-          </Link>
-        )}
-      </div>
+      <PageHeader
+        title={t('categories', 'Categories')}
+        breadcrumbs={[{ label: t('categories', 'Categories') }]}
+        actions={
+          hasPermission('categories.create') ? (
+            <Link to="/admin/categories/create">
+              <Button variant="primary" className="flex items-center gap-2">
+                <FiPlus className="w-4 h-4" />
+                {t('create_category', 'Create Category')}
+              </Button>
+            </Link>
+          ) : undefined
+        }
+      />
 
       <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
 

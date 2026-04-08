@@ -5,6 +5,7 @@ import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
 import { usePosts, useDeletePost, useBulkPosts } from './hooks';
 import { usePermissions } from '../../store/hooks';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const PostsList: React.FC = () => {
   const { t } = useTranslation();
@@ -70,17 +71,20 @@ export const PostsList: React.FC = () => {
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">{t('posts', 'Posts')}</h1>
-        {hasPermission('posts.create') && (
-          <Link to="/admin/posts/create">
-            <Button variant="primary" className="flex items-center gap-2">
-              <FiPlus className="w-4 h-4" />
-              {t('create_post', 'Create Post')}
-            </Button>
-          </Link>
-        )}
-      </div>
+      <PageHeader
+        title={t('posts', 'Posts')}
+        breadcrumbs={[{ label: t('posts', 'Posts') }]}
+        actions={
+          hasPermission('posts.create') ? (
+            <Link to="/admin/posts/create">
+              <Button variant="primary" className="flex items-center gap-2">
+                <FiPlus className="w-4 h-4" />
+                {t('create_post', 'Create Post')}
+              </Button>
+            </Link>
+          ) : undefined
+        }
+      />
 
       <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
 

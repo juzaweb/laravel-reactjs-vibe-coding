@@ -7,8 +7,10 @@ import { Button } from '../../components/ui/Button';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginUser } from '../../store/authSlice';
 import { fetchSettings } from '../../store/settingSlice';
+import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const Login: React.FC = () => {
+  usePageTitle('Sign In');
   const { register, handleSubmit, setError, formState: { errors, isSubmitting } } = useForm();
   const navigate = useNavigate();
   const location = useLocation();

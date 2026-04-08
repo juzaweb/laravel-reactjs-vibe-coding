@@ -3,7 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { useParams, useNavigate } from 'react-router-dom';
 import { notificationService } from './hooks';
-import { FiArrowLeft, FiClock, FiCheck } from 'react-icons/fi';
+import { FiClock, FiCheck } from 'react-icons/fi';
+import { PageHeader } from '../../components/ui/PageHeader';
 
 export const NotificationShow: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -56,17 +57,13 @@ export const NotificationShow: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      <div className="flex items-center space-x-4 mb-6">
-        <button
-          onClick={() => navigate('/admin/notifications')}
-          className="p-2 text-[var(--text-muted)] hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
-        >
-          <FiArrowLeft className="w-5 h-5" />
-        </button>
-        <h1 className="text-2xl font-bold text-[var(--text-main)]">
-          {notification.title || notification.data?.title || t('notification_details', 'Notification Details')}
-        </h1>
-      </div>
+      <PageHeader
+        title={notification.title || notification.data?.title || t('notification_details', 'Notification Details')}
+        breadcrumbs={[
+          { label: t('notifications', 'Notifications'), href: '/admin/notifications' },
+          { label: t('view', 'View') }
+        ]}
+      />
 
       <div className="bg-[var(--bg-card)] rounded-lg shadow-sm border border-[var(--border-color)] overflow-hidden">
         <div className="p-6 border-b border-[var(--border-color)] flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">

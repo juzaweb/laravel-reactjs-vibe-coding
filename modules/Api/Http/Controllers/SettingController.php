@@ -48,41 +48,6 @@ class SettingController extends APIController
     }
 
     /**
-     * @OA\Post(
-     *      path="/api/v1/settings",
-     *      security={{"bearerAuth": {}, "apiKey": {}}},
-     *      tags={"Settings"},
-     *      summary="Create a new setting",
-     *
-     *      @OA\RequestBody(
-     *          required=true,
-     *
-     *          @OA\JsonContent(
-     *              required={"code"},
-     *
-     *              @OA\Property(property="code", type="string", example="site_name"),
-     *              @OA\Property(property="value", type="string", example="Juzaweb CMS")
-     *          )
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *
-     *          @OA\JsonContent(@OA\Property(property="data", type="object"))
-     *      ),
-     *
-     *      @OA\Response(response=422, description="Validation Error")
-     * )
-     */
-    public function store(SettingResourceRequest $request): JsonResponse
-    {
-        $setting = Setting::create($request->validated());
-
-        return $this->restSuccess($setting);
-    }
-
-    /**
      * @OA\Put(
      *      path="/api/v1/settings/{id}",
      *      security={{"bearerAuth": {}, "apiKey": {}}},

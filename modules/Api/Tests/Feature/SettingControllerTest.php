@@ -45,19 +45,6 @@ class SettingControllerTest extends TestCase
         ]);
     }
 
-    public function test_store()
-    {
-        $data = [
-            'code' => 'test_code_2',
-            'value' => 'test_value_2',
-        ];
-
-        $response = $this->postJson('/api/v1/settings', $data);
-
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('settings', ['code' => 'test_code_2']);
-    }
-
     public function test_update()
     {
         $setting = Setting::create(['code' => 'test_code_4', 'value' => 'test_value_4']);

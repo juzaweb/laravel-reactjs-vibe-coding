@@ -2182,62 +2182,6 @@
                         "apiKey": []
                     }
                 ]
-            },
-            "post": {
-                "tags": [
-                    "Settings"
-                ],
-                "summary": "Create a new setting",
-                "operationId": "6c6c2870e8d7bc5a1f690997adbb2b3e",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "code"
-                                ],
-                                "properties": {
-                                    "code": {
-                                        "type": "string",
-                                        "example": "site_name"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "example": "Juzaweb CMS"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": [],
-                        "apiKey": []
-                    }
-                ]
             }
         },
         "/api/v1/settings/{id}": {

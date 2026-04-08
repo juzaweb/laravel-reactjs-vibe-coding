@@ -50,7 +50,7 @@ class PostController extends APIController
 
         $posts = $query->paginate($limit);
 
-        return $this->restSuccess(PostResource::collection($posts));
+        return $this->restSuccess($posts);
     }
 
     /**
@@ -92,7 +92,7 @@ class PostController extends APIController
             }
         );
 
-        return $this->restSuccess(new PostResource($post));
+        return $this->restSuccess($post);
     }
 
     /**
@@ -129,7 +129,7 @@ class PostController extends APIController
         $locale = $request->input('locale');
         $post = Post::withTranslation($locale)->findOrFail($id);
 
-        return $this->restSuccess(new PostResource($post));
+        return $this->restSuccess($post);
     }
 
     /**
@@ -178,7 +178,7 @@ class PostController extends APIController
             }
         );
 
-        return $this->restSuccess(new PostResource($post));
+        return $this->restSuccess($post);
     }
 
     /**

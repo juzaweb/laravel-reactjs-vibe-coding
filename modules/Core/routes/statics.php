@@ -25,21 +25,5 @@ Route::get('storage/{path}', [AddonController::class, 'storageProxy'])
     ->name('storage.proxy')
     ->where('path', '.*');
 
-Route::get('juzaweb/{path}', [AddonController::class, 'juzawebProxy'])
-    ->name('juzaweb.proxy')
-    ->where('path', '.*');
-
-Route::get('vendor/{path}', [AddonController::class, 'vendorProxy'])
-    ->name('vendor.proxy')
-    ->where('path', '.*');
-
-Route::get('themes/{theme}/{path}', [AddonController::class, 'themesProxy'])
-    ->name('themes.proxy')
-    ->where('path', '.*');
-
-Route::get('modules/{module}/{path}', [AddonController::class, 'modulesProxy'])
-    ->name('modules.proxy')
-    ->where('path', '.*');
-
 Route::get('images/{method}/{hash}/{filename}', [AddonController::class, 'proxy'])
     ->name('imgproxy.handle');

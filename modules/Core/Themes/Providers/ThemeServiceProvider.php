@@ -22,6 +22,8 @@ class ThemeServiceProvider extends ServiceProvider
         if ($this->app['config']->get('themes.enable')) {
             $this->app[Theme::class]->init();
         }
+
+
     }
 
     public function register(): void

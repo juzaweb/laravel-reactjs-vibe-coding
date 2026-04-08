@@ -15,14 +15,6 @@ namespace Juzaweb\Modules\Core\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Juzaweb\Modules\Core\Facades\RouteResource;
-use Juzaweb\Modules\Core\Http\Middleware\Admin;
-use Juzaweb\Modules\Core\Http\Middleware\CheckSetup;
-use Juzaweb\Modules\Core\Http\Middleware\ContentSecurityPolicy;
-use Juzaweb\Modules\Core\Http\Middleware\ForceLocale;
-use Juzaweb\Modules\Core\Http\Middleware\MultipleLanguage;
-use Juzaweb\Modules\Core\Http\Middleware\RedirectLanguage;
-use Juzaweb\Modules\Core\Http\Middleware\Theme;
-use Juzaweb\Modules\Core\Http\Middleware\XFrameHeadersPolicy;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -48,35 +40,5 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware(['theme'])
                 ->group(__DIR__.'/../routes/web.php');
         });
-    }
-
-    public function register(): void
-    {
-        parent::register();
-
-        $this->app['router']->middlewareGroup(
-            'admin',
-            [
-                'web',
-                XFrameHeadersPolicy::class,
-                ContentSecurityPolicy::class,
-                'auth',
-                'verified',
-                Admin::class,
-                CheckSetup::class,
-                ForceLocale::class,
-            ]
-        );
-
-        $this->app['router']->middlewareGroup(
-            'theme',
-            [
-                'web',
-                XFrameHeadersPolicy::class,
-                RedirectLanguage::class,
-                MultipleLanguage::class,
-                Theme::class,
-            ]
-        );
     }
 }

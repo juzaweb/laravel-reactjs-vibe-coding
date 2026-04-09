@@ -372,46 +372,6 @@ class PaymentController extends APIController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/payment/{module}/embed/{transactionId}",
-     *      tags={"Payment"},
-     *      summary="Embed URL for payment gateway",
-     *      operationId="payment_embed",
-     *
-     *      @OA\Parameter(
-     *          name="module",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
-     *
-     *      @OA\Parameter(
-     *          name="transactionId",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
-     *
-     *      @OA\Response(response=200, description="Successful operation")
-     * )
-     */
-    public function embed(string $module, string $transactionId)
-    {
-        $paymentHistory = PaymentHistory::find($transactionId);
-
-        throw_if($paymentHistory == null, new PaymentException(__('Payment transaction not found!')));
-
-        // $paymentHistory->load(['paymentable']);
-
-        return view(
-            'payment::method.embed',
-            compact('module', 'paymentHistory')
-        );
-    }
-
-    /**
-     * @OA\Get(
      *      path="/api/v1/payment/{module}/status/{transactionId}",
      *      tags={"Payment"},
      *      summary="Get payment status",

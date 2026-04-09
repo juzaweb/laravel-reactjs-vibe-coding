@@ -172,6 +172,8 @@ class InstallerController extends Controller
                     $model->password = Hash::make($request->post('password'));
                     $model->is_super_admin = 1;
                     $model->save();
+
+                    $model->markEmailAsVerified();
                 }
             );
 

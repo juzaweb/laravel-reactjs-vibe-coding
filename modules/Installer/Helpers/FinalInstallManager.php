@@ -53,11 +53,6 @@ class FinalInstallManager
     private static function publishVendorAssets(BufferedOutput $outputLog)
     {
         try {
-            Artisan::call('vendor:publish', [
-                '--tag' => 'juzaweb_assets',
-                '--force' => true,
-            ], $outputLog);
-
             Artisan::call('storage:link', [], $outputLog);
         } catch (Throwable $e) {
             throw $e;

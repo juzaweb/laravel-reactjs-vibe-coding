@@ -108,6 +108,8 @@ class InstallCommand extends Command
                 $model->password = Hash::make($this->user['password']);
                 $model->is_super_admin = 1;
                 $model->save();
+
+                $model->markEmailAsVerified();
             }
         );
     }

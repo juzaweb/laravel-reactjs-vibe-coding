@@ -156,22 +156,22 @@ class Media extends Model
                 foreach ($fileType as $type) {
                     switch ($type) {
                         case 'image':
-                            $q->orWhereIn('mime_type', self::IMAGE_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.image', []));
                             break;
                         case 'video':
-                            $q->orWhereIn('mime_type', self::VIDEO_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.video', []));
                             break;
                         case 'audio':
-                            $q->orWhereIn('mime_type', self::AUDIO_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.audio', []));
                             break;
                         case 'document':
-                            $q->orWhereIn('mime_type', self::DOCUMENT_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.document', []));
                             break;
                         case 'media':
-                            $q->orWhereIn('mime_type', array_merge(self::VIDEO_MIME_TYPES, self::AUDIO_MIME_TYPES));
+                            $q->orWhereIn('mime_type', array_merge(config('media.types.video', []), config('media.types.audio', [])));
                             break;
                         case 'file':
-                            $q->orWhereNotIn('mime_type', self::IMAGE_MIME_TYPES);
+                            $q->orWhereNotIn('mime_type', config('media.types.image', []));
                             break;
                         default:
                             $q->whereRaw('1 = 0');
@@ -213,22 +213,22 @@ class Media extends Model
                 foreach ($fileType as $type) {
                     switch ($type) {
                         case 'image':
-                            $q->orWhereIn('mime_type', self::IMAGE_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.image', []));
                             break;
                         case 'video':
-                            $q->orWhereIn('mime_type', self::VIDEO_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.video', []));
                             break;
                         case 'audio':
-                            $q->orWhereIn('mime_type', self::AUDIO_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.audio', []));
                             break;
                         case 'document':
-                            $q->orWhereIn('mime_type', self::DOCUMENT_MIME_TYPES);
+                            $q->orWhereIn('mime_type', config('media.types.document', []));
                             break;
                         case 'media':
-                            $q->orWhereIn('mime_type', array_merge(self::VIDEO_MIME_TYPES, self::AUDIO_MIME_TYPES));
+                            $q->orWhereIn('mime_type', array_merge(config('media.types.video', []), config('media.types.audio', [])));
                             break;
                         case 'file':
-                            $q->orWhereNotIn('mime_type', self::IMAGE_MIME_TYPES);
+                            $q->orWhereNotIn('mime_type', config('media.types.image', []));
                             break;
                         default:
                             $q->whereRaw('1 = 0');

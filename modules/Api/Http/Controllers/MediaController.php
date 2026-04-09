@@ -37,7 +37,7 @@ class MediaController extends APIController
      *      ),
      *
      *      @OA\Parameter(
-     *          name="type",
+     *          name="file_type",
      *          in="query",
      *          required=false,
      *
@@ -63,6 +63,7 @@ class MediaController extends APIController
         $limit = $this->getLimitRequest();
         $folderId = $request->input('folder_id');
         $type = $request->input('type');
+        $fileType = $request->input('file_type');
 
         $query = Media::query();
 
@@ -74,6 +75,10 @@ class MediaController extends APIController
 
         if ($type) {
             $query->where('type', $type);
+        }
+
+        if ($fileType) {
+            $query->fileTypeFilterable(['file_type' => $fileType]);
         }
 
         $media = $query->paginate($limit);

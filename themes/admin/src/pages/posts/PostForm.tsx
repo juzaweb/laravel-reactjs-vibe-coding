@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
@@ -11,12 +11,14 @@ import { MediaPlaceholder } from '../../components/ui/form/MediaPlaceholder';
 import { usePost, useCreatePost, useUpdatePost } from './hooks';
 import type { PostFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
+import { FiEdit2 } from 'react-icons/fi';
 
 export const PostForm: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const isEditMode = !!id;
+  const [isSlugEditable, setIsSlugEditable] = useState(false);
 
   const { data: postData, isLoading: isLoadingPost } = usePost(id || '');
   const createPostMutation = useCreatePost();
@@ -43,6 +45,10 @@ export const PostForm: React.FC = () => {
       });
     }
   }, [postData, reset]);
+
+  useEffect(() => {
+    setIsSlugEditable(false);
+  }, [id]);
 
   const onSubmit = async (data: PostFormData) => {
     try {
@@ -108,7 +114,7 @@ export const PostForm: React.FC = () => {
                   error={fieldState.error?.message}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     field.onChange(e);
-                    if (!isEditMode && !postData) {
+                    if (!isEditMode && !postData && !isSlugEditable) {
                        const slug = e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
                        setValue('slug', slug);
                     }
@@ -157,11 +163,27 @@ export const PostForm: React.FC = () => {
               name="slug"
               control={control}
               render={({ field, fieldState }) => (
-                <Input
-                  {...field}
-                  label={t('slug', 'URL Slug')}
-                  error={fieldState.error?.message}
-                />
+                <div className="space-y-1">
+                  <label className="block text-sm font-medium text-[var(--text-main)]">{t('slug', 'URL Slug')}</label>
+                  <div className="flex items-center gap-2">
+                    <Input
+                      {...field}
+                      aria-label={t('slug', 'URL Slug')}
+                      error={fieldState.error?.message}
+                      disabled={!isSlugEditable}
+                      wrapperClassName="flex-1"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setIsSlugEditable((prev) => !prev)}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[var(--border-color)] text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                      title={t('edit_slug', 'Edit slug')}
+                      aria-label={t('edit_slug', 'Edit slug')}
+                    >
+                      <FiEdit2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
               )}
             />
           </div>

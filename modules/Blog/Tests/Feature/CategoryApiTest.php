@@ -16,6 +16,9 @@ class CategoryApiTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $this->app->register(BlogServiceProvider::class);
+
+        $this->actingAs($this->user);
+        $this->withoutMiddleware();
     }
 
     public function test_index_categories()

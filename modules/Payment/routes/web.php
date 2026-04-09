@@ -1,27 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\Payment\Http\Controllers\CartController;
-use Juzaweb\Modules\Payment\Http\Controllers\CheckoutController;
-use Juzaweb\Modules\Payment\Http\Controllers\PaymentController;
 
-Route::post('payment/{module}', [PaymentController::class, 'checkout'])
-    ->name('payment.checkout');
+if (class_exists('Juzaweb\Modules\Payment\Http\Controllers\CheckoutController')) {
+    Route::get('checkout/{module}/{cartId}', ['Juzaweb\Modules\Payment\Http\Controllers\CheckoutController', 'index'])
+        ->name('checkout');
+    Route::post('checkout/{module}/{cartId}', ['Juzaweb\Modules\Payment\Http\Controllers\CheckoutController', 'index']);
 
-Route::post('payment/{module}/purchase', [PaymentController::class, 'purchase'])
-    ->name('payment.purchase');
-Route::get('payment/{module}/return/{paymentHistoryId}', [PaymentController::class, 'return'])
-    ->name('payment.return');
-Route::get('payment/{module}/cancel/{paymentHistoryId}', [PaymentController::class, 'cancel'])
-    ->name('payment.cancel');
-Route::get('payment/{module}/embed/{paymentHistoryId}', [PaymentController::class, 'embed'])
-    ->name('payment.embed');
-Route::get('payment/{module}/status/{paymentHistoryId}', [PaymentController::class, 'status'])
-    ->name('payment.status');
-
-Route::post('cart/add', [CartController::class, 'add'])->name('cart.add');
-Route::delete('cart/{itemId}', [CartController::class, 'remove'])
-    ->name('cart.remove');
-
-Route::get('invoices/{orderId}', [CheckoutController::class, 'thankyou'])
-    ->name('checkout.thankyou');
+    Route::get('invoices/{orderId}', ['Juzaweb\Modules\Payment\Http\Controllers\CheckoutController', 'thankyou'])
+        ->name('checkout.thankyou');
+}

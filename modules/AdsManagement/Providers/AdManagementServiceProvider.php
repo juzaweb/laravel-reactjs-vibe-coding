@@ -56,9 +56,9 @@ class AdManagementServiceProvider extends ServiceProvider
     protected function registerConfig(): void
     {
         $this->publishes([
-            __DIR__ . '/../../config/ad-management.php' => config_path('ad-management.php'),
+            __DIR__ . '/../config/ad-management.php' => config_path('ad-management.php'),
         ], 'ad-management-config');
-        $this->mergeConfigFrom(__DIR__ . '/../../config/ad-management.php', 'ad-management');
+        $this->mergeConfigFrom(__DIR__ . '/../config/ad-management.php', 'ad-management');
     }
 
     protected function registerTranslations(): void

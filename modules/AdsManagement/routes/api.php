@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,3 +12,6 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::api('banner-ads', \Juzaweb\Modules\AdsManagement\Http\Controllers\Api\BannerAdsController::class);
+Route::api('video-ads', \Juzaweb\Modules\AdsManagement\Http\Controllers\Api\VideoAdsController::class);

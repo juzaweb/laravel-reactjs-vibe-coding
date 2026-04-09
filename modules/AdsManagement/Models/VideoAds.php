@@ -5,11 +5,13 @@ namespace Juzaweb\Modules\AdsManagement\Models;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Juzaweb\Modules\AdsManagement\Database\Factories\VideoAdsFactory;
+use Juzaweb\Modules\AdsManagement\Http\Resources\VideoAdsResource;
 use Juzaweb\Modules\Core\Models\Model;
+use Juzaweb\Modules\Core\Traits\HasResource;
 
 class VideoAds extends Model
 {
-    use HasUuids, HasFactory;
+    use HasUuids, HasFactory, HasResource;
 
     protected $table = 'video_ads';
 
@@ -47,5 +49,10 @@ class VideoAds extends Model
     public static function getFieldName(): string
     {
         return 'name';
+    }
+
+    public static function getResource(): string
+    {
+        return VideoAdsResource::class;
     }
 }

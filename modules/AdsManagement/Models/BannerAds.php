@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Juzaweb\Modules\AdsManagement\Database\Factories\BannerAdsFactory;
 use Juzaweb\Modules\AdsManagement\Enums\BannerAdsType;
+use Juzaweb\Modules\AdsManagement\Http\Resources\BannerAdsResource;
 use Juzaweb\Modules\Core\Facades\Theme;
 use Juzaweb\Modules\Core\Models\Model;
+use Juzaweb\Modules\Core\Traits\HasResource;
 
 class BannerAds extends Model
 {
-    use HasUuids, HasFactory;
+    use HasUuids, HasFactory, HasResource;
 
     protected $table = 'banner_ads';
 
@@ -73,5 +75,10 @@ class BannerAds extends Model
     public static function getFieldName(): string
     {
         return 'name';
+    }
+
+    public static function getResource(): string
+    {
+        return BannerAdsResource::class;
     }
 }

@@ -11,6 +11,8 @@ class ClearLogCommandTest extends TestCase
 {
     public function test_clear_log_command_removes_logs()
     {
+        $this->app->useStoragePath(sys_get_temp_dir() . '/juzaweb_test_storage');
+
         // Register command
         $this->app[Kernel::class]->registerCommand(new ClearLogCommand);
 
@@ -39,6 +41,8 @@ class ClearLogCommandTest extends TestCase
 
     public function test_clear_log_command_fails_if_directory_missing()
     {
+        $this->app->useStoragePath(sys_get_temp_dir() . '/juzaweb_test_storage');
+
         // Register command
         $this->app[Kernel::class]->registerCommand(new ClearLogCommand);
 

@@ -28,6 +28,12 @@ class TranslationControllerTest extends TestCase
         ]]);
     }
 
+    public function test_texts_returns_flat_translations()
+    {
+        $response = $this->getJson('/api/v1/translations/en/texts');
+        $response->assertStatus(200);
+    }
+
     public function test_index_requires_auth()
     {
         $response = $this->getJson('/api/v1/translations/en');

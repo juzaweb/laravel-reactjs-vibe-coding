@@ -3258,13 +3258,43 @@
                 ]
             }
         },
-        "/api/v1/translations/{locale}": {
+        "/api/v1/translations/{locale}/texts": {
             "get": {
                 "tags": [
                     "Translations"
                 ],
                 "summary": "Get i18n translation strings",
                 "description": "Returns all translation strings for the given locale.",
+                "operationId": "c5737bb05ab6ade9753eb4eee79071f5",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Locale code, e.g. en, vi, ja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                }
+            }
+        },
+        "/api/v1/translations/{locale}": {
+            "get": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get translations collection",
+                "description": "Returns an array of translation objects including namespace, group, key, and trans for a given locale. Used mainly for admin tables/lists.",
                 "operationId": "402c10b61cdb883b47bc645a8a56a502",
                 "parameters": [
                     {
@@ -3288,7 +3318,12 @@
                     "500": {
                         "$ref": "#/components/responses/error_500"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             },
             "put": {
                 "tags": [

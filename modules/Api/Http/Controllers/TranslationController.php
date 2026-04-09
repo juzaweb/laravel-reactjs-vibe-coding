@@ -22,10 +22,38 @@ class TranslationController extends APIController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/translations/{locale}",
+     *      path="/api/v1/translations/{locale}/texts",
      *      tags={"Translations"},
      *      summary="Get i18n translation strings",
      *      description="Returns all translation strings for the given locale.",
+     *
+     *      @OA\Parameter(
+     *          name="locale",
+     *          in="path",
+     *          required=true,
+     *          description="Locale code, e.g. en, vi, ja",
+     *
+     *          @OA\Schema(type="string", example="en")
+     *      ),
+     *
+     *      @OA\Response(response=200, description="Successful operation"),
+     *      @OA\Response(response=500, description="Server error", ref="#/components/responses/error_500")
+     * )
+     */
+    public function texts(string $locale): JsonResponse
+    {
+        $items = $this->buildTranslationCollection($locale);
+
+        return response()->json($this->formatAsI18n($items, $locale));
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/v1/translations/{locale}",
+     *      tags={"Translations"},
+     *      summary="Get translations collection",
+     *      description="Returns an array of translation objects including namespace, group, key, and trans for a given locale. Used mainly for admin tables/lists.",
+     *      security={{"bearerAuth":{}}},
      *
      *      @OA\Parameter(
      *          name="locale",
@@ -43,9 +71,41 @@ class TranslationController extends APIController
      */
     public function index(string $locale): JsonResponse
     {
-        $items = $this->buildTranslationCollection($locale);
+        $modules = collect(Module::allEnabled())->map(fn ($item) => $item->getAliasName())->toArray();
+        $theme = Theme::current();
 
-        return $this->restSuccess(['data' => $this->formatAsI18n($items, $locale)]);
+        $collection = $this->translationManager->modules()
+            ->filter(
+                function ($module, $key) use ($modules, $theme) {
+                    if ($module['type'] == 'module') {
+                        return $key == 'admin' || in_array($key, $modules);
+                    }
+                    if ($module['type'] === 'theme') {
+                        return $theme && $key === $theme->lowerName();
+                    }
+
+                    return true;
+                }
+            )
+            ->map(
+                function ($module, $key) {
+                    return $this->translationManager->locale($key)
+                        ->translationLines('en')
+                        ->map(
+                            function ($item) use ($module) {
+                                $item['namespace'] = $module['namespace'] ?? '*';
+
+                                return $item;
+                            }
+                        );
+                }
+            )
+            ->filter(fn ($item) => ! empty($item))
+            ->flatten(1);
+
+        $items = $this->mapWithDbTranslations($collection, $locale);
+
+        return $this->restSuccess(['data' => $items]);
     }
 
     /**
@@ -254,6 +314,11 @@ class TranslationController extends APIController
             ->filter(fn ($item) => $item->isNotEmpty())
             ->flatten(1);
 
+        return $this->mapWithDbTranslations($collection, $locale);
+    }
+
+    private function mapWithDbTranslations(Collection $collection, string $locale): Collection
+    {
         $langs = LanguageLine::get()
             ->keyBy(fn ($item) => "{$item->namespace}-{$item->group}-{$item->key}");
 
@@ -293,13 +358,6 @@ class TranslationController extends APIController
 
     /**
      * Format the collection into a flat i18n key-value map.
-     *
-     * Key format rules:
-     *  - PHP file strings:  "namespace::group.key"  (e.g. "core::app.save")
-     *  - JSON file strings: "namespace::key"         (group = '*', e.g. "core::Hello World")
-     *  - Laravel default (namespace='*'):
-     *      PHP  → "group.key"   (e.g. "app.title")
-     *      JSON → "key"         (e.g. "Hello World")
      *
      * @return array<string, string>
      */

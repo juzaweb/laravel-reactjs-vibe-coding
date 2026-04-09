@@ -11,6 +11,8 @@ class CacheSizeCommandTest extends TestCase
 {
     public function test_cache_size_command_calculates_correctly()
     {
+        $this->app->useStoragePath(sys_get_temp_dir() . '/juzaweb_test_storage');
+
         // Register command
         $this->app[Kernel::class]->registerCommand(new CacheSizeCommand);
 

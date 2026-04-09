@@ -6,6 +6,610 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/banner-ads": {
+            "get": {
+                "tags": [
+                    "Banner Ads"
+                ],
+                "summary": "Get list of banner ads",
+                "operationId": "d3f03f79488e2e9948af8745902b0a96",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BannerAdsResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Banner Ads"
+                ],
+                "summary": "Create a new banner ad",
+                "operationId": "976a6ff4bbcefcc513b1c4a90fbea598",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BannerAdRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BannerAdsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/banner-ads/{id}": {
+            "get": {
+                "tags": [
+                    "Banner Ads"
+                ],
+                "summary": "Get banner ad details by id",
+                "operationId": "f72e5a6580e7789b5c703892fead76fd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BannerAdsResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner Ad not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Banner Ads"
+                ],
+                "summary": "Update an existing banner ad",
+                "operationId": "bda3960a7261841db6f58ae37caa85dc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BannerAdRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/BannerAdsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner Ad not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Banner Ads"
+                ],
+                "summary": "Delete a banner ad",
+                "operationId": "aed7e225fe1372e154fec331530f55db",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Banner Ad not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/banner-ads/bulk": {
+            "post": {
+                "tags": [
+                    "Banner Ads"
+                ],
+                "summary": "Bulk action on banner ads",
+                "operationId": "7de86791e8a9af3224b65766e0751bce",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "action": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bulk action successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/video-ads": {
+            "get": {
+                "tags": [
+                    "Video Ads"
+                ],
+                "summary": "Get list of video ads",
+                "operationId": "97883f5a708a6e46c86e467eb8a3e7a1",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/VideoAdsResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Video Ads"
+                ],
+                "summary": "Create a new video ad",
+                "operationId": "13e30883b548df3c5144228366009a7b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VideoAdsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/VideoAdsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/video-ads/{id}": {
+            "get": {
+                "tags": [
+                    "Video Ads"
+                ],
+                "summary": "Get video ad details by id",
+                "operationId": "1f31ce7e466d153dfafb4ab0da25a6a7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/VideoAdsResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video Ad not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Video Ads"
+                ],
+                "summary": "Update an existing video ad",
+                "operationId": "b5baf107fa4e7aab027343fed5e25d90",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/VideoAdsRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/VideoAdsResource"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video Ad not found"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Video Ads"
+                ],
+                "summary": "Delete a video ad",
+                "operationId": "052d33b49ac8e98bbfacdb0c450c2837",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Deleted successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Video Ad not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/video-ads/bulk": {
+            "post": {
+                "tags": [
+                    "Video Ads"
+                ],
+                "summary": "Bulk action on video ads",
+                "operationId": "14cd550d1b1875c24797c0882768d7c0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "action": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Bulk action successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/app/settings": {
             "get": {
                 "tags": [
@@ -2207,16 +2811,12 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object"
-                                            }
-                                        },
-                                        "meta": {
-                                            "$ref": "#/components/schemas/PaginationMeta"
-                                        },
-                                        "links": {
-                                            "$ref": "#/components/schemas/PaginationLinks"
+                                            "type": "object",
+                                            "example": {
+                                                "site_name": "Juzaweb CMS",
+                                                "site_description": "My website"
+                                            },
+                                            "additionalProperties": true
                                         },
                                         "success": {
                                             "type": "boolean",
@@ -2235,41 +2835,29 @@
                         "apiKey": []
                     }
                 ]
-            }
-        },
-        "/api/v1/settings/{id}": {
+            },
             "put": {
                 "tags": [
                     "Settings"
                 ],
-                "summary": "Update an existing setting",
-                "operationId": "52bbb580aff1df564b7e7eaeaa495c88",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "summary": "Bulk update settings",
+                "operationId": "9bb76367cde192073fec10b98f35e3b9",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "code"
+                                    "settings"
                                 ],
                                 "properties": {
-                                    "code": {
-                                        "type": "string",
-                                        "example": "site_name"
-                                    },
-                                    "value": {
-                                        "type": "string",
-                                        "example": "Juzaweb CMS"
+                                    "settings": {
+                                        "type": "object",
+                                        "example": {
+                                            "site_name": "Juzaweb CMS",
+                                            "site_description": "My website"
+                                        },
+                                        "additionalProperties": true
                                     }
                                 },
                                 "type": "object"
@@ -2292,9 +2880,6 @@
                                 }
                             }
                         }
-                    },
-                    "404": {
-                        "description": "Setting not found"
                     },
                     "422": {
                         "description": "Validation Error"
@@ -4895,6 +5480,201 @@
     },
     "components": {
         "schemas": {
+            "BannerAdRequest": {
+                "required": [
+                    "name",
+                    "type",
+                    "active",
+                    "position"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Banner 1"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "image"
+                    },
+                    "body_image": {
+                        "type": "string",
+                        "example": "https://example.com/image.jpg"
+                    },
+                    "body_html": {
+                        "type": "string",
+                        "example": "<img src='...' />"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "active": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "sidebar"
+                    }
+                },
+                "type": "object"
+            },
+            "VideoAdsRequest": {
+                "required": [
+                    "name",
+                    "title",
+                    "url",
+                    "video",
+                    "position",
+                    "offset",
+                    "active"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "Video Ad 1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Check out this video"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "video": {
+                        "type": "string",
+                        "example": "https://example.com/video.mp4"
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "pre-roll"
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "BannerAdsResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Banner 1"
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "size": {
+                        "type": "string",
+                        "example": "300x250"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "image"
+                    },
+                    "views": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "click": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "body": {
+                        "type": "string",
+                        "example": "<img src='...' />"
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "sidebar"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "VideoAdsResource": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Video Ad 1"
+                    },
+                    "title": {
+                        "type": "string",
+                        "example": "Check out this video"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://example.com"
+                    },
+                    "video": {
+                        "type": "string",
+                        "example": "https://example.com/video.mp4"
+                    },
+                    "position": {
+                        "type": "string",
+                        "example": "pre-roll"
+                    },
+                    "offset": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "options": {
+                        "type": "object",
+                        "example": []
+                    },
+                    "active": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "views": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "click": {
+                        "type": "integer",
+                        "example": 0
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "MediaRequest": {
                 "required": [
                     "file"
@@ -6333,6 +7113,14 @@
         }
     },
     "tags": [
+        {
+            "name": "Banner Ads",
+            "description": "Banner Ads"
+        },
+        {
+            "name": "Video Ads",
+            "description": "Video Ads"
+        },
         {
             "name": "Settings",
             "description": "Settings"

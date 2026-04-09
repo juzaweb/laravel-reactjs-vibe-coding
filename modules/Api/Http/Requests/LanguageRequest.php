@@ -1,15 +1,5 @@
 <?php
 
-/**
- * JUZAWEB CMS - Laravel CMS for Your Project
- *
- * @author     The Anh Dang
- *
- * @link       https://cms.juzaweb.com
- *
- * @license    GNU V2
- */
-
 namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,16 +7,20 @@ use Illuminate\Validation\Rule;
 
 class LanguageRequest extends FormRequest
 {
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, mixed>
-     */
     public function rules(): array
     {
+        $id = $this->route('id') ?? $this->route('language');
+        $availableLocales = array_keys(config('locales', []));
+
         return [
-            'code' => ['required', 'string', 'max:10', Rule::in(array_keys(config('locales')))],
-            'name' => 'required|string|max:255',
+            'code' => [
+                'required',
+                'string',
+                'max:50',
+                Rule::unique('languages', 'code')->ignore($id),
+                Rule::in($availableLocales),
+            ],
+            'name' => 'required|string|max:250',
         ];
     }
 }

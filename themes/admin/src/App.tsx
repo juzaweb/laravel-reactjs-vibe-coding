@@ -29,6 +29,8 @@ import { UserForm } from './pages/users/UserForm'
 import { NotificationsList } from './pages/notifications/NotificationsList'
 import { NotificationShow } from './pages/notifications/NotificationShow'
 import { SettingPage } from './pages/settings/SettingPage'
+import { LanguagesList } from './pages/languages/LanguagesList'
+import { LanguageForm } from './pages/languages/LanguageForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -136,6 +138,11 @@ function App() {
             <Route path="notifications">
               <Route index element={<NotificationsList />} />
               <Route path=":id" element={<NotificationShow />} />
+            </Route>
+            <Route path="languages">
+              <Route index element={<LanguagesList />} />
+              <Route path="create" element={<LanguageForm />} />
+              <Route path=":id/edit" element={<LanguageForm />} />
             </Route>
             <Route path="settings" element={<SettingPage />} />
           </Route>

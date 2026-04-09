@@ -47,6 +47,7 @@
         "omnipay/paypal": "^3.0",
         "omnipay/stripe": "^3.2",
         "opcodesio/log-viewer": "^3.21",
+        "pingpong/shortcode": "^2.2",
         "pion/laravel-chunk-upload": "^1.5",
         "spatie/image-optimizer": "^1.4",
         "spatie/laravel-activitylog": "^4.10",

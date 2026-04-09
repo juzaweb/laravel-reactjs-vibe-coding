@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f9dd814c7244b6918d9209de03c5990",
+    "content-hash": "a4c63c1098815c973db3a4dc587eb517",
     "packages": [
         {
             "name": "astrotomic/laravel-translatable",
@@ -5700,6 +5700,57 @@
             "time": "2026-03-19T02:57:58+00:00"
         },
         {
+            "name": "pingpong/shortcode",
+            "version": "v2.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pingpong-labs/shortcode.git",
+                "reference": "445147fc642c45054cc13ea02769e92f8263245c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pingpong-labs/shortcode/zipball/445147fc642c45054cc13ea02769e92f8263245c",
+                "reference": "445147fc642c45054cc13ea02769e92f8263245c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "thunderer/shortcode": "0.5.*"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Pingpong\\Shortcode\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Pingpong Labs",
+                    "email": "pingpong.labs@gmail.com"
+                }
+            ],
+            "description": "Laravel - Simple shortcode based on wordpress shortcode",
+            "keywords": [
+                "laravel",
+                "pingpong",
+                "shortcode",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/pingpong-labs/shortcode/issues",
+                "source": "https://github.com/pingpong-labs/shortcode/tree/2.2"
+            },
+            "time": "2017-09-22T02:31:56+00:00"
+        },
+        {
             "name": "pion/laravel-chunk-upload",
             "version": "v1.5.6",
             "source": {
@@ -10257,6 +10308,62 @@
             "time": "2026-03-24T13:12:05+00:00"
         },
         {
+            "name": "thunderer/shortcode",
+            "version": "v0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thunderer/Shortcode.git",
+                "reference": "3a8d53780dc4c2cd823ba0c7c25f1131045337d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thunderer/Shortcode/zipball/3a8d53780dc4c2cd823ba0c7c25f1131045337d8",
+                "reference": "3a8d53780dc4c2cd823ba0c7c25f1131045337d8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.1|~5"
+            },
+            "suggest": {
+                "ext-dom": "if you want to use XML serializer",
+                "ext-json": "if you want to use JSON serializer",
+                "symfony/yaml": "if you want to use YAML serializer"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Thunder\\Shortcode\\": "src/",
+                    "Thunder\\Shortcode\\Tests\\": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tomasz Kowalczyk",
+                    "email": "tomasz@kowalczyk.cc"
+                }
+            ],
+            "description": "Advanced shortcode (BBCode) parser and engine for PHP",
+            "keywords": [
+                "bbcode",
+                "engine",
+                "library",
+                "parser",
+                "shortcode"
+            ],
+            "support": {
+                "issues": "https://github.com/thunderer/Shortcode/issues",
+                "source": "https://github.com/thunderer/Shortcode/tree/master"
+            },
+            "time": "2016-01-26T09:36:46+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.4.0",
             "source": {
@@ -13364,5 +13471,5 @@
         "ext-zip": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

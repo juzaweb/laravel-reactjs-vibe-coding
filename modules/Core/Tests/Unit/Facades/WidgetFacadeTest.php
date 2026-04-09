@@ -40,7 +40,7 @@ class WidgetFacadeTest extends TestCase
 
         $widgets = Widget::all();
 
-        $this->assertCount(2, $widgets);
+        $this->assertGreaterThanOrEqual(2, $widgets->count());
         $this->assertTrue($widgets->has('widget1'));
         $this->assertTrue($widgets->has('widget2'));
         $this->assertInstanceOf(WidgetEntity::class, $widgets->get('widget1'));

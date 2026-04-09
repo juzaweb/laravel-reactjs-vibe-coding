@@ -3264,7 +3264,7 @@
                     "Translations"
                 ],
                 "summary": "Get i18n translation strings",
-                "description": "Returns all translation key-value pairs for the given locale in i18n flat format (namespace::group.key => value).",
+                "description": "Returns all translation strings for the given locale.",
                 "operationId": "402c10b61cdb883b47bc645a8a56a502",
                 "parameters": [
                     {
@@ -3280,22 +3280,163 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "description": "Flat key-value pairs: namespace::group.key => translated string",
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "core::app.save": "Save",
-                                    "core::app.cancel": "Cancel"
-                                }
-                            }
-                        }
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
                     },
                     "500": {
                         "$ref": "#/components/responses/error_500"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Update translation string",
+                "operationId": "e36ffdfaae5555b4d1ef8266afbc3dd2",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Locale code, e.g. en, vi, ja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "group": {
+                                        "type": "string",
+                                        "example": "app"
+                                    },
+                                    "namespace": {
+                                        "type": "string",
+                                        "example": "core"
+                                    },
+                                    "key": {
+                                        "type": "string",
+                                        "example": "save"
+                                    },
+                                    "value": {
+                                        "type": "string",
+                                        "example": "Lưu"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/translations/translate": {
+            "post": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Translate Model using AI",
+                "operationId": "283b33811df9318eaf9b8a22c929b13a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "model": {
+                                        "description": "Full class name of the model to translate",
+                                        "type": "string"
+                                    },
+                                    "ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "locale": {
+                                        "type": "string"
+                                    },
+                                    "source": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/api/v1/translations/status": {
+            "post": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get translation status",
+                "operationId": "04064c3b711e2bbaee1cd5542bdc843b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "history_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
                     }
                 }
             }

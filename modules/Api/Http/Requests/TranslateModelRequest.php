@@ -1,17 +1,8 @@
 <?php
 
-/**
- * JUZAWEB CMS - Laravel CMS for Your Project
- *
- * @author     The Anh Dang
- *
- * @link       https://cms.juzaweb.com
- */
-
 namespace Juzaweb\Modules\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class TranslateModelRequest extends FormRequest
 {
@@ -24,11 +15,23 @@ class TranslateModelRequest extends FormRequest
             ],
             'ids' => [
                 'required',
+                'array',
+            ],
+            'ids.*' => [
+                'integer',
             ],
             'locale' => [
                 'required',
                 'string',
-                Rule::in(array_keys(config('locales', []))),
+                function ($attribute, $value, $fail) {
+                    if (! array_key_exists($value, config('locales', []))) {
+                        $fail('The selected locale is invalid.');
+                    }
+                },
+            ],
+            'source' => [
+                'nullable',
+                'string',
             ],
         ];
     }

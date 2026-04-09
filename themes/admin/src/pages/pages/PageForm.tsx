@@ -28,7 +28,7 @@ export const PageForm: React.FC = () => {
       slug: '',
       content: '',
       template: '',
-      status: 'draft',
+      status: 'published',
       locale: 'en',
     },
   });
@@ -40,7 +40,7 @@ export const PageForm: React.FC = () => {
         slug: pageData.slug || '',
         content: pageData.content || '',
         template: pageData.template || '',
-        status: pageData.status || 'draft',
+        status: pageData.status || 'published',
         locale: pageData.locale || 'en',
       });
     }

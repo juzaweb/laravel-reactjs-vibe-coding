@@ -5,6 +5,20 @@ interface UiState {
   isSidebarOpen: boolean;
 }
 
+const getInitialSidebarState = (): boolean => {
+  const savedSidebarState = localStorage.getItem('isSidebarOpen');
+
+  if (savedSidebarState === 'true') {
+    return true;
+  }
+
+  if (savedSidebarState === 'false') {
+    return false;
+  }
+
+  return true;
+};
+
 const getInitialTheme = (): 'light' | 'dark' => {
   const savedTheme = localStorage.getItem('theme');
   if (savedTheme === 'light' || savedTheme === 'dark') {
@@ -15,7 +29,7 @@ const getInitialTheme = (): 'light' | 'dark' => {
 
 const initialState: UiState = {
   theme: getInitialTheme(),
-  isSidebarOpen: true,
+  isSidebarOpen: getInitialSidebarState(),
 };
 
 const uiSlice = createSlice({
@@ -32,9 +46,11 @@ const uiSlice = createSlice({
     },
     toggleSidebar: (state) => {
       state.isSidebarOpen = !state.isSidebarOpen;
+      localStorage.setItem('isSidebarOpen', String(state.isSidebarOpen));
     },
     setSidebarOpen: (state, action: PayloadAction<boolean>) => {
       state.isSidebarOpen = action.payload;
+      localStorage.setItem('isSidebarOpen', String(state.isSidebarOpen));
     },
   },
 });

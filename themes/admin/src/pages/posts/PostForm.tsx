@@ -28,7 +28,7 @@ export const PostForm: React.FC = () => {
       slug: '',
       content: '',
       thumbnail: '',
-      status: 'draft',
+      status: 'published',
     },
   });
 
@@ -39,7 +39,7 @@ export const PostForm: React.FC = () => {
         slug: postData.slug || '',
         content: postData.content || '',
         thumbnail: postData.thumbnail || '',
-        status: postData.status || 'draft',
+        status: postData.status || 'published',
       });
     }
   }, [postData, reset]);

@@ -13,10 +13,9 @@ class InstallerServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->publishFiles();
-        $this->publishAssets();
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/installer.php',
+            __DIR__ . '/../config/installer.php',
             'installer'
         );
 
@@ -35,7 +34,6 @@ class InstallerServiceProvider extends ServiceProvider
         $router->aliasMiddleware('install', CanInstall::class);
         $router->pushMiddlewareToGroup('theme', Installed::class);
         $router->pushMiddlewareToGroup('admin', Installed::class);
-        $this->registerViews();
     }
 
     /**
@@ -46,20 +44,7 @@ class InstallerServiceProvider extends ServiceProvider
     protected function publishFiles(): void
     {
         $this->publishes([
-            __DIR__ . '/../../config/installer.php' => base_path('config/installer.php'),
+            __DIR__ . '/../config/installer.php' => base_path('config/installer.php'),
         ], 'installer_config');
-    }
-
-    protected function registerViews(): void
-    {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'installer');
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'installer');
-    }
-
-    protected function publishAssets(): void
-    {
-        $this->publishes([
-            __DIR__ . '/../../assets' => public_path('vendor/installer'),
-        ], 'installer-assets');
     }
 }

@@ -7,6 +7,7 @@ export interface User {
   id?: number | string;
   name?: string;
   email?: string;
+  avatar?: string | null;
   permissions?: string[];
   roles?: string[];
   has_all_permissions?: boolean;

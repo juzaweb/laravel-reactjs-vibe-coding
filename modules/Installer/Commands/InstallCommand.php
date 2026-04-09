@@ -39,7 +39,7 @@ class InstallCommand extends Command
         InstalledFileManager $fileManager,
         FinalInstallManager $finalInstall
     ) {
-        $this->info('Juzaweb CMS Installtion');
+        $this->info('CMS Installtion');
         $this->info('-- Database Install');
         $databaseManager->run();
         $this->info('-- Publish assets');
@@ -53,7 +53,7 @@ class InstallCommand extends Command
         $this->createAdminUser();
         $this->info('-- Update installed');
         $fileManager->update();
-        $this->info('Juzaweb CMS Install Successfully !!!');
+        $this->info('CMS Install Successfully !!!');
     }
 
     protected function createAdminUser(): void

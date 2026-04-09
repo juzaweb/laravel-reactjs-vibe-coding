@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Juzaweb\Modules\Api\Http\Controllers\App\SettingController as AppSettingController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\AuthController;
 use Juzaweb\Modules\Api\Http\Controllers\Auth\SocialLoginController;
+use Juzaweb\Modules\Api\Http\Controllers\LanguageController;
 use Juzaweb\Modules\Api\Http\Controllers\MediaController;
 use Juzaweb\Modules\Api\Http\Controllers\MenuController;
 use Juzaweb\Modules\Api\Http\Controllers\NotificationController;
@@ -32,6 +33,8 @@ Route::middleware('auth:api')->group(
         Route::post('media/chunk', [MediaController::class, 'chunk']);
         Route::api('media', MediaController::class);
         Route::api('menus', MenuController::class);
+        Route::get('locales', [LanguageController::class, 'locales']);
+        Route::api('languages', LanguageController::class);
         Route::get('settings', [SettingController::class, 'index']);
         Route::put('settings', [SettingController::class, 'update']);
     }

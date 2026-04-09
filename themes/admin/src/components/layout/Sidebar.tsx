@@ -72,6 +72,7 @@ export const Sidebar: React.FC = () => {
         ]
       : []),
     { name: t('menus', 'Menus'), path: '/admin/menus', icon: FiList, permission: null },
+    { name: t('languages', 'Languages'), path: '/admin/languages', icon: FiFileText, permission: null },
     { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
     { name: t('settings'), path: '/admin/settings', icon: FiSettings, permission: 'settings.index' },
   ].filter(item => !item.permission || hasPermission(item.permission))

@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Traits\HasRestResponses;
 use Juzaweb\Modules\Installer\Events\EnvironmentSaved;
@@ -18,6 +17,8 @@ use Juzaweb\Modules\Installer\Helpers\FinalInstallManager;
 use Juzaweb\Modules\Installer\Helpers\InstalledFileManager;
 use Juzaweb\Modules\Installer\Helpers\PermissionsChecker;
 use Juzaweb\Modules\Installer\Helpers\RequirementsChecker;
+use Juzaweb\Modules\Installer\Http\Requests\AdminSetupRequest;
+use Juzaweb\Modules\Installer\Http\Requests\SaveEnvironmentRequest;
 
 class InstallerController extends Controller
 {
@@ -76,22 +77,8 @@ class InstallerController extends Controller
         return $this->restSuccess(['envConfig' => $envConfig]);
     }
 
-    public function saveEnvironment(Request $request)
+    public function saveEnvironment(SaveEnvironmentRequest $request)
     {
-        $rules = [
-            'database_hostname' => 'required|string|max:150',
-            'database_port' => 'required|numeric',
-            'database_name' => 'required|string|max:150',
-            'database_username' => 'required|string|max:150',
-            'database_password' => 'nullable|string|max:150',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if ($validator->fails()) {
-            return $this->restFail($validator->errors()->first());
-        }
-
         if (! $this->checkDatabaseConnection($request)) {
             return $this->restFail(trans('installer::message.environment.wizard.form.db_connection_failed'));
         }
@@ -146,24 +133,8 @@ class InstallerController extends Controller
         }
     }
 
-    public function admin(Request $request)
+    public function admin(AdminSetupRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|max:150',
-            'email' => 'required|email|max:150',
-            'password' => 'required|max:32|min:8|confirmed',
-            'password_confirmation' => 'required|max:32|min:8',
-        ], [], [
-            'name' => trans('installer::message.environment.wizard.form.name'),
-            'email' => trans('installer::message.environment.wizard.form.email'),
-            'password' => trans('installer::message.environment.wizard.form.password'),
-            'password_confirmation' => trans('installer::message.environment.wizard.form.password_confirmation'),
-        ]);
-
-        if ($validator->fails()) {
-            return $this->restFail($validator->errors()->first());
-        }
-
         try {
             DB::transaction(
                 function () use ($request) {

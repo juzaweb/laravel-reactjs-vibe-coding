@@ -3,12 +3,10 @@
 namespace Juzaweb\Modules\Installer\Tests;
 
 use Illuminate\Foundation\Application;
-use Juzaweb\Modules\Core\Providers\CoreServiceProvider;
 use Juzaweb\Modules\Installer\Providers\InstallerServiceProvider;
-use Juzaweb\QueryCache\QueryCacheServiceProvider;
-use Orchestra\Testbench\TestCase as Orchestra;
+use Tests\TestCase as BaseTestCase;
 
-abstract class TestCase extends Orchestra
+abstract class TestCase extends BaseTestCase
 {
     protected function setUp(): void
     {
@@ -24,8 +22,7 @@ abstract class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
-            CoreServiceProvider::class,
-            QueryCacheServiceProvider::class,
+            ...parent::getPackageProviders($app),
             InstallerServiceProvider::class,
         ];
     }

@@ -3,7 +3,6 @@
 namespace Juzaweb\Modules\Api\Http\Controllers\App;
 
 use Illuminate\Http\JsonResponse;
-use Juzaweb\Modules\Api\Http\Requests\SettingRequest;
 use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\Setting;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;

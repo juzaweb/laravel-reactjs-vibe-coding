@@ -14,13 +14,10 @@ namespace Juzaweb\Modules\Core\Providers;
 
 use Illuminate\Support\Facades\Gate;
 use Juzaweb\Modules\Core\Contracts\Sitemap;
-use Juzaweb\Modules\Core\Facades\Menu;
-use Juzaweb\Modules\Core\Facades\MenuBox;
 use Juzaweb\Modules\Core\Facades\PageBlock;
 use Juzaweb\Modules\Core\Facades\Setting;
 use Juzaweb\Modules\Core\Facades\Widget;
 use Juzaweb\Modules\Core\Models\Client;
-use Juzaweb\Modules\Core\Models\Pages\Page;
 use Juzaweb\Modules\Core\Models\Pages\PageTranslation;
 use Juzaweb\Modules\Core\Models\User;
 use Laravel\Passport\Passport;

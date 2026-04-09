@@ -22,4 +22,3 @@ Route::get('sitemap/{provider}/page-{page}.xml', [SitemapController::class, 'pro
 // Route::get('/{any?}', [HomeController::class, 'index'])
 //     ->name('home')
 //     ->where('any', '.*');
-

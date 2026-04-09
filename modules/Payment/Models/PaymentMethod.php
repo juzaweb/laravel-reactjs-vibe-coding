@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Juzaweb\Modules\Core\Models\Model;
 use Juzaweb\Modules\Core\Traits\HasAPI;
+use Juzaweb\Modules\Core\Traits\HasResource;
 use Juzaweb\Modules\Core\Traits\Translatable;
 use Juzaweb\Modules\Payment\Contracts\PaymentGatewayInterface;
 use Juzaweb\Modules\Payment\Database\factories\PaymentMethodFactory;
 use Juzaweb\Modules\Payment\Facades\PaymentManager;
 use Juzaweb\Modules\Payment\Http\Resources\PaymentMethodResource;
-use Juzaweb\Modules\Core\Traits\HasResource;
 
 class PaymentMethod extends Model
 {
-    use HasAPI, HasFactory, HasUuids, Translatable, HasResource;
+    use HasAPI, HasFactory, HasResource, HasUuids, Translatable;
 
     protected $table = 'payment_methods';
 

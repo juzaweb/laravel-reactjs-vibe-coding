@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Facade;
 use Illuminate\Validation\ValidationServiceProvider;
 use Illuminate\View\ViewServiceProvider;
 use Juzaweb\Modules\Core\Facades\Field;
-use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\PageBlock;
 use Juzaweb\Modules\Core\Facades\PageTemplate;

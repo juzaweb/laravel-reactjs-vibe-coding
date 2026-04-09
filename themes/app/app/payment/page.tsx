@@ -16,7 +16,6 @@ export default function PaymentDemo() {
   const [error, setError] = useState<string | null>(null);
 
   const [module, setModule] = useState("subscription");
-  const [orderId, setOrderId] = useState("1");
   const [method, setMethod] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<unknown>(null);
@@ -51,9 +50,23 @@ export default function PaymentDemo() {
     setError(null);
 
     try {
-      const response = await axiosClient.post(`/payment/${module}/purchase`, {
-        order_id: orderId,
+      // 1. Checkout to create order and get order_id
+      const checkoutRes = await axiosClient.post(`/payment/${module}`, {
         method: method,
+      });
+
+      const generatedOrderId = checkoutRes.data.data?.order_id;
+
+      if (!generatedOrderId) {
+        throw new Error("Failed to create order: no order_id returned");
+      }
+
+      // 2. Purchase with generated order_id
+      const response = await axiosClient.post(`/payment/${module}/purchase`, {
+        order_id: generatedOrderId,
+        method: method,
+        return_url: `${window.location.origin}/payment/return`,
+        cancel_url: `${window.location.origin}/payment/cancel`,
       });
 
       setSubmitResult(response.data);
@@ -98,20 +111,6 @@ export default function PaymentDemo() {
                 type="text"
                 value={module}
                 onChange={(e) => setModule(e.target.value)}
-                required
-                className="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="orderId" className="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">
-                Order ID
-              </label>
-              <input
-                id="orderId"
-                type="text"
-                value={orderId}
-                onChange={(e) => setOrderId(e.target.value)}
                 required
                 className="w-full px-4 py-2 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
               />

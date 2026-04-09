@@ -2,7 +2,6 @@
 
 namespace Juzaweb\Modules\Payment\Providers;
 
-use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
 use Juzaweb\Modules\Payment\Contracts\PaymentManager;
 use Juzaweb\Modules\Payment\Methods;

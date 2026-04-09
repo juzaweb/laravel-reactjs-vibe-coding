@@ -13,7 +13,6 @@
 namespace Juzaweb\Modules\Subscription\Providers;
 
 use Illuminate\Support\Facades\File;
-use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
 use Juzaweb\Modules\Subscription\Contracts\Subscription;
 use Juzaweb\Modules\Subscription\Methods\PayPal;

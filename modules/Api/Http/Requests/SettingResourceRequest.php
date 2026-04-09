@@ -2,7 +2,9 @@
 
 namespace Juzaweb\Modules\Api\Http\Requests;
 
+use Closure;
 use Illuminate\Foundation\Http\FormRequest;
+use Juzaweb\Modules\Core\Contracts\Setting as SettingContract;
 
 class SettingResourceRequest extends FormRequest
 {
@@ -14,7 +16,33 @@ class SettingResourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'settings' => ['required', 'array', 'min:1'],
+            'settings' => [
+                'required',
+                'array',
+                'min:1',
+                function (string $attribute, mixed $value, Closure $fail): void {
+                    if (! is_array($value)) {
+                        return;
+                    }
+
+                    $requestKeys = array_keys($value);
+                    if (empty($requestKeys)) {
+                        return;
+                    }
+
+                    $validKeys = app(SettingContract::class)
+                        ->settings()
+                        ->keys()
+                        ->all();
+
+                    $invalidKeys = array_values(array_diff($requestKeys, $validKeys));
+                    if (! empty($invalidKeys)) {
+                        $fail(
+                            'The following setting keys are invalid: '.implode(', ', $invalidKeys)
+                        );
+                    }
+                },
+            ],
         ];
     }
 }

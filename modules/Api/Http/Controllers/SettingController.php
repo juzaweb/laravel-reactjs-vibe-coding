@@ -4,7 +4,7 @@ namespace Juzaweb\Modules\Api\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Api\Http\Requests\SettingResourceRequest;
+use Juzaweb\Modules\Api\Http\Requests\SettingRequest;
 use Juzaweb\Modules\Core\Facades\Setting as SettingFacade;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Setting;
@@ -82,9 +82,9 @@ class SettingController extends APIController
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
-    public function update(SettingResourceRequest $request): JsonResponse
+    public function update(SettingRequest $request): JsonResponse
     {
-        $settings = SettingFacade::sets($request->validated('settings'));
+        $settings = SettingFacade::sets($request->validated());
 
         return $this->restSuccess($settings->toArray());
     }

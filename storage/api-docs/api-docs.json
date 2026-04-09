@@ -1572,7 +1572,7 @@
                         }
                     },
                     {
-                        "name": "type",
+                        "name": "file_type",
                         "in": "query",
                         "required": false,
                         "schema": {
@@ -4643,38 +4643,6 @@
                     },
                     {
                         "name": "driver",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    }
-                }
-            }
-        },
-        "/api/v1/payment/{module}/embed/{transactionId}": {
-            "get": {
-                "tags": [
-                    "Payment"
-                ],
-                "summary": "Embed URL for payment gateway",
-                "operationId": "payment_embed",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "transactionId",
                         "in": "path",
                         "required": true,
                         "schema": {

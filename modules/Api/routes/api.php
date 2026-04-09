@@ -16,7 +16,7 @@ use Juzaweb\Modules\Api\Http\Controllers\TranslationController;
 use Juzaweb\Modules\Api\Http\Controllers\UserController;
 
 Route::get('app/settings', [AppSettingController::class, 'index']);
-Route::get('translations/{locale}', [TranslationController::class, 'index']);
+Route::get('translations/{locale}/texts', [TranslationController::class, 'texts']);
 
 Route::middleware('auth:api')->group(
     function () {
@@ -37,6 +37,10 @@ Route::middleware('auth:api')->group(
         Route::api('languages', LanguageController::class);
         Route::get('settings', [SettingController::class, 'index']);
         Route::put('settings', [SettingController::class, 'update']);
+        Route::get('translations/{locale}', [TranslationController::class, 'index']);
+        Route::put('translations/{locale}', [TranslationController::class, 'update']);
+        Route::post('translations/translate', [TranslationController::class, 'translateModel']);
+        Route::post('translations/status', [TranslationController::class, 'translateStatus']);
     }
 );
 

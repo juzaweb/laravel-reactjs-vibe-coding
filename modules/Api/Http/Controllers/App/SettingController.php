@@ -55,7 +55,16 @@ class SettingController extends APIController
      *                      description="List of active module names",
      *
      *                      @OA\Items(type="string", example="Blog")
+     *                  ),
+     *
+     *                  @OA\Property(
+     *                      property="social_login_providers",
+     *                      type="array",
+     *                      description="List of active social login providers",
+     *
+     *                      @OA\Items(type="string", example="github")
      *                  )
+
      *              )
      *          )
      *      ),
@@ -87,6 +96,8 @@ class SettingController extends APIController
                     return [$item->code => $item->name];
                 })->toArray(),
                 'active_modules' => array_keys(Module::allEnabled()),
+                'social_login_providers' => social_login_providers()->keys()->toArray(),
+
             ]
         );
     }

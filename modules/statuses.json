@@ -1,5 +1,6 @@
 {
     "Blog": true,
     "Payment": true,
-    "Subscription": true
+    "Subscription": true,
+    "AdManagement": true
 }

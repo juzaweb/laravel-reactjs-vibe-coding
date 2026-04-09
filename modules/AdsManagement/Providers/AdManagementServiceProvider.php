@@ -4,7 +4,6 @@ namespace Juzaweb\Modules\AdsManagement\Providers;
 
 use Juzaweb\Modules\AdsManagement\Ads;
 use Juzaweb\Modules\AdsManagement\AdsRepository;
-use Juzaweb\Modules\Core\Facades\Menu;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
 
 class AdManagementServiceProvider extends ServiceProvider

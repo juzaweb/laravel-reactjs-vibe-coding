@@ -53,11 +53,16 @@ export const PageForm: React.FC = () => {
   }, [id]);
 
   const onSubmit = async (data: PageFormData) => {
+    const submitData = { ...data };
+    if (!isSlugEditable) {
+      delete submitData.slug;
+    }
+
     try {
       if (isEditMode && id) {
-        await updatePageMutation.mutateAsync({ id, data });
+        await updatePageMutation.mutateAsync({ id, data: submitData });
       } else {
-        await createPageMutation.mutateAsync(data);
+        await createPageMutation.mutateAsync(submitData);
       }
       navigate('/admin/pages');
     } catch (error) {

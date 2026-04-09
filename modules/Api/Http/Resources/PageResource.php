@@ -35,6 +35,8 @@ class PageResource extends JsonResource
             'description' => $this->resource->description,
             'content' => $this->resource->content,
             'template' => $this->resource->template,
+            'status' => $this->resource->status instanceof \UnitEnum ? $this->resource->status->value : $this->resource->status,
+            'locale' => $this->resource->locale,
             'created_at' => $this->resource->created_at,
             'updated_at' => $this->resource->updated_at,
         ];

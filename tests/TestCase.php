@@ -42,7 +42,6 @@ abstract class TestCase extends Orchestra
     {
         return [
             CoreServiceProvider::class,
-            \Pingpong\Shortcode\ShortcodeServiceProvider::class,
             QueryCacheServiceProvider::class,
             ActivitylogServiceProvider::class,
             HooksServiceProvider::class,
@@ -79,7 +78,7 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('themes.path', base_path('tests/themes'));
+        $app['config']->set('themes.path', __DIR__.'/themes');
 
         $app['config']->set('themes.activator', 'setting');
         $app['config']->set('themes.activators.setting.class', SettingActivator::class);

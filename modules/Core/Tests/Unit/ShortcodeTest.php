@@ -4,22 +4,29 @@ namespace Juzaweb\Modules\Core\Tests\Unit;
 
 use Juzaweb\Modules\Core\Tests\TestCase;
 use Juzaweb\Modules\Core\Traits\HasContent;
-use Pingpong\Shortcode\ShortcodeFacade as Shortcode;
-use Pingpong\Shortcode\ShortcodeServiceProvider;
+use Webwizo\Shortcodes\Facades\Shortcode;
+use Webwizo\Shortcodes\ShortcodesServiceProvider;
 
 class ShortcodeTest extends TestCase
 {
-    protected function setUp(): void
+    protected function getPackageProviders($app): array
     {
-        parent::setUp();
+        return array_merge(parent::getPackageProviders($app), [
+            ShortcodesServiceProvider::class,
+        ]);
+    }
 
-        $this->app->register(ShortcodeServiceProvider::class);
+    protected function getPackageAliases($app): array
+    {
+        return array_merge(parent::getPackageAliases($app), [
+            'Shortcode' => Shortcode::class,
+        ]);
     }
 
     public function test_render_content_compiles_shortcodes()
     {
         // Register a shortcode
-        Shortcode::register('test', function ($shortcode) {
+        Shortcode::register('test', function ($shortcode, $content, $compiler, $name, $viewData) {
             return 'Replaced Content';
         });
 

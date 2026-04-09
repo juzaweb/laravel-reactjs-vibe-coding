@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a4c63c1098815c973db3a4dc587eb517",
+    "content-hash": "59bd87baae8e0a5acc7c5dfd6517df97",
     "packages": [
         {
             "name": "astrotomic/laravel-translatable",
@@ -5700,57 +5700,6 @@
             "time": "2026-03-19T02:57:58+00:00"
         },
         {
-            "name": "pingpong/shortcode",
-            "version": "v2.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pingpong-labs/shortcode.git",
-                "reference": "445147fc642c45054cc13ea02769e92f8263245c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pingpong-labs/shortcode/zipball/445147fc642c45054cc13ea02769e92f8263245c",
-                "reference": "445147fc642c45054cc13ea02769e92f8263245c",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "thunderer/shortcode": "0.5.*"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Pingpong\\Shortcode\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Pingpong Labs",
-                    "email": "pingpong.labs@gmail.com"
-                }
-            ],
-            "description": "Laravel - Simple shortcode based on wordpress shortcode",
-            "keywords": [
-                "laravel",
-                "pingpong",
-                "shortcode",
-                "wordpress"
-            ],
-            "support": {
-                "issues": "https://github.com/pingpong-labs/shortcode/issues",
-                "source": "https://github.com/pingpong-labs/shortcode/tree/2.2"
-            },
-            "time": "2017-09-22T02:31:56+00:00"
-        },
-        {
             "name": "pion/laravel-chunk-upload",
             "version": "v1.5.6",
             "source": {
@@ -10308,62 +10257,6 @@
             "time": "2026-03-24T13:12:05+00:00"
         },
         {
-            "name": "thunderer/shortcode",
-            "version": "v0.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thunderer/Shortcode.git",
-                "reference": "3a8d53780dc4c2cd823ba0c7c25f1131045337d8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thunderer/Shortcode/zipball/3a8d53780dc4c2cd823ba0c7c25f1131045337d8",
-                "reference": "3a8d53780dc4c2cd823ba0c7c25f1131045337d8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.1|~5"
-            },
-            "suggest": {
-                "ext-dom": "if you want to use XML serializer",
-                "ext-json": "if you want to use JSON serializer",
-                "symfony/yaml": "if you want to use YAML serializer"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Thunder\\Shortcode\\": "src/",
-                    "Thunder\\Shortcode\\Tests\\": "tests/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tomasz Kowalczyk",
-                    "email": "tomasz@kowalczyk.cc"
-                }
-            ],
-            "description": "Advanced shortcode (BBCode) parser and engine for PHP",
-            "keywords": [
-                "bbcode",
-                "engine",
-                "library",
-                "parser",
-                "shortcode"
-            ],
-            "support": {
-                "issues": "https://github.com/thunderer/Shortcode/issues",
-                "source": "https://github.com/thunderer/Shortcode/tree/master"
-            },
-            "time": "2016-01-26T09:36:46+00:00"
-        },
-        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "v2.4.0",
             "source": {
@@ -10575,6 +10468,76 @@
                 }
             ],
             "time": "2024-11-21T01:49:47+00:00"
+        },
+        {
+            "name": "webwizo/laravel-shortcodes",
+            "version": "v1.0.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webwizo/laravel-shortcodes.git",
+                "reference": "6980b6367493cd968c2c8145299974db969f8de6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webwizo/laravel-shortcodes/zipball/6980b6367493cd968c2c8145299974db969f8de6",
+                "reference": "6980b6367493cd968c2c8145299974db969f8de6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.6.x|5.7.x|5.8.x|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "5.6.x|5.7.x|5.8.x|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/view": "5.6.x|5.7.x|5.8.x|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^7.2|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.9.0|^4.0|^5.0|^6.0|^7.0|^8.0|^10.0",
+                "phpunit/phpunit": "^8.0|^9.0|^11.5.3",
+                "scrutinizer/ocular": "^1.5",
+                "squizlabs/php_codesniffer": "~2.3|^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Shortcode": "Webwizo\\Shortcodes\\Facades\\Shortcode"
+                    },
+                    "providers": [
+                        "Webwizo\\Shortcodes\\ShortcodesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webwizo\\Shortcodes\\": "src"
+                },
+                "classmap": [
+                    "tests/TestCase.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Asif Iqbal",
+                    "email": "webwizo@gmail.com",
+                    "homepage": "http://www.webwizo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Wordpress like shortcodes for Laravel 5, 6, 7, 8, 9, 10, 11 and 12",
+            "homepage": "https://github.com/webwizo/laravel-shortcodes",
+            "keywords": [
+                "laravel",
+                "shortcodes",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/webwizo/laravel-shortcodes/issues",
+                "source": "https://github.com/webwizo/laravel-shortcodes/tree/v1.0.27"
+            },
+            "time": "2025-09-28T00:07:23+00:00"
         },
         {
             "name": "zircote/swagger-php",

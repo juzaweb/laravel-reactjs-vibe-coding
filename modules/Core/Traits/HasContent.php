@@ -12,7 +12,7 @@
 
 namespace Juzaweb\Modules\Core\Traits;
 
-use Pingpong\Shortcode\ShortcodeFacade as Shortcode;
+use Webwizo\Shortcodes\Facades\Shortcode;
 
 trait HasContent
 {
@@ -22,7 +22,7 @@ trait HasContent
             return '';
         }
 
-        $content = Shortcode::parse($this->content);
+        $content = Shortcode::compile($this->content);
         $html = str_get_html($content);
 
         if ($html === false) {

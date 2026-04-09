@@ -9,7 +9,7 @@ const fetchGlobalSettings = async (): Promise<any> => {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateSettings = async (data: Record<string, any>): Promise<any> => {
-  const response = await axiosClient.post('/v1/settings', data);
+  const response = await axiosClient.put('/v1/settings', data);
   return response.data?.data || null;
 };
 

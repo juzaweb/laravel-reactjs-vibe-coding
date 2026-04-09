@@ -1,50 +1,43 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 function ReturnContent() {
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState<string>("Processing payment...");
-  const [data, setData] = useState<any>(null);
 
-  useEffect(() => {
-    // Collect all query params to display them
-    const params: Record<string, string> = {};
-    searchParams.forEach((value, key) => {
-      params[key] = value;
-    });
-
-    setData(params);
-    setStatus("Payment completed or redirected back.");
-  }, [searchParams]);
+  // Just render params directly
+  const params: Record<string, string> = {};
+  searchParams.forEach((value, key) => {
+    params[key] = value;
+  });
 
   return (
-    <div className="w-full max-w-lg p-8 bg-white rounded-xl shadow-lg dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center">
-      <h1 className="text-2xl font-bold text-green-600 mb-4">Payment Return</h1>
-      <p className="text-zinc-700 dark:text-zinc-300 mb-6">{status}</p>
-
-      {data && Object.keys(data).length > 0 && (
-        <div className="text-left bg-zinc-100 dark:bg-black p-4 rounded-lg overflow-auto">
-          <pre className="text-xs text-zinc-800 dark:text-zinc-400">
-            {JSON.stringify(data, null, 2)}
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
+        <div>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-green-600">
+            Payment Completed
+          </h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Payment completed or redirected back.
+          </p>
+        </div>
+        <div className="mt-8">
+          <h3 className="text-lg font-medium text-gray-900">Return Parameters:</h3>
+          <pre className="mt-4 bg-gray-100 p-4 rounded text-sm overflow-auto">
+            {JSON.stringify(params, null, 2)}
           </pre>
         </div>
-      )}
-
-      <a href="/payment" className="mt-6 inline-block py-2 px-4 bg-black text-white font-semibold rounded-lg hover:bg-zinc-800 transition-colors">
-        Back to Demo
-      </a>
+      </div>
     </div>
   );
 }
 
-export default function PaymentReturn() {
+export default function ReturnPage() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-50 font-sans dark:bg-black p-4">
-      <Suspense fallback={<div>Loading...</div>}>
-        <ReturnContent />
-      </Suspense>
-    </div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReturnContent />
+    </Suspense>
   );
 }

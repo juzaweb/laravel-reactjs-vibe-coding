@@ -1,0 +1,267 @@
+diff --git a/themes/app/app/login/social/callback/page.tsx b/themes/app/app/login/social/callback/page.tsx
+new file mode 100644
+index 0000000..54db67c
+--- /dev/null
++++ b/themes/app/app/login/social/callback/page.tsx
+@@ -0,0 +1,40 @@
++"use client";
++
++import { useEffect, Suspense, useRef } from "react";
++import { useSearchParams } from "next/navigation";
++
++function CallbackHandler() {
++  const searchParams = useSearchParams();
++  const processedRef = useRef(false);
++
++  useEffect(() => {
++    if (!processedRef.current) {
++      processedRef.current = true;
++      const params = Object.fromEntries(searchParams.entries());
++      console.log("Callback params:", params);
++    }
++  }, [searchParams]);
++
++  return (
++    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
++      <div className="max-w-md w-full space-y-8">
++        <div>
++          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
++            Social Login Callback
++          </h2>
++          <p className="mt-2 text-center text-sm text-gray-600">
++            Callback received. Check console.
++          </p>
++        </div>
++      </div>
++    </div>
++  );
++}
++
++export default function SocialLoginCallbackDemo() {
++  return (
++    <Suspense fallback={<div>Loading callback...</div>}>
++      <CallbackHandler />
++    </Suspense>
++  );
++}
+diff --git a/themes/app/app/login/social/page.tsx b/themes/app/app/login/social/page.tsx
+new file mode 100644
+index 0000000..93c1815
+--- /dev/null
++++ b/themes/app/app/login/social/page.tsx
+@@ -0,0 +1,53 @@
++"use client";
++
++import { useState } from "react";
++import { axiosClient } from "@/utils/axiosClient";
++
++export default function SocialLoginDemo() {
++  const [providers] = useState(["github", "google", "facebook"]);
++  const [loading, setLoading] = useState<string | null>(null);
++
++  const handleLogin = async (driver: string) => {
++    try {
++      setLoading(driver);
++      const res = await axiosClient.post(`/v1/auth/user/social/${driver}/redirect`);
++      if (res.data?.data?.redirect_url) {
++        window.location.href = res.data.data.redirect_url;
++      }
++    } catch (error) {
++      console.error("Failed to get redirect url", error);
++      alert("Failed to get redirect URL. Is the driver configured correctly?");
++    } finally {
++      setLoading(null);
++    }
++  };
++
++  return (
++    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
++      <div className="max-w-md w-full space-y-8">
++        <div>
++          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
++            Sign in to your account
++          </h2>
++          <p className="mt-2 text-center text-sm text-gray-600">
++            Or sign in with a social provider
++          </p>
++        </div>
++        <div className="mt-8 space-y-6">
++          <div className="flex flex-col gap-4">
++            {providers.map((provider) => (
++              <button
++                key={provider}
++                onClick={() => handleLogin(provider)}
++                disabled={loading === provider}
++                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 capitalize"
++              >
++                {loading === provider ? "Loading..." : `Sign in with ${provider}`}
++              </button>
++            ))}
++          </div>
++        </div>
++      </div>
++    </div>
++  );
++}
+diff --git a/themes/app/app/payment/cancel/page.tsx b/themes/app/app/payment/cancel/page.tsx
+index 23971aa..cf3e449 100644
+--- a/themes/app/app/payment/cancel/page.tsx
++++ b/themes/app/app/payment/cancel/page.tsx
+@@ -1,46 +1,51 @@
+ "use client";
+
+-import React, { Suspense, useEffect, useState } from "react";
+ import { useSearchParams } from "next/navigation";
++import { useEffect, Suspense, useRef } from "react";
+
+ function CancelContent() {
+   const searchParams = useSearchParams();
+-  const [data, setData] = useState<any>(null);
++  const processedRef = useRef(false);
+
+   useEffect(() => {
+-    const params: Record<string, string> = {};
+-    searchParams.forEach((value, key) => {
+-      params[key] = value;
+-    });
+-    setData(params);
++    if (!processedRef.current) {
++      processedRef.current = true;
++      // You can do any side effects here if needed
++    }
+   }, [searchParams]);
+
+-  return (
+-    <div className="w-full max-w-lg p-8 bg-white rounded-xl shadow-lg dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center">
+-      <h1 className="text-2xl font-bold text-red-600 mb-4">Payment Cancelled</h1>
+-      <p className="text-zinc-700 dark:text-zinc-300 mb-6">The payment was cancelled by the user or gateway.</p>
++  // Render params directly
++  const params: Record<string, string> = {};
++  searchParams.forEach((value, key) => {
++    params[key] = value;
++  });
+
+-      {data && Object.keys(data).length > 0 && (
+-        <div className="text-left bg-zinc-100 dark:bg-black p-4 rounded-lg overflow-auto">
+-          <pre className="text-xs text-zinc-800 dark:text-zinc-400">
+-            {JSON.stringify(data, null, 2)}
++  return (
++    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
++      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
++        <div>
++          <h2 className="mt-6 text-center text-3xl font-extrabold text-red-600">
++            Payment Cancelled
++          </h2>
++          <p className="mt-2 text-center text-sm text-gray-600">
++            Your payment was cancelled or failed.
++          </p>
++        </div>
++        <div className="mt-8">
++          <h3 className="text-lg font-medium text-gray-900">Return Parameters:</h3>
++          <pre className="mt-4 bg-gray-100 p-4 rounded text-sm overflow-auto">
++            {JSON.stringify(params, null, 2)}
+           </pre>
+         </div>
+-      )}
+-
+-      <a href="/payment" className="mt-6 inline-block py-2 px-4 bg-black text-white font-semibold rounded-lg hover:bg-zinc-800 transition-colors">
+-        Try Again
+-      </a>
++      </div>
+     </div>
+   );
+ }
+
+-export default function PaymentCancel() {
++export default function CancelPage() {
+   return (
+-    <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-50 font-sans dark:bg-black p-4">
+-      <Suspense fallback={<div>Loading...</div>}>
+-        <CancelContent />
+-      </Suspense>
+-    </div>
++    <Suspense fallback={<div>Loading...</div>}>
++      <CancelContent />
++    </Suspense>
+   );
+ }
+diff --git a/themes/app/app/payment/return/page.tsx b/themes/app/app/payment/return/page.tsx
+index da4c71a..ffa746e 100644
+--- a/themes/app/app/payment/return/page.tsx
++++ b/themes/app/app/payment/return/page.tsx
+@@ -1,50 +1,43 @@
+ "use client";
+
+-import React, { useEffect, useState, Suspense } from "react";
+ import { useSearchParams } from "next/navigation";
++import { Suspense } from "react";
+
+ function ReturnContent() {
+   const searchParams = useSearchParams();
+-  const [status, setStatus] = useState<string>("Processing payment...");
+-  const [data, setData] = useState<any>(null);
+
+-  useEffect(() => {
+-    // Collect all query params to display them
+-    const params: Record<string, string> = {};
+-    searchParams.forEach((value, key) => {
+-      params[key] = value;
+-    });
+-
+-    setData(params);
+-    setStatus("Payment completed or redirected back.");
+-  }, [searchParams]);
++  // Just render params directly
++  const params: Record<string, string> = {};
++  searchParams.forEach((value, key) => {
++    params[key] = value;
++  });
+
+   return (
+-    <div className="w-full max-w-lg p-8 bg-white rounded-xl shadow-lg dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center">
+-      <h1 className="text-2xl font-bold text-green-600 mb-4">Payment Return</h1>
+-      <p className="text-zinc-700 dark:text-zinc-300 mb-6">{status}</p>
+-
+-      {data && Object.keys(data).length > 0 && (
+-        <div className="text-left bg-zinc-100 dark:bg-black p-4 rounded-lg overflow-auto">
+-          <pre className="text-xs text-zinc-800 dark:text-zinc-400">
+-            {JSON.stringify(data, null, 2)}
++    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
++      <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow">
++        <div>
++          <h2 className="mt-6 text-center text-3xl font-extrabold text-green-600">
++            Payment Completed
++          </h2>
++          <p className="mt-2 text-center text-sm text-gray-600">
++            Payment completed or redirected back.
++          </p>
++        </div>
++        <div className="mt-8">
++          <h3 className="text-lg font-medium text-gray-900">Return Parameters:</h3>
++          <pre className="mt-4 bg-gray-100 p-4 rounded text-sm overflow-auto">
++            {JSON.stringify(params, null, 2)}
+           </pre>
+         </div>
+-      )}
+-
+-      <a href="/payment" className="mt-6 inline-block py-2 px-4 bg-black text-white font-semibold rounded-lg hover:bg-zinc-800 transition-colors">
+-        Back to Demo
+-      </a>
++      </div>
+     </div>
+   );
+ }
+
+-export default function PaymentReturn() {
++export default function ReturnPage() {
+   return (
+-    <div className="flex flex-col items-center justify-center min-h-screen bg-zinc-50 font-sans dark:bg-black p-4">
+-      <Suspense fallback={<div>Loading...</div>}>
+-        <ReturnContent />
+-      </Suspense>
+-    </div>
++    <Suspense fallback={<div>Loading...</div>}>
++      <ReturnContent />
++    </Suspense>
+   );
+ }

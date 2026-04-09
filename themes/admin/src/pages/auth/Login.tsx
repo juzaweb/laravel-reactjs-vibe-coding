@@ -6,7 +6,7 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loginUser } from '../../store/authSlice';
-import { fetchSettings } from '../../store/settingSlice';
+import { fetchGlobalSettings } from '../../store/settingSlice';
 import { usePageTitle } from '../../hooks/usePageTitle';
 
 export const Login: React.FC = () => {
@@ -23,7 +23,7 @@ export const Login: React.FC = () => {
 
   useEffect(() => {
     if (settingsStatus === 'idle') {
-      dispatch(fetchSettings());
+      dispatch(fetchGlobalSettings());
     }
   }, [settingsStatus, dispatch]);
 

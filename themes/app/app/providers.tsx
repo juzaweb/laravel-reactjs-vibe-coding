@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useState, Suspense, useEffect } from 'react';
 import { store } from '../store';
-import { fetchSettings } from '../store/settingSlice';
+import { fetchGlobalSettings } from '../store/settingSlice';
 import { I18nProvider } from '../src/i18n/I18nProvider';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 
@@ -14,7 +14,7 @@ function GlobalSettingsLoader({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (status === 'idle') {
-      dispatch(fetchSettings());
+      dispatch(fetchGlobalSettings());
     }
   }, [dispatch, status]);
 

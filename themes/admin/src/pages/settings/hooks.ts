@@ -2,21 +2,21 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../utils/axiosClient';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fetchSettings = async (): Promise<any> => {
+const fetchGlobalSettings = async (): Promise<any> => {
   const response = await axiosClient.get('/v1/app/settings');
   return response.data?.data || null;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const updateSettings = async (data: Record<string, any>): Promise<any> => {
-  const response = await axiosClient.post('/v1/app/settings', data);
+  const response = await axiosClient.post('/v1/settings', data);
   return response.data?.data || null;
 };
 
 export const useSettings = () => {
   return useQuery({
     queryKey: ['settings'],
-    queryFn: fetchSettings,
+    queryFn: fetchGlobalSettings,
   });
 };
 

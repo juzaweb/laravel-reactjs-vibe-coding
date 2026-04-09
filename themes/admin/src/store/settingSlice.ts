@@ -15,8 +15,8 @@ const initialState: SettingState = {
   error: null,
 };
 
-export const fetchSettings = createAsyncThunk(
-  'settings/fetchSettings',
+export const fetchGlobalSettings = createAsyncThunk(
+  'settings/fetchGlobalSettings',
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosClient.get('/v1/app/settings');
@@ -37,15 +37,15 @@ const settingSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSettings.pending, (state) => {
+      .addCase(fetchGlobalSettings.pending, (state) => {
         state.status = 'loading';
       })
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      .addCase(fetchSettings.fulfilled, (state, action: PayloadAction<Record<string, any> | null>) => {
+      .addCase(fetchGlobalSettings.fulfilled, (state, action: PayloadAction<Record<string, any> | null>) => {
         state.status = 'succeeded';
         state.data = action.payload;
       })
-      .addCase(fetchSettings.rejected, (state, action) => {
+      .addCase(fetchGlobalSettings.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
       });

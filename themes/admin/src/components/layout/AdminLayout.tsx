@@ -4,7 +4,7 @@ import { Header } from './Header';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { toggleSidebar } from '../../store/uiSlice';
 import { fetchProfile } from '../../store/authSlice';
-import { fetchSettings } from '../../store/settingSlice';
+import { fetchGlobalSettings } from '../../store/settingSlice';
 import { Outlet } from 'react-router-dom';
 
 export const AdminLayout: React.FC = () => {
@@ -17,7 +17,7 @@ export const AdminLayout: React.FC = () => {
     if (isAuthenticated) {
       void dispatch(fetchProfile());
       if (settingsStatus === 'idle') {
-        void dispatch(fetchSettings());
+        void dispatch(fetchGlobalSettings());
       }
     }
   }, [dispatch, isAuthenticated, settingsStatus]);

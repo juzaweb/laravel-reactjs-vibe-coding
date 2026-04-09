@@ -14,8 +14,7 @@ class SettingResourceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code' => 'required|string|max:250',
-            'value' => 'nullable',
+            'settings' => ['required', 'array', 'min:1'],
         ];
     }
 }

@@ -44,16 +44,23 @@ class SettingControllerTest extends TestCase
 
     public function test_update()
     {
-        $setting = Setting::create(['code' => 'test_code_4', 'value' => 'test_value_4']);
+        Setting::create(['code' => 'test_code_4', 'value' => 'test_value_4']);
+        Setting::create(['code' => 'test_code_5', 'value' => 'test_value_5']);
 
         $data = [
-            'code' => 'test_code_4_updated',
-            'value' => 'test_value_4_updated',
+            'settings' => [
+                'test_code_4' => 'test_value_4_updated',
+                'test_code_5' => 'test_value_5_updated',
+            ],
         ];
 
-        $response = $this->putJson('/api/v1/settings/'.$setting->id, $data);
+        $response = $this->putJson('/api/v1/settings', $data);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas('settings', ['code' => 'test_code_4_updated']);
+        $response->assertJsonPath('success', true);
+        $response->assertJsonPath('data.test_code_4', 'test_value_4_updated');
+        $response->assertJsonPath('data.test_code_5', 'test_value_5_updated');
+        $this->assertDatabaseHas('settings', ['code' => 'test_code_4', 'value' => 'test_value_4_updated']);
+        $this->assertDatabaseHas('settings', ['code' => 'test_code_5', 'value' => 'test_value_5_updated']);
     }
 }

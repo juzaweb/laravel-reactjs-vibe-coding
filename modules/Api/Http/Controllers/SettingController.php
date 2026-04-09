@@ -5,6 +5,7 @@ namespace Juzaweb\Modules\Api\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Juzaweb\Modules\Api\Http\Requests\SettingResourceRequest;
+use Juzaweb\Modules\Core\Facades\Setting as SettingFacade;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Setting;
 use OpenApi\Annotations as OA;
@@ -52,27 +53,22 @@ class SettingController extends APIController
 
     /**
      * @OA\Put(
-     *      path="/api/v1/settings/{id}",
+     *      path="/api/v1/settings",
      *      security={{"bearerAuth": {}, "apiKey": {}}},
      *      tags={"Settings"},
-     *      summary="Update an existing setting",
-     *
-     *      @OA\Parameter(
-     *          name="id",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
+     *      summary="Bulk update settings",
      *
      *      @OA\RequestBody(
      *          required=true,
      *
      *          @OA\JsonContent(
-     *              required={"code"},
-     *
-     *              @OA\Property(property="code", type="string", example="site_name"),
-     *              @OA\Property(property="value", type="string", example="Juzaweb CMS")
+     *              required={"settings"},
+     *              @OA\Property(
+     *                  property="settings",
+     *                  type="object",
+     *                  additionalProperties=true,
+     *                  example={"site_name":"Juzaweb CMS","site_description":"My website"}
+     *              )
      *          )
      *      ),
      *
@@ -83,15 +79,13 @@ class SettingController extends APIController
      *           @OA\JsonContent(@OA\Property(property="data", type="object"))
      *       ),
      *
-     *      @OA\Response(response=404, description="Setting not found"),
      *      @OA\Response(response=422, description="Validation Error")
      * )
      */
-    public function update(SettingResourceRequest $request, string $id): JsonResponse
+    public function update(SettingResourceRequest $request): JsonResponse
     {
-        $setting = Setting::findOrFail($id);
-        $setting->update($request->validated());
+        $settings = SettingFacade::sets($request->validated('settings'));
 
-        return $this->restSuccess($setting);
+        return $this->restSuccess($settings->toArray());
     }
 }

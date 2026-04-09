@@ -43,7 +43,7 @@ export default function Home() {
                     Auth Demo
                   </h2>
                   <p className="text-zinc-500 dark:text-zinc-400 mt-1">
-                    Test the authentication flow (Login, Register, Forgot Password)
+                    Test the authentication flow (Login, Register, Forgot Password, Verify Email)
                   </p>
                 </div>
                 <div className="text-zinc-400 group-hover:text-blue-500 transition-colors">

@@ -111,8 +111,6 @@ abstract class TestCase extends Orchestra
     {
         $connection = config('database.default');
 
-        $this->loadLaravelMigrations(['--database' => $connection]);
-
         // Load package migrations
         $this->loadMigrationsFrom(__DIR__.'/../modules/Core/Database/migrations');
 

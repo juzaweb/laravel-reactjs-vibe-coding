@@ -683,6 +683,14 @@
                                                         "type": "string",
                                                         "example": "Blog"
                                                     }
+                                                },
+                                                "social_login_providers": {
+                                                    "description": "List of active social login providers",
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "string",
+                                                        "example": "github"
+                                                    }
                                                 }
                                             },
                                             "type": "object"

@@ -96,7 +96,7 @@ Instead of putting all business logic inside the generic `/app` directory, this 
 - All PHP code MUST follow the Laravel style coding standard strictly.
 - Use the `HasMedia` trait for image fields (e.g., `thumbnail`, `banner`).
 - Models using the `Translatable` trait must have a corresponding `ModelTranslation` class.
-- Use `scopeWhereFrontend` for theme and api queries. Use trait `Juzaweb\Modules\Admin\Traits\UsedInFrontend` to model if not exists.
+- Use trait `HasApi` and scope `api` for all api routes.
 - **Inheritance:** All new Service classes MUST extend `Juzaweb\Modules\Core\Services\BaseService`.
 - **Database Safety:** Use `$this->transaction(fn() => ...)` for operations involving multiple database changes. This leverages Laravel's native `DB::transaction()` for safety and nesting support.
 - **Return Consistency:** Service methods should return a consistent structure (e.g., using `$this->result($status, $data, $message)`).

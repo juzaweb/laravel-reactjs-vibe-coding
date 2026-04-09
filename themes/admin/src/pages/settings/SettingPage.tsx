@@ -98,13 +98,14 @@ export const SettingPage: React.FC = () => {
   }, [reset]);
 
   const onSubmit = async (data: SettingFormData) => {
-    const formattedData = {
+    const payload: Record<string, string> = {
       ...data,
       user_registration: data.user_registration ? '1' : '0',
       user_verification: data.user_verification ? '1' : '0',
       enable_cookie_consent: data.enable_cookie_consent ? '1' : '0',
     };
-    await updateSettingsMutation.mutateAsync(formattedData);
+
+    await updateSettingsMutation.mutateAsync(payload);
   };
 
   if (isLoading) {

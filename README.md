@@ -5,6 +5,12 @@
 php artisan migrate
 ```
 
+- Make admin user
+
+```
+php artisan user:make --name=Admin --email=admin@gmail.com --pass=password --super-admin
+```
+
 - Config Passport
 
 ```

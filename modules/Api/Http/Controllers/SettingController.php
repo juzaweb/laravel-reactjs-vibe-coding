@@ -42,7 +42,7 @@ class SettingController extends APIController
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Setting::query()->api($request->all());
+        $query = Setting::query();
         $settings = $query
             ->get()
             ->mapWithKeys(fn (Setting $setting) => [$setting->code => $setting->value])

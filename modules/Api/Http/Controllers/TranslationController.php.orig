@@ -2,18 +2,18 @@
 
 namespace Juzaweb\Modules\Api\Http\Controllers;
 
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Modules\Api\Http\Requests\TranslateModelRequest;
-use Juzaweb\Modules\Api\Http\Requests\TranslationRequest;
 use Juzaweb\Modules\Core\Facades\Module;
 use Juzaweb\Modules\Core\Facades\Theme;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
+use Juzaweb\Modules\Api\Http\Requests\TranslationRequest;
+use Juzaweb\Modules\Api\Http\Requests\TranslateModelRequest;
 use Juzaweb\Modules\Core\Translations\Contracts\Translation as TranslationContract;
-use Juzaweb\Modules\Core\Translations\Models\LanguageLine;
 use Juzaweb\Modules\Core\Translations\Models\TranslateHistory;
+use Juzaweb\Modules\Core\Translations\Models\LanguageLine;
 use OpenApi\Annotations as OA;
 
 class TranslationController extends APIController
@@ -70,24 +70,13 @@ class TranslationController extends APIController
      *          in="path",
      *          required=true,
      *          description="Locale code, e.g. en, vi, ja",
-     *
      *          @OA\Schema(type="string", example="en")
      *      ),
      *
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *
-     *          @OA\JsonContent(
-     *
-     *              @OA\Property(property="success", type="boolean", example=true),
-     *              @OA\Property(property="data", type="array", @OA\Items(
-     *                  @OA\Property(property="namespace", type="string", example="core"),
-     *                  @OA\Property(property="group", type="string", example="app"),
-     *                  @OA\Property(property="key", type="string", example="save"),
-     *                  @OA\Property(property="trans", type="string", example="Save")
-     *              ))
-     *          )
+     *          @OA\JsonContent(ref="#/components/schemas/ModelCollectionResource")
      *      ),
      *
      *      @OA\Response(response=500, description="Server error", ref="#/components/responses/error_500")
@@ -134,7 +123,7 @@ class TranslationController extends APIController
         $items = $collection->map(
             function ($item) use ($langs, $locale) {
                 $item['trans'] = $langs->get("{$item['namespace']}-{$item['group']}-{$item['key']}")
-                    ->text[$locale] ?? $item['trans'];
+                        ->text[$locale] ?? $item['trans'];
 
                 return $item;
             }
@@ -156,13 +145,11 @@ class TranslationController extends APIController
      *          in="path",
      *          required=true,
      *          description="Locale code, e.g. en, vi, ja",
-     *
      *          @OA\Schema(type="string", example="en")
      *      ),
      *
      *      @OA\RequestBody(
      *          required=true,
-     *
      *          @OA\JsonContent(ref="#/components/schemas/TranslationRequest")
      *      ),
      *
@@ -170,6 +157,7 @@ class TranslationController extends APIController
      *          response=200,
      *          description="Successful operation"
      *      ),
+     *
      *      @OA\Response(response=500, description="Server error", ref="#/components/responses/error_500")
      * )
      */
@@ -199,7 +187,6 @@ class TranslationController extends APIController
      *
      *      @OA\RequestBody(
      *          required=true,
-     *
      *          @OA\JsonContent(ref="#/components/schemas/TranslateModelRequest")
      *      ),
      *
@@ -207,6 +194,7 @@ class TranslationController extends APIController
      *          response=200,
      *          description="Successful operation"
      *      ),
+     *
      *      @OA\Response(response=500, description="Server error", ref="#/components/responses/error_500")
      * )
      */
@@ -267,9 +255,7 @@ class TranslationController extends APIController
      *
      *      @OA\RequestBody(
      *          required=true,
-     *
      *          @OA\JsonContent(
-     *
      *              @OA\Property(property="history_ids", type="array", @OA\Items(type="integer"), example={1, 2, 3})
      *          )
      *      ),
@@ -277,9 +263,7 @@ class TranslationController extends APIController
      *      @OA\Response(
      *          response=200,
      *          description="Successful operation",
-     *
      *          @OA\JsonContent(
-     *
      *              @OA\Property(property="completed", type="boolean", example=true),
      *              @OA\Property(property="total", type="integer", example=3)
      *          )

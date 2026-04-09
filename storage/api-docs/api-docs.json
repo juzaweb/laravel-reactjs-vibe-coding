@@ -2933,6 +2933,217 @@
                         "$ref": "#/components/responses/error_500"
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Update a translation line",
+                "description": "Update or create a language line for a specific locale.",
+                "operationId": "e36ffdfaae5555b4d1ef8266afbc3dd2",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Locale code, e.g. en, vi, ja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TranslationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/translations/{locale}/collection": {
+            "get": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get paginated/collection of translation strings",
+                "description": "Returns an array of translation items with namespace, group, key, and trans values.",
+                "operationId": "6390ee736c8520212240a726a0b99079",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Locale code, e.g. en, vi, ja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "namespace": {
+                                                        "type": "string",
+                                                        "example": "core"
+                                                    },
+                                                    "group": {
+                                                        "type": "string",
+                                                        "example": "app"
+                                                    },
+                                                    "key": {
+                                                        "type": "string",
+                                                        "example": "save"
+                                                    },
+                                                    "trans": {
+                                                        "type": "string",
+                                                        "example": "Save"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/translations/translate-model": {
+            "post": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Translate models",
+                "description": "Create translation tasks for a specific model.",
+                "operationId": "0306c4a70270b6536cd2338bdbf2420e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TranslateModelRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/translations/translate-status": {
+            "post": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Get translation status",
+                "description": "Get the status of multiple translation history tasks.",
+                "operationId": "6980e3a13f2364a053c3de14b8816977",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "history_ids": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        },
+                                        "example": [
+                                            1,
+                                            2,
+                                            3
+                                        ]
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "completed": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "total": {
+                                            "type": "integer",
+                                            "example": 3
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/v1/users": {
@@ -5800,6 +6011,66 @@
                             "create_posts",
                             "edit_posts"
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "TranslateModelRequest": {
+                "required": [
+                    "model",
+                    "ids",
+                    "locale"
+                ],
+                "properties": {
+                    "model": {
+                        "description": "Encrypted model class name",
+                        "type": "string"
+                    },
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "example": [
+                            1,
+                            2,
+                            3
+                        ]
+                    },
+                    "locale": {
+                        "type": "string",
+                        "example": "vi"
+                    },
+                    "source": {
+                        "type": "string",
+                        "example": "en"
+                    }
+                },
+                "type": "object"
+            },
+            "TranslationRequest": {
+                "required": [
+                    "group",
+                    "namespace",
+                    "key",
+                    "value"
+                ],
+                "properties": {
+                    "group": {
+                        "type": "string",
+                        "example": "*"
+                    },
+                    "namespace": {
+                        "type": "string",
+                        "example": "core"
+                    },
+                    "key": {
+                        "type": "string",
+                        "example": "app.save"
+                    },
+                    "value": {
+                        "type": "string",
+                        "example": "Save"
                     }
                 },
                 "type": "object"

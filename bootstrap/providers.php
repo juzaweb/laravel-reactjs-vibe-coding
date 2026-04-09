@@ -5,6 +5,7 @@ use Juzaweb\Modules\Api\Providers\ApiServiceProvider;
 use Juzaweb\Modules\Core\Providers\AdminServiceProvider;
 use Juzaweb\Modules\Core\Providers\CoreServiceProvider;
 use Juzaweb\Modules\DevTool\Providers\DevToolServiceProvider;
+use Juzaweb\Modules\Installer\Providers\InstallerServiceProvider;
 
 return [
     CoreServiceProvider::class,
@@ -12,5 +13,5 @@ return [
     DevToolServiceProvider::class,
     AdminServiceProvider::class,
     AppServiceProvider::class,
-    Juzaweb\Modules\Installer\Providers\InstallerServiceProvider::class,
+    InstallerServiceProvider::class,
 ];

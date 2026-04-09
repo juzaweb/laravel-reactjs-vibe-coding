@@ -27,14 +27,18 @@ class CartController extends APIController
      *      tags={"Payment"},
      *      summary="Add to cart",
      *      operationId="payment_cart_add",
+     *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="orderable_type", type="string"),
      *              @OA\Property(property="orderable_id", type="string"),
      *              @OA\Property(property="quantity", type="integer")
      *          )
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -102,12 +106,15 @@ class CartController extends APIController
      *      tags={"Payment"},
      *      summary="Remove item from cart",
      *      operationId="payment_cart_remove",
+     *
      *      @OA\Parameter(
      *          name="itemId",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */

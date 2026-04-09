@@ -2,6 +2,7 @@
 
 namespace Juzaweb\Modules\Installer\Helpers;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 trait MigrationsHelper
@@ -13,7 +14,7 @@ trait MigrationsHelper
      */
     public function getMigrations(): array
     {
-        $migrations = glob(database_path() . DIRECTORY_SEPARATOR . 'migrations' . DIRECTORY_SEPARATOR . '*.php');
+        $migrations = glob(database_path().DIRECTORY_SEPARATOR.'migrations'.DIRECTORY_SEPARATOR.'*.php');
 
         return str_replace('.php', '', $migrations);
     }
@@ -21,9 +22,9 @@ trait MigrationsHelper
     /**
      * Get the migrations that have already been ran.
      *
-     * @return \Illuminate\Support\Collection List of migrations
+     * @return Collection List of migrations
      */
-    public function getExecutedMigrations(): \Illuminate\Support\Collection
+    public function getExecutedMigrations(): Collection
     {
         // migrations table should exist, if not, user will receive an error.
         return DB::table('migrations')->get()->pluck('migration');

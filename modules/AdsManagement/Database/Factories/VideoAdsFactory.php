@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Juzaweb\Modules\AdsManagement\Models\VideoAds;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Juzaweb\Modules\AdsManagement\Models\VideoAds>
+ * @extends Factory<VideoAds>
  */
 class VideoAdsFactory extends Factory
 {

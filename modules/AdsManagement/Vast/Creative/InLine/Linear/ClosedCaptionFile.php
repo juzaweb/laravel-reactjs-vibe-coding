@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -30,9 +31,6 @@ class ClosedCaptionFile
      */
     private $domElement;
 
-    /**
-     * @param \DomElement $domElement
-     */
     public function __construct(\DomElement $domElement)
     {
         $this->domElement = $domElement;
@@ -41,7 +39,7 @@ class ClosedCaptionFile
     /**
      * Set file mime type
      *
-     * @param string $mime Mime type of the file
+     * @param  string  $mime  Mime type of the file
      */
     public function setType(string $mime): self
     {
@@ -53,7 +51,7 @@ class ClosedCaptionFile
     /**
      * Set file language
      *
-     * @param string $languag Language of the file e.g: 'en'
+     * @param  string  $languag  Language of the file e.g: 'en'
      */
     public function setLanguage(string $language): self
     {
@@ -65,7 +63,7 @@ class ClosedCaptionFile
     /**
      * Set file URL
      *
-     * @param string $url URL of the file
+     * @param  string  $url  URL of the file
      */
     public function setUrl(string $url): self
     {
@@ -78,6 +76,7 @@ class ClosedCaptionFile
         else {
             $this->domElement->appendChild($cdata);
         }
+
         return $this;
     }
 }

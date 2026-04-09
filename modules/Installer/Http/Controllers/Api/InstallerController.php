@@ -6,26 +6,29 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Juzaweb\Modules\Core\Models\User;
 use Juzaweb\Modules\Core\Traits\HasRestResponses;
 use Juzaweb\Modules\Installer\Events\EnvironmentSaved;
-use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Core\Models\User;
-use Juzaweb\Modules\Installer\Helpers\EnvironmentManager;
-use Juzaweb\Modules\Installer\Helpers\RequirementsChecker;
-use Juzaweb\Modules\Installer\Helpers\PermissionsChecker;
+use Juzaweb\Modules\Installer\Events\InstallerFinished;
 use Juzaweb\Modules\Installer\Helpers\DatabaseManager;
+use Juzaweb\Modules\Installer\Helpers\EnvironmentManager;
 use Juzaweb\Modules\Installer\Helpers\FinalInstallManager;
 use Juzaweb\Modules\Installer\Helpers\InstalledFileManager;
-use Juzaweb\Modules\Installer\Events\InstallerFinished;
+use Juzaweb\Modules\Installer\Helpers\PermissionsChecker;
+use Juzaweb\Modules\Installer\Helpers\RequirementsChecker;
 
 class InstallerController extends Controller
 {
     use HasRestResponses;
 
     protected $environmentManager;
+
     protected $requirements;
+
     protected $permissions;
+
     protected $databaseManager;
 
     public function __construct(
@@ -76,11 +79,11 @@ class InstallerController extends Controller
     public function saveEnvironment(Request $request)
     {
         $rules = [
-            'database_hostname'     => 'required|string|max:150',
-            'database_port'         => 'required|numeric',
-            'database_name'         => 'required|string|max:150',
-            'database_username'     => 'required|string|max:150',
-            'database_password'     => 'nullable|string|max:150',
+            'database_hostname' => 'required|string|max:150',
+            'database_port' => 'required|numeric',
+            'database_name' => 'required|string|max:150',
+            'database_username' => 'required|string|max:150',
+            'database_password' => 'nullable|string|max:150',
         ];
 
         $validator = Validator::make($request->all(), $rules);
@@ -106,7 +109,7 @@ class InstallerController extends Controller
 
         $settings = config("database.connections.{$connection}");
 
-        if (!is_array($settings)) {
+        if (! is_array($settings)) {
             $settings = [];
         }
 
@@ -136,6 +139,7 @@ class InstallerController extends Controller
     {
         try {
             $response = $this->databaseManager->run();
+
             return $this->restSuccess(['message' => $response]);
         } catch (Exception $e) {
             return $this->restFail($e->getMessage());
@@ -153,7 +157,7 @@ class InstallerController extends Controller
             'name' => trans('installer::message.environment.wizard.form.name'),
             'email' => trans('installer::message.environment.wizard.form.email'),
             'password' => trans('installer::message.environment.wizard.form.password'),
-            'password_confirmation' => trans('installer::message.environment.wizard.form.password_confirmation')
+            'password_confirmation' => trans('installer::message.environment.wizard.form.password_confirmation'),
         ]);
 
         if ($validator->fails()) {
@@ -163,7 +167,7 @@ class InstallerController extends Controller
         try {
             DB::transaction(
                 function () use ($request) {
-                    $model = new User();
+                    $model = new User;
                     $model->fill($request->all());
                     $model->password = Hash::make($request->post('password'));
                     $model->is_super_admin = 1;
@@ -185,11 +189,11 @@ class InstallerController extends Controller
             $finalMessages = $finalInstall->runFinal();
             $finalStatusMessage = $fileManager->update();
 
-            event(new InstallerFinished());
+            event(new InstallerFinished);
 
             return $this->restSuccess([
                 'finalMessages' => $finalMessages,
-                'finalStatusMessage' => $finalStatusMessage
+                'finalStatusMessage' => $finalStatusMessage,
             ], trans('installer::message.final.finished'));
         } catch (\Throwable $e) {
             return $this->restFail($e->getMessage());

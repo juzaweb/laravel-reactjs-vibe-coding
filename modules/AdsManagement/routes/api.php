@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Juzaweb\Modules\AdsManagement\Http\Controllers\Api\BannerAdsController;
+use Juzaweb\Modules\AdsManagement\Http\Controllers\Api\VideoAdsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,5 +15,5 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::api('banner-ads', \Juzaweb\Modules\AdsManagement\Http\Controllers\Api\BannerAdsController::class);
-Route::api('video-ads', \Juzaweb\Modules\AdsManagement\Http\Controllers\Api\VideoAdsController::class);
+Route::api('banner-ads', BannerAdsController::class);
+Route::api('video-ads', VideoAdsController::class);

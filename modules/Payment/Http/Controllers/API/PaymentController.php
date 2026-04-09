@@ -24,12 +24,15 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Checkout",
      *      operationId="payment_checkout",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -70,12 +73,15 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Purchase",
      *      operationId="payment_purchase",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -138,18 +144,23 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Return URL for payment gateway",
      *      operationId="payment_return",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Parameter(
      *          name="paymentHistoryId",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -200,18 +211,23 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Cancel URL for payment gateway",
      *      operationId="payment_cancel",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Parameter(
      *          name="transactionId",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -251,18 +267,23 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Webhook for payment gateway",
      *      operationId="payment_webhook",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Parameter(
      *          name="driver",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -355,18 +376,23 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Embed URL for payment gateway",
      *      operationId="payment_embed",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Parameter(
      *          name="transactionId",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */
@@ -390,18 +416,23 @@ class PaymentController extends APIController
      *      tags={"Payment"},
      *      summary="Get payment status",
      *      operationId="payment_status",
+     *
      *      @OA\Parameter(
      *          name="module",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Parameter(
      *          name="transactionId",
      *          in="path",
      *          required=true,
+     *
      *          @OA\Schema(type="string")
      *      ),
+     *
      *      @OA\Response(response=200, description="Successful operation")
      * )
      */

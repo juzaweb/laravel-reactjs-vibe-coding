@@ -1,10 +1,12 @@
 <?php
+
 /**
  * JUZAWEB CMS - The Best CMS for Laravel Project
  *
- * @package    juzaweb/juzacms
  * @author     Juzaweb Team <admin@juzaweb.com>
+ *
  * @link       https://juzaweb.com
+ *
  * @license    MIT
  */
 
@@ -28,7 +30,7 @@ class VideoAdController extends ThemeController
             return $this->renderNoneAds();
         }
 
-        $factory = new Factory();
+        $factory = new Factory;
         $document = $factory->create('4.1');
 
         $impressionUrl = route('ads.video.impression', ['id' => $video->id]);
@@ -73,7 +75,7 @@ class VideoAdController extends ThemeController
 
     protected function renderNoneAds()
     {
-        $document = (new Factory())->create('4.1');
+        $document = (new Factory)->create('4.1');
 
         return response((string) $document, 200, ['Content-Type' => 'application/xml']);
     }

@@ -3,9 +3,10 @@
 /**
  * JUZAWEB CMS - The Best CMS for Laravel Project
  *
- * @package    juzaweb/cms
  * @author     The Anh Dang <dangtheanh16@gmail.com>
+ *
  * @link       https://github.com/juzaweb/cms
+ *
  * @license    MIT
  */
 
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::group([
     'prefix' => 'api/v1/install',
     'namespace' => 'Juzaweb\Modules\Installer\Http\Controllers\Api',
-    'middleware' => ['api', 'install']
+    'middleware' => ['api', 'install'],
 ], function () {
     Route::get('environment', 'InstallerController@environment');
     Route::post('environment', 'InstallerController@saveEnvironment');

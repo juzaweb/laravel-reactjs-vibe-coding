@@ -37,7 +37,7 @@ class VideoAdsController extends AdminController
         return view(
             'ad-management::video-ad.form',
             [
-                'model' => new VideoAds(),
+                'model' => new VideoAds,
                 'action' => action([static::class, 'store']),
                 'backUrl' => $backUrl,
                 'positions' => $positions,

@@ -3,16 +3,16 @@
 /**
  * JUZAWEB CMS - The Best CMS for Laravel Project
  *
- * @package    juzaweb/cms
  * @author     The Anh Dang <dangtheanh16@gmail.com>
+ *
  * @link       https://github.com/juzaweb/cms
+ *
  * @license    MIT
  */
-
 Route::group([
     'prefix' => 'install',
     'namespace' => 'Juzaweb\Modules\Installer\Http\Controllers',
-    'middleware' => ['web', 'install']
+    'middleware' => ['web', 'install'],
 ], function () {
     Route::get('/', 'WelcomeController@welcome')->name('installer.welcome');
     Route::get('/environment', 'EnvironmentController@environment')->name('installer.environment');

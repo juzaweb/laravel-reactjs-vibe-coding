@@ -3,17 +3,19 @@
 namespace Juzaweb\Modules\Installer\Http\Controllers;
 
 use Illuminate\Routing\Controller;
+use Illuminate\View\View;
 use Juzaweb\Modules\Installer\Helpers\DatabaseManager;
 use Juzaweb\Modules\Installer\Helpers\InstalledFileManager;
+use Juzaweb\Modules\Installer\Helpers\MigrationsHelper;
 
 class UpdateController extends Controller
 {
-    use \Juzaweb\Modules\Installer\Helpers\MigrationsHelper;
+    use MigrationsHelper;
 
     /**
      * Display the updater welcome page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function welcome()
     {
@@ -23,7 +25,7 @@ class UpdateController extends Controller
     /**
      * Display the updater overview page.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function overview()
     {
@@ -36,7 +38,7 @@ class UpdateController extends Controller
     /**
      * Migrate and seed the database.
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function database()
     {
@@ -50,8 +52,7 @@ class UpdateController extends Controller
     /**
      * Update installed file and display finished view.
      *
-     * @param InstalledFileManager $fileManager
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function finish(InstalledFileManager $fileManager)
     {

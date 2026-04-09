@@ -3,6 +3,8 @@
 namespace Juzaweb\Modules\Installer\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Juzaweb\Modules\Installer\Helpers\Intaller;
 
 class CanInstall
@@ -10,9 +12,8 @@ class CanInstall
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @return \Illuminate\Http\RedirectResponse|mixed
+     * @param  Request  $request
+     * @return RedirectResponse|mixed
      */
     public function handle($request, Closure $next)
     {

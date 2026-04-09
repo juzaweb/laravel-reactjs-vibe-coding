@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,7 +15,4 @@ namespace Juzaweb\Modules\AdsManagement\Vast\Creative\Wrapper;
 
 use Juzaweb\Modules\AdsManagement\Vast\Creative\AbstractLinearCreative;
 
-class Linear extends AbstractLinearCreative
-{
-
-}
+class Linear extends AbstractLinearCreative {}

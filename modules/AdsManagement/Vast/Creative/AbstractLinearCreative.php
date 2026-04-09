@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -127,10 +128,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
      */
     private $trackingEventsDomElement;
 
-    /**
-     * @param \DOMElement $linearCreativeDomElement
-     * @param ElementBuilder $vastElementBuilder
-     */
     public function __construct(\DOMElement $linearCreativeDomElement, ElementBuilder $vastElementBuilder)
     {
         $this->linearCreativeDomElement = $linearCreativeDomElement;
@@ -139,8 +136,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * Dom Element of <Creative></Creative>
-     *
-     * @return \DOMElement
      */
     protected function getDomElement(): \DOMElement
     {
@@ -149,8 +144,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * List of allowed events
-     *
-     * @return array
      */
     public static function getEventList(): array
     {
@@ -180,18 +173,16 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * Get VideoClicks DomElement
-     *
-     * @return \DOMElement
      */
     protected function getVideoClicksDomElement(): \DOMElement
     {
         // create container
-        if (!empty($this->videoClicksDomElement)) {
+        if (! empty($this->videoClicksDomElement)) {
             return $this->videoClicksDomElement;
         }
 
         $this->videoClicksDomElement = $this->linearCreativeDomElement->getElementsByTagName('VideoClicks')->item(0);
-        if (!empty($this->videoClicksDomElement)) {
+        if (! empty($this->videoClicksDomElement)) {
             return $this->videoClicksDomElement;
         }
 
@@ -206,10 +197,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * Add click tracking url
-     *
-     * @param string $url
-     *
-     * @return AbstractLinearCreative
      */
     public function addVideoClicksClickTracking(string $url): self
     {
@@ -226,10 +213,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * Add custom click url
-     *
-     * @param string $url
-     *
-     * @return AbstractLinearCreative
      */
     public function addVideoClicksCustomClick(string $url): self
     {
@@ -246,10 +229,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * Set video click through url
-     *
-     * @param string $url
-     *
-     * @return AbstractLinearCreative
      */
     public function setVideoClicksClickThrough(string $url): self
     {
@@ -258,7 +237,7 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
         // create ClickThrough
         $clickThroughDomElement = $this->getVideoClicksDomElement()->getElementsByTagName('ClickThrough')->item(0);
-        if (!$clickThroughDomElement) {
+        if (! $clickThroughDomElement) {
             $clickThroughDomElement = $this->getDomElement()->ownerDocument->createElement('ClickThrough');
             $this->getVideoClicksDomElement()->appendChild($clickThroughDomElement);
         }
@@ -275,8 +254,6 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
     /**
      * Get TrackingEvents DomElement
-     *
-     * @return \DOMElement
      */
     protected function getTrackingEventsDomElement(): \DOMElement
     {
@@ -306,16 +283,11 @@ abstract class AbstractLinearCreative extends AbstractCreative
     }
 
     /**
-     * @param string $event
-     * @param string $url
-     *
-     * @return AbstractLinearCreative
-     *
      * @throws \Exception
      */
     public function addTrackingEvent(string $event, string $url): self
     {
-        if (!in_array($event, $this->getEventList())) {
+        if (! in_array($event, $this->getEventList())) {
             throw new \Exception(sprintf('Wrong event "%s" specified', $event));
         }
 
@@ -334,10 +306,7 @@ abstract class AbstractLinearCreative extends AbstractCreative
     }
 
     /**
-     * @param string $url
-     * @param int|string $offset seconds or time in format "H:m:i" or percents in format "n%"
-     *
-     * @return AbstractLinearCreative
+     * @param  int|string  $offset  seconds or time in format "H:m:i" or percents in format "n%"
      */
     public function addProgressTrackingEvent(string $url, $offset): self
     {
@@ -365,8 +334,7 @@ abstract class AbstractLinearCreative extends AbstractCreative
      * Convert seconds to H:m:i
      * Hours could be more than 24
      *
-     * @param mixed $seconds
-     *
+     * @param  mixed  $seconds
      * @return string
      */
     protected function secondsToString($seconds)
@@ -377,14 +345,14 @@ abstract class AbstractLinearCreative extends AbstractCreative
 
         // get hours
         $hours = floor($seconds / 3600);
-        $time[] = str_pad((string)$hours, 2, '0', STR_PAD_LEFT);
+        $time[] = str_pad((string) $hours, 2, '0', STR_PAD_LEFT);
 
         // get minutes
         $seconds = $seconds % 3600;
-        $time[] = str_pad((string)floor($seconds / 60), 2, '0', STR_PAD_LEFT);
+        $time[] = str_pad((string) floor($seconds / 60), 2, '0', STR_PAD_LEFT);
 
         // get seconds
-        $time[] = str_pad((string)($seconds % 60), 2, '0', STR_PAD_LEFT);
+        $time[] = str_pad((string) ($seconds % 60), 2, '0', STR_PAD_LEFT);
 
         return implode(':', $time);
     }

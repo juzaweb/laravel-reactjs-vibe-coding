@@ -63,6 +63,7 @@ class SettingController extends APIController
      *
      *          @OA\JsonContent(
      *              required={"settings"},
+     *
      *              @OA\Property(
      *                  property="settings",
      *                  type="object",

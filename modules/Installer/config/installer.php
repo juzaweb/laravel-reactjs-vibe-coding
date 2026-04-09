@@ -59,11 +59,11 @@ return [
     'environment' => [
         'form' => [
             'rules' => [
-                'database_hostname'     => 'required|string|max:150',
-                'database_port'         => 'required|numeric',
-                'database_name'         => 'required|string|max:150',
-                'database_username'     => 'required|string|max:150',
-                'database_password'     => 'nullable|string|max:150',
+                'database_hostname' => 'required|string|max:150',
+                'database_port' => 'required|numeric',
+                'database_name' => 'required|string|max:150',
+                'database_username' => 'required|string|max:150',
+                'database_password' => 'nullable|string|max:150',
             ],
         ],
     ],

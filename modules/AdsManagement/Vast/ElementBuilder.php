@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -26,10 +27,6 @@ class ElementBuilder
 {
     /**
      * <?xml> with <VAST> inside
-     *
-     * @param \DomDocument $xmlDocument
-     *
-     * @return Document
      */
     public function createDocument(\DomDocument $xmlDocument): Document
     {
@@ -41,10 +38,6 @@ class ElementBuilder
 
     /**
      * <Ad> with <InLine> inside
-     *
-     * @param \DomElement $adElement
-     *
-     * @return InLine
      */
     public function createInLineAdNode(\DomElement $adElement): InLine
     {
@@ -53,10 +46,6 @@ class ElementBuilder
 
     /**
      * <Ad> with <Wrapper> inside
-     *
-     * @param \DomElement $adElement
-     *
-     * @return Wrapper
      */
     public function createWrapperAdNode(\DomElement $adElement): Wrapper
     {
@@ -65,10 +54,6 @@ class ElementBuilder
 
     /**
      * <Ad><InLine><Creatives><Creative> with <Linear> inside
-     *
-     * @param \DOMElement $creativeDomElement
-     *
-     * @return InLineAdLinearCreative
      */
     public function createInLineAdLinearCreative(\DOMElement $creativeDomElement): InLineAdLinearCreative
     {
@@ -77,10 +62,6 @@ class ElementBuilder
 
     /**
      * <Ad><Wrapper><Creatives><Creative> with <Linear> inside
-     *
-     * @param \DOMElement $creativeDomElement
-     *
-     * @return WrapperAdLinearCreative
      */
     public function createWrapperAdLinearCreative(\DOMElement $creativeDomElement): WrapperAdLinearCreative
     {
@@ -89,10 +70,6 @@ class ElementBuilder
 
     /**
      * <Ad><InLine><Creatives><Creative><Linear><MediaFiles><MediaFile>
-     *
-     * @param \DOMElement $mediaFileDomElement
-     *
-     * @return MediaFile
      */
     public function createInLineAdLinearCreativeMediaFile(\DOMElement $mediaFileDomElement): MediaFile
     {
@@ -101,10 +78,6 @@ class ElementBuilder
 
     /**
      * <Ad><InLine><Creatives><Creative><Linear><MediaFiles><ClosedCaptionFiles><ClosedCaptionFile>
-     *
-     * @param \DOMElement $mediaFileDomElement
-     *
-     * @return ClosedCaptionFile
      */
     public function createInLineAdLinearCreativeClosedCaptionFile(\DOMElement $mediaFileDomElement): ClosedCaptionFile
     {

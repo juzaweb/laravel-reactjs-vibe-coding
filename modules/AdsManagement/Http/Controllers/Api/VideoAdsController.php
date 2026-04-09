@@ -29,6 +29,7 @@ class VideoAdsController extends APIController
      *          description="Successful operation",
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="data", type="array", @OA\Items(ref="#/components/schemas/VideoAdsResource")),
      *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
      *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
@@ -43,7 +44,7 @@ class VideoAdsController extends APIController
         $query = VideoAds::query();
 
         if ($request->has('keyword')) {
-            $query->where('name', 'like', '%' . $request->input('keyword') . '%');
+            $query->where('name', 'like', '%'.$request->input('keyword').'%');
         }
 
         $items = $query->paginate($limit);
@@ -79,6 +80,7 @@ class VideoAdsController extends APIController
         $model = DB::transaction(
             function () use ($request) {
                 $data = $request->validated();
+
                 return VideoAds::create($data);
             }
         );
@@ -106,6 +108,7 @@ class VideoAdsController extends APIController
      *          description="Successful operation",
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="data", ref="#/components/schemas/VideoAdsResource"),
      *              @OA\Property(property="success", type="boolean", example=true)
      *          )
@@ -161,6 +164,7 @@ class VideoAdsController extends APIController
             function () use ($request, $model) {
                 $data = $request->validated();
                 $model->update($data);
+
                 return $model;
             }
         );
@@ -188,6 +192,7 @@ class VideoAdsController extends APIController
      *          description="Successful operation",
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Deleted successfully"),
      *          )
      *      ),
@@ -214,6 +219,7 @@ class VideoAdsController extends APIController
      *          required=true,
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="ids", type="array", @OA\Items(type="string")),
      *              @OA\Property(property="action", type="string")
      *          )
@@ -224,6 +230,7 @@ class VideoAdsController extends APIController
      *          description="Successful operation",
      *
      *          @OA\JsonContent(
+     *
      *              @OA\Property(property="message", type="string", example="Bulk action successfully")
      *          )
      *      )

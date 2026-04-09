@@ -32,7 +32,7 @@ class BannerAdController extends AdminController
 
         $locale = $this->getFormLanguage();
         $action = action([static::class, 'store']);
-        $model = new BannerAds();
+        $model = new BannerAds;
         $positions = Ads::bannerPositions();
 
         return view(
@@ -132,18 +132,21 @@ class BannerAdController extends AdminController
                     ->get()
                     ->each
                     ->delete();
+
                 return $this->success(__('ad-management::translation.deleted_selected_ads_banners_successfully'));
             case 'activate':
                 BannerAds::whereIn('id', $ids)
                     ->get()
                     ->each
                     ->update(['active' => true]);
+
                 return $this->success(__('ad-management::translation.activated_selected_ads_banners_successfully'));
             case 'deactivate':
                 BannerAds::whereIn('id', $ids)
                     ->get()
                     ->each
                     ->update(['active' => false]);
+
                 return $this->success(__('ad-management::translation.deactivated_selected_ads_banners_successfully'));
             default:
                 return $this->error(__('core::translation.invalid_action'));

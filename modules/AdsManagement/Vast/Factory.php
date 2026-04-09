@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -19,13 +20,10 @@ class Factory
      */
     private $vastElementBuilder;
 
-    /**
-     * @param ElementBuilder $vastElementBuilder
-     */
-    public function __construct(ElementBuilder $vastElementBuilder = null)
+    public function __construct(?ElementBuilder $vastElementBuilder = null)
     {
         if ($vastElementBuilder === null) {
-            $vastElementBuilder = new ElementBuilder();
+            $vastElementBuilder = new ElementBuilder;
         }
 
         $this->vastElementBuilder = $vastElementBuilder;
@@ -33,10 +31,6 @@ class Factory
 
     /**
      * Create new VAST document
-     *
-     * @param string $vastVersion
-     *
-     * @return Document
      */
     public function create(string $vastVersion = '2.0'): Document
     {
@@ -57,10 +51,6 @@ class Factory
 
     /**
      * Create VAST document from file
-     *
-     * @param string $filename
-     *
-     * @return Document
      */
     public function fromFile(string $filename): Document
     {
@@ -72,10 +62,6 @@ class Factory
 
     /**
      * Create VAST document from given string with xml
-     *
-     * @param string $xmlString
-     *
-     * @return Document
      */
     public function fromString(string $xmlString): Document
     {
@@ -87,8 +73,6 @@ class Factory
 
     /**
      * Create dom document
-     *
-     * @return \DomDocument
      */
     private function createDomDocument(): \DOMDocument
     {

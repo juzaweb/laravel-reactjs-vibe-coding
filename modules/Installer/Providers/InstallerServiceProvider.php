@@ -13,12 +13,12 @@ class InstallerServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->publishFiles();
-        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-        if (file_exists(__DIR__ . '/../routes/api.php')) {
-            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        if (file_exists(__DIR__.'/../routes/api.php')) {
+            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         }
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/installer.php',
+            __DIR__.'/../config/installer.php',
             'installer'
         );
 
@@ -29,8 +29,6 @@ class InstallerServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap the application events.
-     *
-     * @param \Illuminate\Routing\Router $router
      */
     public function boot(Router $router): void
     {
@@ -38,18 +36,16 @@ class InstallerServiceProvider extends ServiceProvider
         $router->pushMiddlewareToGroup('theme', Installed::class);
         $router->pushMiddlewareToGroup('admin', Installed::class);
 
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'installer');
+        $this->loadViewsFrom(__DIR__.'/../resources/views', 'installer');
     }
 
     /**
      * Publish config file for the installer.
-     *
-     * @return void
      */
     protected function publishFiles(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/installer.php' => base_path('config/installer.php'),
+            __DIR__.'/../config/installer.php' => base_path('config/installer.php'),
         ], 'installer_config');
     }
 }

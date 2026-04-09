@@ -7,7 +7,7 @@ use Juzaweb\Modules\AdsManagement\Enums\BannerAdsType;
 use Juzaweb\Modules\AdsManagement\Models\BannerAds;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\Juzaweb\Modules\AdsManagement\Models\BannerAds>
+ * @extends Factory<BannerAds>
  */
 class BannerAdsFactory extends Factory
 {
@@ -46,7 +46,7 @@ class BannerAdsFactory extends Factory
         $title = $this->faker->randomElement($titles);
 
         return [
-            'name' => $this->faker->unique()->words(3, true) . ' Banner',
+            'name' => $this->faker->unique()->words(3, true).' Banner',
             'body' => $this->generateBannerHTML($gradient, $title),
             'active' => $this->faker->boolean(80), // 80% chance active
             'url' => $this->faker->url(),
@@ -81,7 +81,7 @@ class BannerAdsFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'type' => BannerAdsType::TYPE_BANNER,
-            'body' => 'uploads/banners/' . $this->faker->word() . '.jpg',
+            'body' => 'uploads/banners/'.$this->faker->word().'.jpg',
         ]);
     }
 

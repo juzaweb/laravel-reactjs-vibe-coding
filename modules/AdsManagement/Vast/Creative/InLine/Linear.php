@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -36,15 +37,13 @@ class Linear extends AbstractLinearCreative
     /**
      * Set duration value
      *
-     * @param int|string $duration seconds or time in format "H:m:i"
-     *
-     * @return Linear
+     * @param  int|string  $duration  seconds or time in format "H:m:i"
      */
     public function setDuration($duration): self
     {
         // get dom element
         $durationDomElement = $this->getDomElement()->getElementsByTagName('Duration')->item(0);
-        if (!$durationDomElement) {
+        if (! $durationDomElement) {
             $durationDomElement = $this->getDomElement()->ownerDocument->createElement('Duration');
             $this->getDomElement()->getElementsByTagName('Linear')->item(0)->appendChild($durationDomElement);
         }
@@ -60,14 +59,11 @@ class Linear extends AbstractLinearCreative
         return $this;
     }
 
-    /**
-     * @return \DOMElement
-     */
     private function getMediaFilesElement(): \DOMElement
     {
         if (empty($this->mediaFilesDomElement)) {
             $this->mediaFilesDomElement = $this->getDomElement()->getElementsByTagName('MediaFiles')->item(0);
-            if (!$this->mediaFilesDomElement) {
+            if (! $this->mediaFilesDomElement) {
                 $this->mediaFilesDomElement = $this->getDomElement()->ownerDocument->createElement('MediaFiles');
                 $this->getDomElement()
                     ->getElementsByTagName('Linear')
@@ -79,9 +75,6 @@ class Linear extends AbstractLinearCreative
         return $this->mediaFilesDomElement;
     }
 
-    /**
-     * @return MediaFile
-     */
     public function createMediaFile(): MediaFile
     {
         // get needed DOM element
@@ -95,22 +88,19 @@ class Linear extends AbstractLinearCreative
         return $this->vastElementBuilder->createInLineAdLinearCreativeMediaFile($mediaFileDomElement);
     }
 
-    /**
-     * @return ClosedCaptionFile
-     */
     public function createClosedCaptionFile(): ClosedCaptionFile
     {
-        //ensure closedCaptionFilesDomElement existence
+        // ensure closedCaptionFilesDomElement existence
         if (empty($this->closedCaptionFilesDomElement)) {
             $mediaFilesElement = $this->getMediaFilesElement();
             $this->closedCaptionFilesDomElement = $mediaFilesElement->getElementsByTagName('ClosedCaptionFiles')->item(0);
-            if (!$this->closedCaptionFilesDomElement) {
+            if (! $this->closedCaptionFilesDomElement) {
                 $this->closedCaptionFilesDomElement = $this->getDomElement()->ownerDocument->createElement('ClosedCaptionFiles');
                 $mediaFilesElement->appendChild($this->closedCaptionFilesDomElement);
             }
         }
 
-        //create closedCaptionFileDomElement and append to closedCaptionFilesDomElement
+        // create closedCaptionFileDomElement and append to closedCaptionFilesDomElement
         $closedCaptionFileDomElement = $this->closedCaptionFilesDomElement->ownerDocument->createElement('ClosedCaptionFile');
         $this->closedCaptionFilesDomElement->appendChild($closedCaptionFileDomElement);
 
@@ -118,14 +108,12 @@ class Linear extends AbstractLinearCreative
     }
 
     /**
-     * @param array|string $params
-     *
-     * @return self
+     * @param  array|string  $params
      */
     public function setAdParameters($params): Linear
     {
         $this->adParametersDomElement = $this->getDomElement()->getElementsByTagName('AdParameters')->item(0);
-        if (!$this->adParametersDomElement) {
+        if (! $this->adParametersDomElement) {
             $this->adParametersDomElement = $this->getDomElement()->ownerDocument->createElement('AdParameters');
             $this->getDomElement()->getElementsByTagName('Linear')->item(0)->appendChild($this->adParametersDomElement);
         }
@@ -148,9 +136,7 @@ class Linear extends AbstractLinearCreative
     }
 
     /**
-     * @param int|string $time seconds or time in format "H:m:i"
-     *
-     * @return Linear
+     * @param  int|string  $time  seconds or time in format "H:m:i"
      */
     public function skipAfter($time): self
     {
@@ -168,16 +154,14 @@ class Linear extends AbstractLinearCreative
      * Paragraph 3.7.1
      * https://iabtechlab.com/wp-content/uploads/2018/11/VAST4.1-final-Nov-8-2018.pdf
      *
-     * @param int|string $idRegistry
-     * @param int|string $universalAdId
-     *
-     * @return Linear
+     * @param  int|string  $idRegistry
+     * @param  int|string  $universalAdId
      */
     public function setUniversalAdId($idRegistry, $universalAdId): self
     {
         $universalAdIdDomElement = $this->getDomElement()->ownerDocument->createElement('UniversalAdId');
         $universalAdIdDomElement->nodeValue = $universalAdId;
-        $universalAdIdDomElement->setAttribute("idRegistry", $idRegistry);
+        $universalAdIdDomElement->setAttribute('idRegistry', $idRegistry);
         $this->getDomElement()->insertBefore($universalAdIdDomElement, $this->getDomElement()->firstChild);
 
         return $this;
@@ -185,10 +169,6 @@ class Linear extends AbstractLinearCreative
 
     /**
      * Set 'id' attribute of 'creative' element
-     *
-     * @param string $id
-     *
-     * @return Linear
      */
     public function setId(string $id): self
     {
@@ -199,10 +179,6 @@ class Linear extends AbstractLinearCreative
 
     /**
      * Set 'adId' attribute of 'creative' element
-     *
-     * @param string $adId
-     *
-     * @return Linear
      */
     public function setAdId(string $adId): self
     {

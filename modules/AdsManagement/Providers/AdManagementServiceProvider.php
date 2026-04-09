@@ -2,7 +2,6 @@
 
 namespace Juzaweb\Modules\AdsManagement\Providers;
 
-use Illuminate\Support\Facades\File;
 use Juzaweb\Modules\AdsManagement\Ads;
 use Juzaweb\Modules\AdsManagement\AdsRepository;
 use Juzaweb\Modules\Core\Facades\Menu;
@@ -20,7 +19,7 @@ class AdManagementServiceProvider extends ServiceProvider
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
         $this->app->register(RouteServiceProvider::class);
 
         $this->app->singleton(Ads::class, AdsRepository::class);
@@ -56,24 +55,24 @@ class AdManagementServiceProvider extends ServiceProvider
     protected function registerConfig(): void
     {
         $this->publishes([
-            __DIR__ . '/../config/ad-management.php' => config_path('ad-management.php'),
+            __DIR__.'/../config/ad-management.php' => config_path('ad-management.php'),
         ], 'ad-management-config');
-        $this->mergeConfigFrom(__DIR__ . '/../config/ad-management.php', 'ad-management');
+        $this->mergeConfigFrom(__DIR__.'/../config/ad-management.php', 'ad-management');
     }
 
     protected function registerTranslations(): void
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'ad-management');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ad-management');
     }
 
     protected function registerViews(): void
     {
         $viewPath = resource_path('views/modules/ad-management');
 
-        $sourcePath = __DIR__ . '/../resources/views';
+        $sourcePath = __DIR__.'/../resources/views';
 
         $this->publishes([
-            $sourcePath => $viewPath
+            $sourcePath => $viewPath,
         ], ['views', 'ad-management-module-views']);
 
         $this->loadViewsFrom($sourcePath, 'ad-management');

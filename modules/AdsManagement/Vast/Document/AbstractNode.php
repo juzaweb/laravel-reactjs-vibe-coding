@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -16,18 +17,14 @@ abstract class AbstractNode
 {
     /**
      * Root DOM element, represented by this Node class.
-     *
-     * @return \DOMElement
      */
     abstract protected function getDomElement(): \DOMElement;
 
     /**
      * Set cdata for given child node or create new child node
      *
-     * @param string $name name of node
-     * @param string $value value of cdata
-     *
-     * @return AbstractNode
+     * @param  string  $name  name of node
+     * @param  string  $value  value of cdata
      */
     protected function setScalarNodeCdata($name, $value): self
     {
@@ -52,10 +49,6 @@ abstract class AbstractNode
     }
 
     /**
-     * @param string $name
-     *
-     * @return string
-     *
      * @throws \InvalidArgumentException when node not found
      */
     protected function getScalarNodeValue(string $name): string
@@ -71,11 +64,8 @@ abstract class AbstractNode
     /**
      * Append new child node to node
      *
-     * @param string $nodeName
-     * @param string $value
-     * @param array $attributes
-     *
-     * @return AbstractNode
+     * @param  string  $nodeName
+     * @param  string  $value
      */
     protected function addCdataNode($nodeName, $value, array $attributes = []): self
     {
@@ -96,8 +86,6 @@ abstract class AbstractNode
     }
 
     /**
-     * @param string $nodeName
-     *
      * @return string[]
      */
     protected function getValuesOfArrayNode(string $nodeName): array

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -27,9 +28,6 @@ class InLine extends AbstractAdNode
      */
     const CREATIVE_TYPE_LINEAR = 'Linear';
 
-    /**
-     * @return string
-     */
     public function getAdSubElementTagName(): string
     {
         return self::TAG_NAME;
@@ -37,10 +35,6 @@ class InLine extends AbstractAdNode
 
     /**
      * Set Ad title
-     *
-     * @param string $value
-     *
-     * @return InLine
      */
     public function setAdTitle(string $value): self
     {
@@ -60,9 +54,6 @@ class InLine extends AbstractAdNode
     }
 
     /**
-     * @param string $type
-     * @param \DOMElement $creativeDomElement
-     *
      * @return AbstractCreative|InLineAdLinearCreative
      */
     protected function buildCreativeElement(string $type, \DOMElement $creativeDomElement): AbstractCreative
@@ -82,8 +73,6 @@ class InLine extends AbstractAdNode
      * Create Linear creative
      *
      * @throws \Exception
-     *
-     * @return InLineAdLinearCreative
      */
     public function createLinearCreative(): InLineAdLinearCreative
     {

@@ -7,15 +7,15 @@ use Juzaweb\Modules\Installer\Tests\TestCase;
 
 class PermissionsCheckerTest extends TestCase
 {
-    public function testCheckPermissionsPassedWhenOwnerMatches()
+    public function test_check_permissions_passed_when_owner_matches()
     {
-        $checker = new PermissionsChecker();
+        $checker = new PermissionsChecker;
 
         $testFolder = 'test_permissions_folder';
         $fullPath = base_path($testFolder);
 
         // Create the test folder
-        if (!is_dir($fullPath)) {
+        if (! is_dir($fullPath)) {
             mkdir($fullPath);
         }
 
@@ -27,7 +27,7 @@ class PermissionsCheckerTest extends TestCase
         chmod($fullPath, 0000);
 
         $folders = [
-            $testFolder => '775'
+            $testFolder => '775',
         ];
 
         $results = $checker->check($folders);
@@ -44,14 +44,14 @@ class PermissionsCheckerTest extends TestCase
         $this->assertTrue($results['permissions'][0]['isSet']);
     }
 
-    public function testCheckPermissionsPassedNormally()
+    public function test_check_permissions_passed_normally()
     {
-        $checker = new PermissionsChecker();
+        $checker = new PermissionsChecker;
 
         $testFolder = 'test_permissions_folder_normal';
         $fullPath = base_path($testFolder);
 
-        if (!is_dir($fullPath)) {
+        if (! is_dir($fullPath)) {
             mkdir($fullPath);
         }
 
@@ -67,7 +67,7 @@ class PermissionsCheckerTest extends TestCase
         chmod($fullPath, 0775);
 
         $folders = [
-            $testFolder => '775'
+            $testFolder => '775',
         ];
 
         $results = $checker->check($folders);

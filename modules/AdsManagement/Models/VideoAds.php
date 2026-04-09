@@ -11,7 +11,7 @@ use Juzaweb\Modules\Core\Traits\HasResource;
 
 class VideoAds extends Model
 {
-    use HasUuids, HasFactory, HasResource;
+    use HasFactory, HasResource, HasUuids;
 
     protected $table = 'video_ads';
 

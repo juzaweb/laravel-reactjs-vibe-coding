@@ -15,7 +15,7 @@ use Juzaweb\Modules\Core\Traits\HasResource;
 
 class BannerAds extends Model
 {
-    use HasUuids, HasFactory, HasResource;
+    use HasFactory, HasResource, HasUuids;
 
     protected $table = 'banner_ads';
 
@@ -45,7 +45,7 @@ class BannerAds extends Model
     public function getBody(): ?string
     {
         if ($this->type == BannerAdsType::TYPE_BANNER) {
-            return '<a href="' . $this->url . '" target="_blank"><img src="' . upload_url($this->body) . '"></a>';
+            return '<a href="'.$this->url.'" target="_blank"><img src="'.upload_url($this->body).'"></a>';
         }
 
         return $this->body;

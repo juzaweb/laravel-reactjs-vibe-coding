@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -27,9 +28,6 @@ class Wrapper extends AbstractAdNode
      */
     const CREATIVE_TYPE_LINEAR = 'Linear';
 
-    /**
-     * @return string
-     */
     public function getAdSubElementTagName(): string
     {
         return self::TAG_NAME;
@@ -37,10 +35,6 @@ class Wrapper extends AbstractAdNode
 
     /**
      * URI of ad tag of downstream Secondary Ad Server
-     *
-     * @param string $uri
-     *
-     * @return Wrapper
      */
     public function setVASTAdTagURI(string $uri): self
     {
@@ -60,9 +54,6 @@ class Wrapper extends AbstractAdNode
     }
 
     /**
-     * @param string $type
-     * @param \DOMElement $creativeDomElement
-     *
      * @return AbstractCreative|WrapperAdLinearCreative
      */
     protected function buildCreativeElement(string $type, \DOMElement $creativeDomElement): AbstractCreative
@@ -81,7 +72,6 @@ class Wrapper extends AbstractAdNode
     /**
      * Create Linear creative
      *
-     * @return WrapperAdLinearCreative
      *
      * @throws \Exception
      */

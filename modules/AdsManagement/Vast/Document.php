@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -36,18 +37,12 @@ class Document extends AbstractNode
      */
     private $vastAdNodeList = [];
 
-    /**
-     * @param \DOMDocument $DOMDocument
-     */
     public function __construct(\DOMDocument $DOMDocument, ElementBuilder $vastElementBuilder)
     {
         $this->domDocument = $DOMDocument;
         $this->vastElementBuilder = $vastElementBuilder;
     }
 
-    /**
-     * @return \DOMElement
-     */
     protected function getDomElement(): \DOMElement
     {
         return $this->domDocument->documentElement;
@@ -65,8 +60,6 @@ class Document extends AbstractNode
 
     /**
      * Get DomDocument object
-     *
-     * @return \DomDocument
      */
     public function toDomDocument(): \DOMDocument
     {
@@ -76,16 +69,15 @@ class Document extends AbstractNode
     /**
      * Create "Ad" section on "VAST" node
      *
-     * @param string $type
+     * @param  string  $type
+     * @return AbstractAdNode|InLine|Wrapper
      *
      * @throws \InvalidArgumentException
-     *
-     * @return AbstractAdNode|InLine|Wrapper
      */
     private function createAdSection($type): AbstractAdNode
     {
         // Check Ad type
-        if (!in_array($type, [InLine::TAG_NAME, Wrapper::TAG_NAME])) {
+        if (! in_array($type, [InLine::TAG_NAME, Wrapper::TAG_NAME])) {
             throw new \InvalidArgumentException(sprintf('Ad type %s not supported', $type));
         }
 
@@ -117,8 +109,6 @@ class Document extends AbstractNode
 
     /**
      * Create inline Ad section
-     *
-     * @return \Juzaweb\Modules\AdsManagement\Vast\Ad\InLine
      */
     public function createInLineAdSection(): InLine
     {
@@ -127,15 +117,13 @@ class Document extends AbstractNode
 
     /**
      * Create Wrapper Ad section
-     *
-     * @return \Juzaweb\Modules\AdsManagement\Vast\Ad\Wrapper
      */
     public function createWrapperAdSection(): Wrapper
     {
         return $this->createAdSection(Wrapper::TAG_NAME);
     }
 
-    public function createAdBreak(string $timeOffset, string $breakType = 'linear', string $breakId = null)
+    public function createAdBreak(string $timeOffset, string $breakType = 'linear', ?string $breakId = null)
     {
         $adBreakElement = $this->toDomDocument()->createElement('AdBreak');
         $adBreakElement->setAttribute('timeOffset', $timeOffset);
@@ -158,23 +146,23 @@ class Document extends AbstractNode
      */
     public function getAdSections(): array
     {
-        if (!empty($this->vastAdNodeList)) {
+        if (! empty($this->vastAdNodeList)) {
             return $this->vastAdNodeList;
         }
 
         foreach ($this->domDocument->documentElement->childNodes as $adDomElement) {
             // get Ad tag
-            if (!$adDomElement instanceof \DOMElement) {
+            if (! $adDomElement instanceof \DOMElement) {
                 continue;
             }
 
-            if ('ad' !== strtolower($adDomElement->tagName)) {
+            if (strtolower($adDomElement->tagName) !== 'ad') {
                 continue;
             }
 
             // get Ad type tag
             foreach ($adDomElement->childNodes as $node) {
-                if (!($node instanceof \DOMElement)) {
+                if (! ($node instanceof \DOMElement)) {
                     continue;
                 }
 
@@ -189,7 +177,7 @@ class Document extends AbstractNode
                         $adSection = $this->vastElementBuilder->createWrapperAdNode($adDomElement);
                         break;
                     default:
-                        throw new \Exception('Ad type ' . $type . ' not supported');
+                        throw new \Exception('Ad type '.$type.' not supported');
                 }
 
                 $this->vastAdNodeList[] = $adSection;
@@ -202,21 +190,16 @@ class Document extends AbstractNode
     /**
      * Add Error tracking url.
      * Allowed multiple error elements.
-     *
-     * @param string $url
-     *
-     * @return Document
      */
     public function addErrors(string $url): self
     {
         $this->addCdataNode('Error', $url);
+
         return $this;
     }
 
     /**
      * Get previously set error tracking url value
-     *
-     * @return array
      */
     public function getErrors(): array
     {

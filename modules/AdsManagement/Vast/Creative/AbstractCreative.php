@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,7 +15,4 @@ namespace Juzaweb\Modules\AdsManagement\Vast\Creative;
 
 use Juzaweb\Modules\AdsManagement\Vast\Document\AbstractNode;
 
-abstract class AbstractCreative extends AbstractNode
-{
-
-}
+abstract class AbstractCreative extends AbstractNode {}

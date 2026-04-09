@@ -4,9 +4,6 @@ namespace Juzaweb\Modules\Installer\Helpers;
 
 class PermissionsChecker
 {
-    /**
-     * @var array
-     */
     protected array $results = [];
 
     /**
@@ -23,9 +20,6 @@ class PermissionsChecker
 
     /**
      * Check for the folders permissions.
-     *
-     * @param array $folders
-     * @return array
      */
     public function check(array $folders): array
     {
@@ -34,6 +28,7 @@ class PermissionsChecker
 
             if (file_exists($folderPath) && fileowner($folderPath) === getmyuid()) {
                 $this->addFile($folder, $permission, true);
+
                 continue;
             }
 
@@ -49,9 +44,6 @@ class PermissionsChecker
 
     /**
      * Get a folder permission.
-     *
-     * @param $folder
-     * @return string
      */
     private function getPermission($folder): string
     {
@@ -60,10 +52,6 @@ class PermissionsChecker
 
     /**
      * Add the file to the list of results.
-     *
-     * @param $folder
-     * @param $permission
-     * @param $isSet
      */
     private function addFile($folder, $permission, $isSet): void
     {
@@ -76,10 +64,6 @@ class PermissionsChecker
 
     /**
      * Add the file and set the errors.
-     *
-     * @param $folder
-     * @param $permission
-     * @param $isSet
      */
     private function addFileAndSetErrors($folder, $permission, $isSet): void
     {

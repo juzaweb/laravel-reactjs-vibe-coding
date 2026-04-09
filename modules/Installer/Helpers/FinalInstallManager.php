@@ -2,9 +2,9 @@
 
 namespace Juzaweb\Modules\Installer\Helpers;
 
-use Throwable;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Throwable;
 
 class FinalInstallManager
 {
@@ -12,6 +12,7 @@ class FinalInstallManager
      * Run final commands.
      *
      * @return string
+     *
      * @throws Throwable
      */
     public function runFinal()
@@ -27,13 +28,12 @@ class FinalInstallManager
     /**
      * Generate New Application Key.
      *
-     * @param \Symfony\Component\Console\Output\BufferedOutput $outputLog
-     * @return \Symfony\Component\Console\Output\BufferedOutput|array
+     * @return BufferedOutput|array
      */
     private static function generateKey(BufferedOutput $outputLog)
     {
         try {
-            if (config('installer.final.key') && !config('app.key')) {
+            if (config('installer.final.key') && ! config('app.key')) {
                 Artisan::call('key:generate', ['--force' => true], $outputLog);
             }
         } catch (Throwable $e) {
@@ -46,8 +46,8 @@ class FinalInstallManager
     /**
      * Publish vendor assets.
      *
-     * @param \Symfony\Component\Console\Output\BufferedOutput $outputLog
-     * @return \Symfony\Component\Console\Output\BufferedOutput|array
+     * @return BufferedOutput|array
+     *
      * @throws Throwable
      */
     private static function publishVendorAssets(BufferedOutput $outputLog)
@@ -55,7 +55,7 @@ class FinalInstallManager
         try {
             Artisan::call('vendor:publish', [
                 '--tag' => 'juzaweb_assets',
-                '--force' => true
+                '--force' => true,
             ], $outputLog);
 
             Artisan::call('storage:link', [], $outputLog);
@@ -69,8 +69,6 @@ class FinalInstallManager
     /**
      * Return a formatted error messages.
      *
-     * @param $message
-     * @param \Symfony\Component\Console\Output\BufferedOutput $outputLog
      * @return array
      */
     private static function response($message, BufferedOutput $outputLog)

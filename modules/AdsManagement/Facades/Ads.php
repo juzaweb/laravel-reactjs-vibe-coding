@@ -1,16 +1,19 @@
 <?php
+
 /**
  * JUZAWEB CMS - Laravel CMS for Your Project
  *
- * @package    juzaweb/cms
  * @author     The Anh Dang
+ *
  * @link       https://cms.juzaweb.com
+ *
  * @license    GNU V2
  */
 
 namespace Juzaweb\Modules\AdsManagement\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Juzaweb\Modules\AdsManagement\AdsRepository;
 
 /**
  * @method static void position(string $key, callable $callback)
@@ -20,7 +23,8 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Juzaweb\Modules\AdsManagement\Models\BannerAds|null getBanner(string $position)
  * @method static void enableVideoAds(bool $enabled = true)
  * @method static bool isVideoAdsEnabled()
- * @see \Juzaweb\Modules\AdsManagement\AdsRepository
+ *
+ * @see AdsRepository
  */
 class Ads extends Facade
 {

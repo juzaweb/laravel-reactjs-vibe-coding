@@ -10,7 +10,7 @@ class VideoAdTest extends TestCase
     public function test_show_video_ad_successfully()
     {
         $position = 'home_video';
-        $videoAd = new VideoAds();
+        $videoAd = new VideoAds;
         $videoAd->fill([
             'name' => 'Test Video Ad',
             'title' => 'Test Video Title',
@@ -50,7 +50,7 @@ class VideoAdTest extends TestCase
 
     public function test_track_impression_increments_views()
     {
-        $videoAd = new VideoAds();
+        $videoAd = new VideoAds;
         $videoAd->fill([
             'name' => 'Test Impression Ad',
             'title' => 'Impression Title',

@@ -11,7 +11,7 @@ export const useMedia = (page: number = 1, limit: number = 15, keyword: string =
           page,
           limit,
           keyword: keyword || undefined,
-          type: type === 'all' ? undefined : type
+          file_type: type === 'all' ? undefined : type
         }
       });
       return response.data;

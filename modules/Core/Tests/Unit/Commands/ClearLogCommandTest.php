@@ -3,15 +3,18 @@
 namespace Juzaweb\Modules\Core\Tests\Unit\Commands;
 
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Juzaweb\Modules\Core\Commands\ClearLogCommand;
 use Juzaweb\Modules\Core\Tests\TestCase;
 
 class ClearLogCommandTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_clear_log_command_removes_logs()
     {
-        $this->app->useStoragePath(sys_get_temp_dir() . '/juzaweb_test_storage');
+        $this->app->useStoragePath(sys_get_temp_dir().'/juzaweb_test_storage');
 
         // Register command
         $this->app[Kernel::class]->registerCommand(new ClearLogCommand);
@@ -41,7 +44,7 @@ class ClearLogCommandTest extends TestCase
 
     public function test_clear_log_command_fails_if_directory_missing()
     {
-        $this->app->useStoragePath(sys_get_temp_dir() . '/juzaweb_test_storage');
+        $this->app->useStoragePath(sys_get_temp_dir().'/juzaweb_test_storage');
 
         // Register command
         $this->app[Kernel::class]->registerCommand(new ClearLogCommand);

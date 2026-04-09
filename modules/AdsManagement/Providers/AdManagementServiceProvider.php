@@ -11,45 +11,17 @@ class AdManagementServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->registerMenus();
+        //
     }
 
     public function register(): void
     {
         $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
-        $this->loadMigrationsFrom(__DIR__.'/../../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
 
         $this->app->singleton(Ads::class, AdsRepository::class);
-    }
-
-    protected function registerMenus(): void
-    {
-        Menu::make('ad-management', function () {
-            return [
-                'title' => __('ad-management::translation.ad_management'),
-                'icon' => 'fa fa-image',
-                'priority' => 40,
-            ];
-        });
-
-        Menu::make('banner-ads', function () {
-            return [
-                'title' => __('ad-management::translation.banner_ads'),
-                'parent' => 'ad-management',
-                'permissions' => ['banner-ads.index'],
-            ];
-        });
-
-        Menu::make('video-ads', function () {
-            return [
-                'title' => __('ad-management::translation.video_ads'),
-                'parent' => 'ad-management',
-                'permissions' => ['video-ads.index'],
-            ];
-        });
     }
 
     protected function registerConfig(): void
@@ -63,18 +35,5 @@ class AdManagementServiceProvider extends ServiceProvider
     protected function registerTranslations(): void
     {
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'ad-management');
-    }
-
-    protected function registerViews(): void
-    {
-        $viewPath = resource_path('views/modules/ad-management');
-
-        $sourcePath = __DIR__.'/../resources/views';
-
-        $this->publishes([
-            $sourcePath => $viewPath,
-        ], ['views', 'ad-management-module-views']);
-
-        $this->loadViewsFrom($sourcePath, 'ad-management');
     }
 }

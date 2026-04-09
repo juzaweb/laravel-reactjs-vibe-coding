@@ -12,4 +12,5 @@ return [
     DevToolServiceProvider::class,
     AdminServiceProvider::class,
     AppServiceProvider::class,
+    Juzaweb\Modules\Installer\Providers\InstallerServiceProvider::class,
 ];

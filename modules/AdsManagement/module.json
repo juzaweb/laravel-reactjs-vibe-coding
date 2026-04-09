@@ -1,0 +1,10 @@
+{
+    "name": "AdManagement",
+    "alias": "ad-management",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Juzaweb\\Modules\\AdsManagement\\Providers\\AdManagementServiceProvider"
+    ]
+}

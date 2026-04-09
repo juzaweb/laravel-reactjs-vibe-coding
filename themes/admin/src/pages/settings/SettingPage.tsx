@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../components/ui/Button';
@@ -6,7 +6,7 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { Switch } from '../../components/ui/form/Switch';
 import { MediaPlaceholder } from '../../components/ui/form/MediaPlaceholder';
-import { useSettings, useUpdateSettings } from './hooks';
+import { fetchSettings, useUpdateSettings } from './hooks';
 
 interface SettingFormData {
   title: string;
@@ -25,9 +25,16 @@ interface SettingFormData {
   google_analytics: string;
 }
 
+type SettingsPayload = Record<string, unknown>;
+
+const toBoolean = (value: unknown): boolean => value === true || value === '1';
+
+const toStringValue = (value: unknown, fallback = ''): string =>
+  typeof value === 'string' ? value : fallback;
+
 export const SettingPage: React.FC = () => {
   const { t } = useTranslation();
-  const { data: settingsData, isLoading } = useSettings();
+  const [isLoading, setIsLoading] = useState(true);
   const updateSettingsMutation = useUpdateSettings();
 
   const { control, handleSubmit, reset } = useForm<SettingFormData>({
@@ -50,25 +57,45 @@ export const SettingPage: React.FC = () => {
   });
 
   useEffect(() => {
-    if (settingsData) {
-      reset({
-        title: settingsData.title || '',
-        description: settingsData.description || '',
-        sitename: settingsData.sitename || '',
-        user_registration: settingsData.user_registration === '1' || settingsData.user_registration === true,
-        user_verification: settingsData.user_verification === '1' || settingsData.user_verification === true,
-        custom_header_script: settingsData.custom_header_script || '',
-        custom_footer_script: settingsData.custom_footer_script || '',
-        enable_cookie_consent: settingsData.enable_cookie_consent === '1' || settingsData.enable_cookie_consent === true,
-        cookie_consent_message: settingsData.cookie_consent_message || '',
-        language: settingsData.language || 'en',
-        logo: settingsData.logo || '',
-        favicon: settingsData.favicon || '',
-        banner: settingsData.banner || '',
-        google_analytics: settingsData.google_analytics || '',
-      });
-    }
-  }, [settingsData, reset]);
+    let isMounted = true;
+
+    const loadSettings = async () => {
+      try {
+        const settingsData = await fetchSettings();
+        if (!isMounted || !settingsData) {
+          return;
+        }
+
+        const data = settingsData as SettingsPayload;
+        reset({
+          title: toStringValue(data.title),
+          description: toStringValue(data.description),
+          sitename: toStringValue(data.sitename),
+          user_registration: toBoolean(data.user_registration),
+          user_verification: toBoolean(data.user_verification),
+          custom_header_script: toStringValue(data.custom_header_script),
+          custom_footer_script: toStringValue(data.custom_footer_script),
+          enable_cookie_consent: toBoolean(data.enable_cookie_consent),
+          cookie_consent_message: toStringValue(data.cookie_consent_message),
+          language: toStringValue(data.language, 'en'),
+          logo: toStringValue(data.logo),
+          favicon: toStringValue(data.favicon),
+          banner: toStringValue(data.banner),
+          google_analytics: toStringValue(data.google_analytics),
+        });
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void loadSettings();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [reset]);
 
   const onSubmit = async (data: SettingFormData) => {
     const formattedData = {

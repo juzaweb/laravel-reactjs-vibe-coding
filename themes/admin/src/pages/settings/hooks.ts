@@ -2,8 +2,14 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosClient from '../../utils/axiosClient';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fetchGlobalSettings = async (): Promise<any> => {
+export const fetchGlobalSettings = async (): Promise<any> => {
   const response = await axiosClient.get('/v1/app/settings');
+  return response.data?.data || null;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const fetchSettings = async (): Promise<any> => {
+  const response = await axiosClient.get('/v1/settings');
   return response.data?.data || null;
 };
 

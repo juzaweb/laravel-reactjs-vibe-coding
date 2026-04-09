@@ -71,10 +71,15 @@ export default function PaymentDemo() {
 
       setSubmitResult(response.data);
 
+      if (response.data.data?.payment_history_id) {
+        sessionStorage.setItem("payment_history_id", response.data.data.payment_history_id);
+      }
+      sessionStorage.setItem("payment_module", module);
+
       if (response.data.data?.redirect) {
         window.location.href = response.data.data.redirect;
       } else if (response.data.data?.type === "embed" && response.data.data.embed_url) {
-        window.location.href = response.data.data.embed_url;
+        window.location.href = `/payment/embed?url=${encodeURIComponent(response.data.data.embed_url)}`;
       }
     } catch (err: unknown) {
       if (axios.isAxiosError(err)) {

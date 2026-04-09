@@ -87,6 +87,7 @@ class MenuController extends APIController
             DB::rollBack();
             throw $e;
         }
+        $menu = Menu::withDataItems(app()->getLocale())->findOrFail($menu->id);
 
         return $this->restSuccess($menu);
     }
@@ -175,6 +176,7 @@ class MenuController extends APIController
             DB::rollBack();
             throw $e;
         }
+        $menu = Menu::withDataItems(app()->getLocale())->findOrFail($menu->id);
 
         return $this->restSuccess($menu);
     }

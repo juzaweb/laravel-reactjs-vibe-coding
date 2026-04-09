@@ -204,7 +204,7 @@ export const MenusManager: React.FC = () => {
     const cleanItem = (item: MenuItem): any => {
       return {
         ...item,
-        id: item.id?.startsWith('temp-') ? undefined : item.id,
+        id: typeof item.id === 'string' && item.id.startsWith('temp-') ? undefined : item.id,
         children: item.children ? item.children.map(cleanItem) : []
       };
     };

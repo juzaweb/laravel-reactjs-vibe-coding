@@ -105,6 +105,7 @@ Instead of putting all business logic inside the generic `/app` directory, this 
 - The public API for app route prefix is `/app`.
 - Always use `restSuccess` and `restFail` in trait `HasRestResponses` for API responses. Using `public static function getResource(): string` method in model (define in `HasResource` trait) to custom Resource for api response.
 - To build, lint, or run the local development server for the themes/admin, themes/app frontend, use `npm run build`, `npm run lint`, and `npm run dev` respectively within the themes/admin, themes/app directory.
+- Clean up irrelevant files before submiting.
 
 
 ## 6. AI Agent Guidelines (Memories)

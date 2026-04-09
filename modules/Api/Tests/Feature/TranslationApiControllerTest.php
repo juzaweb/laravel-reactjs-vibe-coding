@@ -32,9 +32,9 @@ class TranslationApiControllerTest extends TestCase
         $this->actingAs($this->user, 'api');
     }
 
-    public function test_collection()
+    public function test_index()
     {
-        $response = $this->getJson('/api/v1/translations/en/collection');
+        $response = $this->getJson('/api/v1/translations/en');
 
         $response->assertStatus(200)
             ->assertJsonStructure([

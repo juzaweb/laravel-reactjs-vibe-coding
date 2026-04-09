@@ -2898,94 +2898,9 @@
                 "tags": [
                     "Translations"
                 ],
-                "summary": "Get i18n translation strings",
-                "description": "Returns all translation key-value pairs for the given locale in i18n flat format (namespace::group.key => value).",
-                "operationId": "402c10b61cdb883b47bc645a8a56a502",
-                "parameters": [
-                    {
-                        "name": "locale",
-                        "in": "path",
-                        "description": "Locale code, e.g. en, vi, ja",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "en"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "description": "Flat key-value pairs: namespace::group.key => translated string",
-                                    "type": "object"
-                                },
-                                "example": {
-                                    "core::app.save": "Save",
-                                    "core::app.cancel": "Cancel"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/error_500"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Translations"
-                ],
-                "summary": "Update a translation line",
-                "description": "Update or create a language line for a specific locale.",
-                "operationId": "e36ffdfaae5555b4d1ef8266afbc3dd2",
-                "parameters": [
-                    {
-                        "name": "locale",
-                        "in": "path",
-                        "description": "Locale code, e.g. en, vi, ja",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "en"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TranslationRequest"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful operation"
-                    },
-                    "500": {
-                        "$ref": "#/components/responses/error_500"
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/v1/translations/{locale}/collection": {
-            "get": {
-                "tags": [
-                    "Translations"
-                ],
                 "summary": "Get paginated/collection of translation strings",
                 "description": "Returns an array of translation items with namespace, group, key, and trans values.",
-                "operationId": "6390ee736c8520212240a726a0b99079",
+                "operationId": "402c10b61cdb883b47bc645a8a56a502",
                 "parameters": [
                     {
                         "name": "locale",
@@ -3038,6 +2953,49 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "$ref": "#/components/responses/error_500"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Translations"
+                ],
+                "summary": "Update a translation line",
+                "description": "Update or create a language line for a specific locale.",
+                "operationId": "e36ffdfaae5555b4d1ef8266afbc3dd2",
+                "parameters": [
+                    {
+                        "name": "locale",
+                        "in": "path",
+                        "description": "Locale code, e.g. en, vi, ja",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "en"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TranslationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
                     },
                     "500": {
                         "$ref": "#/components/responses/error_500"

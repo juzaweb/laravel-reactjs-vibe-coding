@@ -34,6 +34,11 @@ Route::middleware('auth:api')->group(
         Route::api('menus', MenuController::class);
         Route::get('settings', [SettingController::class, 'index']);
         Route::put('settings', [SettingController::class, 'update']);
+
+        Route::get('translations/{locale}/index', [TranslationController::class, 'index']);
+        Route::put('translations/{locale}', [TranslationController::class, 'update']);
+        Route::post('translations/translate-model', [TranslationController::class, 'translateModel']);
+        Route::post('translations/translate-status', [TranslationController::class, 'translateStatus']);
     }
 );
 

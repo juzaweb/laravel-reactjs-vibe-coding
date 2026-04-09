@@ -63,8 +63,6 @@ class MediaController extends APIController
         $limit = $this->getLimitRequest();
         $folderId = $request->input('folder_id');
         $type = $request->input('type');
-        $fileType = $request->input('file_type');
-
         $query = Media::query();
 
         $query->api($request->all());
@@ -77,9 +75,6 @@ class MediaController extends APIController
             $query->where('type', $type);
         }
 
-        if ($fileType) {
-            $query->fileTypeFilterable(['file_type' => $fileType]);
-        }
 
         $media = $query->paginate($limit);
 

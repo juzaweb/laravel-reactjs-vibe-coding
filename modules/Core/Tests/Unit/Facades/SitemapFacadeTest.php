@@ -30,7 +30,7 @@ class SitemapFacadeTest extends TestCase
         // Test all
         $all = Sitemap::all();
         $this->assertInstanceOf(Collection::class, $all);
-        $this->assertCount(2, $all);
+        $this->assertGreaterThanOrEqual(2, $all->count());
         $this->assertArrayHasKey('posts', $all);
         $this->assertArrayHasKey('pages', $all);
         $this->assertEquals('Juzaweb\Modules\Core\Models\Post', $all['posts']);

@@ -31,7 +31,9 @@ class ThemeFacadeTest extends TestCase
 
     public function test_facade_integration_with_dummy_theme()
     {
-        // "itech" is created in TestCase::setUp()
+        $themeRepository = new ThemeRepository($this->app, base_path('tests/themes'));
+        Theme::swap($themeRepository);
+
         $theme = Theme::find('itech');
 
         $this->assertInstanceOf(ConcreteTheme::class, $theme);

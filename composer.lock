@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f9dd814c7244b6918d9209de03c5990",
+    "content-hash": "59bd87baae8e0a5acc7c5dfd6517df97",
     "packages": [
         {
             "name": "astrotomic/laravel-translatable",
@@ -10470,6 +10470,76 @@
             "time": "2024-11-21T01:49:47+00:00"
         },
         {
+            "name": "webwizo/laravel-shortcodes",
+            "version": "v1.0.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webwizo/laravel-shortcodes.git",
+                "reference": "6980b6367493cd968c2c8145299974db969f8de6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/webwizo/laravel-shortcodes/zipball/6980b6367493cd968c2c8145299974db969f8de6",
+                "reference": "6980b6367493cd968c2c8145299974db969f8de6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "5.6.x|5.7.x|5.8.x|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/support": "5.6.x|5.7.x|5.8.x|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "illuminate/view": "5.6.x|5.7.x|5.8.x|^6.0|^7.0|^8.0|^9.0|^10.0|^11.0|^12.0",
+                "php": "^7.2|^8.0|^8.1|^8.2"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.9.0|^4.0|^5.0|^6.0|^7.0|^8.0|^10.0",
+                "phpunit/phpunit": "^8.0|^9.0|^11.5.3",
+                "scrutinizer/ocular": "^1.5",
+                "squizlabs/php_codesniffer": "~2.3|^3.7"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Shortcode": "Webwizo\\Shortcodes\\Facades\\Shortcode"
+                    },
+                    "providers": [
+                        "Webwizo\\Shortcodes\\ShortcodesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webwizo\\Shortcodes\\": "src"
+                },
+                "classmap": [
+                    "tests/TestCase.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Asif Iqbal",
+                    "email": "webwizo@gmail.com",
+                    "homepage": "http://www.webwizo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Wordpress like shortcodes for Laravel 5, 6, 7, 8, 9, 10, 11 and 12",
+            "homepage": "https://github.com/webwizo/laravel-shortcodes",
+            "keywords": [
+                "laravel",
+                "shortcodes",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/webwizo/laravel-shortcodes/issues",
+                "source": "https://github.com/webwizo/laravel-shortcodes/tree/v1.0.27"
+            },
+            "time": "2025-09-28T00:07:23+00:00"
+        },
+        {
             "name": "zircote/swagger-php",
             "version": "4.11.1",
             "source": {
@@ -13364,5 +13434,5 @@
         "ext-zip": "*"
     },
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

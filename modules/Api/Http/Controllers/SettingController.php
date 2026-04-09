@@ -28,9 +28,12 @@ class SettingController extends APIController
      *
      *          @OA\JsonContent(
      *
-     *              @OA\Property(property="data", type="array", @OA\Items(type="object")),
-     *              @OA\Property(property="meta", ref="#/components/schemas/PaginationMeta"),
-     *              @OA\Property(property="links", ref="#/components/schemas/PaginationLinks"),
+     *              @OA\Property(
+     *                  property="data",
+     *                  type="object",
+     *                  additionalProperties=true,
+     *                  example={"site_name":"Juzaweb CMS","site_description":"My website"}
+     *              ),
      *              @OA\Property(property="success", type="boolean", example=true),
      *          )
      *      ),
@@ -38,11 +41,11 @@ class SettingController extends APIController
      */
     public function index(Request $request): JsonResponse
     {
-        $limit = $this->getLimitRequest();
-
         $query = Setting::query()->api($request->all());
-
-        $settings = $query->paginate($limit);
+        $settings = $query
+            ->get()
+            ->mapWithKeys(fn (Setting $setting) => [$setting->code => $setting->value])
+            ->toArray();
 
         return $this->restSuccess($settings);
     }

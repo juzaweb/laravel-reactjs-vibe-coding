@@ -37,12 +37,9 @@ class SettingControllerTest extends TestCase
         $response = $this->getJson('/api/v1/settings');
 
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'data',
-            'meta',
-            'links',
-            'success',
-        ]);
+        $response->assertJsonStructure(['data', 'success']);
+        $response->assertJsonPath('success', true);
+        $response->assertJsonPath('data.test_code_1', 'test_value_1');
     }
 
     public function test_update()

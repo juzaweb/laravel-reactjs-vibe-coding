@@ -13,10 +13,7 @@ class InstallerServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->publishFiles();
-        $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        if (file_exists(__DIR__.'/../routes/api.php')) {
-            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
-        }
+        $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
         $this->mergeConfigFrom(
             __DIR__.'/../config/installer.php',
             'installer'

@@ -14,6 +14,9 @@ class InstallerServiceProvider extends ServiceProvider
     {
         $this->publishFiles();
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        if (file_exists(__DIR__ . '/../routes/api.php')) {
+            $this->loadRoutesFrom(__DIR__ . '/../routes/api.php');
+        }
         $this->mergeConfigFrom(
             __DIR__ . '/../config/installer.php',
             'installer'
@@ -34,6 +37,8 @@ class InstallerServiceProvider extends ServiceProvider
         $router->aliasMiddleware('install', CanInstall::class);
         $router->pushMiddlewareToGroup('theme', Installed::class);
         $router->pushMiddlewareToGroup('admin', Installed::class);
+
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'installer');
     }
 
     /**

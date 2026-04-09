@@ -35,6 +35,14 @@ import { ForgotPassword } from './pages/auth/ForgotPassword'
 import { ResetPassword } from './pages/auth/ResetPassword'
 import { VerifyEmail } from './pages/auth/VerifyEmail'
 import { ProtectedRoute } from './components/layout/ProtectedRoute'
+import { InstallerLayout } from './pages/installer/InstallerLayout'
+import { Welcome } from './pages/installer/Welcome'
+import { Requirements } from './pages/installer/Requirements'
+import { Permissions } from './pages/installer/Permissions'
+import { Environment } from './pages/installer/Environment'
+import { Database } from './pages/installer/Database'
+import { Admin as InstallerAdmin } from './pages/installer/Admin'
+import { Final } from './pages/installer/Final'
 
 function App() {
   const { theme } = useAppSelector((state) => state.ui)
@@ -52,6 +60,17 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Installer Routes */}
+        <Route path="/install" element={<InstallerLayout />}>
+          <Route index element={<Welcome />} />
+          <Route path="requirements" element={<Requirements />} />
+          <Route path="permissions" element={<Permissions />} />
+          <Route path="environment" element={<Environment />} />
+          <Route path="database" element={<Database />} />
+          <Route path="admin" element={<InstallerAdmin />} />
+          <Route path="final" element={<Final />} />
+        </Route>
+
         {/* Auth Routes */}
         <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<Login />} />

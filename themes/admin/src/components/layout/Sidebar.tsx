@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAppSelector, usePermissions } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit, FiCreditCard, FiPlay } from 'react-icons/fi';
+import { FiHome, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit, FiCreditCard, FiPlay } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
@@ -22,6 +22,9 @@ export const Sidebar: React.FC = () => {
   const isAdActive = location.pathname.startsWith('/admin/banner-ads') || location.pathname.startsWith('/admin/video-ads');
   const [isAdOpen, setIsAdOpen] = useState(isAdActive);
   const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(isSubscriptionActive);
+
+  const isSettingsActive = location.pathname.startsWith('/admin/settings') || location.pathname.startsWith('/admin/users') || location.pathname.startsWith('/admin/languages');
+  const [isSettingsOpen, setIsSettingsOpen] = useState(isSettingsActive);
 
   const activeModules = settings?.active_modules || [];
   const isBlogModuleActive = activeModules.includes('Blog');
@@ -89,9 +92,16 @@ export const Sidebar: React.FC = () => {
         ]
       : []),
     { name: t('menus', 'Menus'), path: '/admin/menus', icon: FiList, permission: null },
-    { name: t('languages', 'Languages'), path: '/admin/languages', icon: FiFileText, permission: null },
-    { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
-    { name: t('settings'), path: '/admin/settings', icon: FiSettings, permission: 'settings.index' },
+    {
+      name: t('settings'),
+      icon: FiSettings,
+      permission: null,
+      children: [
+        { name: t('general', 'General'), path: '/admin/settings', permission: 'settings.index' },
+        { name: t('users'), path: '/admin/users', permission: 'users.index' },
+        { name: t('languages', 'Languages'), path: '/admin/languages', permission: null },
+      ],
+    },
   ].filter(item => !item.permission || hasPermission(item.permission))
    .map(item => {
      if (item.children) {
@@ -126,8 +136,8 @@ export const Sidebar: React.FC = () => {
       <nav className="mt-6 px-3 space-y-1">
         {navItems.map((item) => {
           if (item.children) {
-            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : (item.name === t('subscription', 'Subscription') ? isSubscriptionActive : (item.name === t('ad_management', 'Ad Management') ? isAdActive : false)));
-            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : (item.name === t('subscription', 'Subscription') ? isSubscriptionOpen : (item.name === t('ad_management', 'Ad Management') ? isAdOpen : false)));
+            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : (item.name === t('subscription', 'Subscription') ? isSubscriptionActive : (item.name === t('ad_management', 'Ad Management') ? isAdActive : (item.name === t('settings') ? isSettingsActive : false))));
+            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : (item.name === t('subscription', 'Subscription') ? isSubscriptionOpen : (item.name === t('ad_management', 'Ad Management') ? isAdOpen : (item.name === t('settings') ? isSettingsOpen : false))));
             const toggleGroup = () => {
               if (item.name === t('blog', 'Blog')) {
                 setIsBlogOpen(!isBlogOpen);
@@ -135,6 +145,7 @@ export const Sidebar: React.FC = () => {
                   setIsPaymentOpen(false);
                   setIsSubscriptionOpen(false);
                   setIsAdOpen(false);
+                  setIsSettingsOpen(false);
                 }
               }
               if (item.name === t('payment', 'Payment')) {
@@ -143,6 +154,7 @@ export const Sidebar: React.FC = () => {
                   setIsBlogOpen(false);
                   setIsSubscriptionOpen(false);
                   setIsAdOpen(false);
+                  setIsSettingsOpen(false);
                 }
               }
               if (item.name === t('subscription', 'Subscription')) {
@@ -151,6 +163,7 @@ export const Sidebar: React.FC = () => {
                   setIsBlogOpen(false);
                   setIsPaymentOpen(false);
                   setIsAdOpen(false);
+                  setIsSettingsOpen(false);
                 }
               }
               if (item.name === t('ad_management', 'Ad Management')) {
@@ -159,6 +172,16 @@ export const Sidebar: React.FC = () => {
                   setIsBlogOpen(false);
                   setIsPaymentOpen(false);
                   setIsSubscriptionOpen(false);
+                  setIsSettingsOpen(false);
+                }
+              }
+              if (item.name === t('settings')) {
+                setIsSettingsOpen(!isSettingsOpen);
+                if (!isSettingsOpen) {
+                  setIsBlogOpen(false);
+                  setIsPaymentOpen(false);
+                  setIsSubscriptionOpen(false);
+                  setIsAdOpen(false);
                 }
               }
             };

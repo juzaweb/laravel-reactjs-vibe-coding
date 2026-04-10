@@ -4,6 +4,7 @@ import { useMedia, useDeleteMedia } from './hooks';
 import { MediaToolbar } from './MediaToolbar';
 import { MediaGrid } from './MediaGrid';
 import { MediaList } from './MediaList';
+import toast from 'react-hot-toast';
 import { MediaSidebar } from './MediaSidebar';
 import { MediaUploadDropzone } from './MediaUploadDropzone';
 import { PageHeader } from '../../components/ui/PageHeader';
@@ -104,7 +105,7 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
          },
          onError: (error) => {
             console.error('Delete failed:', error);
-            alert('Delete failed. Please try again.');
+            toast.error('Delete failed. Please try again.');
          }
       });
     }
@@ -119,10 +120,11 @@ export const MediaContent: React.FC<MediaContentProps> = ({ onSelect, isSelectMo
              setActiveItem(null);
           }
           setSelectedIds(new Set());
+          toast.success('Deleted successfully');
         })
         .catch(err => {
           console.error("Bulk delete error", err);
-          alert("Error deleting some items.");
+          toast.error("Error deleting some items.");
         });
     }
   };

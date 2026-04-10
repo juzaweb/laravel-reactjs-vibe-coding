@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 import { Button } from '../../components/ui/Button';
 import { useUsers, useDeleteUser, useBulkUsers } from './hooks';
 import { usePermissions } from '../../store/hooks';
@@ -44,9 +45,10 @@ export const UsersList: React.FC = () => {
       await bulkUsersMutation.mutateAsync({ ids: selectedIds, action: bulkAction });
       setSelectedIds([]);
       setBulkAction('');
+      toast.success(t('success_bulk_action', 'Bulk action completed successfully'));
     } catch (err) {
       console.error('Failed to perform bulk action:', err);
-      alert(t('error_bulk_action', 'Error performing bulk action'));
+      toast.error(t('error_bulk_action', 'Error performing bulk action'));
     }
   };
 
@@ -54,9 +56,10 @@ export const UsersList: React.FC = () => {
     if (window.confirm(t('are_you_sure_delete_user', 'Are you sure you want to delete this user?'))) {
       try {
         await deleteUserMutation.mutateAsync(id);
+        toast.success(t('success_deleting_user', 'User deleted successfully'));
       } catch (err) {
         console.error('Failed to delete user:', err);
-        alert(t('error_deleting_user', 'Error deleting user'));
+        toast.error(t('error_deleting_user', 'Error deleting user'));
       }
     }
   };

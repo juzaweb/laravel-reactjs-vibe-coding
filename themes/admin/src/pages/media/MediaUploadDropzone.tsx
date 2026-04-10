@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Resumable from 'resumablejs';
 import { FiUploadCloud, FiX } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface MediaUploadDropzoneProps {
@@ -67,7 +68,7 @@ export const MediaUploadDropzone: React.FC<MediaUploadDropzoneProps> = ({ onClos
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     r.on('fileError', (file: any, message: string) => {
       console.error('Upload error', file, message);
-      alert(`Error uploading ${file.fileName}`);
+      toast.error(`Error uploading ${file.fileName}`);
       setUploadingFiles((prev) => prev.filter((f) => f.id !== file.uniqueIdentifier));
     });
 

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 import { FiArrowLeft, FiSave } from 'react-icons/fi';
 import { Button } from '../../components/ui/Button';
 import { Text as Input } from '../../components/ui/form/Text';
@@ -71,10 +72,11 @@ export const PaymentMethodForm: React.FC = () => {
       } else {
         await createMutation.mutateAsync(data);
       }
+      toast.success(t('success_saving_payment_method', 'Payment method saved successfully'));
       navigate('/admin/payment-methods');
     } catch (err) {
       console.error('Failed to save payment method:', err);
-      alert(t('error_saving_payment_method', 'Error saving payment method'));
+      toast.error(t('error_saving_payment_method', 'Error saving payment method'));
     }
   };
 

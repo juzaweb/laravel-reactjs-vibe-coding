@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { store } from './store'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import './i18n'
+import { Toaster } from 'react-hot-toast'
 
 const queryClient = new QueryClient()
 
@@ -17,6 +18,7 @@ createRoot(document.getElementById('root')!).render(
       <QueryClientProvider client={queryClient}>
         <Suspense fallback={<div>Loading...</div>}>
           <App />
+          <Toaster />
         </Suspense>
       </QueryClientProvider>
     </Provider>

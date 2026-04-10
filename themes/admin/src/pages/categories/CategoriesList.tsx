@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FiEdit2, FiTrash2, FiPlus } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 import { Button } from '../../components/ui/Button';
 import { useCategories, useDeleteCategory, useBulkCategories } from './hooks';
 import { usePermissions } from '../../store/hooks';
@@ -44,9 +45,10 @@ export const CategoriesList: React.FC = () => {
       await bulkCategoriesMutation.mutateAsync({ ids: selectedIds, action: bulkAction });
       setSelectedIds([]);
       setBulkAction('');
+      toast.success(t('success_bulk_action', 'Bulk action completed successfully'));
     } catch (err) {
       console.error('Failed to perform bulk action:', err);
-      alert(t('error_bulk_action', 'Error performing bulk action'));
+      toast.error(t('error_bulk_action', 'Error performing bulk action'));
     }
   };
 
@@ -54,9 +56,10 @@ export const CategoriesList: React.FC = () => {
     if (window.confirm(t('are_you_sure_delete_category', 'Are you sure you want to delete this category?'))) {
       try {
         await deleteCategoryMutation.mutateAsync(id);
+        toast.success(t('success_deleting_category', 'Category deleted successfully'));
       } catch (err) {
         console.error('Failed to delete category:', err);
-        alert(t('error_deleting_category', 'Error deleting category'));
+        toast.error(t('error_deleting_category', 'Error deleting category'));
       }
     }
   };

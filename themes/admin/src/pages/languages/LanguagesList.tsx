@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FiPlus, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import toast from 'react-hot-toast';
 import { Button } from '../../components/ui/Button';
 import { useLanguages, useDeleteLanguage, useBulkLanguages } from './hooks';
 import { usePermissions } from '../../store/hooks';
@@ -44,9 +45,10 @@ export const LanguagesList: React.FC = () => {
       await bulkLanguagesMutation.mutateAsync({ ids: selectedIds, action: bulkAction });
       setSelectedIds([]);
       setBulkAction('');
+      toast.success(t('success_bulk_action', 'Bulk action completed successfully'));
     } catch (err) {
       console.error('Failed to perform bulk action:', err);
-      alert(t('error_bulk_action', 'Error performing bulk action'));
+      toast.error(t('error_bulk_action', 'Error performing bulk action'));
     }
   };
 
@@ -54,9 +56,10 @@ export const LanguagesList: React.FC = () => {
     if (window.confirm(t('are_you_sure_delete_language', 'Are you sure you want to delete this language?'))) {
       try {
         await deleteLanguageMutation.mutateAsync(id);
+        toast.success(t('success_deleting_language', 'Language deleted successfully'));
       } catch (err) {
         console.error('Failed to delete language:', err);
-        alert(t('error_deleting_language', 'Error deleting language'));
+        toast.error(t('error_deleting_language', 'Error deleting language'));
       }
     }
   };

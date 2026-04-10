@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 import { Button } from '../../components/ui/Button';
 import { Text } from '../../components/ui/form/Text';
 import { Select } from '../../components/ui/form/Select';
@@ -55,10 +56,11 @@ export const LanguageForm: React.FC = () => {
       } else {
         await createMutation.mutateAsync(data);
       }
+      toast.success(t('success_saving_language', 'Language saved successfully'));
       navigate('/admin/languages');
     } catch (error) {
       console.error('Failed to save language', error);
-      alert(t('error_saving_language', 'Error saving language'));
+      toast.error(t('error_saving_language', 'Error saving language'));
     }
   };
 

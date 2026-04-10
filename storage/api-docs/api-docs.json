@@ -6213,9 +6213,10 @@
                         "example": "Main Menu"
                     },
                     "content": {
-                        "description": "JSON content of the menu items (required on PUT)",
-                        "type": "string",
-                        "example": "[]"
+                        "description": "Array content of the menu items (required on PUT)",
+                        "type": "array",
+                        "items": {},
+                        "example": "{}"
                     }
                 },
                 "type": "object"

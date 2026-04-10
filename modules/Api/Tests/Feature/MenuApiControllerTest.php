@@ -27,6 +27,7 @@ class MenuApiControllerTest extends TestCase
             'provider' => 'users',
         ]]);
 
+        $this->withoutMiddleware();
         $this->actingAs($this->user, 'api');
     }
 
@@ -100,7 +101,7 @@ class MenuApiControllerTest extends TestCase
 
         $response = $this->putJson('/api/v1/menus/'.$menu->id, [
             'name' => 'API Updated Menu',
-            'content' => '[]',
+            'content' => [['label' => 'Home']],
         ]);
 
         $response->assertStatus(200)

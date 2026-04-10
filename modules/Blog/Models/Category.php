@@ -77,7 +77,7 @@ class Category extends Model implements TranslatableContract
 
     public function getEditUrl(): string
     {
-        return route('admin.post-categories.edit', [$this->id]);
+        return url('admin/post-categories/'. $this->id . '/edit');
     }
 
     public function getUrl(): string

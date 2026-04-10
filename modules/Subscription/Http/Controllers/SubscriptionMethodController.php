@@ -35,7 +35,7 @@ class SubscriptionMethodController extends APIController
             $driver = Subscription::driver($name);
             $data[] = [
                 'name' => $name,
-                'label' => $driver->label(),
+                'label' => title_from_key($name),
                 'configs' => $driver->getConfigs(),
             ];
         }

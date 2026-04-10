@@ -21,7 +21,8 @@ import {
     RemoveFormat,
     SourceEditing,
     ButtonView,
-    Plugin
+    Plugin,
+    ImageResize
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
 import { MediaModal } from '../media/MediaModal';
@@ -132,7 +133,7 @@ export const Editor = forwardRef<any, EditorProps>(
                 Essentials, Bold, Italic, Font, Paragraph, List, Link,
                 Heading, Image, ImageUpload, MediaEmbed, Table, BlockQuote,
                 Alignment, Indent, RemoveFormat, SourceEditing,
-                InsertMediaPlugin
+                InsertMediaPlugin, ImageResize
               ],
               toolbar: [
                 'undo', 'redo', '|',

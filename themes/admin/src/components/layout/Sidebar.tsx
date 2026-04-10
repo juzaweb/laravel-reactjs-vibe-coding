@@ -99,6 +99,7 @@ export const Sidebar: React.FC = () => {
       children: [
         { name: t('general', 'General'), path: '/admin/settings', permission: 'settings.index' },
         { name: t('email_setting', 'Email Setting'), path: '/admin/settings/email', permission: 'settings.index' },
+        { name: t('social_login_setting', 'Social Login Setting'), path: '/admin/settings/social-login', permission: 'settings.index' },
         { name: t('users'), path: '/admin/users', permission: 'users.index' },
         { name: t('languages', 'Languages'), path: '/admin/languages', permission: null },
       ],

@@ -5127,6 +5127,36 @@
                 ]
             }
         },
+        "/api/v1/app/subscription/plans": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get active plans",
+                "description": "Returns active plans for app.",
+                "operationId": "7576991ddacdac21aeef6d928d85372e",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PlanResource"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/app/subscription/methods": {
             "get": {
                 "tags": [

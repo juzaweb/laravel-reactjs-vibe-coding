@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { Button } from '../../components/ui/Button';
 import { Text } from '../../components/ui/form/Text';
-import { Select } from '../../components/ui/form/Select';
+import { AutocompleteSelect } from '../../components/ui/form/AutocompleteSelect';
 import { useLanguage, useCreateLanguage, useUpdateLanguage, useLocales } from './hooks';
 import { PageHeader } from '../../components/ui/PageHeader';
 import type { LanguageFormData } from './types';
@@ -38,8 +38,8 @@ export const LanguageForm: React.FC = () => {
     }
   }, [language, reset]);
 
-  const handleLocaleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedCode = e.target.value;
+  const handleLocaleSelect = (selectedOption: any) => {
+    const selectedCode = selectedOption?.value;
     if (selectedCode && locales) {
       const selectedLocale = locales.find(l => l.code === selectedCode);
       if (selectedLocale) {
@@ -82,13 +82,14 @@ export const LanguageForm: React.FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="p-6 space-y-6">
             {!isEdit && (
-              <Select
+              <AutocompleteSelect
                 label={t('select_locale_preset', 'Select Locale Preset (Optional)')}
                 options={[
-                  { value: '', label: t('select_a_locale', '--- Select a Locale ---') },
                   ...(locales?.map(l => ({ value: l.code, label: `${l.name} (${l.code})` })) || [])
                 ]}
                 onChange={handleLocaleSelect}
+                placeholder={t('select_a_locale', '--- Select a Locale ---')}
+                isClearable
               />
             )}
 

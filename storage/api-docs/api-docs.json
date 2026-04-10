@@ -5157,6 +5157,220 @@
                 }
             }
         },
+        "/api/v1/app/subscription/{module}/subscribe": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Create a subscription",
+                "description": "Create a subscription for the authenticated user.",
+                "operationId": "703468b736c06bfdc0b64aa6abf258b8",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "method_id",
+                                    "plan_id",
+                                    "token"
+                                ],
+                                "properties": {
+                                    "method_id": {
+                                        "type": "string",
+                                        "example": "method_id"
+                                    },
+                                    "plan_id": {
+                                        "type": "string",
+                                        "example": "plan_id"
+                                    },
+                                    "token": {
+                                        "type": "string",
+                                        "example": "encrypted_token"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription created successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/app/subscription/{module}/return/{transactionId}": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Return after subscription",
+                "description": "Return endpoint after subscription payment process.",
+                "operationId": "956a042e6efeda57fc6bcd3b0f01a77f",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Payment completed successfully!"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/app/subscription/{module}/cancel/{transactionId}": {
+            "post": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Cancel a subscription",
+                "description": "Cancel a subscription payment.",
+                "operationId": "15c6e5db5e3dfc8bf283d11b2b1134f6",
+                "parameters": [
+                    {
+                        "name": "module",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "transactionId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Subscription cancelled successfully"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "redirect": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/v1/app/subscription/methods": {
             "get": {
                 "tags": [

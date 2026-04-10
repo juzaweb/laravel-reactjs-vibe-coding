@@ -38,6 +38,11 @@ export const Login: React.FC = () => {
         if (token) {
           data['g-recaptcha-response'] = token;
         }
+      } else if (captchaType === 'recaptcha-v2' && captchaSiteKey && recaptchaRef.current) {
+        token = recaptchaRef.current.getValue();
+        if (token) {
+          data['g-recaptcha-response'] = token;
+        }
       }
 
       await dispatch(loginUser(data)).unwrap();
@@ -48,7 +53,7 @@ export const Login: React.FC = () => {
         type: 'manual',
         message: err?.message || err || 'Failed to login. Please try again.'
       });
-      if (captchaType === 'recaptcha-v2-invisible' && recaptchaRef.current) {
+      if ((captchaType === 'recaptcha-v2-invisible' || captchaType === 'recaptcha-v2') && recaptchaRef.current) {
         recaptchaRef.current.reset();
       }
     }
@@ -111,6 +116,15 @@ export const Login: React.FC = () => {
             sitekey={captchaSiteKey}
             size="invisible"
           />
+        )}
+
+        {captchaType === 'recaptcha-v2' && captchaSiteKey && (
+          <div className="flex justify-center mt-4">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={captchaSiteKey}
+            />
+          </div>
         )}
 
         <Button

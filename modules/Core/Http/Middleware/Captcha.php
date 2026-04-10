@@ -28,7 +28,7 @@ class Captcha
             $captcha = 'recaptcha-v2-invisible';
         }
 
-        if ($captcha == 'recaptcha-v2-invisible' && $siteKey) {
+        if (($captcha == 'recaptcha-v2-invisible' || $captcha == 'recaptcha-v2') && $siteKey) {
             $client = new Client(['connect_timeout' => 10, 'timeout' => 10]);
             $response = $client->post(
                 'https://www.google.com/recaptcha/api/siteverify',

@@ -295,6 +295,7 @@ export const SettingPage: React.FC = () => {
                     label={t('captcha_type', 'Captcha Type')}
                     options={[
                       { value: '', label: 'None' },
+                      { value: 'recaptcha-v2', label: 'ReCaptcha V2' },
                       { value: 'recaptcha-v2-invisible', label: 'ReCaptcha V2 Invisible' }
                     ]}
                     error={fieldState.error?.message}

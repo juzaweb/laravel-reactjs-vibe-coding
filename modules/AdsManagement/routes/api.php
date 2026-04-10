@@ -16,4 +16,8 @@ use Juzaweb\Modules\AdsManagement\Http\Controllers\VideoAdsController;
 */
 
 Route::api('banner-ads', BannerAdsController::class);
+
+Route::prefix('app')->group(function () {
+    Route::get('banner-ads', [Juzaweb\Modules\AdsManagement\Http\Controllers\App\BannerAdsController::class, 'index']);
+});
 Route::api('video-ads', VideoAdsController::class);

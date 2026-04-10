@@ -17,7 +17,6 @@ use Juzaweb\Modules\Core\Providers\ServiceProvider;
 use Juzaweb\Modules\Subscription\Contracts\Subscription;
 use Juzaweb\Modules\Subscription\Methods\PayPal;
 use Juzaweb\Modules\Subscription\Services\SubscriptionManager;
-use Juzaweb\Modules\Subscription\Services\TestSubscription;
 
 class SubscriptionServiceProvider extends ServiceProvider
 {
@@ -38,12 +37,6 @@ class SubscriptionServiceProvider extends ServiceProvider
             }
         );
 
-        $this->app[Subscription::class]->registerModule(
-            'test',
-            function () {
-                return new TestSubscription;
-            }
-        );
     }
 
     public function register(): void

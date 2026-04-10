@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\AdsManagement\Http\Requests\VideoAdsRequest;
 use Juzaweb\Modules\AdsManagement\Models\VideoAds;
-use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\API\Http\Requests\BulkActionsRequest;
+use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use OpenApi\Annotations as OA;
 
 class VideoAdsController extends APIController
@@ -44,7 +44,7 @@ class VideoAdsController extends APIController
         $query = VideoAds::query();
 
         if ($request->has('keyword')) {
-            $query->where('name', 'like', '%' . $request->input('keyword') . '%');
+            $query->where('name', 'like', '%'.$request->input('keyword').'%');
         }
 
         $items = $query->paginate($limit);

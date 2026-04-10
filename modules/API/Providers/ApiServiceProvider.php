@@ -51,21 +51,21 @@ class ApiServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerViews();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
     }
 
     protected function registerTranslations(): void
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'api');
-        $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'api');
+        $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
     }
 
     protected function registerViews(): void
     {
         $viewPath = resource_path('views/modules/api');
 
-        $sourcePath = __DIR__ . '/../resources/views';
+        $sourcePath = __DIR__.'/../resources/views';
 
         $this->publishes([
             $sourcePath => $viewPath,

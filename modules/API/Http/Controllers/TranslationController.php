@@ -71,7 +71,7 @@ class TranslationController extends APIController
      */
     public function index(string $locale): JsonResponse
     {
-        $modules = collect(Module::allEnabled())->map(fn($item) => $item->getAliasName())->toArray();
+        $modules = collect(Module::allEnabled())->map(fn ($item) => $item->getAliasName())->toArray();
         $theme = Theme::current();
 
         $collection = $this->translationManager->modules()
@@ -100,7 +100,7 @@ class TranslationController extends APIController
                         );
                 }
             )
-            ->filter(fn($item) => ! empty($item))
+            ->filter(fn ($item) => ! empty($item))
             ->flatten(1);
 
         $items = $this->mapWithDbTranslations($collection, $locale);
@@ -217,7 +217,7 @@ class TranslationController extends APIController
                 if (method_exists($model, 'translations')) {
                     $query->with(
                         [
-                            'translations' => fn($q) => $q->whereIn('locale', [$locale, $source]),
+                            'translations' => fn ($q) => $q->whereIn('locale', [$locale, $source]),
                         ]
                     );
                 }
@@ -265,9 +265,9 @@ class TranslationController extends APIController
         $histories = TranslateHistory::whereIn('id', $historyIds)
             ->get(['id', 'status', 'error']);
 
-        $pending = $histories->filter(fn($h) => $h->status->isPending())->count();
-        $success = $histories->filter(fn($h) => $h->status->isSuccess())->count();
-        $failed = $histories->filter(fn($h) => $h->status->isFailed())->count();
+        $pending = $histories->filter(fn ($h) => $h->status->isPending())->count();
+        $success = $histories->filter(fn ($h) => $h->status->isSuccess())->count();
+        $failed = $histories->filter(fn ($h) => $h->status->isFailed())->count();
 
         $allCompleted = $pending === 0;
 
@@ -311,7 +311,7 @@ class TranslationController extends APIController
                         });
                 }
             )
-            ->filter(fn($item) => $item->isNotEmpty())
+            ->filter(fn ($item) => $item->isNotEmpty())
             ->flatten(1);
 
         return $this->mapWithDbTranslations($collection, $locale);
@@ -320,7 +320,7 @@ class TranslationController extends APIController
     private function mapWithDbTranslations(Collection $collection, string $locale): Collection
     {
         $langs = LanguageLine::get()
-            ->keyBy(fn($item) => "{$item->namespace}-{$item->group}-{$item->key}");
+            ->keyBy(fn ($item) => "{$item->namespace}-{$item->group}-{$item->key}");
 
         return $collection->map(
             function ($item) use ($langs, $locale) {
@@ -336,7 +336,7 @@ class TranslationController extends APIController
     {
         try {
             return collect(Module::allEnabled())
-                ->map(fn($m) => method_exists($m, 'getAliasName') ? $m->getAliasName() : null)
+                ->map(fn ($m) => method_exists($m, 'getAliasName') ? $m->getAliasName() : null)
                 ->filter()
                 ->values()
                 ->toArray();

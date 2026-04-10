@@ -17,9 +17,9 @@ Route::middleware('auth:api')->group(
         Route::get('subscription/subscriptions', [SubscriptionController::class, 'index']);
         Route::get('subscription/histories', [SubscriptionHistoryController::class, 'index']);
 
-        Route::post('app/subscription/{module}/subscribe', [Juzaweb\Modules\Subscription\Http\Controllers\App\SubscriptionController::class, 'subscribe']);
-        Route::post('app/subscription/{module}/return/{transactionId}', [Juzaweb\Modules\Subscription\Http\Controllers\App\SubscriptionController::class, 'return']);
-        Route::post('app/subscription/{module}/cancel/{transactionId}', [Juzaweb\Modules\Subscription\Http\Controllers\App\SubscriptionController::class, 'cancel']);
+        Route::post('app/subscription/subscribe', [Juzaweb\Modules\Subscription\Http\Controllers\App\SubscriptionController::class, 'subscribe']);
+        Route::post('app/subscription/return/{transactionId}', [Juzaweb\Modules\Subscription\Http\Controllers\App\SubscriptionController::class, 'return']);
+        Route::post('app/subscription/cancel/{transactionId}', [Juzaweb\Modules\Subscription\Http\Controllers\App\SubscriptionController::class, 'cancel']);
     }
 );
 

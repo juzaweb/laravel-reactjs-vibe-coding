@@ -89,7 +89,7 @@ class Page extends Model implements TranslatableContract
         return $builder->orWhereHas(
             'translations',
             function (Builder $query) use ($keyword) {
-                $query->where('title', 'like', '%' . $keyword . '%');
+                $query->where('title', 'like', '%'.$keyword.'%');
             }
         );
     }

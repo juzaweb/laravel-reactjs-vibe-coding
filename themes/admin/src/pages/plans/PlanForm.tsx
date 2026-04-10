@@ -4,7 +4,6 @@ import { useForm, useFieldArray } from 'react-hook-form'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { Text } from '../../components/ui/form/Text'
 import { Switch } from '../../components/ui/form/Switch'
-import { Select } from '../../components/ui/form/Select'
 import { usePlan, useCreatePlan, useUpdatePlan } from './hooks'
 import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
@@ -14,10 +13,7 @@ interface PlanFormValues {
   name: string
   is_free: boolean
   price: number | ''
-  duration: number | ''
-  duration_unit: 'day' | 'week' | 'month' | 'year' | ''
   active: boolean
-  module: string
   features: { name: string; value: string }[]
 }
 
@@ -43,10 +39,7 @@ export const PlanForm: React.FC = () => {
       name: '',
       is_free: false,
       price: '',
-      duration: '',
-      duration_unit: '',
       active: true,
-      module: '',
       features: [],
     },
   })
@@ -64,10 +57,7 @@ export const PlanForm: React.FC = () => {
         name: plan.name,
         is_free: plan.is_free,
         price: plan.price ?? '',
-        duration: plan.duration ?? '',
-        duration_unit: plan.duration_unit ?? '',
         active: plan.active,
-        module: plan.module ?? '',
         features: plan.features.map((f: any) => ({ name: f.name, value: f.value ?? '' })) || [],
       })
     }
@@ -78,9 +68,8 @@ export const PlanForm: React.FC = () => {
       const payload = {
         ...data,
         price: data.is_free ? null : Number(data.price),
-        duration: data.duration ? Number(data.duration) : null,
-        duration_unit: data.duration_unit || null,
-        module: data.module || null,
+        duration: 1,
+        duration_unit: 'month',
         features: data.features.map((f: any) => ({ name: f.name, value: f.value || null })),
       }
 
@@ -145,33 +134,6 @@ export const PlanForm: React.FC = () => {
               />
             )}
 
-            <div className="grid grid-cols-2 gap-4">
-              <Text
-                type="number"
-                label={t('plans.duration', 'Duration')}
-                {...register('duration')}
-                error={errors.duration?.message}
-              />
-
-              <Select
-                label={t('plans.duration_unit', 'Duration Unit')}
-                {...register('duration_unit')}
-                error={errors.duration_unit?.message}
-                options={[
-                  { value: '', label: t('common.select', 'Select...') },
-                  { value: 'day', label: t('plans.day', 'Day(s)') },
-                  { value: 'week', label: t('plans.week', 'Week(s)') },
-                  { value: 'month', label: t('plans.month', 'Month(s)') },
-                  { value: 'year', label: t('plans.year', 'Year(s)') },
-                ]}
-              />
-            </div>
-
-            <Text
-              label={t('plans.module', 'Module (Optional)')}
-              {...register('module')}
-              error={errors.module?.message}
-            />
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-sm space-y-4">

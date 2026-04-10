@@ -164,7 +164,7 @@ export const MenusManager: React.FC = () => {
       const page = pagesData.data.find(p => p.id === pageId);
       return {
         id: `temp-${Date.now()}-${pageId}`,
-        menuable_type: 'Juzaweb\\Modules\\Core\\Models\\Page', // Typical polymorph class
+        menuable_type: 'Juzaweb\\Modules\\Core\\Models\\Pages\\Page', // Typical polymorph class
         menuable_id: pageId,
         label: page?.title,
         is_custom: false,

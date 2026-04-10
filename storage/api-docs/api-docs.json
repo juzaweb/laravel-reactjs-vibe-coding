@@ -2654,6 +2654,56 @@
                 ]
             }
         },
+        "/api/v1/settings/test-email": {
+            "post": {
+                "tags": [
+                    "Settings"
+                ],
+                "summary": "Send test email",
+                "operationId": "cac3ffd515f49f9e3e732ad64f113468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SendTestEmailRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Test email sent successfully."
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/translations/{locale}.json": {
             "get": {
                 "tags": [
@@ -6451,6 +6501,17 @@
                             "create_posts",
                             "edit_posts"
                         ]
+                    }
+                },
+                "type": "object"
+            },
+            "SendTestEmailRequest": {
+                "title": "Send Test Email Request",
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "example@gmail.com"
                     }
                 },
                 "type": "object"

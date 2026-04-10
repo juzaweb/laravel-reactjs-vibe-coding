@@ -8,6 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @OA\Schema(
  *     schema="SendTestEmailRequest",
  *     title="Send Test Email Request",
+ *
  *     @OA\Property(property="email", type="string", format="email", example="example@gmail.com")
  * )
  */

@@ -102,13 +102,16 @@ class SettingController extends APIController
      *
      *      @OA\RequestBody(
      *          required=true,
+     *
      *          @OA\JsonContent(ref="#/components/schemas/SendTestEmailRequest")
      *      ),
      *
      *      @OA\Response(
      *           response=200,
      *           description="Successful operation",
+     *
      *           @OA\JsonContent(
+     *
      *               @OA\Property(property="message", type="string", example="Test email sent successfully."),
      *               @OA\Property(property="success", type="boolean", example=true)
      *           )
@@ -133,8 +136,8 @@ class SettingController extends APIController
                 ]);
             }
 
-            Mail::to($request->input('email'))->send(new Test());
-            
+            Mail::to($request->input('email'))->send(new Test);
+
             return $this->restSuccess([], __('Test email sent successfully.'));
         } catch (\Exception $e) {
             return $this->restFail($e->getMessage());

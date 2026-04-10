@@ -113,7 +113,7 @@ class Page extends Model implements TranslatableContract
 
     public function getEditUrl(): string
     {
-        return route('admin.pages.edit', [$this->id]);
+        return url('admin/pages/'. $this->id);
     }
 
     public function seoMetaFill(): array

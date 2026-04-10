@@ -9,7 +9,7 @@ import { useMenus, useMenu, useCreateMenu, useUpdateMenu, useDeleteMenu } from '
 import { usePages } from '../pages/hooks';
 import type { MenuItem } from './types';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragOverlay, type DragEndEvent, type DragStartEvent, type DragMoveEvent } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import { SortableMenuItem } from './SortableMenuItem';
 import { PageHeader } from '../../components/ui/PageHeader';
@@ -114,39 +114,55 @@ export const MenusManager: React.FC = () => {
       const activeIndex = items.findIndex(item => item.id === active.id);
       const overIndex = over ? items.findIndex(item => item.id === over.id) : activeIndex;
 
-      if (activeIndex !== overIndex) {
-        newItems = arrayMove(newItems, activeIndex, overIndex);
+      // Find children of active item to move as a block
+      const activeDepth = items[activeIndex].depth || 0;
+      let childrenCount = 0;
+      for (let i = activeIndex + 1; i < items.length; i++) {
+        if ((items[i].depth || 0) <= activeDepth) {
+          break;
+        }
+        childrenCount++;
       }
 
-      if (projectedDepth !== null) {
-        const activeItem = newItems[overIndex];
-        const previousItem = newItems[overIndex - 1];
+      let activeNewIndex = activeIndex;
 
-        let newDepth = activeItem.depth || 0;
-        newDepth += projectedDepth;
-
-        // Boundaries
-        if (newDepth < 0) newDepth = 0;
-        if (previousItem) {
-          const maxDepth = (previousItem.depth || 0) + 1;
-          if (newDepth > maxDepth) newDepth = maxDepth;
-        } else {
-          newDepth = 0; // First item must be root
+      if (activeIndex !== overIndex) {
+        // Prevent moving into its own children
+        if (overIndex > activeIndex && overIndex <= activeIndex + childrenCount) {
+          return items;
         }
 
-        newItems[overIndex] = { ...activeItem, depth: newDepth };
+        const block = newItems.splice(activeIndex, childrenCount + 1);
+        
+        let insertAt = overIndex;
+        if (activeIndex < overIndex) {
+           insertAt = overIndex - childrenCount;
+        }
+        
+        newItems.splice(insertAt, 0, ...block);
+        activeNewIndex = insertAt;
+      }
 
-        // Adjust children depths
-        const depthDiff = newDepth - (activeItem.depth || 0);
-        if (depthDiff !== 0) {
-           for (let i = overIndex + 1; i < newItems.length; i++) {
-             const item = newItems[i];
-             // If we hit an item that is higher or at same level as original depth, we stop updating children
-             if ((item.depth || 0) <= (activeItem.depth || 0)) {
-               break;
-             }
-             newItems[i] = { ...item, depth: Math.max(0, (item.depth || 0) + depthDiff) };
-           }
+      // Calculate depth boundaries
+      let newDepth = items[activeIndex].depth || 0;
+      if (projectedDepth !== null) {
+        newDepth += projectedDepth;
+      }
+
+      const previousItem = newItems[activeNewIndex - 1];
+      let maxDepth = previousItem ? (previousItem.depth || 0) + 1 : 0;
+      
+      if (newDepth > maxDepth) newDepth = maxDepth;
+      if (newDepth < 0) newDepth = 0;
+
+      const depthDiff = newDepth - (items[activeIndex].depth || 0);
+
+      if (depthDiff !== 0) {
+        for (let i = activeNewIndex; i <= activeNewIndex + childrenCount; i++) {
+          newItems[i] = { 
+            ...newItems[i], 
+            depth: Math.max(0, (newItems[i].depth || 0) + depthDiff) 
+          };
         }
       }
 
@@ -192,7 +208,19 @@ export const MenusManager: React.FC = () => {
   };
 
   const handleRemoveItem = (id: string) => {
-    setMenuItems(menuItems.filter(item => item.id !== id));
+    setMenuItems(currentItems => {
+      const index = currentItems.findIndex(i => i.id === id);
+      if (index === -1) return currentItems;
+      const depth = currentItems[index].depth || 0;
+      let childrenCount = 0;
+      for (let i = index + 1; i < currentItems.length; i++) {
+        if ((currentItems[i].depth || 0) <= depth) break;
+        childrenCount++;
+      }
+      const newItems = [...currentItems];
+      newItems.splice(index, childrenCount + 1);
+      return newItems;
+    });
   };
 
   const handleUpdateItem = (id: string, updates: Partial<MenuItem>) => {
@@ -220,12 +248,18 @@ export const MenusManager: React.FC = () => {
       if (depth === 0) {
         rootItems.push(cleanNode);
       } else {
-        const parent = itemMap.get(depth - 1);
-        if (parent && parent.children) {
-          parent.children.push(cleanNode);
-        } else {
-           // Fallback to root if structure is somehow invalid
-           rootItems.push(cleanNode);
+        let parentAssigned = false;
+        for (let pLevel = depth - 1; pLevel >= 0; pLevel--) {
+            const parent = itemMap.get(pLevel);
+            if (parent && parent.children) {
+                parent.children.push(cleanNode);
+                parentAssigned = true;
+                break;
+            }
+        }
+        
+        if (!parentAssigned) {
+            rootItems.push(cleanNode);
         }
       }
     });

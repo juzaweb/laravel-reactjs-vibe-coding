@@ -155,7 +155,7 @@ class SubscriptionController extends APIController
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/api/v1/subscription/{module}/return/{transactionId}",
      *      tags={"Subscription"},
      *      summary="Return after subscription",
@@ -223,7 +223,7 @@ class SubscriptionController extends APIController
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/api/v1/subscription/{module}/cancel/{transactionId}",
      *      tags={"Subscription"},
      *      summary="Cancel a subscription",

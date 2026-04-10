@@ -36,11 +36,9 @@ function ReturnContent() {
       try {
         let res;
         if (module === "subscription") {
-          // Subscription module uses GET for return
+          // Subscription module uses POST for return
           // Attach any url params received from gateway back to the API
-          res = await axiosClient.get(`/v1/subscription/${module}/return/${transactionId}`, {
-            params,
-          });
+          res = await axiosClient.post(`/v1/subscription/${module}/return/${transactionId}`, params);
         } else {
           // General payment module uses POST for return
           res = await axiosClient.post(`/v1/payment/${module}/return/${transactionId}`, params);

@@ -139,7 +139,7 @@ class PaymentController extends APIController
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/api/v1/payment/{module}/return/{paymentHistoryId}",
      *      tags={"Payment"},
      *      summary="Return URL for payment gateway",
@@ -206,7 +206,7 @@ class PaymentController extends APIController
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/api/v1/payment/{module}/cancel/{transactionId}",
      *      tags={"Payment"},
      *      summary="Cancel URL for payment gateway",
@@ -371,7 +371,7 @@ class PaymentController extends APIController
     }
 
     /**
-     * @OA\Get(
+     * @OA\Post(
      *      path="/api/v1/payment/{module}/status/{transactionId}",
      *      tags={"Payment"},
      *      summary="Get payment status",

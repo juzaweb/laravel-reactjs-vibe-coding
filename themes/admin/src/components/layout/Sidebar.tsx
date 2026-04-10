@@ -19,7 +19,7 @@ export const Sidebar: React.FC = () => {
 
   const isSubscriptionActive = location.pathname.startsWith('/admin/subscription');
 
-  const isAdActive = location.pathname.startsWith('/admin/video-ads');
+  const isAdActive = location.pathname.startsWith('/admin/banner-ads') || location.pathname.startsWith('/admin/video-ads');
   const [isAdOpen, setIsAdOpen] = useState(isAdActive);
   const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(isSubscriptionActive);
 
@@ -75,7 +75,6 @@ export const Sidebar: React.FC = () => {
           },
         ]
       : []),
-
     ...(isAdModuleActive
       ? [
           {
@@ -83,6 +82,7 @@ export const Sidebar: React.FC = () => {
             icon: FiPlay,
             permission: null,
             children: [
+              { name: t('banner_ads', 'Banner Ads'), path: '/admin/banner-ads', permission: 'banner-ads.index' },
               { name: t('video_ads', 'Video Ads'), path: '/admin/video-ads', permission: 'video_ads.index' },
             ],
           },

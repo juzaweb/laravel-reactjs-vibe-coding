@@ -65,15 +65,6 @@ export const useUpdateLanguage = () => {
   });
 };
 
-export const useLocales = () => {
-  return useQuery({
-    queryKey: ['locales'],
-    queryFn: async () => {
-      const response = await axiosClient.get<{ data: { code: string; name: string }[] }>('/v1/locales');
-      return response.data.data;
-    },
-  });
-};
 
 export const useDeleteLanguage = () => {
   const queryClient = useQueryClient();

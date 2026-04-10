@@ -19,6 +19,12 @@ const updateSettings = async (data: Record<string, any>): Promise<any> => {
   return response.data?.data || null;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const sendTestEmail = async (data: { email: string }): Promise<any> => {
+  const response = await axiosClient.post('/v1/settings/test-email', data);
+  return response.data;
+};
+
 export const useSettings = () => {
   return useQuery({
     queryKey: ['settings'],
@@ -33,5 +39,11 @@ export const useUpdateSettings = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['settings'] });
     },
+  });
+};
+
+export const useSendTestEmail = () => {
+  return useMutation({
+    mutationFn: sendTestEmail,
   });
 };

@@ -183,6 +183,8 @@ class SocialLoginController extends APIController
 
                 if ($user->wasRecentlyCreated) {
                     event(new Registered($user));
+
+                    $user->logActivity('auth')->log("Registered via {$driver}");
                 }
 
                 return $user;
@@ -224,6 +226,8 @@ class SocialLoginController extends APIController
     protected function loginAndResponseWithToken(User $user, string $driver): JsonResponse
     {
         event(new Login('api', $user, true));
+
+        $user->logActivity('auth')->log("Logged in via {$driver}");
 
         $response = User::generatePasswordGrantToken(
             $user->email,

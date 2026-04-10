@@ -91,8 +91,8 @@ export const Editor = forwardRef<any, EditorProps>(
         className={wrapperClassName}
       >
         <style>{`
-          #${editorId}-wrapper .ck-editor__editable_inline {
-            min-height: 400px;
+          [id="${editorId}-wrapper"] .ck-editor__editable_inline {
+            min-height: 350px;
           }
         `}</style>
         <div

@@ -66,7 +66,7 @@ composer --version
 
 echo "--- Installing Project Dependencies ---"
 [ ! -f .env ] && cp .env.testing .env || true
-touch storage/app/database.sqlite
+touch database/database.sqlite
 composer install --no-interaction --prefer-dist
 
 [[ "$INSTALL_NODE" = true && -f "package.json" ]] && npm install

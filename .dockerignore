@@ -6,7 +6,7 @@
 /storage/*.key
 /default.conf
 /storage/app/public/*
-/storage/app/database.sqlite*
+/database/database.sqlite*
 /storage/framework/cache/data/*
 /storage/framework/sessions/*
 /storage/framework/testing/*

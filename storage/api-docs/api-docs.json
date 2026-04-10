@@ -6202,6 +6202,60 @@
                 },
                 "type": "object"
             },
+            "MenuItemRequest": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "123e4567-e89b-12d3-a456-426614174000",
+                        "nullable": true
+                    },
+                    "menuable_type": {
+                        "type": "string",
+                        "example": "Juzaweb\\\\Modules\\\\Core\\\\Models\\\\Post",
+                        "nullable": true
+                    },
+                    "menuable_id": {
+                        "type": "string",
+                        "example": "123e4567-e89b-12d3-a456-426614174001",
+                        "nullable": true
+                    },
+                    "link": {
+                        "type": "string",
+                        "example": "https://example.com",
+                        "nullable": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": "fas fa-home",
+                        "nullable": true
+                    },
+                    "target": {
+                        "type": "string",
+                        "example": "_self"
+                    },
+                    "box_key": {
+                        "type": "string",
+                        "example": "custom"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Home",
+                        "nullable": true
+                    },
+                    "locale": {
+                        "type": "string",
+                        "example": "en",
+                        "nullable": true
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/MenuItemRequest"
+                        }
+                    }
+                },
+                "type": "object"
+            },
             "MenuRequest": {
                 "required": [
                     "name"
@@ -6215,8 +6269,9 @@
                     "content": {
                         "description": "Array content of the menu items (required on PUT)",
                         "type": "array",
-                        "items": {},
-                        "example": "{}"
+                        "items": {
+                            "$ref": "#/components/schemas/MenuItemRequest"
+                        }
                     }
                 },
                 "type": "object"

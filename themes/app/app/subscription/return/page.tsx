@@ -10,7 +10,7 @@ function ReturnContent() {
   const searchParams = useSearchParams();
   const processedRef = useRef(false);
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [message, setMessage] = useState<string>("Processing your payment return...");
+  const [message, setMessage] = useState<string>("Processing your subscription return...");
   const [resultParams, setResultParams] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -25,31 +25,31 @@ function ReturnContent() {
       });
       setResultParams(params);
 
-      const paymentModule = sessionStorage.getItem("payment_module") || searchParams.get("module");
-      const transactionId = sessionStorage.getItem("payment_history_id") || searchParams.get("transactionId") || searchParams.get("paymentHistoryId");
+      const paymentModule = sessionStorage.getItem("subscription_module") || searchParams.get("module");
+      const transactionId = sessionStorage.getItem("subscription_transaction_id") || searchParams.get("transactionId") || searchParams.get("paymentHistoryId");
 
       if (!paymentModule || !transactionId) {
         setStatus("error");
-        setMessage("Missing payment module or transaction ID context.");
+        setMessage("Missing subscription module or transaction ID context.");
         return;
       }
 
       try {
-        const res = await axiosClient.post(`/v1/payment/${paymentModule}/return/${transactionId}`, params);
+        const res = await axiosClient.post(`/v1/app/subscription/${paymentModule}/return/${transactionId}`, params);
 
         if (res.data?.success || res.data?.status === "success") {
           setStatus("success");
-          setMessage(res.data?.message || "Payment completed successfully!");
+          setMessage(res.data?.message || "Subscription completed successfully!");
         } else {
           setStatus("error");
-          setMessage(res.data?.message || "Payment return failed.");
+          setMessage(res.data?.message || "Subscription return failed.");
         }
       } catch (err: unknown) {
         setStatus("error");
         if (axios.isAxiosError(err) && err.response?.data?.message) {
           setMessage(err.response.data.message);
         } else {
-          setMessage("An error occurred while processing the payment return.");
+          setMessage("An error occurred while processing the subscription return.");
         }
       }
     };
@@ -66,8 +66,8 @@ function ReturnContent() {
             status === "error" ? "text-red-600 dark:text-red-400" :
             "text-blue-600 dark:text-blue-400"
           }`}>
-            {status === "success" ? "Payment Completed" :
-             status === "error" ? "Payment Failed" :
+            {status === "success" ? "Subscription Completed" :
+             status === "error" ? "Subscription Failed" :
              "Processing Return"}
           </h2>
           <p className="mt-2 text-center text-sm text-zinc-600 dark:text-zinc-400">

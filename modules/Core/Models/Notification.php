@@ -11,7 +11,7 @@
 namespace Juzaweb\Modules\Core\Models;
 
 use Illuminate\Notifications\DatabaseNotification;
-use Juzaweb\Modules\Api\Http\Resources\NotificationResource;
+use Juzaweb\Modules\API\Http\Resources\NotificationResource;
 use Juzaweb\Modules\Core\Traits\HasAPI;
 
 class Notification extends DatabaseNotification

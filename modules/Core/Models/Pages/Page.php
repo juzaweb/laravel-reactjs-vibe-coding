@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Juzaweb\Modules\Api\Http\Resources\PageResource;
+use Juzaweb\Modules\API\Http\Resources\PageResource;
 use Juzaweb\Modules\Core\Database\Factories\PageFactory;
 use Juzaweb\Modules\Core\Enums\PageStatus;
 use Juzaweb\Modules\Core\FileManager\Traits\HasMedia;
@@ -89,7 +89,7 @@ class Page extends Model implements TranslatableContract
         return $builder->orWhereHas(
             'translations',
             function (Builder $query) use ($keyword) {
-                $query->where('title', 'like', '%'.$keyword.'%');
+                $query->where('title', 'like', '%' . $keyword . '%');
             }
         );
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers\Auth;
+namespace Juzaweb\Modules\API\Http\Controllers\Auth;
 
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\PasswordReset;
@@ -12,14 +12,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
-use Juzaweb\Modules\Api\Http\Requests\Auth\ForgotPasswordRequest;
-use Juzaweb\Modules\Api\Http\Requests\Auth\LoginRequest;
-use Juzaweb\Modules\Api\Http\Requests\Auth\RefreshTokenRequest;
-use Juzaweb\Modules\Api\Http\Requests\Auth\RegisterRequest;
-use Juzaweb\Modules\Api\Http\Requests\Auth\ResendVerificationEmailRequest;
-use Juzaweb\Modules\Api\Http\Requests\Auth\ResetPasswordRequest;
-use Juzaweb\Modules\Api\Http\Resources\TokenResource;
-use Juzaweb\Modules\Api\Http\Resources\UserResource;
+use Juzaweb\Modules\API\Http\Requests\Auth\ForgotPasswordRequest;
+use Juzaweb\Modules\API\Http\Requests\Auth\LoginRequest;
+use Juzaweb\Modules\API\Http\Requests\Auth\RefreshTokenRequest;
+use Juzaweb\Modules\API\Http\Requests\Auth\RegisterRequest;
+use Juzaweb\Modules\API\Http\Requests\Auth\ResendVerificationEmailRequest;
+use Juzaweb\Modules\API\Http\Requests\Auth\ResetPasswordRequest;
+use Juzaweb\Modules\API\Http\Resources\TokenResource;
+use Juzaweb\Modules\API\Http\Resources\UserResource;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\User;
 use Laravel\Passport\Http\Controllers\HandlesOAuthErrors;

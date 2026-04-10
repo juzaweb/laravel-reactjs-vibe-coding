@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Models;
+namespace Juzaweb\Modules\API\Models;
 
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;

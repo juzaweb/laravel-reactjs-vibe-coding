@@ -1,12 +1,12 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Api\Http\Requests\Profile\UpdatePasswordRequest;
-use Juzaweb\Modules\Api\Http\Requests\Profile\UpdateProfileRequest;
+use Juzaweb\Modules\API\Http\Requests\Profile\UpdatePasswordRequest;
+use Juzaweb\Modules\API\Http\Requests\Profile\UpdateProfileRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use OpenApi\Annotations as OA;
 

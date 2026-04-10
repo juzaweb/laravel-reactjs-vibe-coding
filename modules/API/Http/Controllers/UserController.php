@@ -1,13 +1,13 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Juzaweb\Modules\Api\Http\Requests\UserBulkRequest;
-use Juzaweb\Modules\Api\Http\Requests\UserRequest;
+use Juzaweb\Modules\API\Http\Requests\UserBulkRequest;
+use Juzaweb\Modules\API\Http\Requests\UserRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\User;
 use OpenApi\Annotations as OA;

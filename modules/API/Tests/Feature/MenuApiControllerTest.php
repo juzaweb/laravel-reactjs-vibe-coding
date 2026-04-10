@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Tests\Feature;
+namespace Juzaweb\Modules\API\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Juzaweb\Modules\Core\Models\Menus\Menu;
@@ -62,7 +62,7 @@ class MenuApiControllerTest extends TestCase
             'name' => 'API Menu Show',
         ]);
 
-        $response = $this->getJson('/api/v1/menus/'.$menu->id);
+        $response = $this->getJson('/api/v1/menus/' . $menu->id);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -99,7 +99,7 @@ class MenuApiControllerTest extends TestCase
             'name' => 'API Old Menu',
         ]);
 
-        $response = $this->putJson('/api/v1/menus/'.$menu->id, [
+        $response = $this->putJson('/api/v1/menus/' . $menu->id, [
             'name' => 'API Updated Menu',
             'content' => [['label' => 'Home']],
         ]);
@@ -121,7 +121,7 @@ class MenuApiControllerTest extends TestCase
             'name' => 'API Delete Menu',
         ]);
 
-        $response = $this->deleteJson('/api/v1/menus/'.$menu->id);
+        $response = $this->deleteJson('/api/v1/menus/' . $menu->id);
 
         $response->assertStatus(200)
             ->assertJson([

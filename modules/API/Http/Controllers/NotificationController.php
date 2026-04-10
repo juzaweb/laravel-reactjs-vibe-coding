@@ -1,10 +1,10 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Api\Http\Requests\Notification\BulkNotificationRequest;
+use Juzaweb\Modules\API\Http\Requests\Notification\BulkNotificationRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use OpenApi\Annotations as OA;
 

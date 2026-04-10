@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Tests\Feature;
+namespace Juzaweb\Modules\API\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Juzaweb\Modules\Core\Models\Setting;

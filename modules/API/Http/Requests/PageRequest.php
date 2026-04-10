@@ -10,7 +10,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Api\Http\Requests;
+namespace Juzaweb\Modules\API\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -63,7 +63,7 @@ class PageRequest extends FormRequest
     public function rules(): array
     {
         $templates = collect(PageTemplate::all())
-            ->map(fn ($item) => $item->key)
+            ->map(fn($item) => $item->key)
             ->values()
             ->toArray();
 

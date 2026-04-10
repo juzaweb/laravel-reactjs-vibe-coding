@@ -8,7 +8,7 @@
  * @link       https://cms.juzaweb.com
  */
 
-namespace Juzaweb\Modules\Api\Http\Resources;
+namespace Juzaweb\Modules\API\Http\Resources;
 
 use Illuminate\Http\Request;
 use Juzaweb\Modules\Core\Models\User;

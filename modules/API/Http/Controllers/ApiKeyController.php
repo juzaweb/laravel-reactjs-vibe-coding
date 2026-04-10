@@ -1,10 +1,10 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Api\Models\ApiKey;
+use Juzaweb\Modules\API\Models\ApiKey;
 use Juzaweb\Modules\Core\Http\Controllers\AdminController;
 
 class ApiKeyController extends AdminController

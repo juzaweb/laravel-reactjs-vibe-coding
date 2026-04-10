@@ -1,12 +1,12 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Juzaweb\Modules\Api\Http\Requests\PageBulkRequest;
-use Juzaweb\Modules\Api\Http\Requests\PageRequest;
+use Juzaweb\Modules\API\Http\Requests\PageBulkRequest;
+use Juzaweb\Modules\API\Http\Requests\PageRequest;
 use Juzaweb\Modules\Core\Facades\PageTemplate;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\Pages\Page;

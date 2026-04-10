@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Tests\Feature;
+namespace Juzaweb\Modules\API\Tests\Feature;
 
 use Illuminate\Foundation\Testing\WithFaker;
 use Juzaweb\Modules\Core\Models\User;
@@ -15,7 +15,7 @@ class TranslationControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        require_once __DIR__.'/../../../Core/helpers/functions.php';
+        require_once __DIR__ . '/../../../Core/helpers/functions.php';
 
         $this->user = User::factory()->create([
             'is_super_admin' => 1,

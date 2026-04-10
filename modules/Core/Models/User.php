@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
-use Juzaweb\Modules\Api\Http\Resources\UserResource;
+use Juzaweb\Modules\API\Http\Resources\UserResource;
 use Juzaweb\Modules\Core\Database\Factories\UserFactory;
 use Juzaweb\Modules\Core\Enums\UserStatus;
 use Juzaweb\Modules\Core\FileManager\MediaUploader;
@@ -147,7 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return proxy_image($url, $size, $size);
         }
 
-        return 'https://1.gravatar.com/avatar/'.md5($this->email)."?s={$size}&d=mm&r=g";
+        return 'https://1.gravatar.com/avatar/' . md5($this->email) . "?s={$size}&d=mm&r=g";
     }
 
     public function hasPasswordReset(): bool

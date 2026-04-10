@@ -10,7 +10,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Api\Http\Requests;
+namespace Juzaweb\Modules\API\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -36,9 +36,9 @@ class UserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,'.$this->route('id'),
+            'email' => 'required|email|max:255|unique:users,email,' . $this->route('id'),
             'password' => [
-                Rule::requiredIf(fn () => $this->isMethod('post')),
+                Rule::requiredIf(fn() => $this->isMethod('post')),
                 'nullable', // Allow null for PUT/PATCH requests
                 'string',
                 'min:8', // Minimum 8 characters

@@ -10,7 +10,7 @@
  * @license    GNU V2
  */
 
-namespace Juzaweb\Modules\Api\Http\Requests;
+namespace Juzaweb\Modules\API\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Juzaweb\Modules\Core\Contracts\Setting;

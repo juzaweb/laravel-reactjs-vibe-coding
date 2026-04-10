@@ -1,10 +1,10 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers;
+namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Api\Http\Requests\LanguageRequest;
+use Juzaweb\Modules\API\Http\Requests\LanguageRequest;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Translations\Models\Language;
 use OpenApi\Annotations as OA;

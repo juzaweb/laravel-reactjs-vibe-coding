@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Controllers\Auth;
+namespace Juzaweb\Modules\API\Http\Controllers\Auth;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Auth\Events\Login;
@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Juzaweb\Modules\Api\Http\Resources\TokenResource;
-use Juzaweb\Modules\Api\Http\Resources\UserResource;
+use Juzaweb\Modules\API\Http\Resources\TokenResource;
+use Juzaweb\Modules\API\Http\Resources\UserResource;
 use Juzaweb\Modules\Core\Enums\UserStatus;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Core\Models\User;

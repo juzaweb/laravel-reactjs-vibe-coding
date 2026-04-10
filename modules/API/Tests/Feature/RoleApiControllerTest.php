@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Tests\Feature;
+namespace Juzaweb\Modules\API\Tests\Feature;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Juzaweb\Modules\Core\Models\User;
@@ -64,7 +64,7 @@ class RoleApiControllerTest extends TestCase
             'guard_name' => 'web',
         ]);
 
-        $response = $this->getJson('/api/v1/roles/'.$role->id);
+        $response = $this->getJson('/api/v1/roles/' . $role->id);
 
         $response->assertStatus(200)
             ->assertJsonStructure([
@@ -104,7 +104,7 @@ class RoleApiControllerTest extends TestCase
             'guard_name' => 'web',
         ]);
 
-        $response = $this->putJson('/api/v1/roles/'.$role->id, [
+        $response = $this->putJson('/api/v1/roles/' . $role->id, [
             'name' => 'API Updated Role',
             'code' => 'api-old-role',
         ]);
@@ -128,7 +128,7 @@ class RoleApiControllerTest extends TestCase
             'guard_name' => 'web',
         ]);
 
-        $response = $this->deleteJson('/api/v1/roles/'.$role->id);
+        $response = $this->deleteJson('/api/v1/roles/' . $role->id);
 
         $response->assertStatus(200)
             ->assertJson([

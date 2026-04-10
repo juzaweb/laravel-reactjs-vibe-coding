@@ -8,7 +8,7 @@
  * @link       https://cms.juzaweb.com
  */
 
-namespace Juzaweb\Modules\Api\Http\Requests;
+namespace Juzaweb\Modules\API\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

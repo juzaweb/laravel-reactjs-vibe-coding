@@ -1,12 +1,12 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Providers;
+namespace Juzaweb\Modules\API\Providers;
 
 use Illuminate\Auth\RequestGuard;
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Support\Facades\Auth;
-use Juzaweb\Modules\Api\Auth\JuzawebApiGuard;
-use Juzaweb\Modules\Api\Commands\GenerateApiKeyCommand;
+use Juzaweb\Modules\API\Auth\JuzawebApiGuard;
+use Juzaweb\Modules\API\Commands\GenerateApiKeyCommand;
 use Juzaweb\Modules\Core\Providers\ServiceProvider;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
@@ -51,21 +51,21 @@ class ApiServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerViews();
-        $this->loadMigrationsFrom(__DIR__.'/../Database/migrations');
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/migrations');
         $this->app->register(RouteServiceProvider::class);
     }
 
     protected function registerTranslations(): void
     {
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'api');
-        $this->loadJsonTranslationsFrom(__DIR__.'/../resources/lang');
+        $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'api');
+        $this->loadJsonTranslationsFrom(__DIR__ . '/../resources/lang');
     }
 
     protected function registerViews(): void
     {
         $viewPath = resource_path('views/modules/api');
 
-        $sourcePath = __DIR__.'/../resources/views';
+        $sourcePath = __DIR__ . '/../resources/views';
 
         $this->publishes([
             $sourcePath => $viewPath,

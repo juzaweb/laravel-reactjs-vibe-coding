@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Tests;
+namespace Juzaweb\Modules\API\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
 

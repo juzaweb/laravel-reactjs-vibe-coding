@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Http\Requests\Profile;
+namespace Juzaweb\Modules\API\Http\Requests\Profile;
 
 use Illuminate\Foundation\Http\FormRequest;
 

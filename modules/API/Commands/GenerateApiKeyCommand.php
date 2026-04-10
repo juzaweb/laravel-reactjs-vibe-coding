@@ -1,9 +1,9 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Commands;
+namespace Juzaweb\Modules\API\Commands;
 
 use Illuminate\Console\Command;
-use Juzaweb\Modules\Api\Models\ApiKey;
+use Juzaweb\Modules\API\Models\ApiKey;
 use Juzaweb\Modules\Core\Models\User;
 use Symfony\Component\Console\Input\InputOption;
 

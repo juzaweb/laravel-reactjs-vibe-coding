@@ -1,10 +1,10 @@
 <?php
 
-namespace Juzaweb\Modules\Api\Auth;
+namespace Juzaweb\Modules\API\Auth;
 
 use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Http\Request;
-use Juzaweb\Modules\Api\Models\ApiKey;
+use Juzaweb\Modules\API\Models\ApiKey;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Guards\TokenGuard;
 use Laravel\Passport\PassportUserProvider;

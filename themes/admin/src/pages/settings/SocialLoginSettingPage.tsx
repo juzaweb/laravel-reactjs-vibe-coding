@@ -11,27 +11,27 @@ interface SocialSettingFormData {
   google_client_id: string;
   google_client_secret: string;
   google_login_enable: string;
-  
+
   facebook_client_id: string;
   facebook_client_secret: string;
   facebook_login_enable: string;
-  
+
   linkedin_client_id: string;
   linkedin_client_secret: string;
   linkedin_login_enable: string;
-  
+
   twitter_client_id: string;
   twitter_client_secret: string;
   twitter_login_enable: string;
-  
+
   github_client_id: string;
   github_client_secret: string;
   github_login_enable: string;
-  
+
   gitlab_client_id: string;
   gitlab_client_secret: string;
   gitlab_login_enable: string;
-  
+
   bitbucket_client_id: string;
   bitbucket_client_secret: string;
   bitbucket_login_enable: string;
@@ -65,10 +65,10 @@ const SocialProviderCard = ({
           name={`${providerKey}_client_id`}
           control={control}
           render={({ field, fieldState }) => (
-            <Input 
-              {...field} 
-              label={t('client_id', 'Client ID')} 
-              error={fieldState.error?.message} 
+            <Input
+              {...field}
+              label={t('client_id', 'Client ID')}
+              error={fieldState.error?.message}
             />
           )}
         />
@@ -77,24 +77,16 @@ const SocialProviderCard = ({
           name={`${providerKey}_client_secret`}
           control={control}
           render={({ field, fieldState }) => (
-            <Input 
-              {...field} 
-              label={t('client_secret', 'Client Secret')} 
-              error={fieldState.error?.message} 
+            <Input
+              {...field}
+              label={t('client_secret', 'Client Secret')}
+              error={fieldState.error?.message}
             />
           )}
         />
-        
-        <Input 
-          label={t('redirect_url', 'Redirect URL')} 
-          value={`${appUrl}/user/social/${providerKey}/redirect`}
-          readOnly
-          disabled
-          className="bg-slate-50 dark:bg-slate-800 text-[var(--text-muted)] cursor-not-allowed"
-        />
-        
-        <Input 
-          label={t('callback_url', 'Callback URL')} 
+
+        <Input
+          label={t('callback_url', 'Callback URL')}
           value={`${appUrl}/user/social/${providerKey}/callback`}
           readOnly
           disabled
@@ -105,11 +97,11 @@ const SocialProviderCard = ({
           name={`${providerKey}_login_enable`}
           control={control}
           render={({ field: { value, onChange, ref } }) => (
-            <Switch 
-              checked={value === '1'} 
-              onChange={(e) => onChange(e.target.checked ? '1' : '0')} 
+            <Switch
+              checked={value === '1'}
+              onChange={(e) => onChange(e.target.checked ? '1' : '0')}
               ref={ref}
-              label={t(`enable_login_with_${providerKey}`, `Enable login with ${providerName}`)} 
+              label={t(`enable_login_with_${providerKey}`, `Enable login with ${providerName}`)}
             />
           )}
         />

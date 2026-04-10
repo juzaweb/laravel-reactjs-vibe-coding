@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { axiosClient } from "@/utils/axiosClient";
 import { useAppSelector } from "@/store/hooks";
+import toast from "react-hot-toast";
 
 export default function SocialLogins() {
   const globalSettings = useAppSelector((state) => state.settings.data);
@@ -26,7 +27,7 @@ export default function SocialLogins() {
       }
     } catch (error) {
       console.error("Failed to get redirect url", error);
-      alert("Failed to get redirect URL. Is the driver configured correctly?");
+      toast.error("Failed to get redirect URL. Is the driver configured correctly?");
     } finally {
       setLoading(null);
     }

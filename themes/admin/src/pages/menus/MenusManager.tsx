@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
@@ -233,7 +234,7 @@ export const MenusManager: React.FC = () => {
   };
 
   const handleSaveMenu = async () => {
-    if (!menuName) return alert('Menu name is required');
+    if (!menuName) return toast.error('Menu name is required');
 
     const content = buildHierarchicalContent(menuItems);
 
@@ -241,14 +242,14 @@ export const MenusManager: React.FC = () => {
       if (selectedMenuId === 'new') {
         const res = await createMenuMutation.mutateAsync({ name: menuName, content });
         setSelectedMenuId(res.data.id);
-        alert('Menu created successfully!');
+        toast.success('Menu created successfully!');
       } else {
         await updateMenuMutation.mutateAsync({ id: selectedMenuId, data: { name: menuName, content } });
-        alert('Menu saved successfully!');
+        toast.success('Menu saved successfully!');
       }
     } catch (error) {
       console.error('Failed to save menu', error);
-      alert('Failed to save menu');
+      toast.error('Failed to save menu');
     }
   };
 

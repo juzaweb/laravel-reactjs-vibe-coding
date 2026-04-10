@@ -2,6 +2,7 @@ export * from './FieldWrapper';
 export * from './Text';
 export * from './Textarea';
 export * from './Select';
+export * from './AutocompleteSelect';
 export * from './Checkbox';
 export * from './Radio';
 export * from './Switch';

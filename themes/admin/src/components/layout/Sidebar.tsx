@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useAppSelector, usePermissions } from '../../store/hooks';
-import { FiHome, FiUsers, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit, FiCreditCard } from 'react-icons/fi';
+import { FiHome, FiUsers, FiSettings, FiImage, FiFileText, FiList, FiChevronDown, FiChevronRight, FiEdit, FiCreditCard, FiPlay } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
 
 export const Sidebar: React.FC = () => {
@@ -27,7 +27,7 @@ export const Sidebar: React.FC = () => {
   const isBlogModuleActive = activeModules.includes('Blog');
   const isPaymentModuleActive = activeModules.includes('Payment');
   const isSubscriptionModuleActive = activeModules.includes('Subscription');
-  const isAdManagementModuleActive = activeModules.includes('AdsManagement');
+  const isAdModuleActive = activeModules.includes('AdsManagement');
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
@@ -75,14 +75,15 @@ export const Sidebar: React.FC = () => {
           },
         ]
       : []),
-    ...(isAdManagementModuleActive
+    ...(isAdModuleActive
       ? [
           {
             name: t('ad_management', 'Ad Management'),
-            icon: FiList,
+            icon: FiPlay,
             permission: null,
             children: [
               { name: t('banner_ads', 'Banner Ads'), path: '/admin/banner-ads', permission: 'banner-ads.index' },
+              { name: t('video_ads', 'Video Ads'), path: '/admin/video-ads', permission: 'video_ads.index' },
             ],
           },
         ]

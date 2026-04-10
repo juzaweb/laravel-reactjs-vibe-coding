@@ -22,7 +22,6 @@ use Juzaweb\Modules\DevTool\Commands\Modules\Databases\MigrateStatusCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\Databases\MigrationMakeCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\Databases\SeedCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\Databases\SeedMakeCommand;
-use Juzaweb\Modules\DevTool\Commands\Modules\DatatableMakeCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\DumpCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\EventMakeCommand;
 use Juzaweb\Modules\DevTool\Commands\Modules\JobMakeCommand;
@@ -106,7 +105,6 @@ class ConsoleServiceProvider extends ServiceProvider
         TestMakeCommand::class,
         ComponentClassMakeCommand::class,
         ComponentViewMakeCommand::class,
-        DatatableMakeCommand::class,
         AdminCrudMakeCommand::class,
         APICrudMakeCommand::class,
         CrudMakeCommand::class,

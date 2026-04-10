@@ -7,6 +7,8 @@ import { Button } from '../../components/ui/Button';
 import { Text as Input } from '../../components/ui/form/Text';
 import { Select } from '../../components/ui/form/Select';
 import { usePaymentMethod, useCreatePaymentMethod, useUpdatePaymentMethod, usePaymentDrivers } from './hooks';
+import { useLanguages } from '../languages/hooks';
+import { useSearchParams } from 'react-router-dom';
 import type { PaymentMethodFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
 import { usePermissions } from '../../store/hooks';
@@ -16,10 +18,15 @@ export const PaymentMethodForm: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const isEdit = Boolean(id);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { i18n } = useTranslation();
+  const currentLocale = searchParams.get('locale') || i18n.language || 'en';
   const { hasPermission } = usePermissions();
 
   const { data: methodData, isLoading: isLoadingMethod } = usePaymentMethod(id || '');
   const { data: driversData } = usePaymentDrivers();
+  const { data: localesResponse } = useLanguages(1, 100);
+  const localesData = localesResponse;
   const createMutation = useCreatePaymentMethod();
   const updateMutation = useUpdatePaymentMethod();
 
@@ -35,7 +42,7 @@ export const PaymentMethodForm: React.FC = () => {
       description: '',
       driver: '',
       active: true,
-      locale: 'en',
+      locale: currentLocale,
       config: {},
     },
   });
@@ -51,7 +58,7 @@ export const PaymentMethodForm: React.FC = () => {
         description: methodData.description || '',
         driver: methodData.driver || '',
         active: methodData.active,
-        locale: methodData.locale || 'en',
+        locale: currentLocale,
         config: methodData.config || {},
       });
     }
@@ -95,6 +102,21 @@ export const PaymentMethodForm: React.FC = () => {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-3xl">
+        <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden mb-6">
+          <div className="p-6 space-y-6">
+            <h3 className="text-lg font-medium text-[var(--text-main)]">{t('language', 'Language')}</h3>
+            <div className="max-w-xs">
+              <Select
+                value={currentLocale}
+                onChange={(e) => {
+                  setSearchParams({ locale: e.target.value });
+                }}
+                options={(localesData?.data || []).map((l) => ({ value: l.code, label: l.name }))}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
           <div className="p-6 space-y-6">
             <Controller

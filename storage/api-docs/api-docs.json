@@ -3174,6 +3174,58 @@
                 ]
             }
         },
+        "/api/v1/app/banner-ads": {
+            "get": {
+                "tags": [
+                    "App / Banner Ads"
+                ],
+                "summary": "Get list of banner ads by position",
+                "operationId": "e66249a328202f5f8523c87bb63dd7e3",
+                "parameters": [
+                    {
+                        "name": "position",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BannerAdsResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/v1/banner-ads": {
             "get": {
                 "tags": [
@@ -6019,6 +6071,26 @@
                 ]
             }
         },
+        "/api/v1/subscription/methods/drivers": {
+            "get": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Get list of subscription drivers",
+                "operationId": "7a7d6afc7d7184ec0b2682f44574cfe2",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/subscription/methods": {
             "get": {
                 "tags": [
@@ -7965,6 +8037,10 @@
         {
             "name": "Users",
             "description": "Users"
+        },
+        {
+            "name": "App / Banner Ads",
+            "description": "App / Banner Ads"
         },
         {
             "name": "Banner Ads",

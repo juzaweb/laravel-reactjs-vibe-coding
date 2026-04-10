@@ -208,8 +208,6 @@ class AdminCrudMakeCommand extends Command
             'MODEL_NAMESPACE' => $this->getModelClass($module),
             'URL_PREFIX' => $this->getUrlPrefix(),
             'MODEL_CLASS' => $this->getModelName(),
-            'DATATABLE_NAMESPACE' => $this->getDatatableNamespace($module),
-            'DATATABLE_CLASS' => class_basename($this->getDatatableNamespace($module)),
             'TITLE' => $this->getTitle(),
             'REQUEST_NAMESPACE' => $this->getRequestNamespace($module),
             'BULK_REQUEST_NAMESPACE' => $this->getBulkRequestNamespace($module),
@@ -257,11 +255,6 @@ class AdminCrudMakeCommand extends Command
     protected function getUrlPrefix(): string
     {
         return Str::plural(Str::slug($this->argument('model')));
-    }
-
-    protected function getDatatableNamespace(Module $module): string
-    {
-        return $this->getClassNamespace($module, 'Http\\DataTables', Str::plural($this->getModelName()).'DataTable');
     }
 
     protected function getFormNamespace(Module $module): string

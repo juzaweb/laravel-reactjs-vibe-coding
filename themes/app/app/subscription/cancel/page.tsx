@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
@@ -11,7 +10,7 @@ function CancelContent() {
   const searchParams = useSearchParams();
   const processedRef = useRef(false);
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
-  const [message, setMessage] = useState<string>("Cancelling your payment...");
+  const [message, setMessage] = useState<string>("Cancelling your subscription...");
   const [resultParams, setResultParams] = useState<Record<string, string>>({});
 
   useEffect(() => {
@@ -26,36 +25,34 @@ function CancelContent() {
         });
         setResultParams(params);
 
-        const paymentModule = sessionStorage.getItem("payment_module") || searchParams.get("module");
-        const transactionId = sessionStorage.getItem("payment_history_id") || searchParams.get("transactionId") || searchParams.get("paymentHistoryId");
+        const paymentModule = sessionStorage.getItem("subscription_module") || searchParams.get("module");
+        const transactionId = sessionStorage.getItem("subscription_transaction_id") || searchParams.get("transactionId") || searchParams.get("paymentHistoryId");
 
         if (!paymentModule || !transactionId) {
           setStatus("error");
-          setMessage("Missing payment module or transaction ID context.");
+          setMessage("Missing subscription module or transaction ID context.");
           return;
         }
 
         try {
-          const res = await axiosClient.post(`/v1/payment/${paymentModule}/cancel/${transactionId}`, params);
+          const res = await axiosClient.post(`/v1/app/subscription/${paymentModule}/cancel/${transactionId}`, params);
 
           if (res.data?.success || res.data?.status === "success" || res.status === 200 || res.status === 400) {
-            // Payment cancel api might return 400 with a message "Payment has been cancelled!"
             setStatus("success");
-            setMessage(res.data?.message || "Payment cancelled successfully.");
+            setMessage(res.data?.message || "Subscription cancelled successfully.");
           } else {
             setStatus("error");
-            setMessage(res.data?.message || "Payment cancellation failed.");
+            setMessage(res.data?.message || "Subscription cancellation failed.");
           }
         } catch (err: unknown) {
           setStatus("error");
-          // If the backend returns 400 intentionally for cancel (e.g. PaymentController::cancel)
           if (axios.isAxiosError(err) && err.response?.status === 400) {
             setStatus("success");
-            setMessage(err.response.data?.message || "Payment has been cancelled.");
+            setMessage(err.response.data?.message || "Subscription has been cancelled.");
           } else if (axios.isAxiosError(err) && err.response?.data?.message) {
             setMessage(err.response.data.message);
           } else {
-            setMessage("An error occurred while cancelling the payment.");
+            setMessage("An error occurred while cancelling the subscription.");
           }
         }
       };
@@ -72,7 +69,7 @@ function CancelContent() {
             status === "success" || status === "error" ? "text-red-600 dark:text-red-400" :
             "text-blue-600 dark:text-blue-400"
           }`}>
-            {status !== "loading" ? "Payment Cancelled" : "Processing Cancel"}
+            {status !== "loading" ? "Subscription Cancelled" : "Processing Cancel"}
           </h2>
           <p className="mt-2 text-center text-sm text-zinc-600 dark:text-zinc-400">
             {message}

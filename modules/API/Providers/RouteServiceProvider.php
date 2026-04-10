@@ -16,11 +16,11 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api/v1')
-                ->group(__DIR__ . '/../routes/api.php');
+                ->group(__DIR__.'/../routes/api.php');
 
             Route::middleware(['theme'])
                 ->prefix(Locale::setLocale())
-                ->group(__DIR__ . '/../routes/web.php');
+                ->group(__DIR__.'/../routes/web.php');
         });
     }
 }

@@ -20,11 +20,11 @@ class SitemapFacadeTest extends TestCase
     {
         // Test register
         Sitemap::register('posts', 'Juzaweb\Modules\Core\Models\Post');
-        Sitemap::register('pages', 'Juzaweb\Modules\Core\Models\Page');
+        Sitemap::register('pages', 'Juzaweb\Modules\Core\Models\Pages\Page');
 
         // Test get
         $this->assertEquals('Juzaweb\Modules\Core\Models\Post', Sitemap::get('posts'));
-        $this->assertEquals('Juzaweb\Modules\Core\Models\Page', Sitemap::get('pages'));
+        $this->assertEquals('Juzaweb\Modules\Core\Models\Pages\Page', Sitemap::get('pages'));
         $this->assertNull(Sitemap::get('non-existent'));
 
         // Test all

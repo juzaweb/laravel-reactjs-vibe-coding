@@ -5209,24 +5209,14 @@
                 }
             }
         },
-        "/api/v1/app/subscription/{module}/subscribe": {
+        "/api/v1/app/subscription/subscribe": {
             "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Create a subscription",
                 "description": "Create a subscription for the authenticated user.",
-                "operationId": "703468b736c06bfdc0b64aa6abf258b8",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "operationId": "832629450f442cef89b74fe1f2993358",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -5291,32 +5281,14 @@
                 ]
             }
         },
-        "/api/v1/app/subscription/{module}/return/{transactionId}": {
+        "/api/v1/app/subscription/return/{transactionId}": {
             "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Return after subscription",
                 "description": "Return endpoint after subscription payment process.",
-                "operationId": "956a042e6efeda57fc6bcd3b0f01a77f",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "transactionId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "operationId": "b16c676583191cc38b4a884047269e40",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -5357,32 +5329,14 @@
                 ]
             }
         },
-        "/api/v1/app/subscription/{module}/cancel/{transactionId}": {
+        "/api/v1/app/subscription/cancel/{transactionId}": {
             "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Cancel a subscription",
                 "description": "Cancel a subscription payment.",
-                "operationId": "15c6e5db5e3dfc8bf283d11b2b1134f6",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "transactionId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "operationId": "ac682c9a46ae5c11895480b319ab3493",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -5819,24 +5773,14 @@
                 ]
             }
         },
-        "/api/v1/subscription/{module}/subscribe": {
+        "/api/v1/subscription/subscribe": {
             "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Create a subscription",
                 "description": "Create a subscription for the authenticated user.",
-                "operationId": "e8672f8734d84ab6f3589f64b7017609",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "operationId": "21c71efe4e17d38c9b74f7ddd04bca27",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -5901,32 +5845,14 @@
                 ]
             }
         },
-        "/api/v1/subscription/{module}/return/{transactionId}": {
+        "/api/v1/subscription/return/{transactionId}": {
             "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Return after subscription",
                 "description": "Return endpoint after subscription payment process.",
-                "operationId": "a721b45fb03a9b48871e06f2c8302fec",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "transactionId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "operationId": "0ad49cd1d5c2bae25e032fa624c9d4b0",
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -5967,32 +5893,14 @@
                 ]
             }
         },
-        "/api/v1/subscription/{module}/cancel/{transactionId}": {
+        "/api/v1/subscription/cancel/{transactionId}": {
             "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Cancel a subscription",
                 "description": "Cancel a subscription payment.",
-                "operationId": "89c87b0d56ed71ff61da34b477bf175b",
-                "parameters": [
-                    {
-                        "name": "module",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "transactionId",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
+                "operationId": "57537dfad9c705f34c5228a96d1cd6be",
                 "responses": {
                     "200": {
                         "description": "Successful operation",

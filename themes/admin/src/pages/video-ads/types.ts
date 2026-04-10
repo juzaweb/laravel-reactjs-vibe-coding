@@ -1,17 +1,27 @@
-export interface Category {
+export interface VideoAd {
   id: string;
   name: string;
-  slug: string;
-  description: string | null;
-  created_at: string;
-  updated_at: string;
+  title: string;
+  url: string;
+  video: string;
+  position: string;
+  offset: number;
+  options?: Record<string, any>;
+  active: boolean;
+  views: number;
+  click: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface CategoryFormData {
-  locale?: string;
+export interface VideoAdFormData {
   name: string;
-  slug?: string;
-  description?: string;
+  title: string;
+  url: string;
+  video: string;
+  position: string;
+  offset: number;
+  active: boolean;
 }
 
 export interface PaginationMeta {

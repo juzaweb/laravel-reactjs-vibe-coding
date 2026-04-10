@@ -35,7 +35,6 @@ export const CategoryForm: React.FC = () => {
       name: '',
       slug: '',
       description: '',
-      status: 'draft',
       locale: currentLocale,
     },
   });
@@ -47,7 +46,6 @@ export const CategoryForm: React.FC = () => {
         locale: currentLocale,
         slug: categoryData.slug || '',
         description: categoryData.description || '',
-        status: categoryData.status || 'draft',
       });
     }
   }, [categoryData, currentLocale, reset]);
@@ -164,22 +162,6 @@ export const CategoryForm: React.FC = () => {
 
           <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
             <h3 className="text-lg font-medium text-[var(--text-main)]">{t('publish', 'Publish')}</h3>
-
-            <Controller
-              name="status"
-              control={control}
-              render={({ field, fieldState }) => (
-                <Select
-                  {...field}
-                  label={t('status', 'Status')}
-                  options={[
-                    { value: 'draft', label: t('draft', 'Draft') },
-                    { value: 'published', label: t('published', 'Published') },
-                  ]}
-                  error={fieldState.error?.message}
-                />
-              )}
-            />
 
             <Controller
               name="slug"

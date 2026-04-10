@@ -1,17 +1,26 @@
-export interface Category {
+export interface BannerAd {
   id: string;
   name: string;
-  slug: string;
-  description: string | null;
+  active: boolean;
+  url: string | null;
+  size: string | null;
+  type: string;
+  views: number;
+  click: number;
+  body: string | null;
+  position: string | null;
   created_at: string;
   updated_at: string;
 }
 
-export interface CategoryFormData {
-  locale?: string;
+export interface BannerAdFormData {
   name: string;
-  slug?: string;
-  description?: string;
+  type: string;
+  body_image?: string;
+  body_html?: string;
+  url?: string;
+  active: number;
+  position: string;
 }
 
 export interface PaginationMeta {

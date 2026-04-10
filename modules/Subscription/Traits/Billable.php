@@ -19,41 +19,41 @@ use Juzaweb\Modules\Subscription\Models\Subscription;
 
 trait Billable
 {
-    public function subscribed(string $module): bool
+    public function subscribed(): bool
     {
-        $subscription = $this->subscription($module);
+        $subscription = $this->subscription();
 
         return $subscription && $subscription->isValid();
     }
 
-    public function currentPlan(string $module): ?Plan
+    public function currentPlan(): ?Plan
     {
-        $subscription = $this->subscription($module);
+        $subscription = $this->subscription();
 
         if ($subscription === null || ! $subscription->isValid()) {
-            return $this->getDefaultPlan($module);
+            return $this->getDefaultPlan();
         }
 
         return $subscription->plan;
     }
 
-    public function getDefaultPlan(string $module): ?Plan
+    public function getDefaultPlan(): ?Plan
     {
         return Plan::where(['is_free' => true])
             ->whereActive(true)
             ->first();
     }
 
-    public function canUseFeature(string $module, string $featureKey): bool
+    public function canUseFeature(string $featureKey): bool
     {
-        $value = $this->getFeatureValue($module, $featureKey);
+        $value = $this->getFeatureValue($featureKey);
 
         return isset($value) && $value > 0;
     }
 
-    public function getFeatureValue(string $module, string $featureKey)
+    public function getFeatureValue(string $featureKey)
     {
-        $plan = $this->currentPlan($module);
+        $plan = $this->currentPlan();
         if ($plan === null) {
             return null;
         }
@@ -63,12 +63,12 @@ trait Billable
         return $feature->value ?? null;
     }
 
-    public function subscription(string $module): ?Subscription
+    public function subscription(): ?Subscription
     {
         $tlt = (int) now()->diffInSeconds(now()->endOfDay());
 
         return $this->subscriptions()
-            ->where('module', $module)
+
             ->cacheFor($tlt)
             ->latest()
             ->first();
@@ -82,13 +82,13 @@ trait Billable
     /**
      * Check if you can use feature within limit and track usage
      *
-     * @param  string  $module  Module name
+
      * @param  string  $featureKey  Feature key name
      * @param  int  $increment  Number to increment usage by
      */
-    public function checkFeatureLimit(string $module, string $featureKey, int $increment = 1): bool
+    public function checkFeatureLimit(string $featureKey, int $increment = 1): bool
     {
-        $limit = $this->getFeatureValue($module, $featureKey);
+        $limit = $this->getFeatureValue($featureKey);
 
         // If no limit set, allow unlimited usage
         if ($limit === null || $limit <= 0) {

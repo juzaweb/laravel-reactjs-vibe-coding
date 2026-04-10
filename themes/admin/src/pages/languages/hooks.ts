@@ -14,6 +14,16 @@ export const useLanguages = (page: number = 1, limit: number = 10, keyword: stri
   });
 };
 
+export const useLocales = () => {
+  return useQuery({
+    queryKey: ['locales'],
+    queryFn: async () => {
+      const response = await axiosClient.get<{ data: { code: string; name: string }[], success: boolean }>('/v1/locales');
+      return response.data;
+    },
+  });
+};
+
 export const useBulkLanguages = () => {
   const queryClient = useQueryClient();
   return useMutation({

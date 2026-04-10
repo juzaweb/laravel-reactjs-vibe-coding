@@ -155,8 +155,6 @@ class ThemeRepository implements ThemeContract
             $module = $moduleRepository->find($moduleName);
 
             if ($module === null) {
-                admin_message("Required module '{$moduleName}' for theme '{$theme->name()}' not found.");
-
                 continue;
             }
 
@@ -194,7 +192,7 @@ class ThemeRepository implements ThemeContract
                 'type' => 'theme',
                 'key' => $lowerName,
                 'namespace' => $lowerName,
-                'lang_path' => $theme->path('src/resources/lang'),
+                'lang_path' => $theme->path('lang'),
                 'src_path' => $theme->path(),
                 'publish_path' => $langPublishPath,
             ]);

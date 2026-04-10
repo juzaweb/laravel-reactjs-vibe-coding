@@ -18,19 +18,11 @@ class SubscriptionController extends APIController
 {
     /**
      * @OA\Post(
-     *      path="/api/v1/app/subscription/{module}/subscribe",
+     *      path="/api/v1/app/subscription/subscribe",
      *      tags={"Subscription"},
      *      summary="Create a subscription",
      *      description="Create a subscription for the authenticated user.",
      *      security={{"bearerAuth":{}}},
-     *
-     *      @OA\Parameter(
-     *          name="module",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
      *
      *      @OA\RequestBody(
      *          required=true,
@@ -61,7 +53,7 @@ class SubscriptionController extends APIController
      *      @OA\Response(response=422, description="Unprocessable Entity")
      * )
      */
-    public function subscribe(Request $request, string $module): JsonResponse
+    public function subscribe(Request $request): JsonResponse
     {
         /** @var SubscriptionMethod $method */
         $method = SubscriptionMethod::withTranslation()->findOrFail($request->input('method_id'));
@@ -92,7 +84,7 @@ class SubscriptionController extends APIController
 
         try {
             $payment = DB::transaction(
-                fn () => SubscriptionFacade::create($user, $billable, $module, $plan, $method, $request->all())
+                fn () => SubscriptionFacade::create($user, $billable, $plan, $method, $request->all())
             );
         } catch (SubscriptionException $e) {
             return $this->restFail($e->getMessage());
@@ -123,27 +115,11 @@ class SubscriptionController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/app/subscription/{module}/return/{transactionId}",
+     *      path="/api/v1/app/subscription/return/{transactionId}",
      *      tags={"Subscription"},
      *      summary="Return after subscription",
      *      description="Return endpoint after subscription payment process.",
      *      security={{"bearerAuth":{}}},
-     *
-     *      @OA\Parameter(
-     *          name="module",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
-     *
-     *      @OA\Parameter(
-     *          name="transactionId",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
      *
      *      @OA\Response(
      *          response=200,
@@ -161,18 +137,18 @@ class SubscriptionController extends APIController
      *      @OA\Response(response=401, description="Unauthorized")
      * )
      */
-    public function return(Request $request, string $module, string $transactionId): JsonResponse
+    public function return(Request $request, string $transactionId): JsonResponse
     {
-        $returnUrl = SubscriptionFacade::module($module)->getReturnUrl();
+        $returnUrl = $request->input('return_url', '/');
 
         try {
             $payment = DB::transaction(
-                function () use ($request, $module, $transactionId) {
+                function () use ($request, $transactionId) {
                     $history = SubscriptionHistory::lockForUpdate()->find($transactionId);
 
                     throw_if($history === null, SubscriptionException::class, __('Subscription not found'));
 
-                    return SubscriptionFacade::complete($history, $module, $request->all());
+                    return SubscriptionFacade::complete($history, $request->all());
                 }
             );
         } catch (SubscriptionException $e) {
@@ -191,27 +167,11 @@ class SubscriptionController extends APIController
 
     /**
      * @OA\Post(
-     *      path="/api/v1/app/subscription/{module}/cancel/{transactionId}",
+     *      path="/api/v1/app/subscription/cancel/{transactionId}",
      *      tags={"Subscription"},
      *      summary="Cancel a subscription",
      *      description="Cancel a subscription payment.",
      *      security={{"bearerAuth":{}}},
-     *
-     *      @OA\Parameter(
-     *          name="module",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
-     *
-     *      @OA\Parameter(
-     *          name="transactionId",
-     *          in="path",
-     *          required=true,
-     *
-     *          @OA\Schema(type="string")
-     *      ),
      *
      *      @OA\Response(
      *          response=200,
@@ -229,18 +189,18 @@ class SubscriptionController extends APIController
      *      @OA\Response(response=401, description="Unauthorized")
      * )
      */
-    public function cancel(Request $request, string $module, string $transactionId): JsonResponse
+    public function cancel(Request $request, string $transactionId): JsonResponse
     {
-        $returnUrl = SubscriptionFacade::module($module)->getReturnUrl();
+        $returnUrl = $request->input('return_url', '/');
 
         try {
             $payment = DB::transaction(
-                function () use ($request, $module, $transactionId) {
+                function () use ($request, $transactionId) {
                     $history = SubscriptionHistory::lockForUpdate()->find($transactionId);
 
                     throw_if($history === null, SubscriptionException::class, __('Subscription not found'));
 
-                    return SubscriptionFacade::cancel($history, $module, $request->all());
+                    return SubscriptionFacade::cancel($history, $request->all());
                 }
             );
         } catch (SubscriptionException $e) {

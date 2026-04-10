@@ -15,7 +15,7 @@ export default function PaymentDemo() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const [module, setModule] = useState("subscription");
+  const [module, setModule] = useState("");
   const [method, setMethod] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [submitResult, setSubmitResult] = useState<unknown>(null);

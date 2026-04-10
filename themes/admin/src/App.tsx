@@ -10,6 +10,8 @@ import { PageForm } from './pages/pages/PageForm'
 import { PostsList } from './pages/posts/PostsList'
 import { PostForm } from './pages/posts/PostForm'
 import { CategoriesList } from './pages/categories/CategoriesList'
+import { BannerAdsList } from './pages/banner-ads/BannerAdsList'
+import { BannerAdForm } from './pages/banner-ads/BannerAdForm'
 import { CategoryForm } from './pages/categories/CategoryForm'
 import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
@@ -31,6 +33,8 @@ import { NotificationShow } from './pages/notifications/NotificationShow'
 import { SettingPage } from './pages/settings/SettingPage'
 import { LanguagesList } from './pages/languages/LanguagesList'
 import { LanguageForm } from './pages/languages/LanguageForm'
+import { VideoAdsList } from './pages/video-ads/VideoAdsList'
+import { VideoAdsForm } from './pages/video-ads/VideoAdsForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -101,6 +105,11 @@ function App() {
               <Route path="create" element={<PostForm />} />
               <Route path=":id/edit" element={<PostForm />} />
             </Route>
+            <Route path="banner-ads">
+              <Route index element={<BannerAdsList />} />
+              <Route path="create" element={<BannerAdForm />} />
+              <Route path=":id/edit" element={<BannerAdForm />} />
+            </Route>
             <Route path="categories">
               <Route index element={<CategoriesList />} />
               <Route path="create" element={<CategoryForm />} />
@@ -145,6 +154,11 @@ function App() {
               <Route path=":id/edit" element={<LanguageForm />} />
             </Route>
             <Route path="settings" element={<SettingPage />} />
+            <Route path="video-ads">
+              <Route index element={<VideoAdsList />} />
+              <Route path="create" element={<VideoAdsForm />} />
+              <Route path=":id/edit" element={<VideoAdsForm />} />
+            </Route>
           </Route>
         </Route>
 

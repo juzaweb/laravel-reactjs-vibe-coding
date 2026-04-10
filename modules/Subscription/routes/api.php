@@ -17,8 +17,8 @@ Route::middleware('auth:api')->group(
         Route::get('subscription/histories', [SubscriptionHistoryController::class, 'index']);
 
         Route::post('subscription/{module}/subscribe', [SubscriptionController::class, 'subscribe']);
-        Route::get('subscription/{module}/return/{transactionId}', [SubscriptionController::class, 'return']);
-        Route::get('subscription/{module}/cancel/{transactionId}', [SubscriptionController::class, 'cancel']);
+        Route::post('subscription/{module}/return/{transactionId}', [SubscriptionController::class, 'return']);
+        Route::post('subscription/{module}/cancel/{transactionId}', [SubscriptionController::class, 'cancel']);
     }
 );
 

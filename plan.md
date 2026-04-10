@@ -1,25 +1,18 @@
-1. **Create Language API Controller (Backend)**
-    - Add `modules/Api/Http/Controllers/LanguageController.php` extending `APIController`.
-    - Implement `index`, `store`, `show`, `update`, `destroy`, and `bulk` using the `Language` model and standard traits like `HasRestResponses`.
-    - Write swagger documentation for each method.
-    - Validate with a `LanguageRequest` extending `FormRequest`.
-
-2. **Create LanguageRequest (Backend)**
-    - Add `modules/Api/Http/Requests/LanguageRequest.php`.
-    - Validate `code` (required, unique for creation, string) and `name` (required, string).
-
-3. **Register Language API Route (Backend)**
-    - Add `Route::api('languages', LanguageController::class)` inside the authenticated group in `modules/Api/routes/api.php`.
-
-4. **Create Languages Page UI (Frontend - Admin)**
-    - Add `themes/admin/src/pages/languages/LanguagesList.tsx`.
-    - Add `themes/admin/src/pages/languages/LanguageForm.tsx`.
-    - Add `themes/admin/src/pages/languages/hooks.ts` with React Query hooks.
-    - Add `themes/admin/src/pages/languages/types.ts` for type definitions.
-
-5. **Register Routes and Update Sidebar (Frontend - Admin)**
-    - Update `themes/admin/src/App.tsx` to include `admin/languages` routes.
-    - Update `themes/admin/src/components/layout/Sidebar.tsx` to add 'Languages' under the 'Settings' group (or standalone). Let's put it as standalone 'Languages' menu item like pages.
-
-6. **Pre-commit Steps**
-    - Run the pre-commit instructions, run `pint`, check types, tests, etc.
+1.  **Analyze the Request:** The user wants to show languages from the API in the top menu of the Next.js frontend (`themes/app`).
+2.  **Analyze the Existing Code:**
+    *   There is a `LanguageController` in the backend (`modules/API/Http/Controllers/LanguageController.php`) with a `/api/v1/locales` endpoint that returns available languages configured in `config/locales.php`.
+    *   The frontend uses `react-i18next` for internationalization (`themes/app/src/i18n/index.ts`).
+    *   The main layout is in `themes/app/app/layout.tsx`. It uses a `<Providers>` wrapper (`themes/app/app/providers.tsx`) that includes `<I18nProvider>`.
+3.  **Implement the Solution:**
+    *   Create a `Header` component (`themes/app/components/layout/Header.tsx`) that:
+        *   Fetches the list of locales from `/v1/locales` using `axiosClient`.
+        *   Displays the current language.
+        *   Provides a dropdown menu to select a different language.
+        *   Uses `useTranslation` from `react-i18next` to change the language (`i18n.changeLanguage(lng)`).
+    *   Update `themes/app/app/layout.tsx` to include the `Header` component inside the `<Providers>` wrapper so it appears at the top of all pages.
+4.  **Testing and Verification:**
+    *   The `Header` component was created.
+    *   `layout.tsx` was updated.
+    *   The dev server was started and it was confirmed that the component renders and fetches from the API. The component has a dropdown to select languages.
+5.  **Pre-commit steps:**
+    *   Ensure proper testing, verification, review, and reflection are done.

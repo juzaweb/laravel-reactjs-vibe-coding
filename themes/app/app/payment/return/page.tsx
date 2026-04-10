@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState, Suspense, useRef } from "react";
@@ -24,10 +25,10 @@ function ReturnContent() {
       });
       setResultParams(params);
 
-      const module = sessionStorage.getItem("payment_module") || searchParams.get("module");
+      const paymentModule = sessionStorage.getItem("payment_module") || searchParams.get("module");
       const transactionId = sessionStorage.getItem("payment_history_id") || searchParams.get("transactionId") || searchParams.get("paymentHistoryId");
 
-      if (!module || !transactionId) {
+      if (!paymentModule || !transactionId) {
         setStatus("error");
         setMessage("Missing payment module or transaction ID context.");
         return;
@@ -35,13 +36,13 @@ function ReturnContent() {
 
       try {
         let res;
-        if (module === "subscription") {
+        if (paymentModule === "subscription") {
           // Subscription module uses POST for return
           // Attach any url params received from gateway back to the API
-          res = await axiosClient.post(`/v1/subscription/${module}/return/${transactionId}`, params);
+          res = await axiosClient.post(`/v1/subscription/${paymentModule}/return/${transactionId}`, params);
         } else {
           // General payment module uses POST for return
-          res = await axiosClient.post(`/v1/payment/${module}/return/${transactionId}`, params);
+          res = await axiosClient.post(`/v1/payment/${paymentModule}/return/${transactionId}`, params);
         }
 
         if (res.data?.success || res.data?.status === "success") {
@@ -93,9 +94,9 @@ function ReturnContent() {
 
         {status !== "loading" && (
           <div className="mt-6 text-center">
-             <a href="/" className="text-blue-600 hover:underline dark:text-blue-400">
+             <Link href="/" className="text-blue-600 hover:underline dark:text-blue-400">
                Return to Home
-             </a>
+             </Link>
           </div>
         )}
       </div>

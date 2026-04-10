@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Payment\Http\Controllers\API;
+namespace Juzaweb\Modules\Payment\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

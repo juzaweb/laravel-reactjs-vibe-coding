@@ -10,7 +10,7 @@
  * @license    GNU V2
  */
 
-use Juzaweb\Modules\Payment\Http\Controllers\API\PaymentController;
+use Juzaweb\Modules\Payment\Http\Controllers\PaymentController;
 
 Route::post('payment/{module}/webhook/{driver}', [PaymentController::class, 'webhook'])
     ->name('payment.webhook');

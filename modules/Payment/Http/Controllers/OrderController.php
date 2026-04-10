@@ -1,13 +1,12 @@
 <?php
 
-namespace Juzaweb\Modules\Payment\Http\Controllers\API;
+namespace Juzaweb\Modules\Payment\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
 use Juzaweb\Modules\Payment\Http\Requests\API\CreateOrderRequest;
 use Juzaweb\Modules\Payment\Http\Requests\API\UpdateOrderRequest;
-use Juzaweb\Modules\Payment\Http\Resources\OrderResource;
 use Juzaweb\Modules\Payment\Models\Order;
 use OpenApi\Annotations as OA;
 

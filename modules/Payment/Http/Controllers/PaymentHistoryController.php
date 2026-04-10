@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\Payment\Http\Controllers\API;
+namespace Juzaweb\Modules\Payment\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

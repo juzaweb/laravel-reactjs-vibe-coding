@@ -5407,6 +5407,63 @@
                 }
             }
         },
+        "/api/v1/subscription/features": {
+            "get": {
+                "tags": [
+                    "Subscription"
+                ],
+                "summary": "Get list of subscription features",
+                "operationId": "f1e64e8395dbad435bfa77ea8e7685b7",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "domain"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "Custom Domain"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "boolean"
+                                                    },
+                                                    "description": {
+                                                        "type": "string",
+                                                        "example": "Allow custom domain",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/subscription/plans": {
             "get": {
                 "tags": [

@@ -36,10 +36,8 @@ function CancelContent() {
         try {
           let res;
           if (module === "subscription") {
-            // Subscription module uses GET for cancel
-            res = await axiosClient.get(`/v1/subscription/${module}/cancel/${transactionId}`, {
-              params,
-            });
+            // Subscription module uses POST for cancel
+            res = await axiosClient.post(`/v1/subscription/${module}/cancel/${transactionId}`, params);
           } else {
             // General payment module uses POST for cancel
             res = await axiosClient.post(`/v1/payment/${module}/cancel/${transactionId}`, params);

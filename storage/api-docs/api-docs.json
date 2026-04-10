@@ -4738,7 +4738,7 @@
             }
         },
         "/api/v1/payment/{module}/return/{paymentHistoryId}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Payment"
                 ],
@@ -4770,7 +4770,7 @@
             }
         },
         "/api/v1/payment/{module}/cancel/{transactionId}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Payment"
                 ],
@@ -4834,7 +4834,7 @@
             }
         },
         "/api/v1/payment/{module}/status/{transactionId}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Payment"
                 ],
@@ -5606,13 +5606,13 @@
             }
         },
         "/api/v1/subscription/{module}/return/{transactionId}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Return after subscription",
                 "description": "Return endpoint after subscription payment process.",
-                "operationId": "7dceade885db643343675cedf5209fab",
+                "operationId": "a721b45fb03a9b48871e06f2c8302fec",
                 "parameters": [
                     {
                         "name": "module",
@@ -5672,13 +5672,13 @@
             }
         },
         "/api/v1/subscription/{module}/cancel/{transactionId}": {
-            "get": {
+            "post": {
                 "tags": [
                     "Subscription"
                 ],
                 "summary": "Cancel a subscription",
                 "description": "Cancel a subscription payment.",
-                "operationId": "7c6431e9ee3bd80b7545afc50c2ac0c5",
+                "operationId": "89c87b0d56ed71ff61da34b477bf175b",
                 "parameters": [
                     {
                         "name": "module",

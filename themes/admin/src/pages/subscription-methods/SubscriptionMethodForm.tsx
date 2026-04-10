@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import { useForm, Controller } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -7,6 +7,8 @@ import { PageHeader } from '../../components/ui/PageHeader'
 import { Button } from '../../components/ui/Button'
 import { Text as Input } from '../../components/ui/form/Text'
 import { Select } from '../../components/ui/form/Select'
+
+import { useSubscriptionMethod, useCreateSubscriptionMethod, useUpdateSubscriptionMethod, useSubscriptionDrivers } from './hooks'
 import { Textarea } from '../../components/ui/form/Textarea'
 import { useSubscriptionMethod, useCreateSubscriptionMethod, useUpdateSubscriptionMethod } from './hooks'
 import { useLanguages } from '../languages/hooks'
@@ -23,8 +25,7 @@ export function SubscriptionMethodForm() {
   const { i18n } = useTranslation()
   const urlLocale = searchParams.get('locale') || i18n.language || 'en'
 
-  // const { currentLocale } = useAppSelector((state: any) => state.ui)
-  const currentLocale = urlLocale
+  const { currentLocale } = useAppSelector((state: { ui: { currentLocale: string } }) => state.ui)
 
   // Fetch available drivers (assuming it's similar to payment drivers, you might need a dedicated endpoint if different)
   // Let's assume we use an API endpoint to get available subscription drivers, or hardcode it if needed.
@@ -36,6 +37,7 @@ export function SubscriptionMethodForm() {
   // Let's use a simple text input for driver to avoid blocking, since I don't see an API route for driver list.
 
   const { data: method, isLoading: isLoadingMethod } = useSubscriptionMethod(id, currentLocale)
+  const { data: drivers } = useSubscriptionDrivers()
 
   const createMutation = useCreateSubscriptionMethod()
   const updateMutation = useUpdateSubscriptionMethod()
@@ -44,6 +46,7 @@ export function SubscriptionMethodForm() {
 
   const {
     handleSubmit,
+    watch,
     control,
     reset,
     setError,
@@ -57,6 +60,8 @@ export function SubscriptionMethodForm() {
       active: true,
     },
   })
+
+  const selectedDriverName = watch('driver')
 
   useEffect(() => {
     if (method) {
@@ -159,71 +164,62 @@ export function SubscriptionMethodForm() {
               )}
             />
 
-            <Controller
+                        <Controller
               name="driver"
               control={control}
               render={({ field }) => (
-                <Input
+                <Select
                   label={t('subscription_method.driver', 'Driver')}
                   error={errors.driver?.message?.toString()}
-                  placeholder="e.g. PayPal, Stripe"
+                  options={[
+                    { label: t('common.select_driver', '-- Select Driver --'), value: '' },
+                    ...(drivers?.map(d => ({ label: d.label, value: d.name })) || [])
+                  ]}
                   disabled={isEdit}
                   {...field}
                 />
               )}
             />
 
-            <Controller
-              name="config"
-              control={control}
-              render={({ field: { value, onChange, ...field } }) => {
-                const [localValue, setLocalValue] = useState(() => {
-                  try {
-                    return JSON.stringify(value, null, 2) === '{}' ? '' : JSON.stringify(value, null, 2)
-                  } catch {
-                    return ''
-                  }
-                })
-
-                useEffect(() => {
-                  try {
-                    setLocalValue(JSON.stringify(value, null, 2) === '{}' ? '' : JSON.stringify(value, null, 2))
-                  } catch {
-                    // ignore
-                  }
-                }, [value])
-
-                return (
-                  <div className="space-y-1">
-                    <label className="block text-sm font-medium text-[var(--text-main)]">
-                      {t('subscription_method.config', 'Configuration (JSON)')}
-                    </label>
-                    <Textarea
-                      {...field}
-                      value={localValue}
-                      onChange={(e: any) => {
-                        setLocalValue(e.target.value)
-                      }}
-                      onBlur={(e: any) => {
-                        try {
-                          const val = e.target.value ? JSON.parse(e.target.value) : {}
-                          onChange(val)
-                          field.onBlur?.()
-                        } catch (err) {
-                          // ignore invalid json on blur, wait for user to fix
+            {selectedDriverName && drivers?.find(d => d.name === selectedDriverName) && (
+              <div className="space-y-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg border border-[var(--border-color)]">
+                <h3 className="text-sm font-medium text-[var(--text-main)] mb-4">{t('subscription_method.configuration', 'Configuration')}</h3>
+                {Object.entries(drivers.find(d => d.name === selectedDriverName)!.configs).map(([configKey, configDef]) => {
+                  return (
+                    <Controller
+                      key={configKey}
+                      name={`config.${configKey}`}
+                      control={control}
+                      render={({ field }) => {
+                        if (configDef.type === 'select' && configDef.data) {
+                          return (
+                            <Select
+                              label={configDef.label}
+                              options={Object.entries(configDef.data).map(([v, l]) => ({ value: v, label: l as string }))}
+                              {...field}
+                            />
+                          )
                         }
+                        if (configDef.type === 'password') {
+                          return (
+                            <Input type="password"
+                              label={configDef.label}
+                              {...field}
+                            />
+                          )
+                        }
+                        return (
+                          <Input
+                            label={configDef.label}
+                            {...field}
+                          />
+                        )
                       }}
-                      placeholder='{"client_id": "...", "secret": "..."}'
-                      rows={10}
-                      className="w-full bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-main)] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors p-2 font-mono text-sm"
                     />
-                    {errors.config && (
-                      <p className="text-sm text-red-500 mt-1">{errors.config.message?.toString()}</p>
-                    )}
-                  </div>
-                )
-              }}
-            />
+                  )
+                })}
+              </div>
+            )}
 
             <Controller
               name="description"

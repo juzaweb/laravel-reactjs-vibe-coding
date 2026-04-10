@@ -6019,6 +6019,26 @@
                 ]
             }
         },
+        "/api/v1/subscription/methods/drivers": {
+            "get": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Get list of subscription drivers",
+                "operationId": "7a7d6afc7d7184ec0b2682f44574cfe2",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
+                    }
+                ]
+            }
+        },
         "/api/v1/subscription/methods": {
             "get": {
                 "tags": [

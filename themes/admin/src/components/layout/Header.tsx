@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { notificationService } from '../../pages/notifications/hooks';
+import { useLanguages } from '../../pages/languages/hooks';
 
 export const Header: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,6 +31,9 @@ export const Header: React.FC = () => {
 
   const notifications = notificationsData?.data?.data || [];
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  const { data: localesResponse } = useLanguages(1, 100);
+  const locales = localesResponse?.data || [];
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -80,20 +84,16 @@ export const Header: React.FC = () => {
             {isLangMenuOpen && (
               <div className="absolute right-0 z-10 mt-2 w-32 origin-top-right rounded-md bg-[var(--bg-card)] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none border border-[var(--border-color)]">
                 <div className="py-1" role="none">
-                  <button
-                    className={`block w-full text-left px-4 py-2 text-sm text-[var(--text-main)] hover:bg-slate-100 dark:hover:bg-slate-800 ${i18n.language === 'en' ? 'font-bold' : ''}`}
-                    role="menuitem"
-                    onClick={() => { i18n.changeLanguage('en'); setIsLangMenuOpen(false); }}
-                  >
-                    {t('english')}
-                  </button>
-                  <button
-                    className={`block w-full text-left px-4 py-2 text-sm text-[var(--text-main)] hover:bg-slate-100 dark:hover:bg-slate-800 ${i18n.language === 'es' ? 'font-bold' : ''}`}
-                    role="menuitem"
-                    onClick={() => { i18n.changeLanguage('es'); setIsLangMenuOpen(false); }}
-                  >
-                    {t('spanish')}
-                  </button>
+                  {locales.map((locale) => (
+                    <button
+                      key={locale.code}
+                      className={`block w-full text-left px-4 py-2 text-sm text-[var(--text-main)] hover:bg-slate-100 dark:hover:bg-slate-800 ${i18n.language === locale.code ? 'font-bold' : ''}`}
+                      role="menuitem"
+                      onClick={() => { i18n.changeLanguage(locale.code); setIsLangMenuOpen(false); }}
+                    >
+                      {locale.name}
+                    </button>
+                  ))}
                 </div>
               </div>
             )}

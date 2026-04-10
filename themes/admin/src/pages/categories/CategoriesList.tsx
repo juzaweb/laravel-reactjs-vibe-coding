@@ -95,8 +95,6 @@ export const CategoriesList: React.FC = () => {
             className="bg-[var(--bg-main)] border border-[var(--border-color)] text-[var(--text-main)] text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 p-2"
           >
             <option value="">{t('bulk_actions', 'Bulk Actions')}</option>
-            <option value="published">{t('publish', 'Publish')}</option>
-            <option value="draft">{t('draft', 'Draft')}</option>
             {hasPermission('categories.delete') && <option value="delete">{t('delete', 'Delete')}</option>}
           </select>
           <Button
@@ -129,9 +127,6 @@ export const CategoriesList: React.FC = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                   {t('name', 'Name')}
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
-                  {t('status', 'Status')}
-                </th>
                 <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                   {t('actions', 'Actions')}
                 </th>
@@ -151,15 +146,6 @@ export const CategoriesList: React.FC = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-[var(--text-main)]">{category.name}</div>
                     <div className="text-sm text-[var(--text-muted)]">{category.slug}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      category.status === 'published'
-                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                        : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
-                    }`}>
-                      {category.status ? t(`status_${category.status}`, category.status) : t('status_unknown', 'Unknown')}
-                    </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">
@@ -188,7 +174,7 @@ export const CategoriesList: React.FC = () => {
 
               {(!data?.data || data.data.length === 0) && (
                 <tr>
-                  <td colSpan={4} className="px-6 py-8 text-center text-[var(--text-muted)]">
+                  <td colSpan={3} className="px-6 py-8 text-center text-[var(--text-muted)]">
                     {t('no_categories_found', 'No categories found')}
                   </td>
                 </tr>

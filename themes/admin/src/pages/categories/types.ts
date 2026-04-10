@@ -3,7 +3,6 @@ export interface Category {
   name: string;
   slug: string;
   description: string | null;
-  status: string;
   created_at: string;
   updated_at: string;
 }
@@ -13,7 +12,6 @@ export interface CategoryFormData {
   name: string;
   slug?: string;
   description?: string;
-  status: string;
 }
 
 export interface PaginationMeta {

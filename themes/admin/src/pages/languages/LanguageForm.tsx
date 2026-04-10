@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../../components/ui/Button';
 import { Text } from '../../components/ui/form/Text';
 import { Select } from '../../components/ui/form/Select';
-import { useLanguage, useCreateLanguage, useUpdateLanguage, useLanguages } from './hooks';
+import { useLanguage, useCreateLanguage, useUpdateLanguage, useLocales } from './hooks';
 import { PageHeader } from '../../components/ui/PageHeader';
 import type { LanguageFormData } from './types';
 
@@ -16,7 +16,7 @@ export const LanguageForm: React.FC = () => {
   const { t } = useTranslation();
 
   const { data: language, isLoading } = useLanguage(id as string);
-  const { data: localesResponse } = useLanguages(1, 100);
+  const { data: localesResponse } = useLocales();
   const locales = localesResponse?.data || [];
   const createMutation = useCreateLanguage();
   const updateMutation = useUpdateLanguage();

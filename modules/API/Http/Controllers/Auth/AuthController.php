@@ -86,6 +86,8 @@ class AuthController extends APIController
 
         event(new Login('api', $user, true));
 
+        $user->logActivity('auth')->log('Logged in');
+
         $user->load(['roles', 'permissions']);
 
         return $this->restSuccess(
@@ -213,6 +215,8 @@ class AuthController extends APIController
 
         event(new Registered($user));
 
+        $user->logActivity('auth')->log('Registered');
+
         return UserResource::make($user);
     }
 
@@ -296,6 +300,8 @@ class AuthController extends APIController
             $user->markEmailAsVerified();
 
             event(new Verified($user));
+
+            $user->logActivity('auth')->log('Verified email');
         }
 
         return $this->restSuccess([], __('Your email has been verified.'));
@@ -340,6 +346,8 @@ class AuthController extends APIController
 
         DB::transaction(
             function () use ($user) {
+                $user->logActivity('auth')->log('Requested password reset');
+
                 $token = $this->passwordBroker->createToken($user);
 
                 $user->sendPasswordResetNotification($token);
@@ -400,6 +408,8 @@ class AuthController extends APIController
                 $user->passwordResets()->delete();
 
                 event(new PasswordReset($user));
+
+                $user->logActivity('auth')->log('Reset password');
             }
         );
 
@@ -432,6 +442,8 @@ class AuthController extends APIController
      */
     public function logout(Request $request): JsonResponse
     {
+        $request->user('api')->logActivity('auth')->log('Logged out');
+
         $request->user('api')->token()->revoke();
 
         return $this->restSuccess([], 'Successfully logged out');

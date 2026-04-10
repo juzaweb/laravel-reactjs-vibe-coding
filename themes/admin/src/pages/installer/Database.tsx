@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../utils/axiosClient';
@@ -5,6 +6,7 @@ import toast from 'react-hot-toast';
 
 export function Database() {
   const navigate = useNavigate();
+  usePageTitle('Install - Database');
   const [status, setStatus] = useState('Installing database...');
   const [error, setError] = useState<string | null>(null);
 

@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../hooks/usePageTitle';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,6 +16,7 @@ type AdminForm = {
 
 export function Admin() {
   const navigate = useNavigate();
+  usePageTitle('Install - Admin');
   const [loading, setLoading] = useState(false);
 
   const { control, handleSubmit, watch, formState: { errors } } = useForm<AdminForm>({

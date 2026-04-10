@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../utils/axiosClient';
@@ -5,6 +6,7 @@ import { Button } from '../../components/ui/Button';
 
 export function Requirements() {
   const navigate = useNavigate();
+  usePageTitle('Install - Requirements');
   const [loading, setLoading] = useState(true);
   const [requirements, setRequirements] = useState<any>(null);
   const [phpSupportInfo, setPhpSupportInfo] = useState<any>(null);

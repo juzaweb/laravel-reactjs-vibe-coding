@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosClient from '../../utils/axiosClient';
@@ -5,6 +6,7 @@ import { Button } from '../../components/ui/Button';
 
 export function Permissions() {
   const navigate = useNavigate();
+  usePageTitle('Install - Permissions');
   const [loading, setLoading] = useState(true);
   const [permissions, setPermissions] = useState<any>(null);
 

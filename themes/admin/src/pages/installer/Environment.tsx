@@ -1,3 +1,4 @@
+import { usePageTitle } from '../../hooks/usePageTitle';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
@@ -16,6 +17,7 @@ type EnvironmentForm = {
 
 export function Environment() {
   const navigate = useNavigate();
+  usePageTitle('Install - Environment');
   const [loading, setLoading] = useState(false);
 
   const { control, handleSubmit, formState: { errors } } = useForm<EnvironmentForm>({

@@ -5,6 +5,8 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Switch } from '../../components/ui/form/Switch';
 import { fetchSettings, useUpdateSettings } from './hooks';
+import { usePageTitle } from '../../hooks/usePageTitle';
+
 import toast from 'react-hot-toast';
 
 interface SocialSettingFormData {
@@ -112,6 +114,7 @@ const SocialProviderCard = ({
 
 export const SocialLoginSettingPage: React.FC = () => {
   const { t } = useTranslation();
+  usePageTitle(t('social_login_setting', 'Social Login Setting'));
   const [isLoading, setIsLoading] = useState(true);
   const updateSettingsMutation = useUpdateSettings();
 
@@ -195,7 +198,7 @@ export const SocialLoginSettingPage: React.FC = () => {
 
   const onSubmit = async (data: SocialSettingFormData) => {
     try {
-      await updateSettingsMutation.mutateAsync(data as Record<string, string>);
+      await updateSettingsMutation.mutateAsync(data as unknown as Record<string, string>);
       toast.success(t('settings_saved_successfully', 'Settings saved successfully'));
     } catch (error) {
       toast.error(t('error_saving_settings', 'Failed to save settings'));

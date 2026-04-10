@@ -7,6 +7,8 @@ import { Select } from '../../components/ui/form/Select';
 import { Switch } from '../../components/ui/form/Switch';
 import { MediaPlaceholder } from '../../components/ui/form/MediaPlaceholder';
 import { fetchSettings, useUpdateSettings } from './hooks';
+import { usePageTitle } from '../../hooks/usePageTitle';
+
 
 interface SettingFormData {
   title: string;
@@ -37,6 +39,7 @@ const toStringValue = (value: unknown, fallback = ''): string =>
 
 export const SettingPage: React.FC = () => {
   const { t } = useTranslation();
+  usePageTitle(t('general_setting', 'General Setting'));
   const [isLoading, setIsLoading] = useState(true);
   const updateSettingsMutation = useUpdateSettings();
 

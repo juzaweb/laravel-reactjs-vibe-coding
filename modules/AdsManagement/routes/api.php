@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Juzaweb\Modules\AdsManagement\Http\Controllers\Api\BannerAdsController;
-use Juzaweb\Modules\AdsManagement\Http\Controllers\Api\VideoAdsController;
+use Juzaweb\Modules\AdsManagement\Http\Controllers\BannerAdsController;
+use Juzaweb\Modules\AdsManagement\Http\Controllers\VideoAdsController;
 
 /*
 |--------------------------------------------------------------------------

@@ -1,6 +1,6 @@
 <?php
 
-namespace Juzaweb\Modules\AdsManagement\Http\Controllers\Api;
+namespace Juzaweb\Modules\AdsManagement\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\AdsManagement\Http\Requests\VideoAdsRequest;
 use Juzaweb\Modules\AdsManagement\Models\VideoAds;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
-use Juzaweb\Modules\Core\Http\Requests\BulkActionsRequest;
+use Juzaweb\Modules\Api\Http\Requests\BulkActionsRequest;
 use OpenApi\Annotations as OA;
 
 class VideoAdsController extends APIController

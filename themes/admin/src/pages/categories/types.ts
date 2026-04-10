@@ -9,6 +9,7 @@ export interface Category {
 }
 
 export interface CategoryFormData {
+  locale?: string;
   name: string;
   slug?: string;
   description?: string;

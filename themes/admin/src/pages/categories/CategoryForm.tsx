@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { isAxiosError } from 'axios';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { useCategory, useCreateCategory, useUpdateCategory } from './hooks';
+import { useLocales } from '../languages/hooks';
 import type { CategoryFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
 import { FiEdit2 } from 'react-icons/fi';
@@ -14,11 +16,16 @@ import { FiEdit2 } from 'react-icons/fi';
 export const CategoryForm: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { i18n } = useTranslation();
+  const currentLocale = searchParams.get('locale') || i18n.language || 'en';
   const isEditMode = !!id;
   const [isSlugEditable, setIsSlugEditable] = useState(false);
 
-  const { data: categoryData, isLoading: isLoadingCategory } = useCategory(id || '');
+  const { data: categoryData, isLoading: isLoadingCategory } = useCategory(id || '', currentLocale);
+  const { data: localesData } = useLocales();
+
   const createCategoryMutation = useCreateCategory();
   const updateCategoryMutation = useUpdateCategory();
 
@@ -28,6 +35,7 @@ export const CategoryForm: React.FC = () => {
       slug: '',
       description: '',
       status: 'draft',
+      locale: currentLocale,
     },
   });
 
@@ -35,12 +43,13 @@ export const CategoryForm: React.FC = () => {
     if (categoryData) {
       reset({
         name: categoryData.name || '',
+        locale: currentLocale,
         slug: categoryData.slug || '',
         description: categoryData.description || '',
         status: categoryData.status || 'draft',
       });
     }
-  }, [categoryData, reset]);
+  }, [categoryData, currentLocale, reset]);
 
   useEffect(() => {
     setIsSlugEditable(false);
@@ -48,6 +57,7 @@ export const CategoryForm: React.FC = () => {
 
   const onSubmit = async (data: CategoryFormData) => {
     try {
+      data.locale = currentLocale;
       if (isEditMode && id) {
         await updateCategoryMutation.mutateAsync({ id, data });
       } else {
@@ -138,6 +148,19 @@ export const CategoryForm: React.FC = () => {
         </div>
 
         <div className="space-y-6">
+
+          <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
+            <h3 className="text-lg font-medium text-[var(--text-main)]">{t('language', 'Language')}</h3>
+            <Select
+              value={currentLocale}
+              onChange={(e) => {
+                setSearchParams({ locale: e.target.value });
+              }}
+              options={(localesData || []).map((l) => ({ value: l.code, label: l.name }))}
+              label={t('select_language', 'Select Language')}
+            />
+          </div>
+
           <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
             <h3 className="text-lg font-medium text-[var(--text-main)]">{t('publish', 'Publish')}</h3>
 

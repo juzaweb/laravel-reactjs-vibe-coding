@@ -27,11 +27,13 @@ export const useBulkCategories = () => {
   });
 };
 
-export const useCategory = (id: string) => {
+export const useCategory = (id: string, locale?: string) => {
   return useQuery({
-    queryKey: ['categories', id],
+    queryKey: ['categories', id, locale],
     queryFn: async () => {
-      const response = await axiosClient.get<SingleResponse<Category>>(`/v1/categories/${id}`);
+      const response = await axiosClient.get<SingleResponse<Category>>(`/v1/categories/${id}`, {
+        params: { locale }
+      });
       return response.data.data;
     },
     enabled: !!id && id !== 'create',

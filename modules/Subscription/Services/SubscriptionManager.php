@@ -12,11 +12,11 @@
 
 namespace Juzaweb\Modules\Subscription\Services;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
-use Illuminate\Contracts\Foundation\Application;
 use Juzaweb\Modules\Core\Models\Authenticatable;
 use Juzaweb\Modules\Payment\Exceptions\PaymentException;
 use Juzaweb\Modules\Subscription\Contracts\Subscriptable;

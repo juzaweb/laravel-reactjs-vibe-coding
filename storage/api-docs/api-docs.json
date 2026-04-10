@@ -2654,14 +2654,14 @@
                 ]
             }
         },
-        "/api/v1/translations/{locale}/texts": {
+        "/api/v1/translations/{locale}.json": {
             "get": {
                 "tags": [
                     "Translations"
                 ],
                 "summary": "Get i18n translation strings",
                 "description": "Returns all translation strings for the given locale.",
-                "operationId": "d5c9eee3257d2e99df97e1bf6f5f14c1",
+                "operationId": "6b4203515e873fb9a97d87b7783e1ced",
                 "parameters": [
                     {
                         "name": "locale",
@@ -6015,6 +6015,26 @@
                 "security": [
                     {
                         "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/subscription/methods/drivers": {
+            "get": {
+                "tags": [
+                    "Subscription Methods"
+                ],
+                "summary": "Get list of subscription drivers",
+                "operationId": "7a7d6afc7d7184ec0b2682f44574cfe2",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": [],
+                        "apiKey": []
                     }
                 ]
             }

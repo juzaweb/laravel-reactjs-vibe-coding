@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import axiosClient from '../../utils/axiosClient'
 import type { ApiResponse, PaginatedData } from '../../types'
-import type { SubscriptionMethod, SubscriptionMethodFormData } from './types'
+import type { SubscriptionMethod, SubscriptionMethodFormData, SubscriptionDriver } from './types'
 import toast from 'react-hot-toast'
 import { isAxiosError } from 'axios'
 
@@ -92,6 +92,16 @@ export const useDeleteSubscriptionMethod = () => {
     },
     onError: () => {
       toast.error('Failed to delete subscription method')
+    },
+  })
+}
+
+export const useSubscriptionDrivers = () => {
+  return useQuery({
+    queryKey: ['subscription-drivers'],
+    queryFn: async () => {
+      const { data } = await axiosClient.get<ApiResponse<SubscriptionDriver[]>>(`${API_URL}/drivers`)
+      return data.data
     },
   })
 }

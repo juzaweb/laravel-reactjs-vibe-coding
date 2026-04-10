@@ -6,12 +6,43 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
+use Juzaweb\Modules\Subscription\Facades\Subscription;
 use Juzaweb\Modules\Subscription\Http\Requests\API\SubscriptionMethodRequest;
 use Juzaweb\Modules\Subscription\Models\SubscriptionMethod;
 use OpenApi\Annotations as OA;
 
 class SubscriptionMethodController extends APIController
 {
+    /**
+     * @OA\Get(
+     *      path="/api/v1/subscription/methods/drivers",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Subscription Methods"},
+     *      summary="Get list of subscription drivers",
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *      ),
+     * )
+     */
+    public function drivers(): JsonResponse
+    {
+        $drivers = Subscription::drivers();
+        $data = [];
+
+        foreach ($drivers as $name => $driverClass) {
+            $driver = Subscription::driver($name);
+            $data[] = [
+                'name' => $name,
+                'label' => $driver->label(),
+                'configs' => $driver->getConfigs(),
+            ];
+        }
+
+        return $this->restSuccess($data);
+    }
+
     /**
      * @OA\Get(
      *      path="/api/v1/subscription/methods",

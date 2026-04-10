@@ -11,6 +11,7 @@ Route::get('app/subscription/plans', [Juzaweb\Modules\Subscription\Http\Controll
 
 Route::middleware('auth:api')->group(
     function () {
+        Route::get('subscription/methods/drivers', [Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionMethodController::class, 'drivers']);
         Route::api('subscription/methods', Juzaweb\Modules\Subscription\Http\Controllers\SubscriptionMethodController::class);
         Route::api('subscription/plans', PlanController::class);
 

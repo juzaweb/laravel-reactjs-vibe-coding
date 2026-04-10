@@ -18,12 +18,16 @@ export const Sidebar: React.FC = () => {
   const [isPaymentOpen, setIsPaymentOpen] = useState(isPaymentActive);
 
   const isSubscriptionActive = location.pathname.startsWith('/admin/subscription');
+
+  const isAdActive = location.pathname.startsWith('/admin/banner-ads') || location.pathname.startsWith('/admin/video-ads');
+  const [isAdOpen, setIsAdOpen] = useState(isAdActive);
   const [isSubscriptionOpen, setIsSubscriptionOpen] = useState(isSubscriptionActive);
 
   const activeModules = settings?.active_modules || [];
   const isBlogModuleActive = activeModules.includes('Blog');
   const isPaymentModuleActive = activeModules.includes('Payment');
   const isSubscriptionModuleActive = activeModules.includes('Subscription');
+  const isAdManagementModuleActive = activeModules.includes('AdsManagement');
 
   const navItems = [
     { name: t('dashboard'), path: '/admin', icon: FiHome, permission: null },
@@ -71,6 +75,18 @@ export const Sidebar: React.FC = () => {
           },
         ]
       : []),
+    ...(isAdManagementModuleActive
+      ? [
+          {
+            name: t('ad_management', 'Ad Management'),
+            icon: FiList,
+            permission: null,
+            children: [
+              { name: t('banner_ads', 'Banner Ads'), path: '/admin/banner-ads', permission: 'banner-ads.index' },
+            ],
+          },
+        ]
+      : []),
     { name: t('menus', 'Menus'), path: '/admin/menus', icon: FiList, permission: null },
     { name: t('languages', 'Languages'), path: '/admin/languages', icon: FiFileText, permission: null },
     { name: t('users'), path: '/admin/users', icon: FiUsers, permission: 'users.index' },
@@ -109,14 +125,15 @@ export const Sidebar: React.FC = () => {
       <nav className="mt-6 px-3 space-y-1">
         {navItems.map((item) => {
           if (item.children) {
-            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : (item.name === t('subscription', 'Subscription') ? isSubscriptionActive : false));
-            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : (item.name === t('subscription', 'Subscription') ? isSubscriptionOpen : false));
+            const isGroupActive = item.name === t('blog', 'Blog') ? isBlogActive : (item.name === t('payment', 'Payment') ? isPaymentActive : (item.name === t('subscription', 'Subscription') ? isSubscriptionActive : (item.name === t('ad_management', 'Ad Management') ? isAdActive : false)));
+            const isGroupOpen = item.name === t('blog', 'Blog') ? isBlogOpen : (item.name === t('payment', 'Payment') ? isPaymentOpen : (item.name === t('subscription', 'Subscription') ? isSubscriptionOpen : (item.name === t('ad_management', 'Ad Management') ? isAdOpen : false)));
             const toggleGroup = () => {
               if (item.name === t('blog', 'Blog')) {
                 setIsBlogOpen(!isBlogOpen);
                 if (!isBlogOpen) {
                   setIsPaymentOpen(false);
                   setIsSubscriptionOpen(false);
+                  setIsAdOpen(false);
                 }
               }
               if (item.name === t('payment', 'Payment')) {
@@ -124,6 +141,7 @@ export const Sidebar: React.FC = () => {
                 if (!isPaymentOpen) {
                   setIsBlogOpen(false);
                   setIsSubscriptionOpen(false);
+                  setIsAdOpen(false);
                 }
               }
               if (item.name === t('subscription', 'Subscription')) {
@@ -131,6 +149,15 @@ export const Sidebar: React.FC = () => {
                 if (!isSubscriptionOpen) {
                   setIsBlogOpen(false);
                   setIsPaymentOpen(false);
+                  setIsAdOpen(false);
+                }
+              }
+              if (item.name === t('ad_management', 'Ad Management')) {
+                setIsAdOpen(!isAdOpen);
+                if (!isAdOpen) {
+                  setIsBlogOpen(false);
+                  setIsPaymentOpen(false);
+                  setIsSubscriptionOpen(false);
                 }
               }
             };

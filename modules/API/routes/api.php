@@ -16,7 +16,7 @@ use Juzaweb\Modules\API\Http\Controllers\TranslationController;
 use Juzaweb\Modules\API\Http\Controllers\UserController;
 
 Route::get('app/settings', [AppSettingController::class, 'index']);
-Route::get('translations/{locale}/texts', [TranslationController::class, 'texts']);
+Route::get('translations/{locale}.json', [TranslationController::class, 'texts']);
 
 Route::middleware('auth:api')->group(
     function () {

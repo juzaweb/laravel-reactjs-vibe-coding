@@ -13,7 +13,7 @@ i18n
       escapeValue: false, // react already safes from xss
     },
     backend: {
-      loadPath: `${import.meta.env.VITE_API_BASE_URL || '/api'}/v1/translations/{{lng}}`,
+      loadPath: `${import.meta.env.VITE_API_BASE_URL || '/api'}/v1/translations/{{lng}}.json`,
     },
   });
 

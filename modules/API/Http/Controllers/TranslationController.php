@@ -22,7 +22,7 @@ class TranslationController extends APIController
 
     /**
      * @OA\Get(
-     *      path="/api/v1/translations/{locale}/texts",
+     *      path="/api/v1/translations/{locale}.json",
      *      tags={"Translations"},
      *      summary="Get i18n translation strings",
      *      description="Returns all translation strings for the given locale.",

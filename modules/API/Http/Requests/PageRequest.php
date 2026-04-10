@@ -63,7 +63,7 @@ class PageRequest extends FormRequest
     public function rules(): array
     {
         $templates = collect(PageTemplate::all())
-            ->map(fn($item) => $item->key)
+            ->map(fn ($item) => $item->key)
             ->values()
             ->toArray();
 

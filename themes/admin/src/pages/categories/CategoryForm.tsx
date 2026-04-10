@@ -8,7 +8,7 @@ import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { useCategory, useCreateCategory, useUpdateCategory } from './hooks';
-import { useLocales } from '../languages/hooks';
+import { useLanguages } from '../languages/hooks';
 import type { CategoryFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
 import { FiEdit2 } from 'react-icons/fi';
@@ -24,7 +24,8 @@ export const CategoryForm: React.FC = () => {
   const [isSlugEditable, setIsSlugEditable] = useState(false);
 
   const { data: categoryData, isLoading: isLoadingCategory } = useCategory(id || '', currentLocale);
-  const { data: localesData } = useLocales();
+  const { data: localesResponse } = useLanguages(1, 100);
+  const localesData = localesResponse;
 
   const createCategoryMutation = useCreateCategory();
   const updateCategoryMutation = useUpdateCategory();
@@ -156,7 +157,7 @@ export const CategoryForm: React.FC = () => {
               onChange={(e) => {
                 setSearchParams({ locale: e.target.value });
               }}
-              options={(localesData || []).map((l) => ({ value: l.code, label: l.name }))}
+              options={(localesData?.data || []).map((l) => ({ value: l.code, label: l.name }))}
               label={t('select_language', 'Select Language')}
             />
           </div>

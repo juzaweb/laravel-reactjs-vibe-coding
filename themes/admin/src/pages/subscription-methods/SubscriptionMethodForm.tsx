@@ -6,10 +6,12 @@ import { FiArrowLeft, FiSave } from 'react-icons/fi'
 import { PageHeader } from '../../components/ui/PageHeader'
 import { Button } from '../../components/ui/Button'
 import { Text as Input } from '../../components/ui/form/Text'
+import { Select } from '../../components/ui/form/Select'
 import { Textarea } from '../../components/ui/form/Textarea'
 import { useSubscriptionMethod, useCreateSubscriptionMethod, useUpdateSubscriptionMethod } from './hooks'
+import { useLanguages } from '../languages/hooks'
+import { useSearchParams } from 'react-router-dom'
 import type { SubscriptionMethodFormData } from './types'
-import { useAppSelector } from '../../store/hooks'
 import { isAxiosError } from 'axios'
 
 export function SubscriptionMethodForm() {
@@ -17,8 +19,12 @@ export function SubscriptionMethodForm() {
   const navigate = useNavigate()
   const { id } = useParams<{ id: string }>()
   const isEdit = !!id
+  const [searchParams, setSearchParams] = useSearchParams()
+  const { i18n } = useTranslation()
+  const urlLocale = searchParams.get('locale') || i18n.language || 'en'
 
-  const { currentLocale } = useAppSelector((state: any) => state.ui)
+  // const { currentLocale } = useAppSelector((state: any) => state.ui)
+  const currentLocale = urlLocale
 
   // Fetch available drivers (assuming it's similar to payment drivers, you might need a dedicated endpoint if different)
   // Let's assume we use an API endpoint to get available subscription drivers, or hardcode it if needed.
@@ -33,6 +39,8 @@ export function SubscriptionMethodForm() {
 
   const createMutation = useCreateSubscriptionMethod()
   const updateMutation = useUpdateSubscriptionMethod()
+  const { data: localesResponse } = useLanguages(1, 100)
+  const localesData = localesResponse
 
   const {
     handleSubmit,
@@ -121,6 +129,21 @@ export function SubscriptionMethodForm() {
       </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 max-w-3xl">
+        <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden mb-6">
+          <div className="p-6 space-y-6">
+            <h3 className="text-lg font-medium text-[var(--text-main)]">{t('language', 'Language')}</h3>
+            <div className="max-w-xs">
+              <Select
+                value={currentLocale}
+                onChange={(e) => {
+                  setSearchParams({ locale: e.target.value });
+                }}
+                options={(localesData?.data || []).map((l) => ({ value: l.code, label: l.name }))}
+              />
+            </div>
+          </div>
+        </div>
+
         <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] overflow-hidden">
           <div className="p-6 space-y-6">
             <Controller

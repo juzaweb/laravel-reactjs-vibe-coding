@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 import { axiosClient } from "@/utils/axiosClient";
+import SocialLogins from "@/components/auth/SocialLogins";
 
 export default function Register() {
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
@@ -109,7 +110,10 @@ export default function Register() {
             </button>
           </div>
         </form>
-        <div className="text-center mt-4">
+
+        <SocialLogins />
+
+        <div className="text-center mt-6">
             <Link href="/login" className="text-sm font-medium text-gray-600 hover:text-gray-900">
                 Already have an account? Sign in.
             </Link>

@@ -20,7 +20,7 @@ const updateSettings = async (data: Record<string, any>): Promise<any> => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const sendTestEmail = async (data: { email: string }): Promise<any> => {
+const sendTestEmail = async (data: Record<string, any>): Promise<any> => {
   const response = await axiosClient.post('/v1/settings/test-email', data);
   return response.data;
 };

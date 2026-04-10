@@ -120,6 +120,19 @@ class SettingController extends APIController
     public function testEmail(SendTestEmailRequest $request): JsonResponse
     {
         try {
+            if ($request->filled('mail_host')) {
+                config([
+                    'mail.default' => 'smtp',
+                    'mail.mailers.smtp.host' => $request->input('mail_host'),
+                    'mail.mailers.smtp.port' => $request->input('mail_port'),
+                    'mail.mailers.smtp.username' => $request->input('mail_username'),
+                    'mail.mailers.smtp.password' => $request->input('mail_password'),
+                    'mail.mailers.smtp.encryption' => $request->input('mail_encryption') === 'none' ? null : $request->input('mail_encryption'),
+                    'mail.from.address' => $request->input('mail_from_address'),
+                    'mail.from.name' => $request->input('mail_from_name'),
+                ]);
+            }
+
             Mail::to($request->input('email'))->send(new Test());
             
             return $this->restSuccess([], __('Test email sent successfully.'));

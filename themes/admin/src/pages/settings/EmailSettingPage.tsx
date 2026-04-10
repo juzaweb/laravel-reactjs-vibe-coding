@@ -32,7 +32,7 @@ export const EmailSettingPage: React.FC = () => {
   const updateSettingsMutation = useUpdateSettings();
   const sendTestEmailMutation = useSendTestEmail();
 
-  const { control, handleSubmit, reset } = useForm<EmailSettingFormData>({
+  const { control, handleSubmit, reset, getValues } = useForm<EmailSettingFormData>({
     defaultValues: {
       mail_host: '',
       mail_port: '',
@@ -99,7 +99,8 @@ export const EmailSettingPage: React.FC = () => {
     }
     
     try {
-      await sendTestEmailMutation.mutateAsync({ email: testEmail });
+      const formValues = getValues();
+      await sendTestEmailMutation.mutateAsync({ email: testEmail, ...formValues });
       toast.success(t('test_email_sent_successfully', 'Test email sent successfully. Please check your inbox.'));
     } catch (error: any) {
       toast.error(error?.response?.data?.message || t('failed_to_send_test_email', 'Failed to send test email. Please check your config.'));

@@ -15,12 +15,13 @@ class SubscriptionMethodTest extends TestCase
         // Ensure admin user
         $this->user = User::factory()->create();
         $this->actingAs($this->user);
+        $this->withoutMiddleware();
     }
 
     public function test_can_list_subscription_methods()
     {
         SubscriptionMethod::create([
-            'driver' => 'paypal',
+            'driver' => 'PayPal',
             'config' => ['client_id' => '123'],
             'active' => 1,
             'name' => 'Paypal method',
@@ -41,7 +42,7 @@ class SubscriptionMethodTest extends TestCase
     {
         $data = [
             'name' => 'PayPal Sub',
-            'driver' => 'paypal',
+            'driver' => 'PayPal',
             'description' => 'Paypal subscription driver',
             'locale' => 'en',
             'config' => ['client_id' => '123', 'secret' => '123'],
@@ -52,7 +53,7 @@ class SubscriptionMethodTest extends TestCase
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('subscription_methods', [
-            'driver' => 'paypal',
+            'driver' => 'PayPal',
             'active' => 1,
         ]);
     }
@@ -60,7 +61,7 @@ class SubscriptionMethodTest extends TestCase
     public function test_can_update_subscription_method()
     {
         $method = SubscriptionMethod::create([
-            'driver' => 'paypal',
+            'driver' => 'PayPal',
             'config' => ['client_id' => '123'],
             'active' => false,
             'name' => 'Paypal method',
@@ -69,7 +70,7 @@ class SubscriptionMethodTest extends TestCase
 
         $data = [
             'name' => 'PayPal Sub Updated',
-            'driver' => 'paypal',
+            'driver' => 'PayPal',
             'description' => 'Paypal subscription driver',
             'locale' => 'en',
             'config' => ['client_id' => '123', 'secret' => '123'],
@@ -88,7 +89,7 @@ class SubscriptionMethodTest extends TestCase
     public function test_can_delete_subscription_method()
     {
         $method = SubscriptionMethod::create([
-            'driver' => 'paypal',
+            'driver' => 'PayPal',
             'config' => ['client_id' => '123'],
             'active' => 1,
             'name' => 'Paypal method',

@@ -6,6 +6,58 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/app/pages/{slug}": {
+            "get": {
+                "tags": [
+                    "App/Pages"
+                ],
+                "summary": "Get page details by slug",
+                "operationId": "ac525dec3ce94cc206ae2f2e7ecd975b",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "query",
+                        "description": "The locale code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PageResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page not found"
+                    }
+                }
+            }
+        },
         "/api/v1/app/settings": {
             "get": {
                 "tags": [
@@ -3878,6 +3930,178 @@
                         "apiKey": []
                     }
                 ]
+            }
+        },
+        "/api/v1/app/categories/{slug}": {
+            "get": {
+                "tags": [
+                    "App/Blog/Categories"
+                ],
+                "summary": "Get category details by slug",
+                "operationId": "ea10ec75bbc5c4fac344a97ab90b1493",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "query",
+                        "description": "The locale code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/CategoryResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found"
+                    }
+                }
+            }
+        },
+        "/api/v1/app/posts": {
+            "get": {
+                "tags": [
+                    "App/Blog/Posts"
+                ],
+                "summary": "Get list of posts",
+                "operationId": "74eaf32bc3b3ff3500a05ff17db1aaa9",
+                "parameters": [
+                    {
+                        "$ref": "#/components/parameters/query_limit"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_page"
+                    },
+                    {
+                        "$ref": "#/components/parameters/query_keyword"
+                    },
+                    {
+                        "name": "locale",
+                        "in": "query",
+                        "description": "The locale code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "query",
+                        "description": "Category slug to filter by",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PostResource"
+                                            }
+                                        },
+                                        "meta": {
+                                            "$ref": "#/components/schemas/PaginationMeta"
+                                        },
+                                        "links": {
+                                            "$ref": "#/components/schemas/PaginationLinks"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/app/posts/{slug}": {
+            "get": {
+                "tags": [
+                    "App/Blog/Posts"
+                ],
+                "summary": "Get post details by slug",
+                "operationId": "c41a60f12428941507ca6eec3fdf56df",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "query",
+                        "description": "The locale code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PostResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Post not found"
+                    }
+                }
             }
         },
         "/api/v1/categories": {
@@ -8021,6 +8245,10 @@
     },
     "tags": [
         {
+            "name": "App/Pages",
+            "description": "App/Pages"
+        },
+        {
             "name": "Settings",
             "description": "Settings"
         },
@@ -8075,6 +8303,14 @@
         {
             "name": "Video Ads",
             "description": "Video Ads"
+        },
+        {
+            "name": "App/Blog/Categories",
+            "description": "App/Blog/Categories"
+        },
+        {
+            "name": "App/Blog/Posts",
+            "description": "App/Blog/Posts"
         },
         {
             "name": "Categories",

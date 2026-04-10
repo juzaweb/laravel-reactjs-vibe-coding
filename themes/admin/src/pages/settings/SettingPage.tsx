@@ -23,6 +23,9 @@ interface SettingFormData {
   favicon: string;
   banner: string;
   google_analytics: string;
+  captcha: string;
+  captcha_site_key: string;
+  captcha_site_secret: string;
 }
 
 type SettingsPayload = Record<string, unknown>;
@@ -53,6 +56,9 @@ export const SettingPage: React.FC = () => {
       favicon: '',
       banner: '',
       google_analytics: '',
+      captcha: '',
+      captcha_site_key: '',
+      captcha_site_secret: '',
     },
   });
 
@@ -82,6 +88,9 @@ export const SettingPage: React.FC = () => {
           favicon: toStringValue(data.favicon),
           banner: toStringValue(data.banner),
           google_analytics: toStringValue(data.google_analytics),
+          captcha: toStringValue(data.captcha),
+          captcha_site_key: toStringValue(data.captcha_site_key),
+          captcha_site_secret: toStringValue(data.captcha_site_secret),
         });
       } finally {
         if (isMounted) {
@@ -267,6 +276,55 @@ export const SettingPage: React.FC = () => {
                     />
                     {fieldState.error && <p className="text-red-500 text-sm mt-1">{fieldState.error.message}</p>}
                   </div>
+                )}
+              />
+            </div>
+
+
+            {/* Captcha Settings */}
+            <div className="bg-slate-50 dark:bg-slate-800/50 px-6 py-4 border-b border-t border-[var(--border-color)]">
+              <h3 className="text-lg font-medium text-[var(--text-main)]">{t('captcha_settings', 'Captcha Settings')}</h3>
+            </div>
+            <div className="p-6 space-y-6">
+              <Controller
+                name="captcha"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Select
+                    {...field}
+                    label={t('captcha_type', 'Captcha Type')}
+                    options={[
+                      { value: '', label: 'None' },
+                      { value: 'recaptcha-v2', label: 'ReCaptcha V2' },
+                      { value: 'recaptcha-v2-invisible', label: 'ReCaptcha V2 Invisible' }
+                    ]}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="captcha_site_key"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label={t('captcha_site_key', 'Site Key')}
+                    error={fieldState.error?.message}
+                  />
+                )}
+              />
+
+              <Controller
+                name="captcha_site_secret"
+                control={control}
+                render={({ field, fieldState }) => (
+                  <Input
+                    {...field}
+                    label={t('captcha_site_secret', 'Secret Key')}
+                    error={fieldState.error?.message}
+                    type="password"
+                  />
                 )}
               />
             </div>

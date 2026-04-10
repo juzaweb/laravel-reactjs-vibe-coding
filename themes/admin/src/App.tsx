@@ -31,6 +31,8 @@ import { NotificationShow } from './pages/notifications/NotificationShow'
 import { SettingPage } from './pages/settings/SettingPage'
 import { LanguagesList } from './pages/languages/LanguagesList'
 import { LanguageForm } from './pages/languages/LanguageForm'
+import { VideoAdsList } from './pages/video-ads/VideoAdsList'
+import { VideoAdsForm } from './pages/video-ads/VideoAdsForm'
 import { Login } from './pages/auth/Login'
 import { Register } from './pages/auth/Register'
 import { ForgotPassword } from './pages/auth/ForgotPassword'
@@ -145,6 +147,11 @@ function App() {
               <Route path=":id/edit" element={<LanguageForm />} />
             </Route>
             <Route path="settings" element={<SettingPage />} />
+            <Route path="video-ads">
+              <Route index element={<VideoAdsList />} />
+              <Route path="create" element={<VideoAdsForm />} />
+              <Route path=":id/edit" element={<VideoAdsForm />} />
+            </Route>
           </Route>
         </Route>
 

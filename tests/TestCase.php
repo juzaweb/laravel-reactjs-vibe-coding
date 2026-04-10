@@ -78,7 +78,7 @@ abstract class TestCase extends Orchestra
      */
     protected function getEnvironmentSetUp($app): void
     {
-        $app['config']->set('themes.path', __DIR__ . '/themes');
+        $app['config']->set('themes.path', __DIR__.'/themes');
 
         $app['config']->set('themes.activator', 'setting');
         $app['config']->set('themes.activators.setting.class', SettingActivator::class);
@@ -112,7 +112,7 @@ abstract class TestCase extends Orchestra
         $connection = config('database.default');
 
         // Load package migrations
-        $this->loadMigrationsFrom(__DIR__ . '/../modules/Core/Database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../modules/Core/Database/migrations');
 
         $this->artisan('migrate', ['--database' => $connection])->run();
     }

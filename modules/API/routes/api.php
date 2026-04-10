@@ -37,6 +37,7 @@ Route::middleware('auth:api')->group(
         Route::api('languages', LanguageController::class);
         Route::get('settings', [SettingController::class, 'index']);
         Route::put('settings', [SettingController::class, 'update']);
+        Route::post('settings/test-email', [SettingController::class, 'testEmail']);
         Route::get('translations/{locale}', [TranslationController::class, 'index']);
         Route::put('translations/{locale}', [TranslationController::class, 'update']);
         Route::post('translations/translate', [TranslationController::class, 'translateModel']);

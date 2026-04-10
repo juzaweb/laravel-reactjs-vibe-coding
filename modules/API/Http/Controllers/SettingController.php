@@ -4,9 +4,12 @@ namespace Juzaweb\Modules\API\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use Juzaweb\Modules\API\Http\Requests\SendTestEmailRequest;
 use Juzaweb\Modules\API\Http\Requests\SettingRequest;
 use Juzaweb\Modules\Core\Facades\Setting as SettingFacade;
 use Juzaweb\Modules\Core\Http\Controllers\APIController;
+use Juzaweb\Modules\Core\Mail\Test;
 use Juzaweb\Modules\Core\Models\Setting;
 use OpenApi\Annotations as OA;
 
@@ -88,5 +91,40 @@ class SettingController extends APIController
         $settings = SettingFacade::sets($request->validated());
 
         return $this->restSuccess($settings->toArray());
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/v1/settings/test-email",
+     *      security={{"bearerAuth": {}, "apiKey": {}}},
+     *      tags={"Settings"},
+     *      summary="Send test email",
+     *
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(ref="#/components/schemas/SendTestEmailRequest")
+     *      ),
+     *
+     *      @OA\Response(
+     *           response=200,
+     *           description="Successful operation",
+     *           @OA\JsonContent(
+     *               @OA\Property(property="message", type="string", example="Test email sent successfully."),
+     *               @OA\Property(property="success", type="boolean", example=true)
+     *           )
+     *       ),
+     *
+     *      @OA\Response(response=422, description="Validation Error")
+     * )
+     */
+    public function testEmail(SendTestEmailRequest $request): JsonResponse
+    {
+        try {
+            Mail::to($request->input('email'))->send(new Test());
+            
+            return $this->restSuccess([], __('Test email sent successfully.'));
+        } catch (\Exception $e) {
+            return $this->restFail($e->getMessage());
+        }
     }
 }

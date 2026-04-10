@@ -7,6 +7,8 @@ import { Select } from '../../components/ui/form/Select';
 import { fetchSettings, useUpdateSettings, useSendTestEmail } from './hooks';
 import toast from 'react-hot-toast';
 import { FiSend } from 'react-icons/fi';
+import { usePageTitle } from '../../hooks/usePageTitle';
+
 
 interface EmailSettingFormData {
   mail_host: string;
@@ -25,6 +27,7 @@ const toStringValue = (value: unknown, fallback = ''): string =>
 
 export const EmailSettingPage: React.FC = () => {
   const { t } = useTranslation();
+  usePageTitle(t('email_setting', 'Email Setting'));
   const [isLoading, setIsLoading] = useState(true);
   const updateSettingsMutation = useUpdateSettings();
   const sendTestEmailMutation = useSendTestEmail();
@@ -81,7 +84,7 @@ export const EmailSettingPage: React.FC = () => {
 
   const onSubmit = async (data: EmailSettingFormData) => {
     try {
-      await updateSettingsMutation.mutateAsync(data as Record<string, string>);
+      await updateSettingsMutation.mutateAsync(data as unknown as Record<string, string>);
       toast.success(t('settings_saved_successfully', 'Settings saved successfully'));
     } catch (error) {
       toast.error(t('error_saving_settings', 'Failed to save settings'));

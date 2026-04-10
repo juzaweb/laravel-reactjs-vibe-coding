@@ -1,9 +1,11 @@
+import { usePageTitle } from '../../hooks/usePageTitle';
 import { useState, useEffect } from 'react';
 import axiosClient from '../../utils/axiosClient';
 import { Button } from '../../components/ui/Button';
 import toast from 'react-hot-toast';
 
 export function Final() {
+  usePageTitle('Install - Final');
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);

@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
+import { usePageTitle } from '../../hooks/usePageTitle';
+
 
 export function Welcome() {
   const navigate = useNavigate();
+  usePageTitle('Install - Welcome');
 
   return (
     <div className="text-center">

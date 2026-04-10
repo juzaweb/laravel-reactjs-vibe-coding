@@ -36,6 +36,6 @@ class UserCollection extends ModelCollectionResource
 {
     public function toArray(Request $request): array
     {
-        return $this->collection->map(fn($user) => new UserResource($user))->toArray();
+        return $this->collection->map(fn ($user) => new UserResource($user))->toArray();
     }
 }

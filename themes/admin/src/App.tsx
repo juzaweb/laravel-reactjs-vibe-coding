@@ -10,6 +10,8 @@ import { PageForm } from './pages/pages/PageForm'
 import { PostsList } from './pages/posts/PostsList'
 import { PostForm } from './pages/posts/PostForm'
 import { CategoriesList } from './pages/categories/CategoriesList'
+import { BannerAdsList } from './pages/banner-ads/BannerAdsList'
+import { BannerAdForm } from './pages/banner-ads/BannerAdForm'
 import { CategoryForm } from './pages/categories/CategoryForm'
 import { MenusManager } from './pages/menus/MenusManager'
 import { ProfileForm } from './pages/profile/ProfileForm'
@@ -100,6 +102,11 @@ function App() {
               <Route index element={<PostsList />} />
               <Route path="create" element={<PostForm />} />
               <Route path=":id/edit" element={<PostForm />} />
+            </Route>
+            <Route path="banner-ads">
+              <Route index element={<BannerAdsList />} />
+              <Route path="create" element={<BannerAdForm />} />
+              <Route path=":id/edit" element={<BannerAdForm />} />
             </Route>
             <Route path="categories">
               <Route index element={<CategoriesList />} />

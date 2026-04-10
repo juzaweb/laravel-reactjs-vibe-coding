@@ -51,6 +51,8 @@ export const MenusManager: React.FC = () => {
         // Intentionally setting state in effect here for initial selection initialization
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedMenuId(menusData.data[0].id);
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setMenuName(menusData.data[0].name);
       } else {
         // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedMenuId('new');
@@ -64,7 +66,7 @@ export const MenusManager: React.FC = () => {
       setMenuName('');
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setMenuItems([]);
-    } else if (activeMenuData) {
+    } else if (activeMenuData && activeMenuData.id === selectedMenuId) {
       // Intentionally syncing local state with selected menu data
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setMenuName(activeMenuData.name);
@@ -284,6 +286,11 @@ export const MenusManager: React.FC = () => {
               if (e.target.value === 'new') {
                 setMenuName('');
                 setMenuItems([]);
+              } else {
+                const selectedMenu = menusData?.data.find(m => m.id === e.target.value);
+                if (selectedMenu) {
+                  setMenuName(selectedMenu.name);
+                }
               }
             }}
           />

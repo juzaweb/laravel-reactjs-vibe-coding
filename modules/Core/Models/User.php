@@ -147,7 +147,7 @@ class User extends Authenticatable implements MustVerifyEmail
             return proxy_image($url, $size, $size);
         }
 
-        return 'https://1.gravatar.com/avatar/' . md5($this->email) . "?s={$size}&d=mm&r=g";
+        return 'https://1.gravatar.com/avatar/'.md5($this->email)."?s={$size}&d=mm&r=g";
     }
 
     public function hasPasswordReset(): bool

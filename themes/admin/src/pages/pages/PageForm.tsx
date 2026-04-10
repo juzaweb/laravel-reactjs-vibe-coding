@@ -8,6 +8,8 @@ import { Input } from '../../components/ui/Input';
 import { Select } from '../../components/ui/form/Select';
 import { Editor } from '../../components/ui/form/Editor';
 import { usePage, useCreatePage, useUpdatePage, usePageTemplates } from './hooks';
+import { useLanguages } from '../languages/hooks';
+import { useSearchParams } from 'react-router-dom';
 import type { PageFormData } from './types';
 import { PageHeader } from '../../components/ui/PageHeader';
 import { FiEdit2 } from 'react-icons/fi';
@@ -16,11 +18,16 @@ export const PageForm: React.FC = () => {
   const { t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { i18n } = useTranslation();
+  const currentLocale = searchParams.get('locale') || i18n.language || 'en';
   const isEditMode = !!id;
   const [isSlugEditable, setIsSlugEditable] = useState(false);
 
   const { data: pageData, isLoading: isLoadingPage } = usePage(id || '');
   const { data: pageTemplates, isLoading: isLoadingTemplates } = usePageTemplates();
+  const { data: localesResponse } = useLanguages(1, 100);
+  const localesData = localesResponse;
   const createPageMutation = useCreatePage();
   const updatePageMutation = useUpdatePage();
 
@@ -31,7 +38,7 @@ export const PageForm: React.FC = () => {
       content: '',
       template: '',
       status: 'published',
-      locale: 'en',
+      locale: currentLocale,
     },
   });
 
@@ -43,7 +50,7 @@ export const PageForm: React.FC = () => {
         content: pageData.content || '',
         template: pageData.template || '',
         status: pageData.status || 'published',
-        locale: pageData.locale || 'en',
+        locale: currentLocale,
       });
     }
   }, [pageData, reset]);
@@ -109,6 +116,18 @@ export const PageForm: React.FC = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
+          <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
+            <h3 className="text-lg font-medium text-[var(--text-main)]">{t('language', 'Language')}</h3>
+            <Select
+              value={currentLocale}
+              onChange={(e) => {
+                setSearchParams({ locale: e.target.value });
+              }}
+              options={(localesData?.data || []).map((l) => ({ value: l.code, label: l.name }))}
+              label={t('select_language', 'Select Language')}
+            />
+          </div>
+
           <div className="bg-[var(--bg-card)] rounded-xl shadow-sm border border-[var(--border-color)] p-6 space-y-6">
             <Controller
               name="title"

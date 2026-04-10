@@ -1,6 +1,6 @@
 export interface Subscription {
   id: string
-  module: string
+
   amount: number
   agreement_id: string
   start_date: string

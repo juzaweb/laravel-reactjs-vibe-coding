@@ -1,6 +1,6 @@
 export interface SubscriptionHistory {
   id: string
-  module: string
+
   amount: number
   agreement_id: string
   end_date: string

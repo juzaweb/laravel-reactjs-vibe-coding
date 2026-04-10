@@ -29,9 +29,6 @@ export const SubscriptionsList: React.FC = () => {
             <thead className="bg-slate-50 dark:bg-slate-800/50">
               <tr>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
-                  {t('subscriptions.module', 'Module')}
-                </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider">
                   {t('subscriptions.plan', 'Plan')}
                 </th>
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-[var(--text-muted)] uppercase tracking-wider hidden sm:table-cell">
@@ -67,9 +64,6 @@ export const SubscriptionsList: React.FC = () => {
               ) : (
                 data.data.map((subscription: Subscription) => (
                   <tr key={subscription.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-main)]">
-                      {subscription.module}
-                    </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-[var(--text-main)]">
                       {subscription.plan?.name || '-'}
                     </td>

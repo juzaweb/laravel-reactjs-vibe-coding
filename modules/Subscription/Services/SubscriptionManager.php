@@ -22,7 +22,6 @@ use Juzaweb\Modules\Payment\Exceptions\PaymentException;
 use Juzaweb\Modules\Subscription\Contracts\Subscriptable;
 use Juzaweb\Modules\Subscription\Contracts\Subscription;
 use Juzaweb\Modules\Subscription\Contracts\SubscriptionMethod;
-use Juzaweb\Modules\Subscription\Contracts\SubscriptionModule;
 use Juzaweb\Modules\Subscription\Entities\Feature;
 use Juzaweb\Modules\Subscription\Entities\SubscribeResult;
 use Juzaweb\Modules\Subscription\Entities\SubscriptionReturnResult;
@@ -38,21 +37,18 @@ class SubscriptionManager implements Subscription
 {
     protected array $drivers = [];
 
-    protected array $modules = [];
-
     protected array $features = [];
 
     public function __construct(Application $app) {}
 
-    public function feature(string $key, string $module, callable $callback): void
+    public function feature(string $key, callable $callback): void
     {
-        $this->features[$module][$key] = $callback;
+        $this->features[$key] = $callback;
     }
 
     public function create(
         Authenticatable $user,
         Subscriptable $subscriptable,
-        string $module,
         Plan $plan,
         PaymentMethod $method,
         array $params = []
@@ -61,8 +57,6 @@ class SubscriptionManager implements Subscription
         $subscription = $this->driver($method->driver)
             ->setConfigs($method->config)
             ->sandbox($sandbox);
-
-        $handler = $this->module($module);
 
         $history = new SubscriptionHistory;
         $history->billable()->associate($subscriptable);
@@ -79,10 +73,10 @@ class SubscriptionManager implements Subscription
         $subscribe = $subscription->subscribe($plan, [
             'customer_name' => $user->name,
             'customer_email' => $user->email,
-            'service_name' => $handler->getServiceName(),
-            'service_description' => $handler->getServiceDescription(),
-            'return_url' => route('subscription.return', [$module, $history->id]),
-            'cancel_url' => route('subscription.cancel', [$module, $history->id]),
+            'service_name' => 'Subscription',
+            'service_description' => 'Subscription payment',
+            'return_url' => route('subscription.return', [$history->id]),
+            'cancel_url' => route('subscription.cancel', [$history->id]),
         ]);
 
         $history->update(['agreement_id' => $subscribe->getTransactionId()]);
@@ -93,13 +87,12 @@ class SubscriptionManager implements Subscription
 
             $subscribe->setSubscriptionHistory($history);
 
-            $handler->onSuccess($subscribe, $params);
         }
 
         return $subscribe;
     }
 
-    public function complete(SubscriptionHistory $history, string $module, array $params = []): SubscriptionReturnResult
+    public function complete(SubscriptionHistory $history, array $params = []): SubscriptionReturnResult
     {
         $sandbox = $this->sandboxMode();
 
@@ -116,9 +109,6 @@ class SubscriptionManager implements Subscription
             ]);
 
             $complete->setSubscriptionHistory($history);
-
-            $handler = $this->module($module);
-            $handler->onSuccess($complete, $params);
 
             SubscriptionModel::create(
                 [
@@ -141,13 +131,9 @@ class SubscriptionManager implements Subscription
         return $complete;
     }
 
-    public function cancel(SubscriptionHistory $history, string $module, array $params = []): true
+    public function cancel(SubscriptionHistory $history, array $params = []): true
     {
         $history->update(['status' => SubscriptionHistoryStatus::CANCELLED]);
-
-        $handler = $this->module($module);
-
-        $handler->onCancel($history, $params);
 
         return true;
     }
@@ -210,7 +196,7 @@ class SubscriptionManager implements Subscription
             }
 
             $result->setSubscriptionHistory($history);
-            $handler = $this->module($result->getSubscriptionHistory()->module);
+
             $handler->onSuccess($result, $request->all());
 
             return;
@@ -229,29 +215,6 @@ class SubscriptionManager implements Subscription
         );
     }
 
-    public function modules(): Collection
-    {
-        return collect($this->modules)->map(
-            function ($resolver) {
-                return $resolver();
-            }
-        );
-    }
-
-    public function module(string $name): SubscriptionModule
-    {
-        if (! isset($this->modules[$name])) {
-            throw new InvalidArgumentException("Payment module [$name] is not registered.");
-        }
-
-        return $this->modules[$name]();
-    }
-
-    public function hasModule(string $name): bool
-    {
-        return isset($this->modules[$name]);
-    }
-
     public function driver(string $name): SubscriptionMethod
     {
         if (! isset($this->drivers[$name])) {
@@ -268,9 +231,9 @@ class SubscriptionManager implements Subscription
         });
     }
 
-    public function features(string $module): Collection
+    public function features(): Collection
     {
-        return collect($this->features[$module] ?? [])
+        return collect($this->features ?? [])
             ->map(
                 function ($resolver, $key) {
                     return new Feature($key, $resolver());
@@ -285,15 +248,6 @@ class SubscriptionManager implements Subscription
         }
 
         $this->drivers[$name] = $resolver;
-    }
-
-    public function registerModule(string $name, callable $resolver): void
-    {
-        if (isset($this->modules[$name])) {
-            throw new InvalidArgumentException("Payment module [$name] already registered.");
-        }
-
-        $this->modules[$name] = $resolver;
     }
 
     public function renderConfig(string $driver, array $config = []): string

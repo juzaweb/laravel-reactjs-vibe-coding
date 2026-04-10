@@ -227,7 +227,7 @@ export const MenusManager: React.FC = () => {
       }
     });
 
-    return JSON.stringify(rootItems.map(cleanItem));
+    return rootItems.map(cleanItem);
   };
 
   const handleSaveMenu = async () => {

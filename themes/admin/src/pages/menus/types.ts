@@ -26,7 +26,7 @@ export interface MenuItem {
 
 export interface MenuFormData {
   name: string;
-  content?: string;
+  content?: any[];
 }
 
 export interface PaginationMeta {

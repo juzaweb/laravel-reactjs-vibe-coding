@@ -79,7 +79,7 @@ class MenuController extends APIController
             $menu = Menu::create($request->validated());
 
             if ($request->has('content')) {
-                $this->syncMenuItems($menu, json_decode($request->input('content'), true) ?? []);
+                $this->syncMenuItems($menu, $request->input('content', []));
             }
 
             DB::commit();
@@ -168,7 +168,7 @@ class MenuController extends APIController
             $menu->update($request->validated());
 
             if ($request->has('content')) {
-                $this->syncMenuItems($menu, json_decode($request->input('content'), true) ?? []);
+                $this->syncMenuItems($menu, $request->input('content', []));
             }
 
             DB::commit();

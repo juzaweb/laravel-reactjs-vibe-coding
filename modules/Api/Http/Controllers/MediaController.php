@@ -75,7 +75,6 @@ class MediaController extends APIController
             $query->where('type', $type);
         }
 
-
         $media = $query->paginate($limit);
 
         return $this->restSuccess($media);

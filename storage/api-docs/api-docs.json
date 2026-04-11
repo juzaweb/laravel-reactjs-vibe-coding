@@ -6,6 +6,59 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/v1/app/menus/{id}": {
+            "get": {
+                "tags": [
+                    "App/Menus"
+                ],
+                "summary": "Get menu details by id for the frontend app",
+                "operationId": "ad1c47f1f816ad33951541abbb0b97cb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "The menu id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "locale",
+                        "in": "query",
+                        "description": "The locale code",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/AppMenuResource"
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Menu not found"
+                    }
+                }
+            }
+        },
         "/api/v1/app/pages/{slug}": {
             "get": {
                 "tags": [
@@ -6771,6 +6824,76 @@
                 },
                 "type": "object"
             },
+            "AppMenuItemResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "label": {
+                        "type": "string",
+                        "example": "Home"
+                    },
+                    "link": {
+                        "type": "string",
+                        "example": "https://example.com/home"
+                    },
+                    "url": {
+                        "type": "string",
+                        "example": "https://example.com/home",
+                        "nullable": true
+                    },
+                    "icon": {
+                        "type": "string",
+                        "example": "fa fa-home",
+                        "nullable": true
+                    },
+                    "target": {
+                        "type": "string",
+                        "example": "_self"
+                    },
+                    "box_key": {
+                        "type": "string",
+                        "example": "custom"
+                    },
+                    "children": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AppMenuItemResource"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "AppMenuResource": {
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Main Menu"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AppMenuItemResource"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2022-01-01T00:00:00.000000Z"
+                    }
+                },
+                "type": "object"
+            },
             "LanguageResource": {
                 "properties": {
                     "code": {
@@ -8244,6 +8367,10 @@
         }
     },
     "tags": [
+        {
+            "name": "App/Menus",
+            "description": "App/Menus"
+        },
         {
             "name": "App/Pages",
             "description": "App/Pages"
